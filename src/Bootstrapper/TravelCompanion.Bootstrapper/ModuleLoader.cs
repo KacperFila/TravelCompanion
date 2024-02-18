@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using TravelCompanion.Shared.Abstractions.Modules;
 
 namespace TravelCompanion.Bootstrapper
