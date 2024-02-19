@@ -21,8 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\TravelCompanion.Modules.Travels.Infrastructure\TravelCompanion.Modules.Travels.Infrastructure.csproj" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TravelCompanion.Modules.Travels.Core\TravelCompanion.Modules.Travels.Core.csproj" />
   </ItemGroup>
 
 </Project>

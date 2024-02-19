@@ -28,8 +28,6 @@ using TravelCompanion.Shared.Infrastructure.Storage;
 using TravelCompanion.Shared.Infrastructure.Time;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Bootstrapper")]
-[assembly: InternalsVisibleTo("TravelCompanion.Services.Tickets.Core")]
-[assembly: InternalsVisibleTo("TravelCompanion.Shared.Tests")]
 namespace TravelCompanion.Shared.Infrastructure;
 
 internal static class Extensions

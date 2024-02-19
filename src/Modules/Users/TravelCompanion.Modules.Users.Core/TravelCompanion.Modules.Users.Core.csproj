@@ -10,6 +10,9 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
   </ItemGroup>
