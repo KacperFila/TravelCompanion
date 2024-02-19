@@ -5,48 +5,47 @@ using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelCompanion.Shared.Abstractions.Modules;
 using TravelCompanion.Shared.Infrastructure.Messaging.Dispatchers;
 
-namespace TravelCompanion.Shared.Infrastructure.Messaging.Brokers
+namespace TravelCompanion.Shared.Infrastructure.Messaging.Brokers;
+
+internal sealed class InMemoryMessageBroker : IMessageBroker
 {
-    internal sealed class InMemoryMessageBroker : IMessageBroker
-    {
-        private readonly IModuleClient _moduleClient;
-        private readonly IAsyncMessageDispatcher _asyncMessageDispatcher;
-        private readonly MessagingOptions _messagingOptions;
+	private readonly IModuleClient _moduleClient;
+	private readonly IAsyncMessageDispatcher _asyncMessageDispatcher;
+	private readonly MessagingOptions _messagingOptions;
 
-        public InMemoryMessageBroker(IModuleClient moduleClient, IAsyncMessageDispatcher asyncMessageDispatcher, MessagingOptions messagingOptions)
-        {
-            _moduleClient = moduleClient;
-            _asyncMessageDispatcher = asyncMessageDispatcher;
-            _messagingOptions = messagingOptions;
-        }
+	public InMemoryMessageBroker(IModuleClient moduleClient, IAsyncMessageDispatcher asyncMessageDispatcher, MessagingOptions messagingOptions)
+	{
+		_moduleClient = moduleClient;
+		_asyncMessageDispatcher = asyncMessageDispatcher;
+		_messagingOptions = messagingOptions;
+	}
 
-        public async Task PublishAsync(params IMessage[] messages)
-        {
-            if (messages is null)
-            {
-                return;
-            }
+	public async Task PublishAsync(params IMessage[] messages)
+	{
+		if (messages is null)
+		{
+			return;
+		}
 
-            messages = messages.Where(x => x is not null).ToArray();
+		messages = messages.Where(x => x is not null).ToArray();
 
-            if (!messages.Any())
-            {
-                return;
-            }
+		if (!messages.Any())
+		{
+			return;
+		}
 
-            var tasks = new List<Task>();
+		var tasks = new List<Task>();
 
-            foreach (var message in messages)
-            {
-                if (_messagingOptions.UseBackgroundDispatcher)
-                {
-                    await _asyncMessageDispatcher.PublishAsync(message);
-                    continue;
-                }
-                tasks.Add(_moduleClient.PublishAsync(message));
-            }
+		foreach (var message in messages)
+		{
+			if (_messagingOptions.UseBackgroundDispatcher)
+			{
+				await _asyncMessageDispatcher.PublishAsync(message);
+				continue;
+			}
+			tasks.Add(_moduleClient.PublishAsync(message));
+		}
 
-            await Task.WhenAll(tasks);
-        }
-    }
+		await Task.WhenAll(tasks);
+	}
 }

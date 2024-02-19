@@ -1,4 +1,4 @@
 ﻿[*.cs]
 
-# SA1101: Prefix local calls with this
-dotnet_diagnostic.SA1101.severity = none
+# CA1724: Type names should not match namespaces
+dotnet_diagnostic.CA1724.severity = none

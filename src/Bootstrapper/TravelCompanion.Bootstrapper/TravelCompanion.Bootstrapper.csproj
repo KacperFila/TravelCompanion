@@ -2,22 +2,24 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <CodeAnalysisRuleSet>..\..\..\stylecop\default.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Travels\TravelCompanion.Modules.Travels.Api\TravelCompanion.Modules.Travels.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Users\TravelCompanion.Modules.Users.Api\TravelCompanion.Modules.Users.Api.csproj" />
     <ProjectReference Include="..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<Content Include="..\..\..\stylecop\stylecop.json" Link="stylecop.json" />
+		<CompilerVisibleProperty Include="RootNamespace" />
+		<CompilerVisibleProperty Include="ProjectDir" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

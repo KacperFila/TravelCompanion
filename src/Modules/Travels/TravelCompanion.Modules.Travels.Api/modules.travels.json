@@ -1,0 +1,8 @@
+{
+  "travels": {
+    "module": {
+      "enabled": true,
+      "name": "Travels"
+    }
+  }
+}
