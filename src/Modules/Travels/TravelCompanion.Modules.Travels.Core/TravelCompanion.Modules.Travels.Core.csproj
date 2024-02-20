@@ -11,15 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DAL\Configurations\" />
     <Folder Include="Entities\" />
-    <Folder Include="Dto\" />
+    <Folder Include="DTO\" />
     <Folder Include="Policies\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Validators\" />
+    <Folder Include="DAL\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.1.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Endpoints" Version="1.4.0" />
   </ItemGroup>
 
 </Project>

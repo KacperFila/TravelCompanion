@@ -1,27 +1,25 @@
 ﻿using FluentValidation;
-using Humanizer;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using TravelCompanion.Modules.Travels.Core.DAL.Repositories;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies;
-using TravelCompanion.Modules.Travels.Core.Repositories;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
 internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
-    private readonly AbstractValidator<Travel> _validator;
     private readonly IDeleteTravelPolicy _deleteTravelPolicy;
 
-    public TravelService(ITravelRepository travelRepository, AbstractValidator<Travel> validator, IDeleteTravelPolicy deleteTravelPolicy)
+    public TravelService(ITravelRepository travelRepository, IDeleteTravelPolicy deleteTravelPolicy)
     {
         _travelRepository = travelRepository;
-        _validator = validator;
         _deleteTravelPolicy = deleteTravelPolicy;
     }
 
+    //Do usuniecia potem
     public async Task AddAsync(TravelDto travel)
     {
         var item = new Travel
@@ -41,7 +39,13 @@ internal class TravelService : ITravelService
     public async Task<TravelDto> GetAsync(Guid id)
     {
         var travel = await _travelRepository.GetAsync(id);
-        return travel is null ? null : AsTravelDto(travel);
+
+        if (travel is null)
+        {
+            return null;
+        }
+
+        return AsTravelDto(travel);
     }
 
     public async Task<IReadOnlyList<TravelDto>> GetAllAsync()
@@ -53,14 +57,14 @@ internal class TravelService : ITravelService
         return dtos;
     }
 
-    public async Task UpdateAsync(TravelDto dto)
+    public async Task UpdateAsync(Guid TravelId, TravelDto dto)
     {
         //TODO Add check for owner
-        var travel = await _travelRepository.GetAsync(dto.Id);
+        var travel = await _travelRepository.GetAsync(TravelId);
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(dto.Id);
+            throw new TravelNotFoundException(TravelId);
         }
 
         travel.Title = dto.Title;
@@ -98,10 +102,10 @@ internal class TravelService : ITravelService
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            Id = travel.Id,
             isFinished = travel.isFinished,
             OwnerId = travel.OwnerId,
             Title = travel.Title,
+            Rating = travel.Rating
         };
     }
 }

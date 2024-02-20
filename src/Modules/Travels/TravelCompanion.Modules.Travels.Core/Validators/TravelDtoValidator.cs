@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using TravelCompanion.Modules.Travels.Core.Entities;
+using TravelCompanion.Modules.Travels.Core.Dto;
 
 namespace TravelCompanion.Modules.Travels.Core.Validators;
 
-public class TravelValidator : AbstractValidator<Travel>
+internal sealed class TravelDtoValidator : AbstractValidator<TravelDto>
 {
-    public TravelValidator()
+    public TravelDtoValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty()

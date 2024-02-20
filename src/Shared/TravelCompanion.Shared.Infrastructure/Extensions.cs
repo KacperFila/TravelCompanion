@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using TravelCompanion.Shared.Abstractions.Modules;
 using TravelCompanion.Shared.Abstractions.Storage;
 using TravelCompanion.Shared.Abstractions.Time;
@@ -74,6 +75,7 @@ internal static class Extensions
 			});
 		});
 
+        services.AddFluentValidationAutoValidation();
 		services.AddMemoryCache();
 		services.AddSingleton<IRequestStorage, RequestStorage>();
 		services.AddSingleton<IContextFactory, ContextFactory>();
