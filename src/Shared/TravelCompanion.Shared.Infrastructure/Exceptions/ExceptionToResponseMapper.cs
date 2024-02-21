@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using FluentValidation;
+using Humanizer;
+using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using FluentValidation;
-using FluentValidation.Results;
 using TravelCompanion.Shared.Abstractions.Exceptions;
-using Humanizer;
 
 namespace TravelCompanion.Shared.Infrastructure.Exceptions
 {

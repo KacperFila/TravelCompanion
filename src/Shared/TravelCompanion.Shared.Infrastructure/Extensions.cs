@@ -66,14 +66,38 @@ internal static class Extensions
 			});
 		});
 		services.AddSwaggerGen(swagger =>
-		{
-			swagger.CustomSchemaIds(x => x.FullName);
+        {
+            swagger.EnableAnnotations();
+            swagger.CustomSchemaIds(x => x.FullName);
 			swagger.SwaggerDoc("v1", new OpenApiInfo
 			{
 				Title = "TravelCompanion API",
 				Version = "v1"
 			});
-		});
+            swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter a valid token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
+                }
+            });
+        });
 
         services.AddFluentValidationAutoValidation();
 		services.AddMemoryCache();
@@ -121,13 +145,13 @@ internal static class Extensions
 		app.UseCors(CorsPolicy);
 		app.UseErrorHandling();
 		app.UseSwagger();
-		app.UseReDoc(reDoc =>
-		{
-			reDoc.RoutePrefix = "docs";
-			reDoc.SpecUrl("/swagger/v1/swagger.json");
-			reDoc.DocumentTitle = "TravelCompanion API";
-		});
-		app.UseAuthentication();
+        app.UseSwaggerUI(c =>
+        {
+            c.RoutePrefix = "docs";
+            c.DocumentTitle = "TravelCompanion API";
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelCompanion");
+        });
+        app.UseAuthentication();
 		app.UseRouting();
 		app.UseAuthorization();
 
