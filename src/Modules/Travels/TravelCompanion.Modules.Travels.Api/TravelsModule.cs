@@ -10,7 +10,7 @@ public class TravelsModule : IModule
 	public const string BasePath = "travels-module";
 	public string Name { get; } = "Travels";
 	public string Path => BasePath;
-	public IEnumerable<string> Policies { get; } = ["travels"];
+	public IEnumerable<string> Policies { get; } = [ "travels" ];
 	public void Register(IServiceCollection services)
     {
         services.AddCore();

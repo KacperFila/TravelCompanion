@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using TravelCompanion.Modules.Travels.Core.DAL.Repositories;
+﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
@@ -60,27 +58,44 @@ internal class TravelService : ITravelService
         return dtos;
     }
 
-    public async Task UpdateAsync(Guid TravelId, TravelDto dto)
+    public async Task RateAsync(Guid TravelId, int Rating)
     {
-        var travel = await _travelRepository.GetAsync(TravelId);
-
-        if (travel.OwnerId != _context.Identity.Id)
+        if (Rating is < 1 or > 5)
         {
-            throw new TravelDoesNotBelongToUserException(TravelId);
+            throw new RatingOutOfRangeException();
         }
+
+        var travel = await _travelRepository.GetAsync(TravelId);
 
         if (travel is null)
         {
             throw new TravelNotFoundException(TravelId);
         }
 
-        travel.Title = dto.Title;
-        travel.Description = dto.Description;
-        travel.From = dto.From;
-        travel.To = dto.To;
-        travel.allParticipantsPaid = dto.allParticipantsPaid;
-        travel.isFinished = dto.isFinished;
+        if (travel.OwnerId != _context.Identity.Id)
+        {
+            throw new TravelDoesNotBelongToUserException(TravelId);
+        }
 
+        travel.Rating = Rating;
+        await _travelRepository.UpdateAsync(travel);
+    }
+
+    public async Task RemoveRatingAsync(Guid TravelId)
+    {
+        var travel = await _travelRepository.GetAsync(TravelId);
+
+        if (travel is null)
+        {
+            throw new TravelNotFoundException(TravelId);
+        }
+
+        if (travel.OwnerId != _context.Identity.Id)
+        {
+            throw new TravelDoesNotBelongToUserException(TravelId);
+        }
+
+        travel.Rating = null;
         await _travelRepository.UpdateAsync(travel);
     }
 
