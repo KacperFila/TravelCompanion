@@ -1,6 +1,6 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Entities;
 
-namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories;
+namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 
 public interface ITravelRepository
 {

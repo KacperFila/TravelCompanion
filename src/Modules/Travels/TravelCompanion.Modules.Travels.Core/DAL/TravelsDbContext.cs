@@ -11,6 +11,7 @@ internal class TravelsDbContext : DbContext
     }
 
     public DbSet<Travel> Travels { get; set; }
+    public DbSet<Postcard> Postcards{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,8 +1,9 @@
-﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories;
+﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
-using TravelCompanion.Modules.Travels.Core.Policies;
+using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
+using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -10,14 +11,16 @@ namespace TravelCompanion.Modules.Travels.Core.Services;
 internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
-    private readonly IDeleteTravelPolicy _deleteTravelPolicy;
+    private readonly ITravelDeletionPolicy _travelDeletionPolicy;
     private readonly IContext _context;
+    private readonly Guid _userId;
 
-    public TravelService(ITravelRepository travelRepository, IDeleteTravelPolicy deleteTravelPolicy, IContext context)
+    public TravelService(ITravelRepository travelRepository, ITravelDeletionPolicy travelDeletionPolicy, IContext context)
     {
         _travelRepository = travelRepository;
-        _deleteTravelPolicy = deleteTravelPolicy;
+        _travelDeletionPolicy = travelDeletionPolicy;
         _context = context;
+        _userId = _context.Identity.Id;
     }
 
     //TODO Remove after implementing TravelPlan -> Travel
@@ -26,7 +29,7 @@ internal class TravelService : ITravelService
         var item = new Travel
         {
             Id = Guid.NewGuid(),
-            OwnerId = _context.Identity.Id,
+            OwnerId = _userId,
             Title = travel.Title,
             Description = travel.Description,
             From = travel.From,
@@ -72,7 +75,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (travel.OwnerId != _context.Identity.Id)
+        if (travel.OwnerId != _userId)
         {
             throw new TravelDoesNotBelongToUserException(TravelId);
         }
@@ -90,7 +93,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (travel.OwnerId != _context.Identity.Id)
+        if (travel.OwnerId != _userId)
         {
             throw new TravelDoesNotBelongToUserException(TravelId);
         }
@@ -103,7 +106,7 @@ internal class TravelService : ITravelService
     {
         var travel = await _travelRepository.GetAsync(TravelId);
 
-        if (travel.OwnerId != _context.Identity.Id)
+        if (travel.OwnerId != _userId)
         {
             throw new TravelDoesNotBelongToUserException(TravelId);
         }
@@ -113,7 +116,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (!await _deleteTravelPolicy.CanDeleteAsync(travel))
+        if (!await _travelDeletionPolicy.CanDeleteAsync(travel))
         {
             throw new TravelCannotBeDeletedException(TravelId);
         }

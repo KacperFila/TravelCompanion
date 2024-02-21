@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.Dto;
-using TravelCompanion.Modules.Travels.Core.Services;
+using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Validators;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
@@ -27,7 +27,7 @@ internal sealed class AddTravelEndpoint : EndpointBaseAsync
     [HttpPost]
     [SwaggerOperation(
         Summary = "Add Travel",
-        Tags = new[] { TravelsEndpoint.Tag })]
+        Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

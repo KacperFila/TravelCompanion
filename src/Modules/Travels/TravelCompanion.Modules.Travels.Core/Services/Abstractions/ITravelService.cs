@@ -1,6 +1,6 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Dto;
 
-namespace TravelCompanion.Modules.Travels.Core.Services;
+namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 internal interface ITravelService
 {

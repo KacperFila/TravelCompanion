@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.Dto;
-using TravelCompanion.Modules.Travels.Core.Services;
+using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetTravel;
@@ -23,7 +23,7 @@ internal sealed class GetTravelEndpoint : EndpointBaseAsync
     [HttpGet("{travelId:guid}")]
     [SwaggerOperation(
         Summary = "Get Travel By Id",
-        Tags = new[] { TravelsEndpoint.Tag })]
+        Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]

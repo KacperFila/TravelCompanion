@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Entities;
 
 namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories;

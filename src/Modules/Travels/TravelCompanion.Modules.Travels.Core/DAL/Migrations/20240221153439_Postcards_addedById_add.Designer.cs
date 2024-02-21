@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Travels.Core.DAL;
@@ -11,9 +12,11 @@ using TravelCompanion.Modules.Travels.Core.DAL;
 namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
 {
     [DbContext(typeof(TravelsDbContext))]
-    partial class TravelsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240221153439_Postcards_addedById_add")]
+    partial class Postcards_addedById_add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

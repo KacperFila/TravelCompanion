@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.Travels.Core.Services;
+using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.RemoveTravelRating;
 
@@ -23,7 +23,7 @@ internal sealed class RemoveTravelRating : EndpointBaseAsync
     [HttpDelete("{travelId:guid}/Rating/")]
     [SwaggerOperation(
         Summary = "Remove Travel Rating by Travel Id",
-        Tags = new[] { TravelsEndpoint.Tag })]
+        Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]

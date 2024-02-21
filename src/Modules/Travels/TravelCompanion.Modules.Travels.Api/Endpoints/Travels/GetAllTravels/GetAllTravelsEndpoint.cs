@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.Dto;
-using TravelCompanion.Modules.Travels.Core.Services;
+using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetAllTravels;
 
@@ -24,7 +24,7 @@ internal sealed class GetAllTravelsEndpoint : EndpointBaseAsync
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get All Travels",
-        Tags = new[] { TravelsEndpoint.Tag })]
+        Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public override async Task<ActionResult<List<TravelDto>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
