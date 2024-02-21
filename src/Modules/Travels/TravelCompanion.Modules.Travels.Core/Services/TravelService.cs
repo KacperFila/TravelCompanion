@@ -5,6 +5,7 @@ using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies;
+using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
@@ -12,33 +13,35 @@ internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
     private readonly IDeleteTravelPolicy _deleteTravelPolicy;
+    private readonly IContext _context;
 
-    public TravelService(ITravelRepository travelRepository, IDeleteTravelPolicy deleteTravelPolicy)
+    public TravelService(ITravelRepository travelRepository, IDeleteTravelPolicy deleteTravelPolicy, IContext context)
     {
         _travelRepository = travelRepository;
         _deleteTravelPolicy = deleteTravelPolicy;
+        _context = context;
     }
 
-    //Do usuniecia potem
+    //TODO Remove after implementing TravelPlan -> Travel
     public async Task AddAsync(TravelDto travel)
     {
         var item = new Travel
         {
             Id = Guid.NewGuid(),
+            OwnerId = _context.Identity.Id,
+            Title = travel.Title,
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            Title = travel.Title,
-            OwnerId = travel.OwnerId,
             ParticipantIds = null,
         };
  
         await _travelRepository.AddAsync(item);
     }
 
-    public async Task<TravelDto> GetAsync(Guid id)
+    public async Task<TravelDto> GetAsync(Guid TravelId)
     {
-        var travel = await _travelRepository.GetAsync(id);
+        var travel = await _travelRepository.GetAsync(TravelId);
 
         if (travel is null)
         {
@@ -59,8 +62,12 @@ internal class TravelService : ITravelService
 
     public async Task UpdateAsync(Guid TravelId, TravelDto dto)
     {
-        //TODO Add check for owner
         var travel = await _travelRepository.GetAsync(TravelId);
+
+        if (travel.OwnerId != _context.Identity.Id)
+        {
+            throw new TravelDoesNotBelongToUserException(TravelId);
+        }
 
         if (travel is null)
         {
@@ -77,20 +84,23 @@ internal class TravelService : ITravelService
         await _travelRepository.UpdateAsync(travel);
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid TravelId)
     {
-        //TODO Add check for owner in the policy
+        var travel = await _travelRepository.GetAsync(TravelId);
 
-        var travel = await _travelRepository.GetAsync(id);
+        if (travel.OwnerId != _context.Identity.Id)
+        {
+            throw new TravelDoesNotBelongToUserException(TravelId);
+        }
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(id);
+            throw new TravelNotFoundException(TravelId);
         }
 
         if (!await _deleteTravelPolicy.CanDeleteAsync(travel))
         {
-            throw new TravelCannotBeDeletedException(id);
+            throw new TravelCannotBeDeletedException(TravelId);
         }
     }
 

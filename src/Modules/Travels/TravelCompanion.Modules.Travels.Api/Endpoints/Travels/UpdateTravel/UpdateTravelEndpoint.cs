@@ -1,8 +1,11 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TravelCompanion.Modules.Travels.Core.Policies;
 using TravelCompanion.Modules.Travels.Core.Services;
+using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Infrastructure.Api;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.UpdateTravel;
@@ -14,12 +17,15 @@ internal sealed class UpdateTravelEndpoint : EndpointBaseAsync
     .WithActionResult
 {
     private readonly ITravelService _travelService;
+    private readonly IContext _context;
 
-    public UpdateTravelEndpoint(ITravelService travelService)
+    public UpdateTravelEndpoint(ITravelService travelService, IContext context)
     {
         _travelService = travelService;
+        _context = context;
     }
 
+    [Authorize]
     [HttpPut("{travelId:guid}")]
     [SwaggerOperation(
         Summary = "Update Travel By Id",

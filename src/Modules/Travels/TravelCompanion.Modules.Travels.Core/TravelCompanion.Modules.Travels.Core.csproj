@@ -14,7 +14,6 @@
     <Folder Include="DAL\Configurations\" />
     <Folder Include="Entities\" />
     <Folder Include="DTO\" />
-    <Folder Include="Policies\" />
     <Folder Include="DAL\Repositories\" />
   </ItemGroup>
 
