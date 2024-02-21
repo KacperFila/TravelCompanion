@@ -31,4 +31,8 @@
     <ProjectReference Include="..\TravelCompanion.Modules.Travels.Core\TravelCompanion.Modules.Travels.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Travels\GetAllTravels\" />
+  </ItemGroup>
+
 </Project>

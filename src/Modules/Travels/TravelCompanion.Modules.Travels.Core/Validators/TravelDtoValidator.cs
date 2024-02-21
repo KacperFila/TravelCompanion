@@ -8,15 +8,13 @@ internal sealed class TravelDtoValidator : AbstractValidator<TravelDto>
     public TravelDtoValidator()
     {
         RuleFor(x => x.Title)
-            .NotEmpty()
             .MinimumLength(3)
             .MaximumLength(25)
-            .WithMessage("Incorrect data");
+            .WithMessage("Title's length should be between 3 and 25 chars.");
 
         RuleFor(x => x.Description)
-            .NotEmpty()
             .MinimumLength(3)
             .MaximumLength(100)
-            .WithMessage("Incorrect data");
+            .WithMessage("Title's length should be between 3 and 100 chars.");
     }
 }
