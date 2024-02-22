@@ -7,7 +7,7 @@ using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.RateTravel;
 
-[Route($"{TravelsEndpoint.BasePath}/Travel")]
+[Route(TravelsEndpoint.BasePath)]
 
 internal sealed class RateTravelEndpoint : EndpointBaseAsync
     .WithRequest<RateTravelRequest>

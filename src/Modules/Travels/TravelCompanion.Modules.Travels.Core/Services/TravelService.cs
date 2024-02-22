@@ -23,9 +23,13 @@ internal class TravelService : ITravelService
         _userId = _context.Identity.Id;
     }
 
+
     //TODO Remove after implementing TravelPlan -> Travel
     public async Task AddAsync(TravelDto travel)
     {
+        var tempParticipantIds = new List<Guid>();
+        tempParticipantIds.Add(Guid.Parse("10b0c715-d3c5-498c-be00-ec229231e8b5"));
+
         var item = new Travel
         {
             Id = Guid.NewGuid(),
@@ -34,7 +38,7 @@ internal class TravelService : ITravelService
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            ParticipantIds = null,
+            ParticipantIds = tempParticipantIds
         };
  
         await _travelRepository.AddAsync(item);

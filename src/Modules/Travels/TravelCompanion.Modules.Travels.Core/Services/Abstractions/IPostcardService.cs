@@ -1,5 +1,4 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Dto;
-using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Entities.Enums;
 
 namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;

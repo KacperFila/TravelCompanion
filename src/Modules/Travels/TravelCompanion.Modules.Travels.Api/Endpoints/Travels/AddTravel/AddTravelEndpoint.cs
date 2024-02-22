@@ -10,7 +10,7 @@ using TravelCompanion.Shared.Abstractions.Exceptions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.AddTravel;
 
-[Route($"{TravelsEndpoint.BasePath}/Travel")]
+[Route(TravelsEndpoint.BasePath)]
 
 internal sealed class AddTravelEndpoint : EndpointBaseAsync
     .WithRequest<TravelDto>

@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
-using TravelCompanion.Shared.Abstractions.Exceptions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetTravel;
 
-[Route($"{TravelsEndpoint.BasePath}/Travel")]
+[Route(TravelsEndpoint.BasePath)]
 internal sealed class GetTravelEndpoint : EndpointBaseAsync
     .WithRequest<Guid>
     .WithActionResult<TravelDto>

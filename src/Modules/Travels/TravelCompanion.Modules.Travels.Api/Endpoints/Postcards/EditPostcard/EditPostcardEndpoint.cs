@@ -5,34 +5,33 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Api.Endpoints.Travels;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
-using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.AddPostcard;
+namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.EditPostcard;
 
 [Route(TravelsEndpoint.BasePath)]
-internal sealed class AddPostcardEndpoint : EndpointBaseAsync
-    .WithRequest<AddPostcardRequest>
+internal sealed class EditPostcardEndpoint : EndpointBaseAsync
+    .WithRequest<EditPostcardRequest>
     .WithActionResult
 {
     private readonly IPostcardService _postcardService;
 
-    public AddPostcardEndpoint(IPostcardService postcardService)
+    public EditPostcardEndpoint(IPostcardService postcardService)
     {
         _postcardService = postcardService;
     }
 
     [Authorize]
-    [HttpPost("{travelId:guid}/Postcard")]
+    [HttpPut("Postcard/{postcardId:guid}")]
     [SwaggerOperation(
-        Summary = "Add Postcard",
+        Summary = "Change Postcard By Id",
         Tags = new[] { TravelsEndpoint.PostcardsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(AddPostcardRequest request, CancellationToken cancellationToken = default)
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+    public override async Task<ActionResult> HandleAsync(EditPostcardRequest request, CancellationToken cancellationToken = default)
     {
-        await _postcardService.AddToTravelAsync(request.Postcard, request.TravelId);
-        return Created();
+        await _postcardService.UpdateAsync(request.Postcard, request.PostcardId);
+        return NoContent();
     }
 }

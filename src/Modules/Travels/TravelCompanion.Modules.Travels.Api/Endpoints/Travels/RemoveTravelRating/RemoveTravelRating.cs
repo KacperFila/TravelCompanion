@@ -7,7 +7,7 @@ using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.RemoveTravelRating;
 
-[Route($"{TravelsEndpoint.BasePath}/Travel")]
+[Route(TravelsEndpoint.BasePath)]
 internal sealed class RemoveTravelRating : EndpointBaseAsync
     .WithRequest<Guid>
     .WithActionResult
@@ -20,7 +20,7 @@ internal sealed class RemoveTravelRating : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("{travelId:guid}/Rating/")]
+    [HttpDelete("{travelId:guid}/Rating")]
     [SwaggerOperation(
         Summary = "Remove Travel Rating by Travel Id",
         Tags = new[] { TravelsEndpoint.TravelsTag })]

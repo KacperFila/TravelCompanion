@@ -8,7 +8,7 @@ using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetAllTravels;
 
-[Route($"{TravelsEndpoint.BasePath}/Travel")]
+[Route(TravelsEndpoint.BasePath)]
 internal sealed class GetAllTravelsEndpoint : EndpointBaseAsync
     .WithoutRequest
     .WithActionResult<List<TravelDto>>

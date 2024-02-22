@@ -3,8 +3,8 @@ using TravelCompanion.Modules.Travels.Core.Dto;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.AddPostcard;
 
-internal sealed class AddPostcardRequest
+internal class AddPostcardRequest
 {
-    [FromRoute] public Guid TravelId { get; set; }
+    [FromRoute(Name = "travelId")] public Guid TravelId { get; set; }
     [FromBody] public PostcardDto Postcard { get; set; }
 }

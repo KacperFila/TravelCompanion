@@ -8,7 +8,7 @@ internal sealed class PostcardAdditionPolicy : IPostcardAdditionPolicy
 {
     public async Task<bool> IsOwnerOrTravelParticipant(Guid userId, Travel travel)
     {
-        return travel.OwnerId == userId || travel.ParticipantIds.Contains(userId);
+        return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false); // participantsId jest nullem jeśli nie dodano nikogo (jedoosobowy travel)
     }
 
     //TODO refactor repeating code?
@@ -19,6 +19,6 @@ internal sealed class PostcardAdditionPolicy : IPostcardAdditionPolicy
 
     public async Task<bool> IsUserTravelParticipant(Guid userId, Travel travel)
     {
-        return travel.ParticipantIds.Contains(userId);
+        return travel.ParticipantIds?.Contains(userId) ?? false;
     }
 }

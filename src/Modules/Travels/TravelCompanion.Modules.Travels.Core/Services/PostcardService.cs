@@ -1,10 +1,12 @@
-﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
+﻿using FluentValidation;
+using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Entities.Enums;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
+using TravelCompanion.Modules.Travels.Core.Validators;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -18,18 +20,25 @@ internal sealed class PostcardService : IPostcardService
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public PostcardService(IPostcardRepository postcardRepository, IContext context, IPostcardAdditionPolicy postcardAdditionPolicy, ITravelRepository travelRepository)
+    public PostcardService(IPostcardRepository postcardRepository, IContext context, IPostcardAdditionPolicy postcardAdditionPolicy, ITravelRepository travelRepository, IPostcardDeletionPolicy postcardDeletionPolicy)
     {
         _postcardRepository = postcardRepository;
         _context = context;
         _postcardAdditionPolicy = postcardAdditionPolicy;
         _travelRepository = travelRepository;
+        _postcardDeletionPolicy = postcardDeletionPolicy;
         _userId = _context.Identity.Id;
     }
 
     public async Task AddToTravelAsync(PostcardDto postcard, Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
+
+        if (travel is null)
+        {
+            throw new TravelNotFoundException(travelId);
+        }
+
         if (!await _postcardAdditionPolicy.IsOwnerOrTravelParticipant(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravel(_userId);
@@ -95,16 +104,22 @@ internal sealed class PostcardService : IPostcardService
     public async Task UpdateAsync(PostcardDto postcard, Guid postcardId)
     {
         var item = await _postcardRepository.GetAsync(postcardId);
-        var travel = await _travelRepository.GetAsync(item.TravelId);
-
+        
         if (item is null)
         {
             throw new PostcardNotFoundException(postcardId);
         }
 
+        var travel = await _travelRepository.GetAsync(item.TravelId);
+        
         if (!await _postcardAdditionPolicy.IsOwnerOrTravelParticipant(_userId, travel))
         {
-            throw new UserDoesNotParticipateInTravel(item.TravelId);
+            throw new UserCannotManagePostcardException(item.Id);
+        }
+
+        if(!await _postcardDeletionPolicy.CanDeletePostcard(item, travel))
+        {
+            throw new UserCannotManagePostcardException(item.Id);
         }
 
         item.Description = postcard.Description;
@@ -117,12 +132,13 @@ internal sealed class PostcardService : IPostcardService
     public async Task DeleteAsync(Guid postcardId)
     {
         var postcard = await _postcardRepository.GetAsync(postcardId);
-        var travel = await _travelRepository.GetAsync(postcard.TravelId);
 
         if (postcard is null)
         {
             throw new PostcardNotFoundException(postcardId);
         }
+
+        var travel = await _travelRepository.GetAsync(postcard.TravelId);
 
         if (!await _postcardDeletionPolicy.CanDeletePostcard(postcard, travel))
         {
