@@ -72,7 +72,24 @@ internal sealed class PostcardService : IPostcardService
 
     public async Task<IReadOnlyList<PostcardDetailsDTO>> GetAllByTravelIdAsync(Guid travelId)
     {
+        var travel = await _travelRepository.GetAsync(travelId);
+        if (travel is null)
+        {
+            throw new TravelNotFoundException(travelId);
+        }
+
+        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        {
+            throw new UserDoesNotParticipateInTravel(travelId);
+        }
+
         var postcards = await _postcardRepository.GetAllByTravelIdAsync(travelId);
+
+        if (!postcards.Any())
+        {
+            throw new NoPostcardsForTravelFoundException(travelId);
+        }
+
         var dtos = postcards.Select(AsPostcardDetailsDto).ToList();
 
         return dtos;
