@@ -1,12 +1,10 @@
-﻿using FluentValidation;
-using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
+﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Dto;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Entities.Enums;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
-using TravelCompanion.Modules.Travels.Core.Validators;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -15,18 +13,16 @@ internal sealed class PostcardService : IPostcardService
 {
     private readonly IPostcardRepository _postcardRepository;
     private readonly ITravelRepository _travelRepository;
-    private readonly IPostcardAdditionPolicy _postcardAdditionPolicy;
-    private readonly IPostcardDeletionPolicy _postcardDeletionPolicy;
+    private readonly IPostcardPolicy _postcardPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public PostcardService(IPostcardRepository postcardRepository, IContext context, IPostcardAdditionPolicy postcardAdditionPolicy, ITravelRepository travelRepository, IPostcardDeletionPolicy postcardDeletionPolicy)
+    public PostcardService(IPostcardRepository postcardRepository, IContext context, ITravelRepository travelRepository, IPostcardPolicy postcardPolicy)
     {
         _postcardRepository = postcardRepository;
         _context = context;
-        _postcardAdditionPolicy = postcardAdditionPolicy;
         _travelRepository = travelRepository;
-        _postcardDeletionPolicy = postcardDeletionPolicy;
+        _postcardPolicy = postcardPolicy;
         _userId = _context.Identity.Id;
     }
 
@@ -39,12 +35,12 @@ internal sealed class PostcardService : IPostcardService
             throw new TravelNotFoundException(travelId);
         }
 
-        if (!await _postcardAdditionPolicy.IsOwnerOrTravelParticipant(_userId, travel))
+        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravel(_userId);
         }
 
-        var isCurrentUserTravelOwner = await _postcardAdditionPolicy.IsUserTravelOwner(_userId, travel);
+        var isCurrentUserTravelOwner = await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel);
         
         var postcardsStatus = isCurrentUserTravelOwner ? PostcardStatus.Accepted : PostcardStatus.Pending;
 
@@ -92,7 +88,7 @@ internal sealed class PostcardService : IPostcardService
             throw new PostcardNotFoundException(postcardId);
         }
 
-        if (!await _postcardAdditionPolicy.IsUserTravelOwner(_userId, travel))
+        if (!await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(postcard.TravelId);
         }
@@ -112,12 +108,12 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(item.TravelId);
         
-        if (!await _postcardAdditionPolicy.IsOwnerOrTravelParticipant(_userId, travel))
+        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }
 
-        if(!await _postcardDeletionPolicy.CanDeletePostcard(item, travel))
+        if(!await _postcardPolicy.CanDeletePostcard(item, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }
@@ -140,7 +136,7 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(postcard.TravelId);
 
-        if (!await _postcardDeletionPolicy.CanDeletePostcard(postcard, travel))
+        if (!await _postcardPolicy.CanDeletePostcard(postcard, travel))
         {
             throw new PostcardCannotBeDeletedException(postcardId);
         }

@@ -3,7 +3,7 @@ using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Core.Policies;
 
-public class TravelDeletionPolicy : ITravelDeletionPolicy
+public class TravelPolicy : ITravelPolicy
 {
     public async Task<bool> CanDeleteAsync(Travel travel)
     {

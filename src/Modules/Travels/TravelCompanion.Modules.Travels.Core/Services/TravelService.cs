@@ -11,14 +11,14 @@ namespace TravelCompanion.Modules.Travels.Core.Services;
 internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
-    private readonly ITravelDeletionPolicy _travelDeletionPolicy;
+    private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public TravelService(ITravelRepository travelRepository, ITravelDeletionPolicy travelDeletionPolicy, IContext context)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context)
     {
         _travelRepository = travelRepository;
-        _travelDeletionPolicy = travelDeletionPolicy;
+        _travelPolicy = travelDeletionPolicy;
         _context = context;
         _userId = _context.Identity.Id;
     }
@@ -27,9 +27,6 @@ internal class TravelService : ITravelService
     //TODO Remove after implementing TravelPlan -> Travel
     public async Task AddAsync(TravelDto travel)
     {
-        var tempParticipantIds = new List<Guid>();
-        tempParticipantIds.Add(Guid.Parse("10b0c715-d3c5-498c-be00-ec229231e8b5"));
-
         var item = new Travel
         {
             Id = Guid.NewGuid(),
@@ -38,7 +35,7 @@ internal class TravelService : ITravelService
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            ParticipantIds = tempParticipantIds
+            ParticipantIds = null
         };
  
         await _travelRepository.AddAsync(item);
@@ -120,7 +117,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (!await _travelDeletionPolicy.CanDeleteAsync(travel))
+        if (!await _travelPolicy.CanDeleteAsync(travel))
         {
             throw new TravelCannotBeDeletedException(TravelId);
         }

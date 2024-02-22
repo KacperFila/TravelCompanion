@@ -2,7 +2,7 @@
 
 namespace TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 
-internal interface IPostcardDeletionPolicy
+internal interface ITravelPolicy
 {
-    Task<bool> CanDeletePostcard(Postcard postcard, Travel travel);
+    Task<bool> CanDeleteAsync(Travel travel);
 }
