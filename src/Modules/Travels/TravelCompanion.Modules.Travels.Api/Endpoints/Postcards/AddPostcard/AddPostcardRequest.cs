@@ -6,5 +6,5 @@ namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.AddPostcard;
 internal class AddPostcardRequest
 {
     [FromRoute(Name = "travelId")] public Guid TravelId { get; set; }
-    [FromBody] public PostcardDto Postcard { get; set; }
+    [FromBody] public PostcardUpsertDTO Postcard { get; set; }
 }

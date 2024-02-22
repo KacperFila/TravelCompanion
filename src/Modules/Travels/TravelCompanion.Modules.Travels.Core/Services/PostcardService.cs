@@ -26,7 +26,7 @@ internal sealed class PostcardService : IPostcardService
         _userId = _context.Identity.Id;
     }
 
-    public async Task AddToTravelAsync(PostcardDto postcard, Guid travelId)
+    public async Task AddToTravelAsync(PostcardUpsertDTO postcard, Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
 
@@ -58,7 +58,7 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.AddAsync(item);
     }
 
-    public async Task<PostcardDto> GetAsync(Guid postcardId)
+    public async Task<PostcardDetailsDTO> GetAsync(Guid postcardId)
     {
         var postcard = await _postcardRepository.GetAsync(postcardId);
 
@@ -67,13 +67,13 @@ internal sealed class PostcardService : IPostcardService
             return null;
         }
 
-        return AsPostcardDto(postcard);
+        return AsPostcardDetailsDto(postcard);
     }
 
-    public async Task<IReadOnlyList<PostcardDto>> GetAllByTravelIdAsync(Guid travelId)
+    public async Task<IReadOnlyList<PostcardDetailsDTO>> GetAllByTravelIdAsync(Guid travelId)
     {
         var postcards = await _postcardRepository.GetAllByTravelIdAsync(travelId);
-        var dtos = postcards.Select(AsPostcardDto).ToList();
+        var dtos = postcards.Select(AsPostcardDetailsDto).ToList();
 
         return dtos;
     }
@@ -97,7 +97,7 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.UpdateAsync(postcard);
     }
 
-    public async Task UpdateAsync(PostcardDto postcard, Guid postcardId)
+    public async Task UpdateAsync(PostcardUpsertDTO postcard, Guid postcardId)
     {
         var item = await _postcardRepository.GetAsync(postcardId);
         
@@ -144,10 +144,12 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.DeleteAsync(postcardId);
     }
 
-    private static PostcardDto AsPostcardDto(Postcard postcard)
+    private static PostcardDetailsDTO AsPostcardDetailsDto(Postcard postcard)
     {
-        return new PostcardDto()
+        return new PostcardDetailsDTO()
         {
+            PostcardId = postcard.Id,
+            PostcardStatus = postcard.Status.ToString(),
             Description = postcard.Description,
             PhotoUrl = postcard.PhotoUrl,
             Title = postcard.Title
