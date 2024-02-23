@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.Travels.Core.Dto;
 
-public class PostcardDetailsDTO
+internal class PostcardDetailsDTO
 {
     public Guid PostcardId { get; set; }
     public string PostcardStatus { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.Travels.Core.Dto;
 
-public class TravelDto
+internal class TravelUpsertDTO
 { 
     public Guid OwnerId { get; set; }
     public string Title { get; set; }

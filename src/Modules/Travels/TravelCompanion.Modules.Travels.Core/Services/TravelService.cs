@@ -25,23 +25,23 @@ internal class TravelService : ITravelService
 
 
     //TODO Remove after implementing TravelPlan -> Travel
-    public async Task AddAsync(TravelDto travel)
+    public async Task AddAsync(TravelUpsertDTO travelUpsert)
     {
         var item = new Travel
         {
             Id = Guid.NewGuid(),
             OwnerId = _userId,
-            Title = travel.Title,
-            Description = travel.Description,
-            From = travel.From,
-            To = travel.To,
+            Title = travelUpsert.Title,
+            Description = travelUpsert.Description,
+            From = travelUpsert.From,
+            To = travelUpsert.To,
             ParticipantIds = null
         };
  
         await _travelRepository.AddAsync(item);
     }
 
-    public async Task<TravelDto> GetAsync(Guid TravelId)
+    public async Task<TravelDetailsDTO> GetAsync(Guid TravelId)
     {
         var travel = await _travelRepository.GetAsync(TravelId);
 
@@ -50,14 +50,14 @@ internal class TravelService : ITravelService
             return null;
         }
 
-        return AsTravelDto(travel);
+        return AsTravelDetailsDto(travel);
     }
 
-    public async Task<IReadOnlyList<TravelDto>> GetAllAsync()
+    public async Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync()
     {
         var travels = await _travelRepository.GetAllAsync();
 
-        var dtos = travels.Select(AsTravelDto).ToList();
+        var dtos = travels.Select(AsTravelDetailsDto).ToList();
 
         return dtos;
     }
@@ -123,16 +123,14 @@ internal class TravelService : ITravelService
         }
     }
 
-    private static TravelDto AsTravelDto(Travel travel)
+    private static TravelDetailsDTO AsTravelDetailsDto(Travel travel)
     {
-        return new TravelDto()
+        return new TravelDetailsDTO()
         {
-            allParticipantsPaid = travel.allParticipantsPaid,
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
             isFinished = travel.isFinished,
-            OwnerId = travel.OwnerId,
             Title = travel.Title,
             Rating = travel.Rating
         };

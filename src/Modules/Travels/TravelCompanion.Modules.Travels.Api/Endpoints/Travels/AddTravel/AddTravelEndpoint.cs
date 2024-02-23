@@ -13,7 +13,7 @@ namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.AddTravel;
 [Route(TravelsEndpoint.BasePath)]
 
 internal sealed class AddTravelEndpoint : EndpointBaseAsync
-    .WithRequest<TravelDto>
+    .WithRequest<TravelUpsertDTO>
     .WithActionResult
 {
     private readonly ITravelService _travelService;
@@ -32,7 +32,7 @@ internal sealed class AddTravelEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(TravelDto request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(TravelUpsertDTO request, CancellationToken cancellationToken = default)
     {
         await _travelDtoValidator.ValidateAndThrowAsync(request, cancellationToken);
         await _travelService.AddAsync(request);

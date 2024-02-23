@@ -10,7 +10,7 @@ namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetTravel;
 [Route(TravelsEndpoint.BasePath)]
 internal sealed class GetTravelEndpoint : EndpointBaseAsync
     .WithRequest<Guid>
-    .WithActionResult<TravelDto>
+    .WithActionResult<TravelDetailsDTO>
 {
     private readonly ITravelService _travelService;
 
@@ -26,7 +26,7 @@ internal sealed class GetTravelEndpoint : EndpointBaseAsync
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<TravelDto>> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<TravelDetailsDTO>> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
     {
         var result = await _travelService.GetAsync(travelId);
 

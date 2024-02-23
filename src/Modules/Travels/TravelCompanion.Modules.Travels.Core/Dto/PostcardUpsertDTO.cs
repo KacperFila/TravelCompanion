@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.Travels.Core.Dto;
 
-public class PostcardUpsertDTO
+internal class PostcardUpsertDTO
 {
     public string Title { get; set; }
     public string Description { get; set; }
