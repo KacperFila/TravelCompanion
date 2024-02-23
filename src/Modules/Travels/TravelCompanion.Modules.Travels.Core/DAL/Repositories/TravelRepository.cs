@@ -16,7 +16,9 @@ internal class TravelRepository : ITravelRepository
 
     public async Task<Travel> GetAsync(Guid id)
     {
-        var travel = await _travels.SingleOrDefaultAsync(x => x.Id == id);   
+        var travel = await _travels
+            .Include(x => x.Ratings)
+            .SingleOrDefaultAsync(x => x.Id == id);
         return travel;
     }
 
@@ -47,6 +49,24 @@ internal class TravelRepository : ITravelRepository
     {
         var travel = await GetAsync(id);
         _travels.Remove(travel);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task AddTravelRating(TravelRating travelRating)
+    {
+        await _dbContext.AddAsync(travelRating);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateTravelRating(TravelRating travelRating)
+    {
+        _dbContext.Update(travelRating);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveTravelRating(TravelRating travelRating)
+    {
+        _dbContext.Remove(travelRating);
         await _dbContext.SaveChangesAsync();
     }
 }

@@ -27,15 +27,16 @@ internal class TravelService : ITravelService
     //TODO Remove after implementing TravelPlan -> Travel
     public async Task AddAsync(TravelUpsertDTO travelUpsert)
     {
+        var travelId = Guid.NewGuid();
         var item = new Travel
         {
-            Id = Guid.NewGuid(),
+            Id = travelId,
             OwnerId = _userId,
             Title = travelUpsert.Title,
             Description = travelUpsert.Description,
             From = travelUpsert.From,
             To = travelUpsert.To,
-            ParticipantIds = null
+            ParticipantIds = null,
         };
  
         await _travelRepository.AddAsync(item);
@@ -44,6 +45,8 @@ internal class TravelService : ITravelService
     public async Task<TravelDetailsDTO> GetAsync(Guid TravelId)
     {
         var travel = await _travelRepository.GetAsync(TravelId);
+
+        travel.RatingValue = travel.Ratings.Select(x => x.Value).Average();
 
         if (travel is null)
         {
@@ -76,12 +79,32 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (travel.OwnerId != _userId)
+        if (!await _travelPolicy.IsUserOwnerOrParticipant(travel, _userId))
         {
-            throw new TravelDoesNotBelongToUserException(TravelId);
+            throw new UserDoesNotParticipateInTravel(TravelId);
         }
 
-        travel.Rating = Rating;
+        var currentRating = travel.Ratings.FirstOrDefault(x => x.AddedBy == _userId);
+
+        if (currentRating is not null)
+        {
+            currentRating.Value = Rating;
+            await _travelRepository.UpdateTravelRating(currentRating);
+        }
+        else
+        {
+            var travelRating = new TravelRating()
+            {
+                Id = Guid.NewGuid(),
+                AddedBy = _userId,
+                TravelId = TravelId,
+                Value = Rating
+            };
+            await _travelRepository.AddTravelRating(travelRating);
+        }
+
+        var ratingValue = travel.Ratings.Average(x => x.Value);
+        travel.RatingValue = ratingValue;
         await _travelRepository.UpdateAsync(travel);
     }
 
@@ -99,7 +122,15 @@ internal class TravelService : ITravelService
             throw new TravelDoesNotBelongToUserException(TravelId);
         }
 
-        travel.Rating = null;
+        var travelRating = travel.Ratings.SingleOrDefault(x => x.AddedBy == _userId);
+
+        if (travelRating is not null)
+        {
+            await _travelRepository.RemoveTravelRating(travelRating);
+        }
+
+        travel.RatingValue = !travel.Ratings.Any() ? null : travel.Ratings.Average(x => x.Value);
+
         await _travelRepository.UpdateAsync(travel);
     }
 
@@ -132,7 +163,7 @@ internal class TravelService : ITravelService
             To = travel.To,
             isFinished = travel.isFinished,
             Title = travel.Title,
-            Rating = travel.Rating
+            Rating = travel.RatingValue
         };
     }
 }

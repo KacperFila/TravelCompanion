@@ -14,4 +14,13 @@ public class TravelPolicy : ITravelPolicy
 
         return true;
     }
+
+    public async Task<bool> IsUserOwnerOrParticipant(Travel travel, Guid userId)
+    {
+        if (userId != travel.OwnerId || (!travel.ParticipantIds?.Contains(userId) ?? false))
+        {
+            return false;
+        }
+        return true;
+    }
 }

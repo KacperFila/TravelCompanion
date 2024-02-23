@@ -10,4 +10,8 @@ public interface ITravelRepository
     Task AddAsync(Travel travel);
     Task UpdateAsync(Travel travel);
     Task DeleteAsync(Guid id);
+    Task AddTravelRating(TravelRating travelRating);
+    Task UpdateTravelRating(TravelRating travelRating);
+
+    Task RemoveTravelRating(TravelRating travelRating);
 }

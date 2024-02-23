@@ -13,5 +13,6 @@ public class Travel
     public DateOnly? To { get; set; }
     public bool allParticipantsPaid { get; set; }
     public bool isFinished { get; set; }
-    public float? Rating { get; set; }
+    public List<TravelRating> Ratings { get; set; }
+    public float? RatingValue { get; set; }
 }
