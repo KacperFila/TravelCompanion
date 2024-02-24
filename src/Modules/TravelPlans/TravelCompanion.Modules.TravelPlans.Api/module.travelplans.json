@@ -1,0 +1,8 @@
+{
+  "travelplans": {
+    "module": {
+      "enabled": true,
+      "name": "TravelPlans"
+    }
+  }
+}
