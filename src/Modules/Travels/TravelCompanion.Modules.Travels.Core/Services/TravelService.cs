@@ -89,7 +89,7 @@ internal class TravelService : ITravelService
         if (currentRating is not null)
         {
             currentRating.Value = Rating;
-            await _travelRepository.UpdateTravelRating(currentRating);
+            await _travelRepository.UpdateTravelRatingAsync(currentRating);
         }
         else
         {
@@ -100,7 +100,7 @@ internal class TravelService : ITravelService
                 TravelId = TravelId,
                 Value = Rating
             };
-            await _travelRepository.AddTravelRating(travelRating);
+            await _travelRepository.AddTravelRatingAsync(travelRating);
         }
 
         var ratingValue = travel.Ratings.Average(x => x.Value);
@@ -126,7 +126,7 @@ internal class TravelService : ITravelService
 
         if (travelRating is not null)
         {
-            await _travelRepository.RemoveTravelRating(travelRating);
+            await _travelRepository.RemoveTravelRatingAsync(travelRating);
         }
 
         travel.RatingValue = !travel.Ratings.Any() ? null : travel.Ratings.Average(x => x.Value);

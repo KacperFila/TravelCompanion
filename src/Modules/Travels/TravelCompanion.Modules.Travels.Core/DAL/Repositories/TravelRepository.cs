@@ -52,19 +52,19 @@ internal class TravelRepository : ITravelRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AddTravelRating(TravelRating travelRating)
+    public async Task AddTravelRatingAsync(TravelRating travelRating)
     {
         await _dbContext.AddAsync(travelRating);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateTravelRating(TravelRating travelRating)
+    public async Task UpdateTravelRatingAsync(TravelRating travelRating)
     {
         _dbContext.Update(travelRating);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task RemoveTravelRating(TravelRating travelRating)
+    public async Task RemoveTravelRatingAsync(TravelRating travelRating)
     {
         _dbContext.Remove(travelRating);
         await _dbContext.SaveChangesAsync();

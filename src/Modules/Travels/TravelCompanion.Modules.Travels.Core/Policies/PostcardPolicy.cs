@@ -19,7 +19,6 @@ internal sealed class PostcardPolicy : IPostcardPolicy
         return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false); // participantsId jest nullem jeśli nie dodano nikogo (jedoosobowy travel)
     }
 
-    //TODO refactor repeating code?
     public async Task<bool> DoesUserOwnPostcardTravel(Guid userId, Travel travel)
     {
         return travel.OwnerId == userId;
@@ -37,12 +36,12 @@ internal sealed class PostcardPolicy : IPostcardPolicy
 
         if (isUserTravelOwner)
         {
-            return true; // if users owns the travel - he can do anything
+            return true;
         }
 
         if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending)
         {
-            return true; // if user created the postcard and it was not accepted yet
+            return true;
         }
 
         return false;
@@ -55,12 +54,12 @@ internal sealed class PostcardPolicy : IPostcardPolicy
 
         if (isUserTravelOwner)
         {
-            return true; // if users owns the travel - he can do anything
+            return true;
         }
 
         if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending)
         {
-            return true; // if user created the postcard and it was not accepted yet
+            return true;
         }
 
         return false;

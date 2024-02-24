@@ -98,13 +98,14 @@ internal sealed class PostcardService : IPostcardService
     public async Task ChangeStatus(Guid postcardId, PostcardStatus postcardStatus)
     {
         var postcard = await _postcardRepository.GetAsync(postcardId);
-        var travel = await _travelRepository.GetAsync(postcard.TravelId);
-
+        
         if (postcard is null)
         {
             throw new PostcardNotFoundException(postcardId);
         }
 
+        var travel = await _travelRepository.GetAsync(postcard.TravelId);
+        
         if (!await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(postcard.TravelId);
