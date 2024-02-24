@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travels", "Travels", "{9C58
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Travels.Api", "src\Modules\Travels\TravelCompanion.Modules.Travels.Api\TravelCompanion.Modules.Travels.Api.csproj", "{D371B607-CA88-4305-8C28-1FFCA12BC0D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Travels.Core", "src\Modules\Travels\TravelCompanion.Modules.Travels.Core\TravelCompanion.Modules.Travels.Core.csproj", "{639F0ADC-AD8C-44BF-9FAA-1FBA2B4C4664}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Travels.Core", "src\Modules\Travels\TravelCompanion.Modules.Travels.Core\TravelCompanion.Modules.Travels.Core.csproj", "{639F0ADC-AD8C-44BF-9FAA-1FBA2B4C4664}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travels", "Travels", "{69B8FC61-83F1-4201-847C-7CF4B6B9C2A0}"
 EndProject
