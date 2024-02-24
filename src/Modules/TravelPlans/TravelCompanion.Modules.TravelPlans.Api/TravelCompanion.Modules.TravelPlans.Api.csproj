@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="module.travelplans.development.json" />
+    <None Remove="module.travelplans.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="module.travelplans.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="module.travelplans.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Infrastructure\TravelCompanion.Modules.TravelPlans.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
