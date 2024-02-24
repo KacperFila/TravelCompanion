@@ -161,7 +161,7 @@ internal class TravelService : ITravelService
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            isFinished = travel.isFinished,
+            isFinished = travel.IsFinished,
             Title = travel.Title,
             Rating = travel.RatingValue
         };

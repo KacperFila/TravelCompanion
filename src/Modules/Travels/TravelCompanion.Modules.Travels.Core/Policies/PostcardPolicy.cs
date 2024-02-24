@@ -39,7 +39,7 @@ internal sealed class PostcardPolicy : IPostcardPolicy
             return true;
         }
 
-        if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending)
+        if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending) //TODO change from enums
         {
             return true;
         }
