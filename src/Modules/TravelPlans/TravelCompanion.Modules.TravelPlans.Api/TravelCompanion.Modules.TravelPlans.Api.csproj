@@ -24,4 +24,13 @@
     <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Infrastructure\TravelCompanion.Modules.TravelPlans.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+  </ItemGroup>
+
 </Project>

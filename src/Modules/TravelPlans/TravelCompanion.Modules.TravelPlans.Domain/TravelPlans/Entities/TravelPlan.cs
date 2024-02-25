@@ -12,34 +12,8 @@ public sealed class TravelPlan : AggregateRoot
     public DateOnly? From { get; private set; }
     public DateOnly? To { get; private set; }
     public List<TravelPoint> TravelPlanPoints { get; private set; }
-
     public List<ParticipantId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
-
-    //public TravelPlan(AggregateId id, OwnerId ownerId, List<ParticipantId> participantIds, string title, string? description,
-    //    DateOnly? from, DateOnly? to, List<TravelPoint> travelPlanPoints, int version = 0)
-    //: this(id, ownerId)
-    //{
-    //    ParticipantIds = participantIds;
-    //    Title = title;
-    //    Description = description;
-    //    From = from;
-    //    To = to;
-    //    TravelPlanPoints = travelPlanPoints;
-    //    Version = version;
-    //}
-
-    //public TravelPlan(AggregateId id, OwnerId ownerId, List<ParticipantId> participantIds, string title, string? description,
-    //    DateOnly? from, DateOnly? to, int version = 0)
-    //    : this(id, ownerId)
-    //{
-    //    ParticipantIds = participantIds;
-    //    Title = title;
-    //    Description = description;
-    //    From = from;
-    //    To = to;
-    //    Version = version;
-    //}
 
     public TravelPlan(AggregateId id, OwnerId ownerId, string title, string? description, List<ParticipantId> participantIds,
         List<TravelPoint> travelPlanPoints, DateOnly? from, DateOnly? to, int version = 0)
@@ -129,16 +103,16 @@ public sealed class TravelPlan : AggregateRoot
         IncrementVersion();
     }
 
-    //public void AddTravelPoint(TravelPoint travelPoint)
-    //{
-    //    if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
-    //    {
-    //        throw new InvalidTravelPointException();
-    //    }
+    public void AddTravelPoint(TravelPoint travelPoint)
+    {
+        if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
+        {
+            throw new InvalidTravelPointException();
+        }
 
-    //    TravelPlanPoints.Add(travelPoint);
-    //    AddEvent(new TravelPlanTravelPointAdded(travelPoint));
-    //}
-    
+        TravelPlanPoints.Add(travelPoint);
+        //AddEvent(new TravelPlanTravelPointAdded(travelPoint));
+    }
+
     //TODO add methods for TravelPointCost and TravelPoint
 }

@@ -1,12 +1,11 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 
 public interface ITravelPlanRepository
 {
-    Task<TravelPlan> GetAsync(AggregateId id);
+    Task<TravelPlan> GetAsync(Guid id);
     Task AddAsync(TravelPlan travelPlan);
-    Task UpdateAsync(TravelPlan travelPlan);
-    Task DeleteAsync(AggregateId id);
+    Task UpdateAsync(Guid Id, TravelPlan travelPlan);
+    Task DeleteAsync(Guid id);
 }

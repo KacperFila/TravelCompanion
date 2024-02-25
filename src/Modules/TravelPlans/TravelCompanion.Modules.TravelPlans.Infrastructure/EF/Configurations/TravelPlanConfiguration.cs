@@ -16,9 +16,9 @@ internal class TravelPlanConfiguration : IEntityTypeConfiguration<TravelPlan>
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder.Property(x => x.ParticipantIds)
-            .HasConversion(x => x.Select(a => a.Value), g => g.Select(g => (ParticipantId)g).ToList());
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
 
         builder.Property(x => x.ParticipantPaidIds)
-            .HasConversion(x => x.Select(a => a.Value), g => g.Select(g => (ParticipantId)g).ToList());
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
     }
 }

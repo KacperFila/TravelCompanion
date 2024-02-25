@@ -5,12 +5,14 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
 
 public class TravelPoint : AggregateRoot
 {
+    public AggregateId TravelPlanId { get; private set; }
     public string PlaceName { get; private set; }
     public bool IsAccepted { get; private set; }
-    public TravelPoint(AggregateId id, string placeName)
+    public TravelPoint(AggregateId id, string placeName, AggregateId travelPlanId)
     {
         Id = id;
         IsAccepted = false;
+        TravelPlanId = travelPlanId;
         ChangeTravelPointPlaceName(placeName);
     }
 
@@ -31,9 +33,9 @@ public class TravelPoint : AggregateRoot
         IncrementVersion();
     }
 
-    public static TravelPoint Create(Guid id, string placeName)
+    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId)
     {
-        var travelPoint = new TravelPoint(id, placeName);
+        var travelPoint = new TravelPoint(id, placeName, travelPlanId);
         travelPoint.ClearEvents();
         travelPoint.Version = 0;
         //travelPoint.AddEvent(new TravelPlanTravelPointAdded(travelPoint));

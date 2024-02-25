@@ -11,5 +11,8 @@ internal class TravelPointConfiguration : IEntityTypeConfiguration<TravelPoint>
     {
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new AggregateId(x));
+
+        builder.Property(x => x.TravelPlanId)
+            .HasConversion(x => x.Value, x => new AggregateId(x));
     }
 }

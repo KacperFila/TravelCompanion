@@ -1,27 +1,38 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 
 public class TravelPlanRepository : ITravelPlanRepository
 {
-    public async Task<TravelPlan> GetAsync(AggregateId id)
+    private readonly TravelPlansDbContext _dbContext;
+    private readonly DbSet<TravelPlan> _travelPlans;
+
+    public TravelPlanRepository(TravelPlansDbContext dbContext)
+    {
+        _dbContext = dbContext;
+        _travelPlans = _dbContext.TravelPlans;
+    }
+
+    public async Task<TravelPlan> GetAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
     public async Task AddAsync(TravelPlan travelPlan)
     {
-        throw new NotImplementedException();
+        await _travelPlans.AddAsync(travelPlan);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(TravelPlan travelPlan)
+    public async Task UpdateAsync(Guid id, TravelPlan travelPlan)
     {
-        throw new NotImplementedException();
+       throw new NotSupportedException();
+        
     }
 
-    public async Task DeleteAsync(AggregateId id)
+    public async Task DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }

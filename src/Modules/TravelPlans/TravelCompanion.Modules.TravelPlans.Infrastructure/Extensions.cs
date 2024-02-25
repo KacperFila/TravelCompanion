@@ -10,6 +10,7 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<ITravelPlanRepository, TravelPlanRepository>();
+        services.AddScoped<ITravelPointRepository, TravelPointRepository>();
         services.AddPostgres<TravelPlansDbContext>();
 
         return services;
