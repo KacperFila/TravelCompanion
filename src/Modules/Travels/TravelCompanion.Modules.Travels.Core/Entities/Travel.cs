@@ -11,8 +11,8 @@ public class Travel
     public string? Description { get; set; }
     public DateOnly? From { get; set; }
     public DateOnly? To { get; set; }
-    public bool allParticipantsPaid { get; set; }
-    public bool isFinished { get; set; }
+    public bool AllParticipantsPaid { get; set; }
+    public bool IsFinished { get; set; }
     public List<TravelRating> Ratings { get; set; }
     public float? RatingValue { get; set; }
 }
