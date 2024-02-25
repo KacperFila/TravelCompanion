@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.DomainEvents;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
@@ -12,23 +11,46 @@ public sealed class TravelPlan : AggregateRoot
     public string? Description { get; private set; }
     public DateOnly? From { get; private set; }
     public DateOnly? To { get; private set; }
-    public TravelCost TravelPlanCost { get; private set; }
     public List<TravelPoint> TravelPlanPoints { get; private set; }
 
     public List<ParticipantId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
 
-    public TravelPlan(AggregateId id, OwnerId ownerId, List<ParticipantId> participantIds, string title, string? description,
-        DateOnly? from, DateOnly? to, TravelCost travelPlanCost, List<TravelPoint> travelPlanPoints, int version = 0)
-    : this(id, ownerId)
+    //public TravelPlan(AggregateId id, OwnerId ownerId, List<ParticipantId> participantIds, string title, string? description,
+    //    DateOnly? from, DateOnly? to, List<TravelPoint> travelPlanPoints, int version = 0)
+    //: this(id, ownerId)
+    //{
+    //    ParticipantIds = participantIds;
+    //    Title = title;
+    //    Description = description;
+    //    From = from;
+    //    To = to;
+    //    TravelPlanPoints = travelPlanPoints;
+    //    Version = version;
+    //}
+
+    //public TravelPlan(AggregateId id, OwnerId ownerId, List<ParticipantId> participantIds, string title, string? description,
+    //    DateOnly? from, DateOnly? to, int version = 0)
+    //    : this(id, ownerId)
+    //{
+    //    ParticipantIds = participantIds;
+    //    Title = title;
+    //    Description = description;
+    //    From = from;
+    //    To = to;
+    //    Version = version;
+    //}
+
+    public TravelPlan(AggregateId id, OwnerId ownerId, string title, string? description, List<ParticipantId> participantIds,
+        List<TravelPoint> travelPlanPoints, DateOnly? from, DateOnly? to, int version = 0)
+        : this(id, ownerId)
     {
-        ParticipantIds = participantIds;
         Title = title;
         Description = description;
+        ParticipantIds = participantIds;
+        TravelPlanPoints = travelPlanPoints;
         From = from;
         To = to;
-        TravelPlanCost = travelPlanCost;
-        TravelPlanPoints = travelPlanPoints;
         Version = version;
     }
 
@@ -44,7 +66,7 @@ public sealed class TravelPlan : AggregateRoot
         travelPlan.ChangeFrom(from);
         travelPlan.ChangeTo(to);
         travelPlan.ClearEvents();
-        travelPlan.TravelPlanCost = new TravelCost();
+        travelPlan.ParticipantIds = new List<ParticipantId>();
         travelPlan.TravelPlanPoints = new List<TravelPoint>();
         travelPlan.AllParticipantsPaid = false;
         travelPlan.ParticipantPaidIds = new List<ParticipantId>();
@@ -107,16 +129,16 @@ public sealed class TravelPlan : AggregateRoot
         IncrementVersion();
     }
 
-    public void AddTravelPoint(TravelPoint travelPoint)
-    {
-        if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
-        {
-            throw new InvalidTravelPointException();
-        }
+    //public void AddTravelPoint(TravelPoint travelPoint)
+    //{
+    //    if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
+    //    {
+    //        throw new InvalidTravelPointException();
+    //    }
 
-        TravelPlanPoints.Add(travelPoint);
-        AddEvent(new TravelPlanTravelPointAdded(travelPoint));
-    }
-
-    //TODO add methods for TravelCost and TravelPoint
+    //    TravelPlanPoints.Add(travelPoint);
+    //    AddEvent(new TravelPlanTravelPointAdded(travelPoint));
+    //}
+    
+    //TODO add methods for TravelPointCost and TravelPoint
 }

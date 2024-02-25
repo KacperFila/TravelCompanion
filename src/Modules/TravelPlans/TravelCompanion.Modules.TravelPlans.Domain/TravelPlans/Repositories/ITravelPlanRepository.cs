@@ -5,7 +5,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 
 public interface ITravelPlanRepository
 {
-    Task<TravelPoint> GetAsync(AggregateId id);
+    Task<TravelPlan> GetAsync(AggregateId id);
     Task AddAsync(TravelPlan travelPlan);
     Task UpdateAsync(TravelPlan travelPlan);
     Task DeleteAsync(AggregateId id);

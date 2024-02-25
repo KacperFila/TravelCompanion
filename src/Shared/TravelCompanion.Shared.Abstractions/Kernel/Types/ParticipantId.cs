@@ -8,5 +8,10 @@ public class ParticipantId : TypeId
     {
     }
 
-    public static implicit operator ParticipantId(Guid id) => new (id);
+    protected ParticipantId() : base(Guid.NewGuid())
+    {
+    }
+
+    public static implicit operator ParticipantId(Guid id) => new(id);
+    public static implicit operator Guid(ParticipantId id) => id.Value;
 }
