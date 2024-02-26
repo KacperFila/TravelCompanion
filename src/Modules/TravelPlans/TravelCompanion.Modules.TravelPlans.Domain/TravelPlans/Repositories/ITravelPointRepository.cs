@@ -6,7 +6,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 public interface ITravelPointRepository
 {
     Task AddAsync(TravelPoint travelPoint);
-    Task AcceptTravelPointAsync(TravelPointId id);
-    Task<TravelPoint> GetAsync(TravelPointId id);
-    Task RemoveAsync(TravelPointId id);
+    Task UpdateAsync(TravelPoint travelPoint);
+    Task<TravelPoint> GetAsync(Guid id);
+    Task RemoveAsync(Guid id);
 }

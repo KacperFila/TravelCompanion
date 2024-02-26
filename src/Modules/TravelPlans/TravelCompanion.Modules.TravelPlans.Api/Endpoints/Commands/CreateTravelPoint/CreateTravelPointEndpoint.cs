@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.TravelPlans.Application.TravelPlans.Commands;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
-using TravelCompanion.Modules.Travels.Api.Endpoints;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 

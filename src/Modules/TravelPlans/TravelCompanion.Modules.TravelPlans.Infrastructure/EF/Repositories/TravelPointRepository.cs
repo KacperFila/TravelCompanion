@@ -21,17 +21,18 @@ public class TravelPointRepository : ITravelPointRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AcceptTravelPointAsync(TravelPointId id)
+    public async Task UpdateAsync(TravelPoint travelPoint)
     {
-        throw new NotImplementedException();
+        _dbContext.Update(travelPoint);
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task<TravelPoint> GetAsync(Guid id)
+    {
+        return await _dbContext.TravelPoints.SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<TravelPoint> GetAsync(TravelPointId id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task RemoveAsync(TravelPointId id)
+    public async Task RemoveAsync(Guid id)
     {
         throw new NotImplementedException();
     }

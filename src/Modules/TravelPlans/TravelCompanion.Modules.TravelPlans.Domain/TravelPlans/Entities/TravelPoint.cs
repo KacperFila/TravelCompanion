@@ -27,7 +27,7 @@ public class TravelPoint : AggregateRoot
         IncrementVersion();
     }
 
-    public void AcceptTravelPoint(AggregateId id)
+    public void AcceptTravelPoint()
     {
         IsAccepted = true;
         IncrementVersion();
