@@ -17,5 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\TravelCompanion.Modules.Users.Shared\TravelCompanion.Modules.Users.Shared.csproj" />
   </ItemGroup>
 </Project>

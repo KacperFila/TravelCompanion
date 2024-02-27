@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EF\Configurations\" />
     <Folder Include="EF\Migrations\" />
   </ItemGroup>
 

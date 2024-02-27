@@ -9,14 +9,14 @@ public sealed class TravelPlan : AggregateRoot
     public List<ParticipantId>? ParticipantIds { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
-    public DateOnly? From { get; private set; }
-    public DateOnly? To { get; private set; }
+    public DateOnly From { get; private set; }
+    public DateOnly To { get; private set; }
     public List<TravelPoint> TravelPlanPoints { get; private set; }
     public List<ParticipantId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
 
     public TravelPlan(AggregateId id, OwnerId ownerId, string title, string? description, List<ParticipantId> participantIds,
-        List<TravelPoint> travelPlanPoints, DateOnly? from, DateOnly? to, int version = 0)
+        List<TravelPoint> travelPlanPoints, DateOnly from, DateOnly to, int version = 0)
         : this(id, ownerId)
     {
         Title = title;
@@ -31,8 +31,8 @@ public sealed class TravelPlan : AggregateRoot
     public TravelPlan(AggregateId id, OwnerId ownerId)
         => (Id, OwnerId) = (id, ownerId);
 
-    public static TravelPlan Create(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly? from,
-        DateOnly? to)
+    public static TravelPlan Create(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from,
+        DateOnly to)
     {
         var travelPlan = new TravelPlan(id, ownerId);
         travelPlan.ChangeTitle(title);
@@ -71,9 +71,9 @@ public sealed class TravelPlan : AggregateRoot
         IncrementVersion();
     }
 
-    public void ChangeFrom(DateOnly? from)
+    public void ChangeFrom(DateOnly from)
     {
-        if (To.HasValue && from > To.Value)
+        if (from > To)
         {
             throw new InvalidTravelPlanDateException(Id);
         }
@@ -87,9 +87,9 @@ public sealed class TravelPlan : AggregateRoot
         IncrementVersion();
     }
 
-    public void ChangeTo(DateOnly? to)
+    public void ChangeTo(DateOnly to)
     {
-        if (From.HasValue && To < From.Value)
+        if (To < From)
         {
             throw new InvalidTravelPlanDateException(Id);
         }

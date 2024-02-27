@@ -26,6 +26,11 @@ public class TravelPlanRepository : ITravelPlanRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<bool> ExistAsync(Guid id)
+    {
+        return await _travelPlans.AnyAsync(x => x.Id == id);
+    }
+
     public async Task UpdateAsync(Guid id, TravelPlan travelPlan)
     {
        throw new NotSupportedException();

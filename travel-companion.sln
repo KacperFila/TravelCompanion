@@ -35,13 +35,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travels", "Travels", "{69B8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TravelPlans", "TravelPlans", "{52A18048-B7D5-4936-B26F-D93CF0CF8070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.TravelPlans.Domain", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj", "{7E8C85CA-9A58-40B3-A8AC-D7282C82CA21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.TravelPlans.Domain", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj", "{7E8C85CA-9A58-40B3-A8AC-D7282C82CA21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.TravelPlans.Api", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Api\TravelCompanion.Modules.TravelPlans.Api.csproj", "{D51171A3-0EEC-4C93-B146-6C68F71F4A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.TravelPlans.Api", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Api\TravelCompanion.Modules.TravelPlans.Api.csproj", "{D51171A3-0EEC-4C93-B146-6C68F71F4A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.TravelPlans.Infrastructure", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Infrastructure\TravelCompanion.Modules.TravelPlans.Infrastructure.csproj", "{F0FD40F9-9D67-4B80-B12B-B8901A987096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.TravelPlans.Infrastructure", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Infrastructure\TravelCompanion.Modules.TravelPlans.Infrastructure.csproj", "{F0FD40F9-9D67-4B80-B12B-B8901A987096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.TravelPlans.Application", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Application\TravelCompanion.Modules.TravelPlans.Application.csproj", "{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.TravelPlans.Application", "src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Application\TravelCompanion.Modules.TravelPlans.Application.csproj", "{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Users.Shared", "src\Modules\Users\TravelCompanion.Modules.Users.Shared\TravelCompanion.Modules.Users.Shared.csproj", "{06309B48-8908-499A-9C92-BF21E9D5DDB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06309B48-8908-499A-9C92-BF21E9D5DDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06309B48-8908-499A-9C92-BF21E9D5DDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06309B48-8908-499A-9C92-BF21E9D5DDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06309B48-8908-499A-9C92-BF21E9D5DDB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{D51171A3-0EEC-4C93-B146-6C68F71F4A72} = {52A18048-B7D5-4936-B26F-D93CF0CF8070}
 		{F0FD40F9-9D67-4B80-B12B-B8901A987096} = {52A18048-B7D5-4936-B26F-D93CF0CF8070}
 		{5A4FEC4B-7C2C-402D-9DA9-549BB94DD2CC} = {52A18048-B7D5-4936-B26F-D93CF0CF8070}
+		{06309B48-8908-499A-9C92-BF21E9D5DDB5} = {62E9A5D8-448F-490B-B965-C3E4B068D6EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0FD0CE3-637A-407C-8724-2F97930B3943}

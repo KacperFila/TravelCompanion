@@ -9,8 +9,8 @@ public class Travel
     //public TravelCost TravelCost { get; set; }
     public string Title { get; set; }
     public string? Description { get; set; }
-    public DateOnly? From { get; set; }
-    public DateOnly? To { get; set; }
+    public DateOnly From { get; set; }
+    public DateOnly To { get; set; }
     public bool AllParticipantsPaid { get; set; }
     public bool IsFinished { get; set; }
     public List<TravelRating> Ratings { get; set; }

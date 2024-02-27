@@ -8,6 +8,7 @@ namespace TravelCompanion.Modules.Users.Core.Repositories
     {
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
+        Task<bool> ExistAsync(Guid id);
         Task AddAsync(User user);
         Task UpdateAsync(User user);
     }
