@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 
@@ -26,7 +25,12 @@ public class TravelPointRepository : ITravelPointRepository
         _dbContext.Update(travelPoint);
         await _dbContext.SaveChangesAsync();
     }
-    
+
+    public async Task<bool> ExistAsync(Guid id)
+    {
+        return await _dbContext.TravelPoints.AnyAsync(x => x.Id == id);
+    }
+
     public async Task<TravelPoint> GetAsync(Guid id)
     {
         return await _dbContext.TravelPoints.SingleOrDefaultAsync(x => x.Id == id);

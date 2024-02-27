@@ -12,6 +12,7 @@ public static class Extensions
         services.AddScoped<ITravelPlanRepository, TravelPlanRepository>();
         services.AddScoped<ITravelPlanInvitationRepository, TravelPlanInvitationRepository>();
         services.AddScoped<ITravelPointRepository, TravelPointRepository>();
+        services.AddScoped<ITravelPointSuggestionsRepository, TravelPointSuggestionRepository>();
         services.AddPostgres<TravelPlansDbContext>();
 
         return services;

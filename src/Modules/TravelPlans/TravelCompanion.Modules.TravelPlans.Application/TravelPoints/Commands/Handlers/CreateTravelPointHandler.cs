@@ -2,7 +2,7 @@
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPlans.Commands.Handlers;
+namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
 public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint>
 {
