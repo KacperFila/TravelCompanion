@@ -7,6 +7,6 @@ public interface ITravelPlanRepository
     Task<TravelPlan> GetAsync(Guid id);
     Task AddAsync(TravelPlan travelPlan);
     Task<bool> ExistAsync(Guid id);
-    Task UpdateAsync(Guid Id, TravelPlan travelPlan);
+    Task UpdateAsync(TravelPlan travelPlan);
     Task DeleteAsync(Guid id);
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 
@@ -27,9 +26,15 @@ public class TravelPlanInvitationRepository : ITravelPlanInvitationRepository
         return await _travelPlanInvitations.SingleOrDefaultAsync(x => x.Id == invitationId);
     }
 
-    public async Task<bool> ExistsAsync(Guid invitationId)
+    public async Task<bool> ExistsByIdAsync(Guid invitationId)
     {
         return await _travelPlanInvitations.AnyAsync(x => x.Id == invitationId);
+    }
+
+    public async Task<bool> ExistsForUserAndTravelPlanAsync(Guid userId, Guid travelPlanId)
+    {
+        return await _travelPlanInvitations.AnyAsync(
+            x => x.ParticipantId == userId && x.TravelPlanId == travelPlanId);
     }
 
     public async Task UpdateInvitationAsync(TravelPlanInvitation travelPlanInvitation)

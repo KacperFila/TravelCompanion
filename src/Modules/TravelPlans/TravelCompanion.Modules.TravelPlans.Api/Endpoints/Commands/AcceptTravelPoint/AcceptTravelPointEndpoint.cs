@@ -20,7 +20,7 @@ internal sealed class AcceptTravelPointEndpoint : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPut]
+    [HttpPut("Point")]
     [SwaggerOperation(
         Summary = "Accept Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]

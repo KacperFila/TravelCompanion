@@ -22,7 +22,7 @@ internal sealed class RejectTravelPlanInvitationEndpoint : EndpointBaseAsync
 
 
     //TODO add authorization and checks
-    [HttpDelete("/invitations")]
+    [HttpDelete("Invitations")]
     [SwaggerOperation(
         Summary = "Reject Travel Plan Invitation",
         Tags = new[] { TravelPlansEndpoint.Tag })]

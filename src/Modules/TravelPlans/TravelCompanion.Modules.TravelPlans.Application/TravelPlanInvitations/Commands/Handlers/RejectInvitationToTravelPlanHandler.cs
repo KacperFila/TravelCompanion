@@ -4,7 +4,7 @@ using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPlanInvitations.Commands.Handlers;
 
-public class RejectInvitationToTravelPlanHandler : ICommandHandler<RejectInvitationToTravelPlan>
+internal sealed class RejectInvitationToTravelPlanHandler : ICommandHandler<RejectInvitationToTravelPlan>
 {
     private readonly ITravelPlanInvitationRepository _travelPlanInvitationRepository;
 
@@ -15,7 +15,7 @@ public class RejectInvitationToTravelPlanHandler : ICommandHandler<RejectInvitat
 
     public async Task HandleAsync(RejectInvitationToTravelPlan command)
     {
-        var doesInvitationExist = await _travelPlanInvitationRepository.ExistsAsync(command.invitationId);
+        var doesInvitationExist = await _travelPlanInvitationRepository.ExistsByIdAsync(command.invitationId);
 
         if (!doesInvitationExist)
         {

@@ -18,7 +18,7 @@ internal sealed class CreateTravelPointEndpoint : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPost("point")]
+    [HttpPost("Point")]
     [SwaggerOperation(
         Summary = "Create Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]

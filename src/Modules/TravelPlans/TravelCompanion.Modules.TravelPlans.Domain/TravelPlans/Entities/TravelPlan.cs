@@ -73,11 +73,7 @@ public sealed class TravelPlan : AggregateRoot
 
     public void ChangeFrom(DateOnly from)
     {
-        if (from > To)
-        {
-            throw new InvalidTravelPlanDateException(Id);
-        }
-
+        //TODO add validation so from could not be later than to
         if (from < DateOnly.FromDateTime(DateTime.UtcNow))
         {
             throw new InvalidTravelPlanDateException(Id);
@@ -89,10 +85,6 @@ public sealed class TravelPlan : AggregateRoot
 
     public void ChangeTo(DateOnly to)
     {
-        if (To < From)
-        {
-            throw new InvalidTravelPlanDateException(Id);
-        }
 
         if (to < DateOnly.FromDateTime(DateTime.UtcNow))
         {
@@ -101,6 +93,11 @@ public sealed class TravelPlan : AggregateRoot
 
         To = to;
         IncrementVersion();
+    }
+
+    public void AddParticipant(Guid id)
+    {
+        ParticipantIds.Add(id);
     }
 
     public void AddTravelPoint(TravelPoint travelPoint)

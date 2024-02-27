@@ -17,7 +17,7 @@ public class TravelPlanRepository : ITravelPlanRepository
 
     public async Task<TravelPlan> GetAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _travelPlans.SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task AddAsync(TravelPlan travelPlan)
@@ -31,10 +31,10 @@ public class TravelPlanRepository : ITravelPlanRepository
         return await _travelPlans.AnyAsync(x => x.Id == id);
     }
 
-    public async Task UpdateAsync(Guid id, TravelPlan travelPlan)
+    public async Task UpdateAsync(TravelPlan travelPlan)
     {
-       throw new NotSupportedException();
-        
+        _travelPlans.Update(travelPlan);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid id)
