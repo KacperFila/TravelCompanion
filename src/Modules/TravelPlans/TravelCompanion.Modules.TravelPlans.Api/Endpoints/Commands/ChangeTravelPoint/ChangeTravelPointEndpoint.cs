@@ -22,7 +22,7 @@ internal sealed class ChangeTravelPointEndpoint : EndpointBaseAsync
 
     [HttpPut("Point/{pointId:guid}")]
     [SwaggerOperation(
-        Summary = "Change Travel Point",
+        Summary = "Update Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]

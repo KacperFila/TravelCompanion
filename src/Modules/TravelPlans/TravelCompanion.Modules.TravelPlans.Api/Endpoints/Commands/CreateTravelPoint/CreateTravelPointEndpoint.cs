@@ -20,7 +20,7 @@ internal sealed class CreateTravelPointEndpoint : EndpointBaseAsync
 
     [HttpPost("Point")]
     [SwaggerOperation(
-        Summary = "Create Travel Point",
+        Summary = "Add Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
