@@ -15,6 +15,7 @@ internal sealed class AcceptTravelPointHandler : ICommandHandler<AcceptTravelPoi
     public async Task HandleAsync(AcceptTravelPoint command)
     {
         var travelPoint = await _travelPointRepository.GetAsync(command.travelPointId);
+        //TODO Check for null
         travelPoint.AcceptTravelPoint();
 
         await _travelPointRepository.UpdateAsync(travelPoint);
