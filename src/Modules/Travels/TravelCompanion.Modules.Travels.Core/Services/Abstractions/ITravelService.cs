@@ -1,4 +1,4 @@
-﻿using TravelCompanion.Modules.Travels.Core.Dto;
+﻿using TravelCompanion.Modules.Travels.Core.DTO;
 
 namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 

@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.Travels.Core.Dto;
+using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Validators;
 using TravelCompanion.Shared.Abstractions.Exceptions;

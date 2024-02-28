@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.Travels.Core.Dto;
+using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetAllTravels;

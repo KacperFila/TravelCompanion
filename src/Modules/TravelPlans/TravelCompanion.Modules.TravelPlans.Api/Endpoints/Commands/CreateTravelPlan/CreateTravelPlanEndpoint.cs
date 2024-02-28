@@ -9,7 +9,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.CreateTrave
 
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class CreateTravelPlanEndpoint : EndpointBaseAsync
-    .WithRequest<Application.TravelPlans.Commands.CreateTravelPlan>
+    .WithRequest<Application.Plans.Commands.CreateTravelPlan>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
@@ -27,7 +27,7 @@ internal sealed class CreateTravelPlanEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPlans.Commands.CreateTravelPlan command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(Application.Plans.Commands.CreateTravelPlan command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Created();

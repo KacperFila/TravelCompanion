@@ -10,16 +10,16 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 {
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly IPlanRepository _planRepository;
-    private readonly ITravelPointSuggestionsRepository _travelPointSuggestionsRepository;
+    private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public ChangeTravelPointHandler(ITravelPointRepository travelPointRepository, IContext context, IPlanRepository planRepository, ITravelPointSuggestionsRepository travelPointSuggestionsRepository)
+    public ChangeTravelPointHandler(ITravelPointRepository travelPointRepository, IContext context, IPlanRepository planRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository)
     {
         _travelPointRepository = travelPointRepository;
         _context = context;
         _planRepository = planRepository;
-        _travelPointSuggestionsRepository = travelPointSuggestionsRepository;
+        _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
     }
 
@@ -45,9 +45,9 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new CouldNotModifyNotAcceptedTravelPointException();
         }
 
-        var suggestion = TravelPointChangeSuggestion.Create(command.travelPointId, _userId, command.placeName);
+        var request = TravelPointUpdateRequest.Create(command.travelPointId, _userId, command.placeName);
 
-        await _travelPointSuggestionsRepository.AddAsync(suggestion);
+        await _travelPointUpdateRequestRepository.AddAsync(request);
 
         //TODO create accept/reject suggestions, refactor code (endpoints, create policies)
     }

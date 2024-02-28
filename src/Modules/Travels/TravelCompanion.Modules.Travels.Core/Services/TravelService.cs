@@ -1,5 +1,5 @@
 ﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
-using TravelCompanion.Modules.Travels.Core.Dto;
+using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;

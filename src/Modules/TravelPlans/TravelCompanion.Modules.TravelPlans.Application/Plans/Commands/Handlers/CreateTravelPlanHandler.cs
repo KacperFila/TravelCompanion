@@ -3,7 +3,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPlans.Commands.Handlers;
+namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handlers;
 
 public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
 {

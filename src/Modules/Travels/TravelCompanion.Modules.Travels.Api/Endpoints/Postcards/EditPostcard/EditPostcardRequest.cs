@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TravelCompanion.Modules.Travels.Core.Dto;
+using TravelCompanion.Modules.Travels.Core.DTO;
 
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.EditPostcard;
 

@@ -3,26 +3,26 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public sealed class TravelPointChangeSuggestion
+public sealed class TravelPointUpdateRequest
 {
-    public TravelPointChangeSuggestionId SuggestionId { get; private set; }
+    public TravelPointUpdateRequestId RequestId { get; private set; }
     public AggregateId TravelPlanPointId { get; private set; }
     public ParticipantId SuggestedById { get; private set; }
     public string PlaceName { get; private set; }
 
-    public TravelPointChangeSuggestion(AggregateId travelPlanPointId, ParticipantId suggestedById)
+    public TravelPointUpdateRequest(AggregateId travelPlanPointId, ParticipantId suggestedById)
     {
-        SuggestionId = Guid.NewGuid();
+        RequestId = Guid.NewGuid();
         TravelPlanPointId = travelPlanPointId;
         SuggestedById = suggestedById;
     }
 
-    public static TravelPointChangeSuggestion Create(AggregateId travelPlanPointId, ParticipantId suggestedById, string PlaceName)
+    public static TravelPointUpdateRequest Create(AggregateId travelPlanPointId, ParticipantId suggestedById, string PlaceName)
     {
-        var suggestion = new TravelPointChangeSuggestion(travelPlanPointId, suggestedById);
-        suggestion.PlaceName = PlaceName;
+        var request = new TravelPointUpdateRequest(travelPlanPointId, suggestedById);
+        request.PlaceName = PlaceName;
 
-        return suggestion;
+        return request;
     }
 
     public void ChangePlaceName(string placeName)

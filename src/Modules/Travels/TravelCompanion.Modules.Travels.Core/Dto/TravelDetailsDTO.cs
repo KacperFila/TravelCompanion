@@ -1,4 +1,4 @@
-﻿namespace TravelCompanion.Modules.Travels.Core.Dto;
+﻿namespace TravelCompanion.Modules.Travels.Core.DTO;
 
 internal class TravelDetailsDTO
 {

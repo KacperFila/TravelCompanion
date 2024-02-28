@@ -1,7 +1,7 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
+namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
 
 internal sealed class AcceptTravelPointHandler : ICommandHandler<AcceptTravelPoint>
 {
