@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AcceptTravelPointChange;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AcceptTravelPointUpdateRequest;
 
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class AcceptTravelPointUpdateRequestEndpoint : EndpointBaseAsync
-    .WithRequest<AcceptTravelPointUpdateRequest>
+    .WithRequest<Application.TravelPointUpdateRequests.Commands.AcceptTravelPointUpdateRequest>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
@@ -30,7 +29,7 @@ internal sealed class AcceptTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(AcceptTravelPointUpdateRequest command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(Application.TravelPointUpdateRequests.Commands.AcceptTravelPointUpdateRequest command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();
