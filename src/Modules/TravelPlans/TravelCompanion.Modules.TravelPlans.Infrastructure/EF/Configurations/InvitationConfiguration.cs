@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;

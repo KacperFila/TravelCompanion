@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 

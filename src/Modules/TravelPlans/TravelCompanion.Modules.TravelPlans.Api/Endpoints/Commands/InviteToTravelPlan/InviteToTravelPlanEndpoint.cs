@@ -23,7 +23,7 @@ internal sealed class InviteToTravelPlanEndpoint : EndpointBaseAsync
     [Authorize]
     [HttpPost("Invitations")]
     [SwaggerOperation(
-        Summary = "Invite User to TravelPlan",
+        Summary = "Invite User to Plan",
         Tags = new[] { TravelPlansEndpoint.Tag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]

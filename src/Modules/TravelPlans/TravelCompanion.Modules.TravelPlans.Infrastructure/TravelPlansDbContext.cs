@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure;
 
@@ -10,7 +10,7 @@ public class TravelPlansDbContext :DbContext
     {
     }
 
-    public DbSet<TravelPlan> TravelPlans { get; set; }
+    public DbSet<Plan> Plans { get; set; }
     public DbSet<TravelPoint> TravelPoints { get; set; }
     public DbSet<Invitation> Invitations { get; set; }
     public DbSet<TravelPointCost> TravelPointCosts { get; set; }

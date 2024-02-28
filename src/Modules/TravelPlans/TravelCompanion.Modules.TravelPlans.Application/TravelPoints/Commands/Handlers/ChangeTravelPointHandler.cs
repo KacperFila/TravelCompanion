@@ -1,6 +1,6 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
@@ -9,16 +9,16 @@ namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.
 public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 {
     private readonly ITravelPointRepository _travelPointRepository;
-    private readonly ITravelPlanRepository _travelPlanRepository;
+    private readonly IPlanRepository _planRepository;
     private readonly ITravelPointSuggestionsRepository _travelPointSuggestionsRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public ChangeTravelPointHandler(ITravelPointRepository travelPointRepository, IContext context, ITravelPlanRepository travelPlanRepository, ITravelPointSuggestionsRepository travelPointSuggestionsRepository)
+    public ChangeTravelPointHandler(ITravelPointRepository travelPointRepository, IContext context, IPlanRepository planRepository, ITravelPointSuggestionsRepository travelPointSuggestionsRepository)
     {
         _travelPointRepository = travelPointRepository;
         _context = context;
-        _travelPlanRepository = travelPlanRepository;
+        _planRepository = planRepository;
         _travelPointSuggestionsRepository = travelPointSuggestionsRepository;
         _userId = _context.Identity.Id;
     }
@@ -33,7 +33,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         }
 
         var travelPoint = await _travelPointRepository.GetAsync(command.travelPointId);
-        var travelPlan = await _travelPlanRepository.GetAsync(travelPoint.TravelPlanId);
+        var travelPlan = await _planRepository.GetAsync(travelPoint.TravelPlanId);
 
         if (!(travelPlan.OwnerId == _userId || travelPlan.ParticipantIds.Contains(_userId)))
         {

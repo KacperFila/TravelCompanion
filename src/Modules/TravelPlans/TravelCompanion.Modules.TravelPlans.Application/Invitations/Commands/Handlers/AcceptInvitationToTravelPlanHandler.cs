@@ -1,17 +1,17 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
 internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<AcceptInvitation>
 {
-    private readonly ITravelPlanRepository _travelPlanRepository;
+    private readonly IPlanRepository _planRepository;
     private readonly IInvitationRepository _invitationRepository;
 
-    public AcceptInvitationToTravelPlanHandler(ITravelPlanRepository travelPlanRepository, IInvitationRepository invitationRepository)
+    public AcceptInvitationToTravelPlanHandler(IPlanRepository planRepository, IInvitationRepository invitationRepository)
     {
-        _travelPlanRepository = travelPlanRepository;
+        _planRepository = planRepository;
         _invitationRepository = invitationRepository;
     }
 
@@ -24,17 +24,17 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
             throw new InvitationNotFoundException(command.invitationId);
         }
         
-        var travelPlan = await _travelPlanRepository.GetAsync(invitation.TravelPlanId);
+        var travelPlan = await _planRepository.GetAsync(invitation.TravelPlanId);
 
         if (travelPlan is null)
         {
-            throw new TravelPlanNotFoundException(invitation.TravelPlanId);
+            throw new PlanNotFoundException(invitation.TravelPlanId);
         }
 
         await _invitationRepository.RemoveAsync(command.invitationId);
         
         travelPlan.AddParticipant(invitation.ParticipantId);
-        await _travelPlanRepository.UpdateAsync(travelPlan);
+        await _planRepository.UpdateAsync(travelPlan);
 
         //TODO Remove migration with isAccepted bool, add authorization and check for duplicates and user not inviting himself
     }

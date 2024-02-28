@@ -1,5 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
