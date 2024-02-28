@@ -12,7 +12,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TravelPlanInvitation",
+                name: "Invitation",
                 schema: "travelPlans",
                 columns: table => new
                 {
@@ -32,7 +32,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TravelPlanInvitation",
+                name: "Invitation",
                 schema: "travelPlans");
         }
     }

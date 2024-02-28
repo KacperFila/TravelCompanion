@@ -10,7 +10,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.InviteToTra
 
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class InviteToTravelPlanEndpoint : EndpointBaseAsync
-    .WithRequest<Application.TravelPlanInvitations.Commands.InviteToTravelPlan>
+    .WithRequest<Application.Invitations.Commands.InviteToTravelPlan>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
@@ -29,7 +29,7 @@ internal sealed class InviteToTravelPlanEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPlanInvitations.Commands.InviteToTravelPlan command, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(Application.Invitations.Commands.InviteToTravelPlan command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();

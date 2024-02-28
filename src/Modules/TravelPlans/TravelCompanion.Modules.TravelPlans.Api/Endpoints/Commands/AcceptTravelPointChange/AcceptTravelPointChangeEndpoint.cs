@@ -30,7 +30,7 @@ internal sealed class AcceptTravelPointChangeEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(AcceptTravelPointSuggestion command, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(AcceptTravelPointSuggestion command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();

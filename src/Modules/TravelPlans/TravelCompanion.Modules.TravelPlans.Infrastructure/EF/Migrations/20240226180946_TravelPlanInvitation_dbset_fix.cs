@@ -13,18 +13,18 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             migrationBuilder.DropPrimaryKey(
                 name: "PK_TravelPlanInvitation",
                 schema: "travelPlans",
-                table: "TravelPlanInvitation");
+                table: "Invitation");
 
             migrationBuilder.RenameTable(
-                name: "TravelPlanInvitation",
+                name: "Invitation",
                 schema: "travelPlans",
-                newName: "TravelPlanInvitations",
+                newName: "Invitations",
                 newSchema: "travelPlans");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_TravelPlanInvitations",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations",
+                table: "Invitations",
                 column: "Id");
         }
 
@@ -34,18 +34,18 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             migrationBuilder.DropPrimaryKey(
                 name: "PK_TravelPlanInvitations",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations");
+                table: "Invitations");
 
             migrationBuilder.RenameTable(
-                name: "TravelPlanInvitations",
+                name: "Invitations",
                 schema: "travelPlans",
-                newName: "TravelPlanInvitation",
+                newName: "Invitation",
                 newSchema: "travelPlans");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_TravelPlanInvitation",
                 schema: "travelPlans",
-                table: "TravelPlanInvitation",
+                table: "Invitation",
                 column: "Id");
         }
     }

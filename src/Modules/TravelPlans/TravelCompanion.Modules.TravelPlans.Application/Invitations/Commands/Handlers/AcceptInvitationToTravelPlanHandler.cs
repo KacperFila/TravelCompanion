@@ -2,22 +2,22 @@
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPlanInvitations.Commands.Handlers;
+namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
-internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<AcceptInvitationToTravelPlan>
+internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<AcceptInvitation>
 {
     private readonly ITravelPlanRepository _travelPlanRepository;
-    private readonly ITravelPlanInvitationRepository _travelPlanInvitationRepository;
+    private readonly IInvitationRepository _invitationRepository;
 
-    public AcceptInvitationToTravelPlanHandler(ITravelPlanRepository travelPlanRepository, ITravelPlanInvitationRepository travelPlanInvitationRepository)
+    public AcceptInvitationToTravelPlanHandler(ITravelPlanRepository travelPlanRepository, IInvitationRepository invitationRepository)
     {
         _travelPlanRepository = travelPlanRepository;
-        _travelPlanInvitationRepository = travelPlanInvitationRepository;
+        _invitationRepository = invitationRepository;
     }
 
-    public async Task HandleAsync(AcceptInvitationToTravelPlan command)
+    public async Task HandleAsync(AcceptInvitation command)
     {
-        var invitation = await _travelPlanInvitationRepository.GetAsync(command.invitationId);
+        var invitation = await _invitationRepository.GetAsync(command.invitationId);
 
         if (invitation is null)
         {
@@ -31,7 +31,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
             throw new TravelPlanNotFoundException(invitation.TravelPlanId);
         }
 
-        await _travelPlanInvitationRepository.RemoveInvitationAsync(command.invitationId);
+        await _invitationRepository.RemoveAsync(command.invitationId);
         
         travelPlan.AddParticipant(invitation.ParticipantId);
         await _travelPlanRepository.UpdateAsync(travelPlan);

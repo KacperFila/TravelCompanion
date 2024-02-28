@@ -14,12 +14,12 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             migrationBuilder.DropColumn(
                 name: "TravelFrom",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations");
+                table: "Invitations");
 
             migrationBuilder.DropColumn(
                 name: "TravelTo",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations");
+                table: "Invitations");
         }
 
         /// <inheritdoc />
@@ -28,7 +28,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             migrationBuilder.AddColumn<DateOnly>(
                 name: "TravelFrom",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations",
+                table: "Invitations",
                 type: "date",
                 nullable: false,
                 defaultValue: new DateOnly(1, 1, 1));
@@ -36,7 +36,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             migrationBuilder.AddColumn<DateOnly>(
                 name: "TravelTo",
                 schema: "travelPlans",
-                table: "TravelPlanInvitations",
+                table: "Invitations",
                 type: "date",
                 nullable: false,
                 defaultValue: new DateOnly(1, 1, 1));

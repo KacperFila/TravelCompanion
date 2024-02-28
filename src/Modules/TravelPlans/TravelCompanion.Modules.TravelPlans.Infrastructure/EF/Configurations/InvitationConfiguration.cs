@@ -5,12 +5,12 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-public class TravelPlanInvitationConfiguration : IEntityTypeConfiguration<TravelPlanInvitation>
+public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
 {
-    public void Configure(EntityTypeBuilder<TravelPlanInvitation> builder)
+    public void Configure(EntityTypeBuilder<Invitation> builder)
     {
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new TravelPlanInvitationId(x));
+            .HasConversion(x => x.Value, x => new InvitationId(x));
 
         builder.Property(x => x.ParticipantId)
             .HasConversion(x => x.Value, x => new ParticipantId(x));

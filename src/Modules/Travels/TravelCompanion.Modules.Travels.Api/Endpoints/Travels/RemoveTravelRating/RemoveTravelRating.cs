@@ -27,7 +27,7 @@ internal sealed class RemoveTravelRating : EndpointBaseAsync
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Guid travelId, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
     {
         await _travelService.RemoveRatingAsync(travelId);
         return NoContent();

@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Endpoints\Commands\AcceptTravelPoint\" />
     <Folder Include="Endpoints\Commands\InviteToTravelPlan\" />
-    <Folder Include="Endpoints\Commands\AcceptTravelPlanInvitation\" />
     <Folder Include="Endpoints\Queries\" />
   </ItemGroup>
 

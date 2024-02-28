@@ -1,23 +1,22 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Exceptions;
 using TravelCompanion.Modules.TravelPlans.Domain.TravelPlans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPlanInvitations.Commands.Handlers;
+namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
 internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravelPlan>
 {
-    private readonly ITravelPlanInvitationRepository _travelPlanInvitationRepository;
+    private readonly IInvitationRepository _invitationRepository;
     private readonly ITravelPlanRepository _travelPlanRepository;
     private readonly IUsersModuleApi _usersModuleApi;
     private readonly IContext _context;
 
-    public InviteToTravelPlanHandler(ITravelPlanInvitationRepository travelPlanInvitationRepository, ITravelPlanRepository travelPlanRepository, IUsersModuleApi usersModuleApi, IContext context)
+    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, ITravelPlanRepository travelPlanRepository, IUsersModuleApi usersModuleApi, IContext context)
     {
-        _travelPlanInvitationRepository = travelPlanInvitationRepository;
+        _invitationRepository = invitationRepository;
         _travelPlanRepository = travelPlanRepository;
         _usersModuleApi = usersModuleApi;
         _context = context;
@@ -38,7 +37,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             throw new UserNotFoundException(command.userId);
         }
 
-        var doesInvitationAlreadyExist = await _travelPlanInvitationRepository
+        var doesInvitationAlreadyExist = await _invitationRepository
             .ExistsForUserAndTravelPlanAsync(command.userId, command.travelPlanId);
 
         if (doesInvitationAlreadyExist)
@@ -53,8 +52,8 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             throw new UserAlreadyParticipatesInTravelPlanException(command.userId);
         }
 
-        var invitation = TravelPlanInvitation.Create(command.travelPlanId, command.userId);
+        var invitation = Invitation.Create(command.travelPlanId, command.userId);
 
-        await _travelPlanInvitationRepository.AddInvitationAsync(invitation);
+        await _invitationRepository.AddAsync(invitation);
     }
 }

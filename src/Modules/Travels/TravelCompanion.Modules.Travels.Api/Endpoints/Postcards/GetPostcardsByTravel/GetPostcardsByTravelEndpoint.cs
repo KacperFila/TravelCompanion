@@ -28,7 +28,7 @@ internal sealed class GetPostcardsByTravelEndpoint : EndpointBaseAsync
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<IReadOnlyList<PostcardDetailsDTO>>> HandleAsync(Guid travelId, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<IReadOnlyList<PostcardDetailsDTO>>> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
     {
         var postcards = await _postcardService.GetAllByTravelIdAsync(travelId);
         return Ok(postcards);

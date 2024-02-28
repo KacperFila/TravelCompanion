@@ -11,8 +11,4 @@
     <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TravelPlanInvitations\Commands\Handlers\" />
-  </ItemGroup>
-
 </Project>
