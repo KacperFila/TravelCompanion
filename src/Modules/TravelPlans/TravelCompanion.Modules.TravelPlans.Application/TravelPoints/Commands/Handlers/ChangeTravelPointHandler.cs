@@ -25,14 +25,14 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
     public async Task HandleAsync(ChangeTravelPoint command)
     {
-        var doesTravelPointExist = await _travelPointRepository.ExistAsync(command.travelPointId);
+        var doesTravelPointExist = await _travelPointRepository.ExistAsync(command.pointId);
 
         if (!doesTravelPointExist)
         {
-            throw new TravelPointNotFoundException(command.travelPointId);
+            throw new TravelPointNotFoundException(command.pointId);
         }
 
-        var travelPoint = await _travelPointRepository.GetAsync(command.travelPointId);
+        var travelPoint = await _travelPointRepository.GetAsync(command.pointId);
         var travelPlan = await _planRepository.GetAsync(travelPoint.TravelPlanId);
 
         if (!(travelPlan.OwnerId == _userId || travelPlan.ParticipantIds.Contains(_userId)))
@@ -45,7 +45,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new CouldNotModifyNotAcceptedTravelPointException();
         }
 
-        var request = TravelPointUpdateRequest.Create(command.travelPointId, _userId, command.placeName);
+        var request = TravelPointUpdateRequest.Create(command.pointId, _userId, command.placeName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 

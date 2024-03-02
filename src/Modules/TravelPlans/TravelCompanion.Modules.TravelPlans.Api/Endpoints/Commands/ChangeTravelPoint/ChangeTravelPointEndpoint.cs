@@ -20,7 +20,7 @@ internal sealed class ChangeTravelPointEndpoint : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPut("Point/{pointId:guid}")]
+    [HttpPut("Point/Update")]
     [SwaggerOperation(
         Summary = "Update Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]

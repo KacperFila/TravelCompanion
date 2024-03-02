@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
-public record AcceptTravelPoint(Guid travelPointId) : ICommand;
+public record AcceptTravelPoint(Guid pointId) : ICommand;

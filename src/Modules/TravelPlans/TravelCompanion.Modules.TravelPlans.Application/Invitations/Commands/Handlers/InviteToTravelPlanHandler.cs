@@ -24,12 +24,12 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
     public async Task HandleAsync(InviteToTravelPlan command)
     {
-        var doesTravelPlanExist = await _planRepository.ExistAsync(command.travelPlanId);
+        var doesTravelPlanExist = await _planRepository.ExistAsync(command.planId);
         var doesUserExist = await _usersModuleApi.CheckIfUserExists(command.userId);
 
         if (!doesTravelPlanExist)
         {
-            throw new PlanNotFoundException(command.travelPlanId);
+            throw new PlanNotFoundException(command.planId);
         }
 
         if (!doesUserExist)
@@ -38,21 +38,21 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         }
 
         var doesInvitationAlreadyExist = await _invitationRepository
-            .ExistsForUserAndTravelPlanAsync(command.userId, command.travelPlanId);
+            .ExistsForUserAndTravelPlanAsync(command.userId, command.planId);
 
         if (doesInvitationAlreadyExist)
         {
-            throw new InvitationAlreadyExistsException(command.userId, command.travelPlanId);
+            throw new InvitationAlreadyExistsException(command.userId, command.planId);
         }
 
-        var travelPlan = await _planRepository.GetAsync(command.travelPlanId);
+        var travelPlan = await _planRepository.GetAsync(command.planId);
 
         if (command.userId == _context.Identity.Id || travelPlan.ParticipantIds.Contains(command.userId))
         {
             throw new UserAlreadyParticipatesInPlanException(command.userId);
         }
 
-        var invitation = Invitation.Create(command.travelPlanId, command.userId);
+        var invitation = Invitation.Create(command.planId, command.userId);
 
         await _invitationRepository.AddAsync(invitation);
     }

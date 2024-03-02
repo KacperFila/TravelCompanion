@@ -20,7 +20,7 @@ internal sealed class AcceptInvitation : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPut("Invitations")]
+    [HttpPut("Invitation/Acceptance/{invitationId:guid}")]
     [SwaggerOperation(
         Summary = "Accept Travel Plan Invitation",
         Tags = new[] { TravelPlansEndpoint.Tag })]
@@ -28,7 +28,7 @@ internal sealed class AcceptInvitation : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.Invitations.Commands.AcceptInvitation command,
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.Invitations.Commands.AcceptInvitation command,
         CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);

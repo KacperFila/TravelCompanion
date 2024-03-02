@@ -21,7 +21,7 @@ internal sealed class AcceptTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPut("Point/UpdateRequest")]
+    [HttpPut("Point/Update/Acceptance/{requestId:guid}")]
     [SwaggerOperation(
         Summary = "Accept Travel Point Update Request",
         Tags = new[] { TravelPlansEndpoint.Tag })]
@@ -29,7 +29,7 @@ internal sealed class AcceptTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPointUpdateRequests.Commands.AcceptTravelPointUpdateRequest command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.TravelPointUpdateRequests.Commands.AcceptTravelPointUpdateRequest command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();

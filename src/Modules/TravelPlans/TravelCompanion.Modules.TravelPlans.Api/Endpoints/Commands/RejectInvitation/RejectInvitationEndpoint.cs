@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,9 +21,8 @@ internal sealed class RejectInvitationEndpoint : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-
-    //TODO add authorization and checks
-    [HttpDelete("Invitations")]
+    [Authorize]
+    [HttpDelete("Invitation/Rejection/{invitationId:guid}")]
     [SwaggerOperation(
         Summary = "Reject Travel Plan Invitation",
         Tags = new[] { TravelPlansEndpoint.Tag })]
@@ -30,7 +30,7 @@ internal sealed class RejectInvitationEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.Invitations.Commands.RejectInvitation command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.Invitations.Commands.RejectInvitation command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return NoContent();

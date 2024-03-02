@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,7 +21,8 @@ internal sealed class AcceptTravelPointEndpoint : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPut("Point")]
+    [Authorize]
+    [HttpPut("Point/Acceptance/{pointId:guid}")]
     [SwaggerOperation(
         Summary = "Accept Travel Point",
         Tags = new[] { TravelPlansEndpoint.Tag })]
@@ -28,7 +30,7 @@ internal sealed class AcceptTravelPointEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPoints.Commands.AcceptTravelPoint command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.TravelPoints.Commands.AcceptTravelPoint command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();
