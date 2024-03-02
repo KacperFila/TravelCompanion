@@ -21,9 +21,9 @@ internal sealed class RateTravelEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPut("{travelId:guid}/Rating")]
+    [HttpPut("Travel/{travelId:guid}/Rating")]
     [SwaggerOperation(
-        Summary = "Rate Travel By Id",
+        Summary = "Rate Travel",
         Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

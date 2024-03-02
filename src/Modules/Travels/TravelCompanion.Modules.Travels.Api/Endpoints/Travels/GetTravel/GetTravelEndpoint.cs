@@ -19,9 +19,9 @@ internal sealed class GetTravelEndpoint : EndpointBaseAsync
         _travelService = travelService;
     }
 
-    [HttpGet("{travelId:guid}")]
+    [HttpGet("Travel/{travelId:guid}")]
     [SwaggerOperation(
-        Summary = "Get Travel By Id",
+        Summary = "Get Travel",
         Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

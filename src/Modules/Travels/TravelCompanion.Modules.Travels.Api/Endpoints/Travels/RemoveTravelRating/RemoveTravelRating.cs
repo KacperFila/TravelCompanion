@@ -20,9 +20,9 @@ internal sealed class RemoveTravelRating : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("{travelId:guid}/Rating")]
+    [HttpDelete("Travel/{travelId:guid}/Rating")]
     [SwaggerOperation(
-        Summary = "Remove Travel Rating by Travel Id",
+        Summary = "Remove Travel Rating",
         Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

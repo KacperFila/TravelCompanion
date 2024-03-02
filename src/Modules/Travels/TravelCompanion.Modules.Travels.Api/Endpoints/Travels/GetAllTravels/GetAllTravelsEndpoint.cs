@@ -21,7 +21,7 @@ internal sealed class GetAllTravelsEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpGet]
+    [HttpGet("Travel")]
     [SwaggerOperation(
         Summary = "Get All Travels",
         Tags = new[] { TravelsEndpoint.TravelsTag })]

@@ -18,9 +18,9 @@ internal sealed class RemovePostcardEndpoint : EndpointBaseAsync
         _postcardService = postcardService;
     }
 
-    [HttpDelete("Postcard/{postcardId:guid}")]
+    [HttpDelete("Travel/Postcard/{postcardId:guid}")]
     [SwaggerOperation(
-        Summary = "Remove Postcard By Id",
+        Summary = "Remove Postcard",
         Tags = new[] { TravelsEndpoint.PostcardsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

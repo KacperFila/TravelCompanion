@@ -24,7 +24,7 @@ internal sealed class AddTravelEndpoint : EndpointBaseAsync
         _travelService = travelService;
     }
 
-    [HttpPost]
+    [HttpPost("Travel")]
     [SwaggerOperation(
         Summary = "Add Travel",
         Tags = new[] { TravelsEndpoint.TravelsTag })]

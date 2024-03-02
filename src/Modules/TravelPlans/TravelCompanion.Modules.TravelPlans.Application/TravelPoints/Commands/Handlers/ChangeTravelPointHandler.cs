@@ -48,7 +48,5 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         var request = TravelPointUpdateRequest.Create(command.pointId, _userId, command.placeName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
-
-        //TODO create accept/reject suggestions, refactor code (endpoints, create policies)
     }
 }

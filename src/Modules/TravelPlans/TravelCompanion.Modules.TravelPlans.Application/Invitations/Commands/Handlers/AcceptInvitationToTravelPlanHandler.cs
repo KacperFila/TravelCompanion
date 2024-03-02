@@ -35,7 +35,5 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
         
         travelPlan.AddParticipant(invitation.ParticipantId);
         await _planRepository.UpdateAsync(travelPlan);
-
-        //TODO Remove migration with isAccepted bool, add authorization and check for duplicates and user not inviting himself
     }
 }

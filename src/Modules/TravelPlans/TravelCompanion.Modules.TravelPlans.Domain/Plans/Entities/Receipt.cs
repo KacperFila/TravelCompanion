@@ -16,7 +16,7 @@ public sealed class Receipt
         Amount = Money.Create(0);
     }
 
-    public void ChangeParticipantId(ParticipantId participantId) //TODO does it make sense?
+    public void ChangeParticipantId(ParticipantId participantId)
     {
         ParticipantId = participantId;
     }

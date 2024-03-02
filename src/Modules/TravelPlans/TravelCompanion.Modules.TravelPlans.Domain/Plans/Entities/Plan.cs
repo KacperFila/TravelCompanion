@@ -111,5 +111,5 @@ public sealed class Plan : AggregateRoot
         //AddEvent(new TravelPlanTravelPointAdded(travelPoint));
     }
 
-    //TODO add methods for TravelPointCost and TravelPoint
+    //TODO add methods for TravelPointCost
 }

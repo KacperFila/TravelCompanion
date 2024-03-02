@@ -20,9 +20,9 @@ internal sealed class EditPostcardEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPut("Postcard/{postcardId:guid}")]
+    [HttpPut("Travel/Postcard/{postcardId:guid}")]
     [SwaggerOperation(
-        Summary = "Change Postcard By Id",
+        Summary = "Edit Postcard",
         Tags = new[] { TravelsEndpoint.PostcardsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

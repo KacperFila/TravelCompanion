@@ -21,9 +21,9 @@ internal sealed class GetPostcardsByTravelEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpGet("{travelId:guid}/Postcards")]
+    [HttpGet("Travel/{travelId:guid}/Postcards")]
     [SwaggerOperation(
-        Summary = "Get Postcards By Travel Id",
+        Summary = "Get Postcards For Travel",
         Tags = new[] { TravelsEndpoint.PostcardsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

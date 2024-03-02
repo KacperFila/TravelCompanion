@@ -21,7 +21,7 @@ internal sealed class AddPostcardEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPost("{travelId:guid}/Postcard")]
+    [HttpPost("Travel/{travelId:guid}/Postcard")]
     [SwaggerOperation(
         Summary = "Add Postcard",
         Tags = new[] { TravelsEndpoint.PostcardsTag })]
