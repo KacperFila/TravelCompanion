@@ -8,12 +8,15 @@ public class TravelPoint : AggregateRoot
     public AggregateId TravelPlanId { get; private set; }
     public string PlaceName { get; private set; }
     public bool IsAccepted { get; private set; }
+    public TravelPointCost TravelPointCost { get; private set; }
+
     public TravelPoint(AggregateId id, string placeName, AggregateId travelPlanId)
     {
         Id = id;
         IsAccepted = false;
         TravelPlanId = travelPlanId;
         ChangeTravelPointPlaceName(placeName);
+        TravelPointCost = TravelPointCost.Create(id);
     }
 
     public void ChangeTravelPointPlaceName(string placeName)

@@ -167,7 +167,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                         .WithMany("Receipts")
                         .HasForeignKey("TravelPointCostId");
 
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
+                    b.OwnsOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Receipt.Amount#TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
                         {
                             b1.Property<Guid>("ReceiptId")
                                 .HasColumnType("uuid");
@@ -197,7 +197,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.TravelPointCost", b =>
                 {
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "OverallCost", b1 =>
+                    b.OwnsOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.TravelPointCost.OverallCost#TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "OverallCost", b1 =>
                         {
                             b1.Property<Guid>("TravelPointCostId")
                                 .HasColumnType("uuid");

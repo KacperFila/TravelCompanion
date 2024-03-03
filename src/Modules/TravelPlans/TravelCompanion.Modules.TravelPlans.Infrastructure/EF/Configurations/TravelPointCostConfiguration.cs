@@ -11,16 +11,17 @@ internal class TravelPointCostConfiguration : IEntityTypeConfiguration<TravelPoi
     public void Configure(EntityTypeBuilder<TravelPointCost> builder)
     {
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new AggregateId(x));
+            .HasConversion(x => x.Value, x => new EntityId(x));
 
         builder.Property(x => x.TravelPointId)
-            .HasConversion(x => x.Value, x => new TravelPointId(x));
+            .HasConversion(x => x.Value, x => new AggregateId(x));
 
-        builder.OwnsOne<Money>("OverallCost", money =>
-        {
-            money.Property<decimal>("Amount")
-                .HasColumnName("OverallCost")
-                .IsRequired();
-        });
+        builder
+            .HasOne<TravelPoint>()
+            .WithOne(x => x.TravelPointCost)
+            .HasForeignKey<TravelPointCost>(x => x.TravelPointId);
+
+        builder.Property(x => x.OverallCost)
+            .HasConversion(x => x.Amount, x => Money.Create(x));
     }
 }

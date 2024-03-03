@@ -6,34 +6,29 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
 public sealed class TravelPointCost
 {
-    public EntityId TravelPointCostId { get; set; }
-    public TravelPointId TravelPointId { get; private set; }
+    public EntityId Id { get; private set; }
+    public AggregateId TravelPointId { get; private set; }
+    public TravelPoint TravelPoint { get; private set; }
     public List<Receipt> Receipts { get; private set; }
     public Money OverallCost { get; private set; }
 
 
-    public TravelPointCost(EntityId id, TravelPointId travelPointId, List<Receipt> receipts, Money overallCost)
-    : this(id, travelPointId)
+    public TravelPointCost(AggregateId travelPointId)
     {
-        Receipts = receipts;
-        OverallCost = overallCost;
+        Id = Guid.NewGuid();
+        TravelPointId = travelPointId; 
+        Receipts = new List<Receipt>();
+        OverallCost = Money.Create(0);
     }
 
-    public TravelPointCost(EntityId id, TravelPointId travelPointId)
+    public static TravelPointCost Create(AggregateId travelPointId)
     {
-        TravelPointCostId = id;
-        TravelPointId = travelPointId;
-    }
-
-    public static TravelPointCost Create(EntityId id, TravelPointId travelPointId)
-    {
-        var travelPointCost = new TravelPointCost(id, travelPointId, new List<Receipt>(), Money.Create(0));
-        return travelPointCost;
+        return new TravelPointCost(travelPointId);
     }
 
     public void AddReceipt(ParticipantId participantId, Money amount)
     {
-        Receipts.Add(Receipt.Create(participantId, amount));
+        Receipts.Add(Receipt.Create(participantId, amount, Id));
         CalculateOverallCost();
     }
 
