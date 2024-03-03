@@ -28,6 +28,6 @@ public class TravelPointUpdateRequestRepository : ITravelPointUpdateRequestRepos
     public async Task RemoveAsync(TravelPointUpdateRequest request)
     {
         _requests.Remove(request);
-        _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }
