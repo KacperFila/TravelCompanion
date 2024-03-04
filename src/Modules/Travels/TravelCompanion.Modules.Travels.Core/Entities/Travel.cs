@@ -1,4 +1,6 @@
-﻿namespace TravelCompanion.Modules.Travels.Core.Entities;
+﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+
+namespace TravelCompanion.Modules.Travels.Core.Entities;
 
 public class Travel
 {
@@ -7,6 +9,8 @@ public class Travel
     public IList<Guid>? ParticipantIds { get; set; }
     //public IList<TravelPoint>? TravelPoints { get; set; }
     //public TravelCost TravelCost { get; set; }
+    public List<Receipt> AdditionalCosts { get; set; }
+    public Money AdditionalCostsValue { get; set; }
     public string Title { get; set; }
     public string? Description { get; set; }
     public DateOnly From { get; set; }

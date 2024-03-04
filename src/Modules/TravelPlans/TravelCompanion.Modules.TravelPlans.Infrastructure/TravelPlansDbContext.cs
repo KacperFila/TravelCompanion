@@ -13,7 +13,6 @@ public class TravelPlansDbContext :DbContext
     public DbSet<Plan> Plans { get; set; }
     public DbSet<TravelPoint> TravelPoints { get; set; }
     public DbSet<Invitation> Invitations { get; set; }
-    public DbSet<TravelPointCost> TravelPointCosts { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<TravelPointUpdateRequest> TravelPointUpdateRequests { get; set; }
 

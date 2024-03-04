@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.TravelPlans.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.TravelPlans.Infrastructure;
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(TravelPlansDbContext))]
-    partial class TravelPlansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304063836_TravelPointCost_refactor")]
+    partial class TravelPointCost_refactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,11 +112,14 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PlanId")
+                    b.Property<Guid?>("PlanId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("numeric");
+
+                    b.Property<Guid>("TravelPlanId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -153,7 +159,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Receipt.Amount#TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
+                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
                         {
                             b1.Property<Guid>("ReceiptId")
                                 .HasColumnType("uuid");
@@ -178,9 +184,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                 {
                     b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", null)
                         .WithMany("TravelPlanPoints")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlanId");
                 });
 
             modelBuilder.Entity("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", b =>

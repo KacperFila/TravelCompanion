@@ -38,7 +38,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
             throw new TravelPointNotFoundException(travelPoint.Id);
         }
 
-        var travelPlan = await _planRepository.GetAsync(travelPoint.TravelPlanId);
+        var travelPlan = await _planRepository.GetAsync(travelPoint.PlanId);
 
         if (travelPlan.OwnerId != _userId)
         {

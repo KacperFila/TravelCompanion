@@ -33,7 +33,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         }
 
         var travelPoint = await _travelPointRepository.GetAsync(command.pointId);
-        var travelPlan = await _planRepository.GetAsync(travelPoint.TravelPlanId);
+        var travelPlan = await _planRepository.GetAsync(travelPoint.PlanId);
 
         if (!(travelPlan.OwnerId == _userId || travelPlan.ParticipantIds.Contains(_userId)))
         {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.TravelPlans.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.TravelPlans.Infrastructure;
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(TravelPlansDbContext))]
-    partial class TravelPlansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304064444_TravelPoint_TravelPlanId_fix")]
+    partial class TravelPoint_TravelPlanId_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,7 +156,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Receipt.Amount#TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
+                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
                         {
                             b1.Property<Guid>("ReceiptId")
                                 .HasColumnType("uuid");

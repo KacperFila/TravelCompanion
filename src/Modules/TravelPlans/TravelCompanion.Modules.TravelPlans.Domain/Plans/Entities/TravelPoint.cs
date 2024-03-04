@@ -1,22 +1,25 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
 public class TravelPoint : AggregateRoot
 {
-    public AggregateId TravelPlanId { get; private set; }
+    public AggregateId PlanId { get; private set; }
     public string PlaceName { get; private set; }
     public bool IsAccepted { get; private set; }
-    public TravelPointCost TravelPointCost { get; private set; }
+    public List<Receipt> Receipts { get; private set; }
+    public Money TotalCost { get; private set; }
 
-    public TravelPoint(AggregateId id, string placeName, AggregateId travelPlanId)
+    public TravelPoint(AggregateId id, string placeName, AggregateId planId)
     {
         Id = id;
         IsAccepted = false;
-        TravelPlanId = travelPlanId;
+        PlanId = planId;
         ChangeTravelPointPlaceName(placeName);
-        TravelPointCost = TravelPointCost.Create(id);
+        Receipts = new List<Receipt>();
+        TotalCost = Money.Create(0);
     }
 
     public void ChangeTravelPointPlaceName(string placeName)
@@ -41,7 +44,6 @@ public class TravelPoint : AggregateRoot
         var travelPoint = new TravelPoint(id, placeName, travelPlanId);
         travelPoint.ClearEvents();
         travelPoint.Version = 0;
-        //travelPoint.AddEvent(new TravelPlanTravelPointAdded(travelPoint));
 
         return travelPoint;
     }

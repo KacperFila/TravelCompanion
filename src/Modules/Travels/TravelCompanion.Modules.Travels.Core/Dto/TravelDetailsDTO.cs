@@ -8,4 +8,5 @@ internal class TravelDetailsDTO
     public DateOnly To { get; set; }
     public bool isFinished { get; set; }
     public float? Rating { get; set; }
+    public decimal AdditionalCosts { get; set; }
 }

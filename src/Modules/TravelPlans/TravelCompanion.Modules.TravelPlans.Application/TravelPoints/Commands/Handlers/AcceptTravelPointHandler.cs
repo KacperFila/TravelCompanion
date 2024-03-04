@@ -29,7 +29,7 @@ internal sealed class AcceptTravelPointHandler : ICommandHandler<AcceptTravelPoi
             throw new TravelPointNotFoundException(command.pointId);
         }
 
-        var plan = await _planRepository.GetAsync(travelPoint.TravelPlanId);
+        var plan = await _planRepository.GetAsync(travelPoint.PlanId);
 
         if (_userId != plan.OwnerId)
         {

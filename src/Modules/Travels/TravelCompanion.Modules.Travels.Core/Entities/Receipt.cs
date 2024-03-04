@@ -1,7 +1,7 @@
 ﻿using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
-namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+namespace TravelCompanion.Modules.Travels.Core.Entities;
 
 public sealed class Receipt
 {
@@ -31,7 +31,6 @@ public sealed class Receipt
         var receipt = new Receipt(participantId);
         receipt.ChangeParticipantId(participantId); // change participantId potrzebne tu?
         receipt.ChangeAmount(amount);
-
 
         return receipt;
     }

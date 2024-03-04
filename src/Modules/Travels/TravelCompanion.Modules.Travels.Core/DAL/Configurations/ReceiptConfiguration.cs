@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
-namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
+namespace TravelCompanion.Modules.Travels.Core.DAL.Configurations;
 
-internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
+public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 {
     public void Configure(EntityTypeBuilder<Receipt> builder)
     {
