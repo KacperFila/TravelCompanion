@@ -8,7 +8,6 @@ public class Travel
     public Guid OwnerId { get; set; }
     public IList<Guid>? ParticipantIds { get; set; }
     //public IList<TravelPoint>? TravelPoints { get; set; }
-    //public TravelCost TravelCost { get; set; }
     public List<Receipt> AdditionalCosts { get; set; }
     public Money AdditionalCostsValue { get; set; }
     public string Title { get; set; }

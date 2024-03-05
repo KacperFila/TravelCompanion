@@ -16,6 +16,12 @@ internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
         builder.Property(x => x.ParticipantId)
             .HasConversion(x => x.Value, x => new ParticipantId(x));
 
+        builder.Property(x => x.PlanId)
+            .HasConversion(x => x.Value, x => new AggregateId(x));
+            
+        builder.Property(x => x.PointId)
+            .HasConversion(x => x.Value, x => new AggregateId(x));
+
         builder.OwnsOne<Money>("Amount", money =>
         {
             money.Property<decimal>("Amount")

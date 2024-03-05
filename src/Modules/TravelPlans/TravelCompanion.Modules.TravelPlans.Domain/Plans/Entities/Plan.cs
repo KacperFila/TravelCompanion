@@ -1,22 +1,25 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
 public sealed class Plan : AggregateRoot
 {
     public OwnerId OwnerId { get; private set; }
-    public List<ParticipantId>? ParticipantIds { get; private set; }
+    public IList<ParticipantId>? ParticipantIds { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public DateOnly From { get; private set; }
     public DateOnly To { get; private set; }
-    public List<TravelPoint> TravelPlanPoints { get; private set; }
-    public List<ParticipantId> ParticipantPaidIds { get; private set; }
+    public List<Receipt> AdditionalCosts { get; set; }
+    public Money AdditionalCostsValue { get; set; }
+    public IList<TravelPoint> TravelPlanPoints { get; private set; }
+    public IList<ParticipantId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
 
-    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, List<ParticipantId> participantIds,
-        List<TravelPoint> travelPlanPoints, DateOnly from, DateOnly to, int version = 0)
+    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, IList<ParticipantId> participantIds,
+        IList<TravelPoint> travelPlanPoints, DateOnly from, DateOnly to, int version = 0)
         : this(id, ownerId)
     {
         Title = title;
@@ -25,6 +28,8 @@ public sealed class Plan : AggregateRoot
         TravelPlanPoints = travelPlanPoints;
         From = from;
         To = to;
+        AdditionalCosts = new List<Receipt>();
+        AdditionalCostsValue = Money.Create(0);
         Version = version;
     }
 
@@ -44,6 +49,8 @@ public sealed class Plan : AggregateRoot
         travelPlan.TravelPlanPoints = new List<TravelPoint>();
         travelPlan.AllParticipantsPaid = false;
         travelPlan.ParticipantPaidIds = new List<ParticipantId>();
+        travelPlan.AdditionalCosts = new List<Receipt>();
+        travelPlan.AdditionalCostsValue = Money.Create(0);
         travelPlan.Version = 0;
 
         return travelPlan;
