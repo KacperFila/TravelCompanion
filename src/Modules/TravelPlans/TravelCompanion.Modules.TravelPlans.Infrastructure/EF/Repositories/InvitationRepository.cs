@@ -34,7 +34,7 @@ public class InvitationRepository : IInvitationRepository
     public async Task<bool> ExistsForUserAndTravelPlanAsync(Guid userId, Guid travelPlanId)
     {
         return await _invitations.AnyAsync(
-            x => x.ParticipantId == userId && x.TravelPlanId == travelPlanId);
+            x => x.InviteeId == userId && x.TravelPlanId == travelPlanId);
     }
 
     public async Task UpdateAsync(Invitation invitation)

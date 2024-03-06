@@ -50,7 +50,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
         var travelPlan = await _planRepository.GetAsync(command.planId);
 
-        if (command.userId == _context.Identity.Id || travelPlan.ParticipantIds.Contains(command.userId))
+        if (command.userId == _context.Identity.Id || travelPlan.Participants.Contains(command.userId))
         {
             throw new UserAlreadyParticipatesInPlanException(command.userId);
         }

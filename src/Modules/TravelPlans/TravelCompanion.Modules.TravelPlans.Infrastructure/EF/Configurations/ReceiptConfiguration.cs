@@ -20,7 +20,7 @@ internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder.Property(x => x.ReceiptParticipants)
-            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (EntityId)g).ToList());
 
         builder.OwnsOne<Money>("Amount", money =>
         {

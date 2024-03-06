@@ -8,12 +8,12 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Receipt
 {
     public ReceiptId Id { get; private set; }
-    public List<ParticipantId> ReceiptParticipants { get; private set; }
+    public List<EntityId> ReceiptParticipants { get; private set; }
     public Money Amount { get; private set; }
     public AggregateId? PlanId { get; private set; }
     public AggregateId? PointId { get; private set; }
 
-    public Receipt(List<ParticipantId> receiptParticipants, AggregateId? planId, AggregateId? pointId)
+    public Receipt(List<EntityId> receiptParticipants, AggregateId? planId, AggregateId? pointId)
     {
         Id = Guid.NewGuid();
         ReceiptParticipants = receiptParticipants;
@@ -22,7 +22,7 @@ public sealed class Receipt
         PointId = pointId;
     }
 
-    public void ChangeParticipantId(List<ParticipantId> receiptParticipants)
+    public void ChangeReceiptParticipant(List<EntityId> receiptParticipants)
     {
         // TODO check for default value
         ReceiptParticipants = receiptParticipants;
@@ -33,7 +33,7 @@ public sealed class Receipt
         Amount = Money.Create(amount.Amount);
     }
 
-    public static Receipt Create(List<ParticipantId> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId)
+    public static Receipt Create(List<EntityId> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId)
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {
@@ -41,7 +41,7 @@ public sealed class Receipt
         }
 
         var receipt = new Receipt(receiptParticipants, planId, pointId);
-        receipt.ChangeParticipantId(receiptParticipants); // change participantId potrzebne tu?
+        receipt.ChangeReceiptParticipant(receiptParticipants);
         receipt.ChangeAmount(amount);
 
         return receipt;

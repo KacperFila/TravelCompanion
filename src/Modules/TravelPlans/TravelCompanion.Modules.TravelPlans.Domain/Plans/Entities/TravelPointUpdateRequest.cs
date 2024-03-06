@@ -8,17 +8,17 @@ public sealed class TravelPointUpdateRequest
 {
     public TravelPointUpdateRequestId RequestId { get; private set; }
     public AggregateId TravelPlanPointId { get; private set; }
-    public ParticipantId SuggestedById { get; private set; }
+    public EntityId SuggestedById { get; private set; }
     public string PlaceName { get; private set; }
 
-    public TravelPointUpdateRequest(AggregateId travelPlanPointId, ParticipantId suggestedById)
+    public TravelPointUpdateRequest(AggregateId travelPlanPointId, EntityId suggestedById)
     {
         RequestId = Guid.NewGuid();
         TravelPlanPointId = travelPlanPointId;
         SuggestedById = suggestedById;
     }
 
-    public static TravelPointUpdateRequest Create(AggregateId travelPlanPointId, ParticipantId suggestedById, string PlaceName)
+    public static TravelPointUpdateRequest Create(AggregateId travelPlanPointId, EntityId suggestedById, string PlaceName)
     {
         var request = new TravelPointUpdateRequest(travelPlanPointId, suggestedById);
         request.PlaceName = PlaceName;

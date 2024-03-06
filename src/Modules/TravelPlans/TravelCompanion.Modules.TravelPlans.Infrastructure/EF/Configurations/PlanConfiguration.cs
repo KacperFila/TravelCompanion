@@ -16,11 +16,11 @@ internal class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
-        builder.Property(x => x.ParticipantIds)
-            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
+        builder.Property(x => x.Participants)
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (EntityId)g).ToList());
 
         builder.Property(x => x.ParticipantPaidIds)
-            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (EntityId)g).ToList());
 
         builder
             .HasMany(x => x.AdditionalCosts)

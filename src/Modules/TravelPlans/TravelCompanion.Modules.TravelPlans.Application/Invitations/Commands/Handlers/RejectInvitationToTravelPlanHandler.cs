@@ -28,7 +28,7 @@ internal sealed class RejectInvitationToTravelPlanHandler : ICommandHandler<Reje
             throw new InvitationNotFoundException(command.invitationId);
         }
 
-        if (_userId != invitation.ParticipantId)
+        if (_userId != invitation.InviteeId)
         {
             throw new UserNotAllowedToManageInvitationException(_userId);
         }

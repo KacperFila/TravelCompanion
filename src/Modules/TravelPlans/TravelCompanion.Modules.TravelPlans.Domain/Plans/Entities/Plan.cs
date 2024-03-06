@@ -9,24 +9,24 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Plan : AggregateRoot
 {
     public OwnerId OwnerId { get; private set; }
-    public IList<ParticipantId>? ParticipantIds { get; private set; }
+    public IList<EntityId>? Participants { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public DateOnly From { get; private set; }
     public DateOnly To { get; private set; }
-    public List<Receipt> AdditionalCosts { get; set; }
+    public IList<Receipt> AdditionalCosts { get; set; }
     public Money AdditionalCostsValue { get; set; }
     public IList<TravelPoint> TravelPlanPoints { get; private set; }
-    public IList<ParticipantId> ParticipantPaidIds { get; private set; }
+    public IList<EntityId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
 
-    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, IList<ParticipantId> participantIds,
+    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, IList<EntityId> participants,
         IList<TravelPoint> travelPlanPoints, DateOnly from, DateOnly to, int version = 0)
         : this(id, ownerId)
     {
         Title = title;
         Description = description;
-        ParticipantIds = participantIds;
+        Participants = participants;
         TravelPlanPoints = travelPlanPoints;
         From = from;
         To = to;
@@ -47,10 +47,10 @@ public sealed class Plan : AggregateRoot
         travelPlan.ChangeFrom(from);
         travelPlan.ChangeTo(to);
         travelPlan.ClearEvents();
-        travelPlan.ParticipantIds = new List<ParticipantId>();
+        travelPlan.Participants = new List<EntityId>();
         travelPlan.TravelPlanPoints = new List<TravelPoint>();
         travelPlan.AllParticipantsPaid = false;
-        travelPlan.ParticipantPaidIds = new List<ParticipantId>();
+        travelPlan.ParticipantPaidIds = new List<EntityId>();
         travelPlan.AdditionalCosts = new List<Receipt>();
         travelPlan.AdditionalCostsValue = Money.Create(0);
         travelPlan.AddParticipant(ownerId);
@@ -107,7 +107,7 @@ public sealed class Plan : AggregateRoot
 
     public void AddParticipant(Guid id)
     {
-        ParticipantIds.Add(id);
+        Participants.Add(id);
     }
 
     public void AddTravelPoint(TravelPoint travelPoint)

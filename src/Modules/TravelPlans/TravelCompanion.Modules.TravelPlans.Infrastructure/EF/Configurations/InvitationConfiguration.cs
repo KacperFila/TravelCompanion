@@ -12,8 +12,8 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new InvitationId(x));
 
-        builder.Property(x => x.ParticipantId)
-            .HasConversion(x => x.Value, x => new ParticipantId(x));
+        builder.Property(x => x.InviteeId)
+            .HasConversion(x => x.Value, x => new EntityId(x));
 
         builder.Property(x => x.TravelPlanId)
             .HasConversion(x => x.Value, x => new AggregateId(x));

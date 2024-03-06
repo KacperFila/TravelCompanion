@@ -13,7 +13,7 @@ public class TravelPointUpdateRequestConfiguration : IEntityTypeConfiguration<Tr
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder.Property(x => x.SuggestedById)
-            .HasConversion(x => x.Value, x => new ParticipantId(x));
+            .HasConversion(x => x.Value, x => new EntityId(x));
 
         builder.Property(x => x.RequestId)
             .HasConversion(x => x.Value, x => new TravelPointUpdateRequestId(x));

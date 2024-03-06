@@ -6,17 +6,17 @@ public sealed class Invitation
 {
     public InvitationId Id { get; private set; }
     public AggregateId TravelPlanId { get; private set; }
-    public ParticipantId ParticipantId { get; private set; }
-    public Invitation(AggregateId travelPlanId, ParticipantId participantId)
+    public EntityId InviteeId { get; private set; }
+    public Invitation(AggregateId travelPlanId, EntityId inviteeId)
     {
         Id = Guid.NewGuid();
         TravelPlanId = travelPlanId;
-        ParticipantId = participantId;
+        InviteeId = inviteeId;
     }
 
-    public static Invitation Create(AggregateId travelPlanId, ParticipantId participantId)
+    public static Invitation Create(AggregateId travelPlanId, EntityId inviteeId)
     {
-        var invitation = new Invitation(travelPlanId, participantId);
+        var invitation = new Invitation(travelPlanId, inviteeId);
         
         return invitation;
     }

@@ -35,7 +35,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 
         await _invitationRepository.RemoveAsync(command.invitationId);
         
-        travelPlan.AddParticipant(invitation.ParticipantId);
+        travelPlan.AddParticipant(invitation.InviteeId);
         await _planRepository.UpdateAsync(travelPlan);
     }
 }

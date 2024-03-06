@@ -21,7 +21,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         _planRepository = planRepository;
     }
 
-    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<ParticipantId> receiptParticipants)
+    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<EntityId> receiptParticipants)
     {
         var point = await _travelPointRepository.GetAsync(pointId);
         
@@ -39,7 +39,7 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         foreach (var receiptParticipant in receiptParticipants)
         {
-            if (!plan.ParticipantIds.Contains(receiptParticipant))
+            if (!plan.Participants.Contains(receiptParticipant))
             {
                 throw new UserDoesNotParticipateInPlanException(receiptParticipant, plan.Id);
             }
