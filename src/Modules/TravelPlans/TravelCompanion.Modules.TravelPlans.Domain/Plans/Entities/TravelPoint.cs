@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -46,5 +47,17 @@ public class TravelPoint : AggregateRoot
         travelPoint.Version = 0;
 
         return travelPoint;
+    }
+
+    public void AddReceipt(Guid pointId, decimal amount, List<ParticipantId> receiptParticipants)
+    {
+        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, pointId);
+        Receipts.Add(receipt);
+    }
+
+    public void CalculateCost()
+    {
+        var amountSum = Receipts.Sum(x => x.Amount.Amount);
+        TotalCost = Money.Create(amountSum);
     }
 }

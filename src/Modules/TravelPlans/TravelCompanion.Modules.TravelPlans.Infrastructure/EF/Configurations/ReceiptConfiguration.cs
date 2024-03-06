@@ -12,15 +12,15 @@ internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
     {
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new ReceiptId(x));
-
-        builder.Property(x => x.ParticipantId)
-            .HasConversion(x => x.Value, x => new ParticipantId(x));
-
+        
         builder.Property(x => x.PlanId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
             
         builder.Property(x => x.PointId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
+
+        builder.Property(x => x.ReceiptParticipants)
+            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (ParticipantId)g).ToList());
 
         builder.OwnsOne<Money>("Amount", money =>
         {

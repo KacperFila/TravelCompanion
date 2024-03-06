@@ -33,7 +33,10 @@ public class TravelPointRepository : ITravelPointRepository
 
     public async Task<TravelPoint> GetAsync(Guid id)
     {
-        return await _dbContext.TravelPoints.SingleOrDefaultAsync(x => x.Id == id);
+        return await _dbContext
+            .TravelPoints
+            .Include(x => x.Receipts)
+            .SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task RemoveAsync(Guid id)

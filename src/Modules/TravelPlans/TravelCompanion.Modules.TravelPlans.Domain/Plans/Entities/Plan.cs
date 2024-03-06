@@ -1,4 +1,6 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -51,6 +53,7 @@ public sealed class Plan : AggregateRoot
         travelPlan.ParticipantPaidIds = new List<ParticipantId>();
         travelPlan.AdditionalCosts = new List<Receipt>();
         travelPlan.AdditionalCostsValue = Money.Create(0);
+        travelPlan.AddParticipant(ownerId);
         travelPlan.Version = 0;
 
         return travelPlan;

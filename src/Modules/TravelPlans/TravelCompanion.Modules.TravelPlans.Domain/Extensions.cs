@@ -8,6 +8,7 @@ public static class Extensions
     public static IServiceCollection AddDomain(this IServiceCollection services)
     {
         services.AddScoped<IPlansDomainService, PlansDomainService>();
+        services.AddScoped<ITravelPointDomainService, TravelPointDomainService>();
 
         return services;
     }

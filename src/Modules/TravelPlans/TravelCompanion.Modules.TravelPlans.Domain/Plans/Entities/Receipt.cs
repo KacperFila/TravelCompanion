@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -7,24 +8,24 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Receipt
 {
     public ReceiptId Id { get; private set; }
-    public ParticipantId ParticipantId { get; private set; }
+    public List<ParticipantId> ReceiptParticipants { get; private set; }
     public Money Amount { get; private set; }
     public AggregateId? PlanId { get; private set; }
     public AggregateId? PointId { get; private set; }
 
-    public Receipt(ParticipantId participantId, AggregateId? planId, AggregateId? pointId)
+    public Receipt(List<ParticipantId> receiptParticipants, AggregateId? planId, AggregateId? pointId)
     {
         Id = Guid.NewGuid();
-        ParticipantId = participantId;
+        ReceiptParticipants = receiptParticipants;
         Amount = Money.Create(0);
         PlanId = planId;
         PointId = pointId;
     }
 
-    public void ChangeParticipantId(ParticipantId participantId)
+    public void ChangeParticipantId(List<ParticipantId> receiptParticipants)
     {
         // TODO check for default value
-        ParticipantId = participantId;
+        ReceiptParticipants = receiptParticipants;
     }
 
     public void ChangeAmount(Money amount)
@@ -32,17 +33,16 @@ public sealed class Receipt
         Amount = Money.Create(amount.Amount);
     }
 
-    public static Receipt Create(ParticipantId participantId, Money amount, AggregateId? planId, AggregateId? pointId)
+    public static Receipt Create(List<ParticipantId> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId)
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {
             throw new InvalidReceiptParameteresException();
         }
 
-        var receipt = new Receipt(participantId, planId, pointId);
-        receipt.ChangeParticipantId(participantId); // change participantId potrzebne tu?
+        var receipt = new Receipt(receiptParticipants, planId, pointId);
+        receipt.ChangeParticipantId(receiptParticipants); // change participantId potrzebne tu?
         receipt.ChangeAmount(amount);
-
 
         return receipt;
     }

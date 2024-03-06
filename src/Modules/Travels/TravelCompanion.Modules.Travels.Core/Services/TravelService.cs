@@ -81,7 +81,7 @@ internal class TravelService : ITravelService
 
         if (!await _travelPolicy.IsUserOwnerOrParticipant(travel, _userId))
         {
-            throw new UserDoesNotParticipateInTravel(TravelId);
+            throw new UserDoesNotParticipateInTravelException(TravelId);
         }
 
         var currentRating = travel.Ratings.FirstOrDefault(x => x.AddedBy == _userId);

@@ -1,6 +1,6 @@
 ﻿using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 
 public class InvitationNotFoundException : TravelCompanionException
 {

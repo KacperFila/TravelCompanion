@@ -7,21 +7,15 @@ namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.
 
 internal sealed class AddPointReceiptHandler : ICommandHandler<AddPointReceipt>
 {
-    private readonly IPlansDomainService _plansDomainService;
+    private readonly ITravelPointDomainService _travelPointDomainService;
 
-    public AddPointReceiptHandler(IPlansDomainService plansDomainService)
+    public AddPointReceiptHandler(ITravelPointDomainService travelPointDomainService)
     {
-        _plansDomainService = plansDomainService;
+        _travelPointDomainService = travelPointDomainService;
     }
 
     public async Task HandleAsync(AddPointReceipt command)
     {
-        var receipt = Receipt.Create(
-            command.participantId,
-            Money.Create(command.amount),
-            null,
-            command.pointId);
-
-        await _plansDomainService.AddReceiptAsync(receipt);
+        await _travelPointDomainService.AddReceiptAsync(command.pointId, command.amount, command.receiptParticipants);
     }
 }

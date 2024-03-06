@@ -3,4 +3,4 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
-public record AddPointReceipt(Guid pointId, decimal amount, Guid participantId) : ICommand;
+public record AddPointReceipt(Guid pointId, decimal amount, List<ParticipantId> receiptParticipants) : ICommand;

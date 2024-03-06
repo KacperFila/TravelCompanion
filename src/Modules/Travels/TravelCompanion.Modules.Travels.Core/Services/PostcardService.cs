@@ -37,7 +37,7 @@ internal sealed class PostcardService : IPostcardService
 
         if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
-            throw new UserDoesNotParticipateInTravel(_userId);
+            throw new UserDoesNotParticipateInTravelException(_userId);
         }
 
         var isCurrentUserTravelOwner = await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel);
@@ -80,7 +80,7 @@ internal sealed class PostcardService : IPostcardService
 
         if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
-            throw new UserDoesNotParticipateInTravel(travelId);
+            throw new UserDoesNotParticipateInTravelException(travelId);
         }
 
         var postcards = await _postcardRepository.GetAllByTravelIdAsync(travelId);
