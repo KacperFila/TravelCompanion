@@ -21,7 +21,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         _planRepository = planRepository;
     }
 
-    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<EntityId> receiptParticipants)
+    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants)
     {
         var point = await _travelPointRepository.GetAsync(pointId);
         
