@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
+    <Compile Remove="Plans\Events\**" />
+    <EmbeddedResource Remove="Plans\Events\**" />
+    <None Remove="Plans\Events\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Plans\Events\" />
+    <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

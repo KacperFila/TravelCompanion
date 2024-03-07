@@ -6,30 +6,31 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.RejectInvitation;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.RemovePointReceipt;
 
 [Route(TravelPlansEndpoint.BasePath)]
-internal sealed class RejectInvitationEndpoint : EndpointBaseAsync
-    .WithRequest<Application.Invitations.Commands.RejectInvitation>
+
+internal sealed class RemovePointReceiptEndpoint : EndpointBaseAsync
+    .WithRequest<Application.TravelPoints.Commands.RemovePointReceipt>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
-    public RejectInvitationEndpoint(ICommandDispatcher commandDispatcher)
+    public RemovePointReceiptEndpoint(ICommandDispatcher commandDispatcher)
     {
         _commandDispatcher = commandDispatcher;
     }
 
     [Authorize]
-    [HttpDelete("Invitation/Rejection/{invitationId:guid}")]
+    [HttpDelete("Point/Receipt/{receiptId:guid}")]
     [SwaggerOperation(
-        Summary = "Reject Travel Plan Invitation",
+        Summary = "Remove Travel Point Receipt",
         Tags = new[] { TravelPlansEndpoint.Tag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync([FromRoute]Application.Invitations.Commands.RejectInvitation command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.TravelPoints.Commands.RemovePointReceipt command, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(command);
         return NoContent();

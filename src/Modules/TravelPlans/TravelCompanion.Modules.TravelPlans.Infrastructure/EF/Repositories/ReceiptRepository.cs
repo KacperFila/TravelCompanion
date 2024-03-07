@@ -19,4 +19,15 @@ public class ReceiptRepository : IReceiptRepository
         await _receipts.AddAsync(receipt);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<Receipt> GetAsync(Guid receiptId)
+    {
+        return await _receipts.SingleOrDefaultAsync(x => x.Id == receiptId);
+    }
+
+    public async Task RemoveAsync(Receipt receipt)
+    {
+        _receipts.Remove(receipt);
+        await _dbContext.SaveChangesAsync();
+    }
 }
