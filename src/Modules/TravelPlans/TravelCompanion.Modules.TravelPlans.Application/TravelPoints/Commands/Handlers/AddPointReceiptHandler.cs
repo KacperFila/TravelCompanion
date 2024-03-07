@@ -16,6 +16,6 @@ internal sealed class AddPointReceiptHandler : ICommandHandler<AddPointReceipt>
 
     public async Task HandleAsync(AddPointReceipt command)
     {
-        await _travelPointDomainService.AddReceiptAsync(command.pointId, command.amount, command.receiptParticipants);
+        await _travelPointDomainService.AddReceiptAsync(command.pointId, command.amount, command.receiptParticipants, command.description);
     }
 }

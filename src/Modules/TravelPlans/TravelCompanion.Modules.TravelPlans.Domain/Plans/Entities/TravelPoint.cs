@@ -48,9 +48,9 @@ public class TravelPoint : AggregateRoot
         return travelPoint;
     }
 
-    public void AddReceipt(Guid pointId, decimal amount, List<Guid> receiptParticipants)
+    public void AddReceipt(Guid pointId, decimal amount, List<Guid> receiptParticipants, string description)
     {
-        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, pointId);
+        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, pointId, description);
         Receipts.Add(receipt);
     }
 

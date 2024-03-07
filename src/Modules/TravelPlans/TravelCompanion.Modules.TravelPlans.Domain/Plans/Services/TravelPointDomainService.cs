@@ -24,7 +24,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         _userId = _context.Identity.Id;
     }
 
-    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants)
+    public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants, string description)
     {
         var point = await _travelPointRepository.GetAsync(pointId);
         
@@ -48,7 +48,7 @@ public class TravelPointDomainService : ITravelPointDomainService
             }
         }
 
-        point.AddReceipt(pointId, amount, receiptParticipants);
+        point.AddReceipt(pointId, amount, receiptParticipants, description);
         point.CalculateCost();
 
         await _travelPointRepository.UpdateAsync(point);

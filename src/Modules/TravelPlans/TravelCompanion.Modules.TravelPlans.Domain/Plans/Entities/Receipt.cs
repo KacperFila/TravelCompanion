@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -10,6 +9,7 @@ public sealed class Receipt
     public ReceiptId Id { get; private set; }
     public List<Guid> ReceiptParticipants { get; private set; }
     public Money Amount { get; private set; }
+    public string Description { get; private set; }
     public AggregateId? PlanId { get; private set; }
     public AggregateId? PointId { get; private set; }
 
@@ -24,7 +24,6 @@ public sealed class Receipt
 
     public void ChangeReceiptParticipant(List<Guid> receiptParticipants)
     {
-        // TODO check for default value
         ReceiptParticipants = receiptParticipants;
     }
 
@@ -33,7 +32,17 @@ public sealed class Receipt
         Amount = Money.Create(amount.Amount);
     }
 
-    public static Receipt Create(List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId)
+    public void ChangeDescription(string description)
+    {
+        if (string.IsNullOrEmpty(description))
+        {
+            throw new EmptyReceiptDescriptionException();
+        }
+
+        Description = description;
+    }
+
+    public static Receipt Create(List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {
@@ -43,6 +52,7 @@ public sealed class Receipt
         var receipt = new Receipt(receiptParticipants, planId, pointId);
         receipt.ChangeReceiptParticipant(receiptParticipants);
         receipt.ChangeAmount(amount);
+        receipt.ChangeDescription(description);
 
         return receipt;
     }

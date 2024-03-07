@@ -19,6 +19,10 @@ internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
         builder.Property(x => x.PointId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
+        builder.Property(x => x.Description)
+            .HasMaxLength(120)
+            .IsRequired();
+
         builder.OwnsOne<Money>("Amount", money =>
         {
             money.Property<decimal>("Amount")

@@ -10,17 +10,17 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 {
     public void Configure(EntityTypeBuilder<Receipt> builder)
     {
-        builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new ReceiptId(x));
-
-        builder.Property(x => x.ParticipantId)
-            .HasConversion(x => x.Value, x => new ParticipantId(x));
-
+        builder.HasKey(x => x.Id);
+        
         builder.OwnsOne<Money>("Amount", money =>
         {
             money.Property<decimal>("Amount")
                 .HasColumnName("Amount")
                 .IsRequired();
         });
+
+        builder.Property(x => x.Description)
+            .HasMaxLength(120)
+            .IsRequired();
     }
 }
