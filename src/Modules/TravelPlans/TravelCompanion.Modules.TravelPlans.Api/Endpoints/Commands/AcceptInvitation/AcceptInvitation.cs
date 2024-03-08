@@ -23,7 +23,7 @@ internal sealed class AcceptInvitation : EndpointBaseAsync
     [HttpPut("Invitation/Acceptance/{invitationId:guid}")]
     [SwaggerOperation(
         Summary = "Accept Travel Plan Invitation",
-        Tags = new[] { TravelPlansEndpoint.Tag })]
+        Tags = new[] { TravelPlansEndpoint.InvitationsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

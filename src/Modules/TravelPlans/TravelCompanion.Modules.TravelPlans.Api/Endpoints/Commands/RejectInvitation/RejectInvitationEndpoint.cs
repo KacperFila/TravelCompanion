@@ -24,7 +24,7 @@ internal sealed class RejectInvitationEndpoint : EndpointBaseAsync
     [HttpDelete("Invitation/Rejection/{invitationId:guid}")]
     [SwaggerOperation(
         Summary = "Reject Travel Plan Invitation",
-        Tags = new[] { TravelPlansEndpoint.Tag })]
+        Tags = new[] { TravelPlansEndpoint.InvitationsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

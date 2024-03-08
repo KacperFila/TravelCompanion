@@ -24,7 +24,7 @@ internal sealed class CreateTravelPlanEndpoint : EndpointBaseAsync
     [HttpPost("Plan")]
     [SwaggerOperation(
         Summary = "Create Travel Plan",
-        Tags = new[] { TravelPlansEndpoint.Tag })]
+        Tags = new[] { TravelPlansEndpoint.TravelPlansTag })]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

@@ -22,7 +22,7 @@ internal sealed class AddPointReceiptEndpoint : EndpointBaseAsync
     [HttpPost("Point/Receipt")]
     [SwaggerOperation(
         Summary = "Add Travel Point Receipt",
-        Tags = new[] { TravelPlansEndpoint.Tag })]
+        Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

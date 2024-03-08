@@ -24,7 +24,7 @@ internal sealed class AcceptTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     [HttpPut("Point/Update/Acceptance/{requestId:guid}")]
     [SwaggerOperation(
         Summary = "Accept Travel Point Update Request",
-        Tags = new[] { TravelPlansEndpoint.Tag })]
+        Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
