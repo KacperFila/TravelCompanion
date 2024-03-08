@@ -4,7 +4,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 
 public class CouldNotModifyNotAcceptedTravelPointException : TravelCompanionException
 {
-    public CouldNotModifyNotAcceptedTravelPointException() : base("Could not modify not accepted exception")
+    public CouldNotModifyNotAcceptedTravelPointException() : base("Could not modify not accepted travel point")
     {
     }
 }

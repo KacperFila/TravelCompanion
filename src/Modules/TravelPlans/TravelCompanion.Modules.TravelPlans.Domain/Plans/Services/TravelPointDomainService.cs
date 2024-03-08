@@ -49,8 +49,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         point.AddReceipt(pointId, amount, receiptParticipants, description);
-        point.CalculateCost();
-
+  
         await _travelPointRepository.UpdateAsync(point);
     }
 
@@ -73,7 +72,6 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         point.RemoveReceipt(receipt);
-        point.CalculateCost();
 
         await _travelPointRepository.UpdateAsync(point);
         await _receiptRepository.RemoveAsync(receipt);

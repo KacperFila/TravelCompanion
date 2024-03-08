@@ -13,8 +13,8 @@ public sealed class Plan : AggregateRoot
     public string? Description { get; private set; }
     public DateOnly From { get; private set; }
     public DateOnly To { get; private set; }
-    public IList<Receipt> AdditionalCosts { get; set; }
-    public Money AdditionalCostsValue { get; set; }
+    public IList<Receipt> AdditionalCosts { get; private set; }
+    public Money AdditionalCostsValue { get; private set; }
     public IList<TravelPoint> TravelPlanPoints { get; private set; }
     public IList<EntityId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
@@ -58,6 +58,12 @@ public sealed class Plan : AggregateRoot
         return travelPlan;
     }
 
+    public void AddAdditionalCost(Receipt receipt)
+    {
+        AdditionalCosts.Add(receipt);
+        CalculateCosts();
+        IncrementVersion();
+    }
     public void ChangeTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -107,6 +113,7 @@ public sealed class Plan : AggregateRoot
     public void AddParticipant(Guid id)
     {
         Participants.Add(id);
+        IncrementVersion();
     }
 
     public void AddTravelPoint(TravelPoint travelPoint)
@@ -117,5 +124,12 @@ public sealed class Plan : AggregateRoot
         }
 
         TravelPlanPoints.Add(travelPoint);
+        IncrementVersion();
+    }
+
+    private void CalculateCosts()
+    {
+        var amountSum = AdditionalCosts.Sum(x => x.Amount.Amount);
+        AdditionalCostsValue = Money.Create(amountSum);
     }
 }

@@ -6,30 +6,30 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AddPointReceipt;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AddPlanAdditionalCost;
 
 [Route(TravelPlansEndpoint.BasePath)]
-internal sealed class AddPointReceiptEndpoint : EndpointBaseAsync
-    .WithRequest<Application.TravelPoints.Commands.AddPointReceipt>
+internal sealed class AddPlanAdditionalCostEndpoint : EndpointBaseAsync
+    .WithRequest<Application.Plans.Commands.AddPlanAdditionalCost>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
-    public AddPointReceiptEndpoint(ICommandDispatcher commandDispatcher)
+    public AddPlanAdditionalCostEndpoint(ICommandDispatcher commandDispatcher)
     {
         _commandDispatcher = commandDispatcher;
     }
 
     [Authorize]
-    [HttpPost("Point/Receipt")]
+    [HttpPost("Plan/Receipt")]
     [SwaggerOperation(
-        Summary = "Add Travel Point Receipt",
-        Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
+        Summary = "Add Plan Overall Cost",
+        Tags = new[] { TravelPlansEndpoint.TravelPlansTag})]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPoints.Commands.AddPointReceipt command, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(Application.Plans.Commands.AddPlanAdditionalCost command, CancellationToken cancellationToken = new CancellationToken())
     {
         await _commandDispatcher.SendAsync(command);
         return Created();

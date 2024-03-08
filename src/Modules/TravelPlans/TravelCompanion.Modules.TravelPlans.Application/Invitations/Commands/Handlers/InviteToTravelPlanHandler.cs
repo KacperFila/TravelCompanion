@@ -1,5 +1,4 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -50,7 +49,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
         var travelPlan = await _planRepository.GetAsync(command.planId);
 
-        if (command.userId == _context.Identity.Id || travelPlan.Participants.Contains(command.userId))
+        if (travelPlan.Participants.Contains(command.userId))
         {
             throw new UserAlreadyParticipatesInPlanException(command.userId);
         }

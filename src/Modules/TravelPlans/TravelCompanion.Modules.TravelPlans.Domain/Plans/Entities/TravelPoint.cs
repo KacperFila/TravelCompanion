@@ -12,7 +12,7 @@ public class TravelPoint : AggregateRoot
     public List<Receipt> Receipts { get; private set; }
     public Money TotalCost { get; private set; }
 
-    public TravelPoint(AggregateId id, string placeName, AggregateId planId)
+    public TravelPoint(AggregateId id, string placeName, AggregateId planId, int version = 0)
     {
         Id = id;
         IsAccepted = false;
@@ -20,6 +20,16 @@ public class TravelPoint : AggregateRoot
         ChangeTravelPointPlaceName(placeName);
         Receipts = new List<Receipt>();
         TotalCost = Money.Create(0);
+        Version = version;
+    }
+
+    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId)
+    {
+        var travelPoint = new TravelPoint(id, placeName, travelPlanId);
+        travelPoint.ClearEvents();
+        travelPoint.Version = 0;
+
+        return travelPoint;
     }
 
     public void ChangeTravelPointPlaceName(string placeName)
@@ -38,27 +48,22 @@ public class TravelPoint : AggregateRoot
         IsAccepted = true;
         IncrementVersion();
     }
-
-    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId)
-    {
-        var travelPoint = new TravelPoint(id, placeName, travelPlanId);
-        travelPoint.ClearEvents();
-        travelPoint.Version = 0;
-
-        return travelPoint;
-    }
-
+    
     public void AddReceipt(Guid pointId, decimal amount, List<Guid> receiptParticipants, string description)
     {
         var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, pointId, description);
         Receipts.Add(receipt);
+        CalculateCost();
+        IncrementVersion();
     }
 
     public void RemoveReceipt(Receipt receipt)
     {
         Receipts.Remove(receipt);
+        CalculateCost();
+        IncrementVersion();
     }
-    public void CalculateCost()
+    private void CalculateCost()
     {
         var amountSum = Receipts.Sum(x => x.Amount.Amount);
         TotalCost = Money.Create(amountSum);
