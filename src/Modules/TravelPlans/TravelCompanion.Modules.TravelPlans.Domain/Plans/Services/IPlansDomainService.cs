@@ -5,4 +5,5 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
 public interface IPlansDomainService
 {
     Task AddReceiptAsync(Receipt receipt);
+    Task<Guid> CheckPlanOwnerAsync(Guid planId);
 }

@@ -39,8 +39,9 @@ public class TravelPointRepository : ITravelPointRepository
             .SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task RemoveAsync(Guid id)
+    public async Task RemoveAsync(TravelPoint travelPoint)
     {
-        throw new NotImplementedException();
+        _dbContext.Remove(travelPoint);
+        await _dbContext.SaveChangesAsync();
     }
 }

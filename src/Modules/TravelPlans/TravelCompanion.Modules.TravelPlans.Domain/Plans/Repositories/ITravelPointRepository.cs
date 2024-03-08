@@ -8,5 +8,5 @@ public interface ITravelPointRepository
     Task UpdateAsync(TravelPoint travelPoint);
     Task<bool> ExistAsync(Guid id);
     Task<TravelPoint> GetAsync(Guid id);
-    Task RemoveAsync(Guid id);
+    Task RemoveAsync(TravelPoint travelPoint);
 }

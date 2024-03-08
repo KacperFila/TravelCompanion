@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
@@ -118,8 +117,5 @@ public sealed class Plan : AggregateRoot
         }
 
         TravelPlanPoints.Add(travelPoint);
-        //AddEvent(new TravelPlanTravelPointAdded(travelPoint));
     }
-
-    //TODO add methods for TravelPointCost
 }
