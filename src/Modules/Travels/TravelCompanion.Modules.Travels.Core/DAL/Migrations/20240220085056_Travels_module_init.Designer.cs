@@ -51,10 +51,10 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                     b.Property<DateOnly?>("To")
                         .HasColumnType("date");
 
-                    b.Property<bool>("allParticipantsPaid")
+                    b.Property<bool>("AllParticipantsPaid")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("isFinished")
+                    b.Property<bool>("IsFinished")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");

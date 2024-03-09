@@ -32,11 +32,17 @@ internal class TravelService : ITravelService
         {
             Id = travelId,
             OwnerId = _userId,
+            ParticipantIds = null,
+            AdditionalCosts = travelUpsert.AdditionalCosts,
+            AdditionalCostsValue = travelUpsert.AdditionalCostsValue,
             Title = travelUpsert.Title,
             Description = travelUpsert.Description,
             From = travelUpsert.From,
             To = travelUpsert.To,
-            ParticipantIds = null,
+            AllParticipantsPaid = travelUpsert.AllParticipantsPaid,
+            IsFinished = false,
+            Ratings = new List<TravelRating>(),
+            RatingValue = null
         };
  
         await _travelRepository.AddAsync(item);
@@ -161,9 +167,10 @@ internal class TravelService : ITravelService
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
-            isFinished = travel.IsFinished,
+            IsFinished = travel.IsFinished,
             Title = travel.Title,
-            Rating = travel.RatingValue
+            Rating = travel.RatingValue,
+            AdditionalCosts = travel.AdditionalCostsValue.Amount,
         };
     }
 }

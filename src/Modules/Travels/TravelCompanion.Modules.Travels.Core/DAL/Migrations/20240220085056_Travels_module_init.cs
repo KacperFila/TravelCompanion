@@ -26,8 +26,8 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     From = table.Column<DateOnly>(type: "date", nullable: true),
                     To = table.Column<DateOnly>(type: "date", nullable: true),
-                    allParticipantsPaid = table.Column<bool>(type: "boolean", nullable: false),
-                    isFinished = table.Column<bool>(type: "boolean", nullable: false)
+                    AllParticipantsPaid = table.Column<bool>(type: "boolean", nullable: false),
+                    IsFinished = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

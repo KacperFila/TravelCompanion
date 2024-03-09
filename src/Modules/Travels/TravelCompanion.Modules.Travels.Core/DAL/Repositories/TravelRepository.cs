@@ -18,6 +18,7 @@ internal class TravelRepository : ITravelRepository
     {
         var travel = await _travels
             .Include(x => x.Ratings)
+            .Include(x => x.AdditionalCosts)
             .SingleOrDefaultAsync(x => x.Id == id);
         return travel;
     }
@@ -29,8 +30,7 @@ internal class TravelRepository : ITravelRepository
 
     public async Task<List<Travel>> GetAllAsync()
     {
-        var results = await _travels.ToListAsync();
-        return results;
+        return await _travels.ToListAsync();
     }
 
     public async Task AddAsync(Travel travel)

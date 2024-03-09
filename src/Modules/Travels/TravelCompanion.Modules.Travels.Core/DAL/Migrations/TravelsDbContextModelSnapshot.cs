@@ -159,7 +159,7 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
+                    b.OwnsOne("TravelCompanion.Modules.Travels.Core.Entities.Receipt.Amount#TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
                         {
                             b1.Property<Guid>("ReceiptId")
                                 .HasColumnType("uuid");

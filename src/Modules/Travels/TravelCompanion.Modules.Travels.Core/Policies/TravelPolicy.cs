@@ -7,10 +7,10 @@ public class TravelPolicy : ITravelPolicy
 {
     public async Task<bool> CanDeleteAsync(Travel travel)
     {
-        if (!travel.AllParticipantsPaid)
-        {
-            return false;
-        }
+        //if (!travel.AllParticipantsPaid)
+        //{
+        //    return false;
+        //}
 
         return true;
     }
