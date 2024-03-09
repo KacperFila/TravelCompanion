@@ -52,12 +52,11 @@ internal class TravelService : ITravelService
     {
         var travel = await _travelRepository.GetAsync(TravelId);
 
-        travel.RatingValue = travel.Ratings.Select(x => x.Value).Average();
-
         if (travel is null)
         {
             return null;
         }
+        
 
         return AsTravelDetailsDto(travel);
     }
@@ -85,7 +84,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (!await _travelPolicy.IsUserOwnerOrParticipant(travel, _userId))
+        if (!await _travelPolicy.DoesUserParticipate(travel, _userId))
         {
             throw new UserDoesNotParticipateInTravelException(TravelId);
         }

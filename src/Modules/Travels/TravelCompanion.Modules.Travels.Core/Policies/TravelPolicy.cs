@@ -7,10 +7,10 @@ public class TravelPolicy : ITravelPolicy
 {
     public async Task<bool> CanDeleteAsync(Travel travel)
     {
-        //if (!travel.AllParticipantsPaid)
-        //{
-        //    return false;
-        //}
+        if (!travel.AllParticipantsPaid)
+        {
+            return false;
+        }
 
         return true;
     }
@@ -18,6 +18,15 @@ public class TravelPolicy : ITravelPolicy
     public async Task<bool> IsUserOwnerOrParticipant(Travel travel, Guid userId)
     {
         if (userId != travel.OwnerId || (!travel.ParticipantIds?.Contains(userId) ?? false))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public async Task<bool> DoesUserParticipate(Travel travel, Guid userId)
+    {
+        if (!travel.ParticipantIds.Contains(userId))
         {
             return false;
         }

@@ -18,8 +18,8 @@ internal class TravelRepository : ITravelRepository
     {
         var travel = await _travels
             .Include(x => x.Ratings)
-            .Include(x => x.AdditionalCosts)
             .SingleOrDefaultAsync(x => x.Id == id);
+
         return travel;
     }
 
