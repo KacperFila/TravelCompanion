@@ -8,13 +8,16 @@ public sealed class Receipt
     public Guid Id { get; private set; }
     public Money Amount { get; private set; }
     public string Description { get; private set; }
-    public Guid TravelId { get; private set; }
+    public Guid? TravelId { get; private set; }
+    public Guid? TravelPointId { get; private set; }
 
-    public Receipt(Guid travelId)
+    public Receipt(string description, Guid? travelId, Guid? travelPointId)
     {
         Id = Guid.NewGuid();
-        TravelId = travelId;
         Amount = Money.Create(0);
+        Description = description;
+        TravelId = travelId;
+        TravelPointId = travelPointId;
     }
 
     public void ChangeAmount(Money amount)
@@ -32,12 +35,32 @@ public sealed class Receipt
         Description = description;
     }
 
-    public static Receipt Create(Guid travelId, Money amount, string description)
+    public static Receipt Create(Guid? travelId, Guid? travelPointId, Money amount, string description)
     {
-        var receipt = new Receipt(travelId);
+        if (!ValidTravelIdAndPointId(travelId, travelPointId))
+        {
+            throw new InvalidReceiptParameteresException();
+        }
+
+        var receipt = new Receipt(description, travelId, travelPointId);
         receipt.ChangeAmount(amount);
         receipt.ChangeDescription(description);
 
         return receipt;
+    }
+
+    private static bool ValidTravelIdAndPointId(Guid? travelId, Guid? pointId)
+    {
+        if (travelId is null && pointId is null)
+        {
+            return false;
+        }
+
+        if (travelId is not null && pointId is not null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

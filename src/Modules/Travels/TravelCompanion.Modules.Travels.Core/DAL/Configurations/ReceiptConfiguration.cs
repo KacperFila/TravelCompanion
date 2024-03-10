@@ -10,16 +10,19 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 {
     public void Configure(EntityTypeBuilder<Receipt> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder
+            .HasKey(x => x.Id);
         
-        builder.OwnsOne<Money>("Amount", money =>
+        builder
+            .OwnsOne<Money>("Amount", money =>
         {
             money.Property<decimal>("Amount")
                 .HasColumnName("Amount")
                 .IsRequired();
         });
 
-        builder.Property(x => x.Description)
+        builder
+            .Property(x => x.Description)
             .HasMaxLength(120)
             .IsRequired();
     }

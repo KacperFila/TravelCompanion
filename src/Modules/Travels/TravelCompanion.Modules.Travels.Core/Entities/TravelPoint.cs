@@ -1,11 +1,11 @@
-﻿using TravelCompanion.Shared.Abstractions.Kernel.Types;
-using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Entities;
 
 public class TravelPoint
 {
-    public Guid PlanId { get; private set; }
+    public Guid TravelPointId { get; set; }
+    public Guid TravelId { get; private set; }
     public string PlaceName { get; private set; }
     public List<Receipt> Receipts { get; private set; }
     public Money TotalCost { get; private set; }
@@ -15,9 +15,19 @@ public class TravelPoint
         
     }
 
-    public TravelPoint(string placeName, AggregateId planId, List<Receipt> receipts, Money totalCost)
+    public TravelPoint(string placeName, Guid travelId, List<Receipt> receipts, Money totalCost)
     {
-        PlanId = planId;
+        TravelPointId = Guid.NewGuid();
+        TravelId = travelId;
+        PlaceName = placeName;
+        Receipts = receipts;
+        TotalCost = totalCost;
+    }
+
+    public TravelPoint(Guid id, string placeName, Guid travelId, List<Receipt> receipts, Money totalCost)
+    {
+        TravelPointId = id;
+        TravelId = travelId;
         PlaceName = placeName;
         Receipts = receipts;
         TotalCost = totalCost;

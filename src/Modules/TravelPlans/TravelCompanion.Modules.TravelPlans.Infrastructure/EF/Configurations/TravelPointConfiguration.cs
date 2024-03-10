@@ -19,7 +19,8 @@ internal class TravelPointConfiguration : IEntityTypeConfiguration<TravelPoint>
         builder
             .HasMany(x => x.Receipts)
             .WithOne()
-            .HasForeignKey(x => x.PointId);
+            .HasForeignKey(x => x.PointId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(x => x.TotalCost)
             .HasConversion(x => x.Amount, x => Money.Create(x));

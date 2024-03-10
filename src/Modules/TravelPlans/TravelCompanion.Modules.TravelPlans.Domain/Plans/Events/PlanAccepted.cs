@@ -4,12 +4,13 @@ using TravelCompanion.Shared.Abstractions.Events;
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 
 public record PlanAccepted(
+    Guid planId,
     IList<Guid> participants,
     Guid ownerId,
     string title,
     string description,
     DateOnly from,
     DateOnly to,
-    IList<Receipt> additionalCosts,
+    IList<Guid> additionalCostIds,
     decimal additionalCostsValue,
-    IList<TravelPoint> planPoints) : IEvent;
+    IList<Guid> planPointIds) : IEvent;

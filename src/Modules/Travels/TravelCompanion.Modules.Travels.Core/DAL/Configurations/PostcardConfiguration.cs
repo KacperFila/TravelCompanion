@@ -8,8 +8,11 @@ public class PostcardConfiguration : IEntityTypeConfiguration<Postcard>
 {
     public void Configure(EntityTypeBuilder<Postcard> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.HasOne<Travel>().WithMany();
-        builder.Property(x => x.PhotoUrl).IsRequired();
+        builder
+            .HasKey(x => x.Id);
+        builder
+            .HasOne<Travel>().WithMany();
+        builder
+            .Property(x => x.PhotoUrl).IsRequired();
     }
 }

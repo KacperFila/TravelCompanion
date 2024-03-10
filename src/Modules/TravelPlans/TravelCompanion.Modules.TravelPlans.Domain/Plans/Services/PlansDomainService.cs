@@ -3,6 +3,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Messaging;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
@@ -55,20 +56,24 @@ public sealed class PlansDomainService : IPlansDomainService
             throw new UserNotAllowedToChangePlanException(planId);
         }
 
-        
 
-        await _planRepository.DeleteAsync(plan.Id);
+        var planPointIds = plan.TravelPlanPoints.Select(x => x.Id.Value).ToList();
+        var planReceiptIds = plan.AdditionalCosts.Select(x => x.Id.Value).ToList();
 
         await _messageBroker.PublishAsync(
             new PlanAccepted(
+                plan.Id,
                 plan.Participants.Select(x => x.Value).ToList(),
                 plan.OwnerId,
                 plan.Title,
                 plan.Description,
                 plan.From,
                 plan.To,
-                plan.AdditionalCosts,
+                planReceiptIds,
                 plan.AdditionalCostsValue.Amount,
-                plan.TravelPlanPoints));
+                planPointIds));
+
+        //TODO add plan status
+        //await _planRepository.DeleteAsync(plan.Id);
     }
 }

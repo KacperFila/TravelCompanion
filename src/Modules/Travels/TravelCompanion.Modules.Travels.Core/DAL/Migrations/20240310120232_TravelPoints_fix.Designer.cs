@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Travels.Core.DAL;
@@ -11,9 +12,11 @@ using TravelCompanion.Modules.Travels.Core.DAL;
 namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
 {
     [DbContext(typeof(TravelsDbContext))]
-    partial class TravelsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310120232_TravelPoints_fix")]
+    partial class TravelPoints_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,17 +71,12 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
 
-                    b.Property<Guid?>("TravelId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("TravelPointId")
+                    b.Property<Guid>("TravelId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TravelId");
-
-                    b.HasIndex("TravelPointId");
 
                     b.ToTable("Receipts", "travels");
                 });
@@ -183,12 +181,15 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                 {
                     b.HasOne("TravelCompanion.Modules.Travels.Core.Entities.Travel", null)
                         .WithMany("AdditionalCosts")
-                        .HasForeignKey("TravelId");
+                        .HasForeignKey("TravelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TravelCompanion.Modules.Travels.Core.Entities.TravelPoint", null)
                         .WithMany("Receipts")
-                        .HasForeignKey("TravelPointId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .HasForeignKey("TravelId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>
                         {

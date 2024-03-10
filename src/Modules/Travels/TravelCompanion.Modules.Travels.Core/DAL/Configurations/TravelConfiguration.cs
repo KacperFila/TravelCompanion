@@ -15,8 +15,13 @@ internal class TravelConfiguration : IEntityTypeConfiguration<Travel>
         builder
             .HasMany(x => x.AdditionalCosts)
             .WithOne()
+            .HasForeignKey(x => x.TravelId);
+
+        builder
+            .HasMany(x => x.TravelPoints)
+            .WithOne()
             .HasForeignKey(x => x.TravelId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .Property(x => x.AdditionalCostsValue)

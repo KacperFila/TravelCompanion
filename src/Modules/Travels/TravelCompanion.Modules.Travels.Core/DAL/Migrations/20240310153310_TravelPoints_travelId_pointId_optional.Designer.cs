@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Travels.Core.DAL;
@@ -11,9 +12,11 @@ using TravelCompanion.Modules.Travels.Core.DAL;
 namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
 {
     [DbContext(typeof(TravelsDbContext))]
-    partial class TravelsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310153310_TravelPoints_travelId_pointId_optional")]
+    partial class TravelPoints_travelId_pointId_optional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,8 +80,6 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("TravelId");
-
-                    b.HasIndex("TravelPointId");
 
                     b.ToTable("Receipts", "travels");
                 });
@@ -187,7 +188,7 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
 
                     b.HasOne("TravelCompanion.Modules.Travels.Core.Entities.TravelPoint", null)
                         .WithMany("Receipts")
-                        .HasForeignKey("TravelPointId")
+                        .HasForeignKey("TravelId")
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Amount", b1 =>

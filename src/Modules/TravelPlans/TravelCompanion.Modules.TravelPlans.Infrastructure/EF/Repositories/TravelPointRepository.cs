@@ -26,6 +26,13 @@ public class TravelPointRepository : ITravelPointRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<List<TravelPoint>> GetAllForPlanAsync(Guid planId)
+    {
+        return await _travelPoints
+            .Include(x => x.Receipts)
+            .Where(x => x.PlanId == planId).ToListAsync();
+    }
+
     public async Task<bool> ExistAsync(Guid id)
     {
         return await _dbContext.TravelPoints.AnyAsync(x => x.Id == id);

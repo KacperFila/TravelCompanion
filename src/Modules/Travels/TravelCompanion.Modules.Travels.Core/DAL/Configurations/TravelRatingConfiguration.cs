@@ -8,6 +8,7 @@ public class TravelRatingConfiguration : IEntityTypeConfiguration<TravelRating>
 {
     public void Configure(EntityTypeBuilder<TravelRating> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder
+            .HasKey(x => x.Id);
     }
 }

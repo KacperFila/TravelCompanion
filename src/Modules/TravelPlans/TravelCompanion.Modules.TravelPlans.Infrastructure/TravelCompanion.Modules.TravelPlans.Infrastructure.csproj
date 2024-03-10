@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Application\TravelCompanion.Modules.TravelPlans.Application.csproj" />
+    <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Shared\TravelCompanion.Modules.TravelPlans.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
