@@ -31,5 +31,8 @@ internal class PlanConfiguration : IEntityTypeConfiguration<Plan>
             .Property(x => x.AdditionalCostsValue)
             .HasConversion(x => x.Amount, x => Money.Create(x));
 
+        builder
+            .Property(x => x.TotalCostValue)
+            .HasConversion(x => x.Amount, x => Money.Create(x));
     }
 }

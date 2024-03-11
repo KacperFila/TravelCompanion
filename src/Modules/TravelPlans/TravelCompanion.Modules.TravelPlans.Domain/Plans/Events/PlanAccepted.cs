@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-using TravelCompanion.Shared.Abstractions.Events;
+﻿using TravelCompanion.Shared.Abstractions.Events;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 

@@ -15,6 +15,7 @@ public sealed class Plan : AggregateRoot
     public DateOnly To { get; private set; }
     public IList<Receipt> AdditionalCosts { get; private set; }
     public Money AdditionalCostsValue { get; private set; }
+    public Money TotalCostValue { get; private set; }
     public IList<TravelPoint> TravelPlanPoints { get; private set; }
     public IList<EntityId> ParticipantPaidIds { get; private set; }
     public bool AllParticipantsPaid { get; private set; }
@@ -32,6 +33,7 @@ public sealed class Plan : AggregateRoot
         AdditionalCosts = new List<Receipt>();
         AdditionalCostsValue = Money.Create(0);
         Version = version;
+        TotalCostValue = Money.Create(0);
     }
 
     public Plan(AggregateId id, OwnerId ownerId)
@@ -53,6 +55,7 @@ public sealed class Plan : AggregateRoot
         travelPlan.AdditionalCosts = new List<Receipt>();
         travelPlan.AdditionalCostsValue = Money.Create(0);
         travelPlan.AddParticipant(ownerId);
+        travelPlan.CalculateTotalCost();
         travelPlan.Version = 0;
 
         return travelPlan;
@@ -61,7 +64,16 @@ public sealed class Plan : AggregateRoot
     public void AddAdditionalCost(Receipt receipt)
     {
         AdditionalCosts.Add(receipt);
-        CalculateCosts();
+        CalculateAdditionalCosts();
+        IncrementVersion();
+    }
+
+    public void CalculateTotalCost()
+    {
+        var receipts = TravelPlanPoints.SelectMany(x => x.Receipts).ToList();
+        var totalCost = receipts.Sum(x => x.Amount.Amount);
+        totalCost += AdditionalCostsValue.Amount;
+        TotalCostValue = Money.Create(totalCost);
         IncrementVersion();
     }
     public void ChangeTitle(string title)
@@ -127,7 +139,7 @@ public sealed class Plan : AggregateRoot
         IncrementVersion();
     }
 
-    private void CalculateCosts()
+    private void CalculateAdditionalCosts()
     {
         var amountSum = AdditionalCosts.Sum(x => x.Amount.Amount);
         AdditionalCostsValue = Money.Create(amountSum);

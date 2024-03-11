@@ -11,4 +11,8 @@
     <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TravelPoints\Events\External\Handlers\" />
+  </ItemGroup>
+
 </Project>
