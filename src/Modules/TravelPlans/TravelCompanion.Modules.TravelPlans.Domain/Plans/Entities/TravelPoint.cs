@@ -12,10 +12,10 @@ public class TravelPoint : AggregateRoot
     public List<Receipt> Receipts { get; private set; }
     public Money TotalCost { get; private set; }
 
-    public TravelPoint(AggregateId id, string placeName, AggregateId planId, int version = 0)
+    public TravelPoint(AggregateId id, string placeName, AggregateId planId, bool isAccepted, int version = 0)
     {
         Id = id;
-        IsAccepted = false;
+        IsAccepted = isAccepted;
         PlanId = planId;
         ChangeTravelPointPlaceName(placeName);
         Receipts = new List<Receipt>();
@@ -23,9 +23,9 @@ public class TravelPoint : AggregateRoot
         Version = version;
     }
 
-    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId)
+    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId, bool isAccepted)
     {
-        var travelPoint = new TravelPoint(id, placeName, travelPlanId);
+        var travelPoint = new TravelPoint(id, placeName, travelPlanId, isAccepted);
         travelPoint.ClearEvents();
         travelPoint.Version = 0;
 

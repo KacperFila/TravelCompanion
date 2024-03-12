@@ -65,6 +65,7 @@ public sealed class Plan : AggregateRoot
     {
         AdditionalCosts.Add(receipt);
         CalculateAdditionalCosts();
+        CalculateTotalCost();
         IncrementVersion();
     }
 
