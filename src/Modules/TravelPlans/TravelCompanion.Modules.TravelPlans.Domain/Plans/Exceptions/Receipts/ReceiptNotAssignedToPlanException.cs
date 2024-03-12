@@ -2,10 +2,10 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 
-public class ReceiptNotFoundException : TravelCompanionException
+public class ReceiptNotAssignedToPlanException : TravelCompanionException
 {
     public Guid Id { get; set; }
-    public ReceiptNotFoundException(Guid id) : base($"Receipt with Id: {id} was not found.")
+    public ReceiptNotAssignedToPlanException(Guid id) : base($"Receipt with Id: {id} is not assigned to travel plan.")
     {
         Id = id;
     }

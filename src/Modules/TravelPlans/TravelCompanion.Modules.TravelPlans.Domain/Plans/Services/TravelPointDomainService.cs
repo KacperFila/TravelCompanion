@@ -64,7 +64,7 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         if (receipt == null)
         {
-            throw new ReceiptNotFoundException();
+            throw new ReceiptNotFoundException(receipt.Id);
         }
 
         var point = await _travelPointRepository.GetAsync(receipt.PointId);

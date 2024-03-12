@@ -7,7 +7,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handlers;
 
-public class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditionalCost>
+public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditionalCost>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;

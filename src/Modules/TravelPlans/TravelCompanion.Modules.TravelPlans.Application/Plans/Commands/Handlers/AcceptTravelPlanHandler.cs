@@ -3,7 +3,7 @@ using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handlers;
 
-public class AcceptTravelPlanHandler : ICommandHandler<AcceptTravelPlan>
+public sealed class AcceptTravelPlanHandler : ICommandHandler<AcceptTravelPlan>
 {
     private readonly IPlansDomainService _plansDomainService;
 

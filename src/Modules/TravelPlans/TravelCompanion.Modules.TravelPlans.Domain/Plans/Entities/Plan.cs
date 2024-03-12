@@ -69,6 +69,15 @@ public sealed class Plan : AggregateRoot
         IncrementVersion();
     }
 
+    public void RemoveAdditionalCost(Guid receiptId)
+    {
+        var cost = AdditionalCosts.FirstOrDefault(x => x.Id == receiptId);
+        AdditionalCosts.Remove(cost);
+        CalculateAdditionalCosts();
+        CalculateTotalCost();
+        IncrementVersion();
+    }
+
     public void CalculateTotalCost()
     {
         var receipts = TravelPlanPoints.SelectMany(x => x.Receipts).ToList();
