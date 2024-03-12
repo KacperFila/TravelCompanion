@@ -26,5 +26,9 @@ internal class TravelConfiguration : IEntityTypeConfiguration<Travel>
         builder
             .Property(x => x.AdditionalCostsValue)
             .HasConversion(x => x.Amount, x => Money.Create(x));
+
+        builder
+            .Property(x => x.TotalCostsValue)
+            .HasConversion(x => x.Amount, x => Money.Create(x));
     }
 }

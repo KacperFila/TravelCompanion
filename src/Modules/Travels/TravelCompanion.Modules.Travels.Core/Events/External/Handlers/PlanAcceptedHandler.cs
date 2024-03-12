@@ -3,6 +3,7 @@ using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+using TravelCompanion.Shared.Abstractions.Messaging;
 
 
 namespace TravelCompanion.Modules.Travels.Core.Events.External.Handlers;
@@ -11,11 +12,13 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
 {
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPlansModuleApi _travelPlansModuleApi;
+    private readonly IMessageBroker _messageBroker;
 
-    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi)
+    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker)
     {
         _travelRepository = travelRepository;
         _travelPlansModuleApi = travelPlansModuleApi;
+        _messageBroker = messageBroker;
     }
 
     public async Task HandleAsync(PlanAccepted @event)
@@ -43,10 +46,12 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
             IsFinished = false,
             Ratings = new List<TravelRating>(),
             RatingValue = null,
-            TravelPoints = travelPoints
+            TravelPoints = travelPoints,
+            TotalCostsValue = Money.Create(@event.totalCost)
         };
 
         await _travelRepository.AddAsync(travel);
+        await _messageBroker.PublishAsync(new TravelFromPlanCreated(@event.planId));
     }
 
     private static TravelPoint AsTravelPoint(Guid travelId, TravelPlans.Domain.Plans.Entities.TravelPoint travelPoint)

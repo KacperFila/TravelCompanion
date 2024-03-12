@@ -1,5 +1,5 @@
-﻿using TravelCompanion.Modules.Travels.Core.Entities;
-using TravelCompanion.Shared.Abstractions.Events;
+﻿using TravelCompanion.Shared.Abstractions.Events;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Events.External;
 
@@ -13,4 +13,5 @@ public record PlanAccepted(
     DateOnly to,
     IList<Guid> additionalCostIds,
     decimal additionalCostsValue,
-    IList<Guid> planPointIds) : IEvent;
+    IList<Guid> planPointIds,
+    decimal totalCost) : IEvent;

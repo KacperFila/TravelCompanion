@@ -18,4 +18,5 @@ public class Travel
     public bool IsFinished { get; set; }
     public List<TravelRating> Ratings { get; set; }
     public float? RatingValue { get; set; }
+    public Money TotalCostsValue { get; set; }
 }

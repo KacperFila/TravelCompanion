@@ -9,4 +9,5 @@ internal class TravelDetailsDTO
     public bool IsFinished { get; set; }
     public float? Rating { get; set; }
     public decimal AdditionalCosts { get; set; }
+    public decimal TotalCosts { get; set; }
 }

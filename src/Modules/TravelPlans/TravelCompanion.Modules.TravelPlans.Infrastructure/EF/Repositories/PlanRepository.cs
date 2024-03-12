@@ -19,7 +19,8 @@ public class PlanRepository : IPlanRepository
     {
         return await _travelPlans
             .Include(x => x.AdditionalCosts)
-            .Include(x => x.TravelPlanPoints).ThenInclude(x => x.Receipts)
+            .Include(x => x.TravelPlanPoints)
+            .ThenInclude(x => x.Receipts)
             .SingleOrDefaultAsync(x => x.Id == id);
     }
 

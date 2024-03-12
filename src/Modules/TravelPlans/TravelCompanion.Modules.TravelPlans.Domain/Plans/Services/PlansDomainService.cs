@@ -71,7 +71,8 @@ public sealed class PlansDomainService : IPlansDomainService
                 plan.To,
                 planReceiptIds,
                 plan.AdditionalCostsValue.Amount,
-                planPointIds));
+                planPointIds,
+                plan.TotalCostValue.Amount));
 
         //TODO add plan status
         //await _planRepository.DeleteAsync(plan.Id);

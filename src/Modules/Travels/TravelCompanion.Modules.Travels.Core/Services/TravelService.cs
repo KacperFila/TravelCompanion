@@ -170,6 +170,7 @@ internal class TravelService : ITravelService
             Title = travel.Title,
             Rating = travel.RatingValue,
             AdditionalCosts = travel.AdditionalCostsValue.Amount,
+            TotalCosts = travel.TotalCostsValue.Amount,
         };
     }
 }
