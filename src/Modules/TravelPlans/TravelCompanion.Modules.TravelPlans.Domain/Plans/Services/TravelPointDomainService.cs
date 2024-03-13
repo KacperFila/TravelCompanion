@@ -1,5 +1,6 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
@@ -99,19 +100,52 @@ public class TravelPointDomainService : ITravelPointDomainService
         {
             throw new PlanNotFoundException(travelPointId);
         }
+        
+        if (!plan.Participants.Contains(_userId))
+        {
+            throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
+        }
 
         if (plan.OwnerId == _userId)
         {
             plan.RemoveTravelPoint(point);
             await _travelPointRepository.RemoveAsync(point);
         }
-
-        if (!plan.Participants.Contains(_userId))
+        else
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
+            var removeRequest = TravelPointRemoveRequest.Create(point.Id, _userId);
+            await _travelPointRemoveRequestRepository.AddAsync(removeRequest);
+        }
+    }
+
+    public async Task RemoveTravelPointRemoveRequest(Guid requestId)
+    {
+        var request = await _travelPointRemoveRequestRepository.GetAsync(requestId);
+
+        if (request is null)
+        {
+            throw new TravelPointRemoveRequestNotFoundException(requestId);
         }
 
-        var removeRequest = TravelPointRemoveRequest.Create(point.Id, _userId);
-        await _travelPointRemoveRequestRepository.AddAsync(removeRequest);
+        var point = await _travelPointRepository.GetAsync(request.TravelPointId);
+        
+        if (point is null)
+        {
+            throw new TravelPointNotFoundException(request.TravelPointId);
+        }
+
+        var plan = await _planRepository.GetAsync(point.PlanId);
+
+        if (plan is null)
+        {
+            throw new PlanNotFoundException(point.PlanId);
+        }
+
+        if (plan.OwnerId != _userId)
+        {
+            throw new UserNotOwnerOfPlanException(_userId);
+        }
+
+        await _travelPointRemoveRequestRepository.RemoveAsync(request);
     }
 }

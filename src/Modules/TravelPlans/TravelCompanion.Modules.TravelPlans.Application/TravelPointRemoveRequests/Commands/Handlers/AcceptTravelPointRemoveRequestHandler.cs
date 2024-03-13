@@ -4,7 +4,7 @@ using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointRemoveRequests.Commands.Handlers;
 
-public class AcceptTravelPointRemoveRequestHandler : ICommandHandler<AcceptTravelPointRemoveRequest>
+internal class AcceptTravelPointRemoveRequestHandler : ICommandHandler<AcceptTravelPointRemoveRequest>
 {
     private readonly ITravelPointRemoveRequestRepository _travelPointRemoveRequestRepository;
     private readonly ITravelPointRepository _travelPointRepository;

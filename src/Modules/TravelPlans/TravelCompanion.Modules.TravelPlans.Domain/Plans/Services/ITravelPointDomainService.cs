@@ -7,4 +7,5 @@ public interface ITravelPointDomainService
     Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants, string description);
     Task RemoveReceiptAsync(Guid receiptId);
     Task RemoveTravelPoint(Guid travelPointId);
+    Task RemoveTravelPointRemoveRequest(Guid requestId);
 }
