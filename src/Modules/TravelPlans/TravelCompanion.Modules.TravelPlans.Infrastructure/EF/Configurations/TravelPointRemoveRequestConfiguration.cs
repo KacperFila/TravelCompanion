@@ -5,12 +5,15 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-internal sealed class TravelPointUpdateRequestConfiguration : IEntityTypeConfiguration<TravelPointUpdateRequest>
+internal sealed class TravelPointRemoveRequestConfiguration : IEntityTypeConfiguration<TravelPointRemoveRequest>
 {
-    public void Configure(EntityTypeBuilder<TravelPointUpdateRequest> builder)
+    public void Configure(EntityTypeBuilder<TravelPointRemoveRequest> builder)
     {
         builder
-            .Property(x => x.TravelPlanPointId)
+            .HasKey(x => x.RequestId);
+
+        builder
+            .Property(x => x.TravelPointId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder
@@ -18,14 +21,6 @@ internal sealed class TravelPointUpdateRequestConfiguration : IEntityTypeConfigu
             .HasConversion(x => x.Value, x => new EntityId(x));
 
         builder
-            .Property(x => x.RequestId)
-            .HasConversion(x => x.Value, x => new TravelPointUpdateRequestId(x));
-
-        builder
             .HasKey(x => x.RequestId);
-
-        builder
-            .Property(x => x.PlaceName)
-            .IsRequired();
     }
 }

@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-internal class TravelPointConfiguration : IEntityTypeConfiguration<TravelPoint>
+internal sealed class TravelPointConfiguration : IEntityTypeConfiguration<TravelPoint>
 {
     public void Configure(EntityTypeBuilder<TravelPoint> builder)
     {

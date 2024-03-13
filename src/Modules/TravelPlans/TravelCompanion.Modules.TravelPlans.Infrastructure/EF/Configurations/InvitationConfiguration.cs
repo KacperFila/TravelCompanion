@@ -5,7 +5,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
+internal sealed class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
 {
     public void Configure(EntityTypeBuilder<Invitation> builder)
     {

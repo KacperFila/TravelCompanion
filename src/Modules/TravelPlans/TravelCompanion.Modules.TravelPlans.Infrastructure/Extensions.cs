@@ -16,6 +16,7 @@ public static class Extensions
         services.AddScoped<ITravelPointRepository, TravelPointRepository>();
         services.AddScoped<IReceiptRepository, ReceiptRepository>();
         services.AddScoped<ITravelPointUpdateRequestRepository, TravelPointUpdateRequestRepository>();
+        services.AddScoped<ITravelPointRemoveRequestRepository, TravelPointRemoveRequestRepository>();
         services.AddPostgres<TravelPlansDbContext>();
         services.AddTransient<ITravelPlansModuleApi, TravelPlansModuleApi>();
 

@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-internal class PlanConfiguration : IEntityTypeConfiguration<Plan>
+internal sealed class PlanConfiguration : IEntityTypeConfiguration<Plan>
 {
     public void Configure(EntityTypeBuilder<Plan> builder)
     {

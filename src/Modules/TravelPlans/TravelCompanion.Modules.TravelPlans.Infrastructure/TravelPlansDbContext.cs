@@ -15,6 +15,7 @@ public class TravelPlansDbContext :DbContext
     public DbSet<Invitation> Invitations { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<TravelPointUpdateRequest> TravelPointUpdateRequests { get; set; }
+    public DbSet<TravelPointRemoveRequest> TravelPointRemoveRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

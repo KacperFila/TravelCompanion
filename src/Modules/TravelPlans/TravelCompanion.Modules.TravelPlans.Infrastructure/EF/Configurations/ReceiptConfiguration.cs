@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Configurations;
 
-internal class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
+internal sealed class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 {
     public void Configure(EntityTypeBuilder<Receipt> builder)
     {

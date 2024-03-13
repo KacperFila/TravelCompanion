@@ -149,6 +149,17 @@ public sealed class Plan : AggregateRoot
         IncrementVersion();
     }
 
+    public void RemoveTravelPoint(TravelPoint travelPoint)
+    {
+        if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
+        {
+            throw new InvalidTravelPointException();
+        }
+
+        TravelPlanPoints.Remove(travelPoint);
+        IncrementVersion();
+    }
+
     private void CalculateAdditionalCosts()
     {
         var amountSum = AdditionalCosts.Sum(x => x.Amount.Amount);

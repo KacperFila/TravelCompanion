@@ -3,7 +3,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Messaging;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
