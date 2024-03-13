@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="TravelPointRemoveRequests\Commands\Handlers\" />
     <Folder Include="TravelPoints\Events\External\Handlers\" />
   </ItemGroup>
 

@@ -20,4 +20,15 @@ public class TravelPointRemoveRequestRepository : ITravelPointRemoveRequestRepos
         await _travelPointRemoveRequests.AddAsync(request);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<TravelPointRemoveRequest> GetAsync(Guid requestId)
+    {
+        return await _travelPointRemoveRequests.SingleOrDefaultAsync(x => x.RequestId == requestId);
+    }
+
+    public async Task RemoveAsync(TravelPointRemoveRequest request)
+    {
+        _travelPointRemoveRequests.Remove(request);
+        await _dbContext.SaveChangesAsync();
+    }
 }
