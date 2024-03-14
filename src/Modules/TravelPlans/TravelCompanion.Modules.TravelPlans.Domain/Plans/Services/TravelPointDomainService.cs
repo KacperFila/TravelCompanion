@@ -16,12 +16,13 @@ public class TravelPointDomainService : ITravelPointDomainService
     private readonly IReceiptRepository _receiptRepository;
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly ITravelPointRemoveRequestRepository _travelPointRemoveRequestRepository;
+    private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly IMessageBroker _messageBroker;
 
-    public TravelPointDomainService(IReceiptRepository receiptRepository, ITravelPointRepository travelPointRepository, IPlanRepository planRepository, IContext context, IMessageBroker messageBroker, ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository)
+    public TravelPointDomainService(IReceiptRepository receiptRepository, ITravelPointRepository travelPointRepository, IPlanRepository planRepository, IContext context, IMessageBroker messageBroker, ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository)
     {
         _receiptRepository = receiptRepository;
         _travelPointRepository = travelPointRepository;
@@ -29,6 +30,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         _context = context;
         _messageBroker = messageBroker;
         _travelPointRemoveRequestRepository = travelPointRemoveRequestRepository;
+        _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
     }
 
@@ -147,5 +149,36 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         await _travelPointRemoveRequestRepository.RemoveAsync(request);
+    }
+
+    public async Task RemoveTravelPointUpdateRequest(Guid requestId)
+    {
+        var request = await _travelPointUpdateRequestRepository.GetAsync(requestId);
+
+        if (request is null)
+        {
+            throw new TravelPointUpdateRequestNotFoundException(requestId);
+        }
+
+        var point = await _travelPointRepository.GetAsync(request.TravelPlanPointId);
+
+        if (point is null)
+        {
+            throw new TravelPointNotFoundException(request.TravelPlanPointId);
+        }
+
+        var plan = await _planRepository.GetAsync(point.PlanId);
+
+        if (plan is null)
+        {
+            throw new PlanNotFoundException(point.PlanId);
+        }
+
+        if (plan.OwnerId != _userId)
+        {
+            throw new UserNotOwnerOfPlanException(_userId);
+        }
+
+        await _travelPointUpdateRequestRepository.RemoveAsync(request);
     }
 }

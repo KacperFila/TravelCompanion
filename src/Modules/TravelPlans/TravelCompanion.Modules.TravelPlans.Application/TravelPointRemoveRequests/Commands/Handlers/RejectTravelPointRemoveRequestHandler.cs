@@ -1,6 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
 using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointRemoveRequests.Commands.Handlers;

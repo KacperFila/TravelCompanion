@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.RejectTravelPointRemoveRequest;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.RejectTravelPointUpdateRequest;
 
 [Route(TravelPlansModule.BasePath)]
 internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
@@ -21,9 +21,9 @@ internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("Point/Remove/Rejection/{requestId:guid}")]
+    [HttpDelete("Point/Update/Rejection/{requestId:guid}")]
     [SwaggerOperation(
-        Summary = "Reject Travel Point Remove Request",
+        Summary = "Reject Travel Point Update Request",
         Tags = new[] { TravelPlansEndpoint.InvitationsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
