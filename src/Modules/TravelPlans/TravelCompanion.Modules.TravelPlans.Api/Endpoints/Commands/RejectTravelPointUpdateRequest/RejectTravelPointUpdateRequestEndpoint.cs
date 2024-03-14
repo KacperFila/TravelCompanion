@@ -10,7 +10,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.RejectTrave
 
 [Route(TravelPlansModule.BasePath)]
 internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
-    .WithRequest<Application.TravelPointRemoveRequests.Commands.RejectTravelPointRemoveRequest>
+    .WithRequest<Application.TravelPointUpdateRequests.Commands.RejectTravelPointUpdateRequest>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
@@ -24,12 +24,12 @@ internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     [HttpDelete("Point/Update/Rejection/{requestId:guid}")]
     [SwaggerOperation(
         Summary = "Reject Travel Point Update Request",
-        Tags = new[] { TravelPlansEndpoint.InvitationsTag })]
+        Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync(Application.TravelPointRemoveRequests.Commands.RejectTravelPointRemoveRequest command, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.TravelPointUpdateRequests.Commands.RejectTravelPointUpdateRequest command, CancellationToken cancellationToken = new CancellationToken())
     {
         await _commandDispatcher.SendAsync(command);
         return NoContent();

@@ -1,8 +1,9 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
+using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
 
-public class RejectTravelPointUpdateRequestHandler
+public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTravelPointUpdateRequest>
 {
     private readonly ITravelPointDomainService _travelPointDomainService;
 
