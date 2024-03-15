@@ -24,6 +24,16 @@ public class PlanRepository : IPlanRepository
             .SingleOrDefaultAsync(x => x.Id == id);
     }
 
+    public async Task<Plan> GetByPointIdAsync(Guid pointId)
+    {
+        return await _travelPlans
+            .Include(x => x.AdditionalCosts)
+            .Include(x => x.TravelPlanPoints)
+            .ThenInclude(x => x.Receipts)
+            .SingleOrDefaultAsync(x => x.TravelPlanPoints
+                .Any(s => s.Id == pointId));
+    }
+
     public async Task AddAsync(Plan plan)
     {
         await _travelPlans.AddAsync(plan);

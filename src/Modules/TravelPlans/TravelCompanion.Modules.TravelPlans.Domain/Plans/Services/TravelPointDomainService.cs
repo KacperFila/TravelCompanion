@@ -160,18 +160,18 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new TravelPointUpdateRequestNotFoundException(requestId);
         }
 
-        var point = await _travelPointRepository.GetAsync(request.TravelPlanPointId);
+        var pointExists = await _travelPointRepository.ExistAsync(request.TravelPlanPointId);
 
-        if (point is null)
+        if (!pointExists)
         {
             throw new TravelPointNotFoundException(request.TravelPlanPointId);
         }
 
-        var plan = await _planRepository.GetAsync(point.PlanId);
+        var plan = await _planRepository.GetByPointIdAsync(request.TravelPlanPointId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(point.PlanId);
+            throw new PlanNotFoundException(request.TravelPlanPointId);
         }
 
         if (plan.OwnerId != _userId)
