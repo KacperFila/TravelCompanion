@@ -16,6 +16,20 @@ internal class TravelPointRepository : ITravelPointRepository
 
     public async Task<List<TravelPoint>> GetForTravelAsync(Guid travelId)
     {
-        return await _travelPoints.Where(x => x.TravelId == travelId).ToListAsync();
+        return await _travelPoints
+            .Where(x => x.TravelId == travelId)
+            .ToListAsync();
+    }
+
+    public async Task<TravelPoint> GetAsync(Guid pointId)
+    {
+        return await _travelPoints
+            .SingleOrDefaultAsync(x => x.TravelPointId == pointId);
+    }
+
+    public async Task UpdateAsync(TravelPoint travelPoint)
+    {
+        _travelPoints.Update(travelPoint);
+        await _context.SaveChangesAsync();
     }
 }

@@ -8,6 +8,7 @@ internal interface ITravelService
     Task<TravelDetailsDTO> GetAsync(Guid TravelId);
     Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync();
     Task RateAsync(Guid TravelId, int Rating);
+    Task VisitTravelPointAsync(Guid pointId);
     Task RemoveRatingAsync(Guid TravelId);
     Task DeleteAsync(Guid TravelId);
 }

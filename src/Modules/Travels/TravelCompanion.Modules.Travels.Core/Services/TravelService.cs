@@ -1,25 +1,29 @@
-﻿using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
+using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
 internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
+    private readonly ITravelPointRepository _travelPointRepository;
     private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
         _context = context;
+        _travelPointRepository = travelPointRepository;
         _userId = _context.Identity.Id;
     }
 
@@ -111,6 +115,31 @@ internal class TravelService : ITravelService
         var ratingValue = travel.Ratings.Average(x => x.Value);
         travel.RatingValue = ratingValue;
         await _travelRepository.UpdateAsync(travel);
+    }
+
+    public async Task VisitTravelPointAsync(Guid pointId)
+    {
+        var point = await _travelPointRepository.GetAsync(pointId);
+
+        if (point is null)
+        {
+            throw new TravelPointNotFoundException(pointId);
+        }
+
+        if (point.IsVisited)
+        {
+            throw new TravelPointAlreadyVisitedException(pointId);
+        }
+
+        var travel = await _travelRepository.GetAsync(point.TravelId);
+
+        if (travel.OwnerId != _userId)
+        {
+            throw new UserNotAllowedToChangeTravelPointException();
+        }
+
+        point.VisitTravelPoint();
+        await _travelPointRepository.UpdateAsync(point);
     }
 
     public async Task RemoveRatingAsync(Guid TravelId)

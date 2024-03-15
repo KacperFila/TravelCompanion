@@ -8,13 +8,13 @@ using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.RemoveTravelRating;
 
 [Route(TravelsEndpoint.BasePath)]
-internal sealed class RemoveTravelRating : EndpointBaseAsync
+internal sealed class RemoveTravelRatingEndpoint : EndpointBaseAsync
     .WithRequest<Guid>
     .WithActionResult
 {
     private readonly ITravelService _travelService;
 
-    public RemoveTravelRating(ITravelService travelService)
+    public RemoveTravelRatingEndpoint(ITravelService travelService)
     {
         _travelService = travelService;
     }

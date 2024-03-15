@@ -21,5 +21,8 @@ public class TravelPointConfiguration : IEntityTypeConfiguration<TravelPoint>
             .WithOne()
             .HasForeignKey(x => x.TravelPointId)
             .OnDelete(DeleteBehavior.ClientCascade);
+
+        builder.Property(x => x.IsVisited)
+            .IsRequired();
     }
 }
