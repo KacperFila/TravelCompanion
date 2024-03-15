@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.TravelPlans.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.TravelPlans.Infrastructure;
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(TravelPlansDbContext))]
-    partial class TravelPlansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240315112606_PlanAcceptRequest_add")]
+    partial class PlanAcceptRequest_add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,6 +73,9 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uuid[]");
 
+                    b.Property<List<Guid>>("ParticipantsAccepted")
+                        .HasColumnType("uuid[]");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -93,9 +99,6 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<List<Guid>>("ParticipantsAccepted")
-                        .HasColumnType("uuid[]");
 
                     b.Property<Guid>("PlanId")
                         .HasColumnType("uuid");

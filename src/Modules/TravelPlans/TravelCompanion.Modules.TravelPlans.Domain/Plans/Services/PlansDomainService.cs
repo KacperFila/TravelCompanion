@@ -41,6 +41,18 @@ public sealed class PlansDomainService : IPlansDomainService
         return await Task.FromResult(plan.OwnerId);
     }
 
+    public async Task<List<Guid>> CheckPlanParticipantsAsync(Guid planId)
+    {
+        var plan = await _planRepository.GetAsync(planId);
+
+        if (plan is null)
+        {
+            throw new PlanNotFoundException(planId);
+        }
+
+        return await Task.FromResult(plan.Participants.Select(x => x.Value).ToList());
+    }
+
     public async Task AcceptTravelPlan(Guid planId)
     {
         var plan = await _planRepository.GetAsync(planId);

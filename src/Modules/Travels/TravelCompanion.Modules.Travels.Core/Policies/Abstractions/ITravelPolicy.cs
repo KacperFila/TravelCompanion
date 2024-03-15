@@ -4,7 +4,7 @@ namespace TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 
 internal interface ITravelPolicy
 {
-    Task<bool> CanDeleteAsync(Travel travel);
-    Task<bool> IsUserOwnerOrParticipant(Travel travel, Guid userId);
-    Task<bool> DoesUserParticipate(Travel travel, Guid userId);
+    bool CanDelete(Travel travel);
+    bool IsUserOwnerOrParticipant(Travel travel, Guid userId);
+    bool DoesUserParticipate(Travel travel, Guid userId);
 }

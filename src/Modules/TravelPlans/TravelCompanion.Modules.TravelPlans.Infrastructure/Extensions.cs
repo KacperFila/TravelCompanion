@@ -12,6 +12,7 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IPlanRepository, PlanRepository>();
+        services.AddScoped<IPlanAcceptRequestRepository, PlanAcceptRequestRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped<ITravelPointRepository, TravelPointRepository>();
         services.AddScoped<IReceiptRepository, ReceiptRepository>();

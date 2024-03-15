@@ -14,22 +14,23 @@ internal sealed class PostcardPolicy : IPostcardPolicy
         _context = context;
     }
 
-    public async Task<bool> DoesUserOwnOrParticipateInPostcardTravel(Guid userId, Travel travel)
+    public bool DoesUserOwnOrParticipateInPostcardTravel(Guid userId, Travel travel)
     {
-        return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false); // participantsId jest nullem jeśli nie dodano nikogo (jedoosobowy travel)
+        //TODO refactor
+        return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false);
     }
 
-    public async Task<bool> DoesUserOwnPostcardTravel(Guid userId, Travel travel)
+    public bool DoesUserOwnPostcardTravel(Guid userId, Travel travel)
     {
         return travel.OwnerId == userId;
     }
 
-    public async Task<bool> DoesUserParticipateInPostcardTravel(Guid userId, Travel travel)
+    public bool DoesUserParticipateInPostcardTravel(Guid userId, Travel travel)
     {
         return travel.ParticipantIds?.Contains(userId) ?? false;
     }
 
-    public async Task<bool> CanDeletePostcard(Postcard postcard, Travel travel)
+    public bool CanDeletePostcard(Postcard postcard, Travel travel)
     {
 
         var isUserTravelOwner = _context.Identity.Id == travel.OwnerId;
@@ -47,7 +48,7 @@ internal sealed class PostcardPolicy : IPostcardPolicy
         return false;
     }
 
-    public async Task<bool> CanEditPostcard(Postcard postcard, Travel travel)
+    public bool CanEditPostcard(Postcard postcard, Travel travel)
     {
 
         var isUserTravelOwner = _context.Identity.Id == travel.OwnerId;

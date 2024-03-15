@@ -35,12 +35,12 @@ internal sealed class PostcardService : IPostcardService
             throw new TravelNotFoundException(travelId);
         }
 
-        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravelException(_userId);
         }
 
-        var isCurrentUserTravelOwner = await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel);
+        var isCurrentUserTravelOwner = _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel);
         
         var postcardsStatus = isCurrentUserTravelOwner ? PostcardStatus.Accepted : PostcardStatus.Pending;
 
@@ -78,7 +78,7 @@ internal sealed class PostcardService : IPostcardService
             throw new TravelNotFoundException(travelId);
         }
 
-        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravelException(travelId);
         }
@@ -106,7 +106,7 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(postcard.TravelId);
         
-        if (!await _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(postcard.TravelId);
         }
@@ -126,12 +126,12 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(item.TravelId);
         
-        if (!await _postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }
 
-        if(!await _postcardPolicy.CanDeletePostcard(item, travel))
+        if(!_postcardPolicy.CanDeletePostcard(item, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }
@@ -154,7 +154,7 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(postcard.TravelId);
 
-        if (!await _postcardPolicy.CanDeletePostcard(postcard, travel))
+        if (!_postcardPolicy.CanDeletePostcard(postcard, travel))
         {
             throw new PostcardCannotBeDeletedException(postcardId);
         }

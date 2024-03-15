@@ -10,17 +10,25 @@ internal sealed class PlanConfiguration : IEntityTypeConfiguration<Plan>
 {
     public void Configure(EntityTypeBuilder<Plan> builder)
     {
-        builder.Property(x => x.OwnerId)
+        builder
+            .Property(x => x.OwnerId)
             .HasConversion(x => x.Value, x => new OwnerId(x));
 
-        builder.Property(x => x.Id)
+        builder
+            .Property(x => x.Id)
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
-        builder.Property(x => x.Participants)
-            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (EntityId)g).ToList());
+        builder
+            .Property(x => x.Participants)
+            .HasConversion(
+                x => x.Select(a => a.Value).ToList(),
+                g => g.Select(g => (EntityId)g).ToList());
 
-        builder.Property(x => x.ParticipantPaidIds)
-            .HasConversion(x => x.Select(a => a.Value).ToList(), g => g.Select(g => (EntityId)g).ToList());
+        builder
+            .Property(x => x.ParticipantPaidIds)
+            .HasConversion(
+                x => x.Select(a => a.Value).ToList(),
+                g => g.Select(g => (EntityId)g).ToList());
 
         builder
             .HasMany(x => x.AdditionalCosts)

@@ -88,7 +88,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (!await _travelPolicy.DoesUserParticipate(travel, _userId))
+        if (!_travelPolicy.DoesUserParticipate(travel, _userId))
         {
             throw new UserDoesNotParticipateInTravelException(TravelId);
         }
@@ -182,7 +182,7 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(TravelId);
         }
 
-        if (!await _travelPolicy.CanDeleteAsync(travel))
+        if (!_travelPolicy.CanDelete(travel))
         {
             throw new TravelCannotBeDeletedException(TravelId);
         }

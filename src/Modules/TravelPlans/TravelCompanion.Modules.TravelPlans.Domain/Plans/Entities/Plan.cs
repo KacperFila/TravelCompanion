@@ -8,7 +8,8 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Plan : AggregateRoot
 {
     public OwnerId OwnerId { get; private set; }
-    public IList<EntityId>? Participants { get; private set; }
+    public IList<EntityId> Participants { get; private set; }
+    public IList<EntityId>? ParticipantPaidIds { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public DateOnly From { get; private set; }
@@ -17,23 +18,25 @@ public sealed class Plan : AggregateRoot
     public Money AdditionalCostsValue { get; private set; }
     public Money TotalCostValue { get; private set; }
     public IList<TravelPoint> TravelPlanPoints { get; private set; }
-    public IList<EntityId> ParticipantPaidIds { get; private set; }
-    public bool AllParticipantsPaid { get; private set; }
+    public bool DoesAllParticipantsPaid { get; private set; }
+    public bool DoesAllParticipantsAccepted { get; private set; }
 
-    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, IList<EntityId> participants,
-        IList<TravelPoint> travelPlanPoints, DateOnly from, DateOnly to, int version = 0)
+    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0)
         : this(id, ownerId)
     {
         Title = title;
         Description = description;
-        Participants = participants;
-        TravelPlanPoints = travelPlanPoints;
         From = from;
         To = to;
-        AdditionalCosts = new List<Receipt>();
         AdditionalCostsValue = Money.Create(0);
-        Version = version;
         TotalCostValue = Money.Create(0);
+        DoesAllParticipantsAccepted = false;
+        DoesAllParticipantsPaid = false;
+        Participants = new List<EntityId>();
+        AdditionalCosts = new List<Receipt>();
+        ParticipantPaidIds = new List<EntityId>();
+        TravelPlanPoints = new List<TravelPoint>();
+        Version = version;
     }
 
     public Plan(AggregateId id, OwnerId ownerId)
@@ -48,12 +51,6 @@ public sealed class Plan : AggregateRoot
         travelPlan.ChangeFrom(from);
         travelPlan.ChangeTo(to);
         travelPlan.ClearEvents();
-        travelPlan.Participants = new List<EntityId>();
-        travelPlan.TravelPlanPoints = new List<TravelPoint>();
-        travelPlan.AllParticipantsPaid = false;
-        travelPlan.ParticipantPaidIds = new List<EntityId>();
-        travelPlan.AdditionalCosts = new List<Receipt>();
-        travelPlan.AdditionalCostsValue = Money.Create(0);
         travelPlan.AddParticipant(ownerId);
         travelPlan.CalculateTotalCost();
         travelPlan.Version = 0;
@@ -69,6 +66,10 @@ public sealed class Plan : AggregateRoot
         IncrementVersion();
     }
 
+    public void AcceptPlan()
+    {
+        DoesAllParticipantsAccepted = true;
+    }
     public void RemoveAdditionalCost(Guid receiptId)
     {
         var cost = AdditionalCosts.FirstOrDefault(x => x.Id == receiptId);
@@ -86,6 +87,7 @@ public sealed class Plan : AggregateRoot
         TotalCostValue = Money.Create(totalCost);
         IncrementVersion();
     }
+
     public void ChangeTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))

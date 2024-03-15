@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.TravelPlans.Application.Plans.Commands;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
@@ -11,7 +10,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AcceptPlan;
 
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class AcceptPlanEndpoint : EndpointBaseAsync
-    .WithRequest<AcceptTravelPlan>
+    .WithRequest<Application.AcceptPlanRequests.Commands.AcceptPlanAcceptRequest>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
@@ -30,7 +29,7 @@ internal sealed class AcceptPlanEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync([FromRoute]AcceptTravelPlan command, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync([FromRoute]Application.AcceptPlanRequests.Commands.AcceptPlanAcceptRequest command, CancellationToken cancellationToken = new CancellationToken())
     {
         await _commandDispatcher.SendAsync(command);
         return Ok();

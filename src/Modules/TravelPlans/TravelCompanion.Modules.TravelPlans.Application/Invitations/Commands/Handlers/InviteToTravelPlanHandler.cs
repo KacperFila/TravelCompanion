@@ -14,14 +14,12 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly IInvitationRepository _invitationRepository;
     private readonly IPlanRepository _planRepository;
     private readonly IUsersModuleApi _usersModuleApi;
-    private readonly IContext _context;
 
-    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, IPlanRepository planRepository, IUsersModuleApi usersModuleApi, IContext context)
+    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, IPlanRepository planRepository, IUsersModuleApi usersModuleApi)
     {
         _invitationRepository = invitationRepository;
         _planRepository = planRepository;
         _usersModuleApi = usersModuleApi;
-        _context = context;
     }
 
     public async Task HandleAsync(InviteToTravelPlan command)

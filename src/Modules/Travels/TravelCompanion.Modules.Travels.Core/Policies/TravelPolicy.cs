@@ -5,7 +5,7 @@ namespace TravelCompanion.Modules.Travels.Core.Policies;
 
 public class TravelPolicy : ITravelPolicy
 {
-    public async Task<bool> CanDeleteAsync(Travel travel)
+    public bool CanDelete(Travel travel)
     {
         if (!travel.AllParticipantsPaid)
         {
@@ -15,7 +15,7 @@ public class TravelPolicy : ITravelPolicy
         return true;
     }
 
-    public async Task<bool> IsUserOwnerOrParticipant(Travel travel, Guid userId)
+    public bool IsUserOwnerOrParticipant(Travel travel, Guid userId)
     {
         if (userId != travel.OwnerId || (!travel.ParticipantIds?.Contains(userId) ?? false))
         {
@@ -24,7 +24,7 @@ public class TravelPolicy : ITravelPolicy
         return true;
     }
 
-    public async Task<bool> DoesUserParticipate(Travel travel, Guid userId)
+    public bool DoesUserParticipate(Travel travel, Guid userId)
     {
         if (!travel.ParticipantIds.Contains(userId))
         {
