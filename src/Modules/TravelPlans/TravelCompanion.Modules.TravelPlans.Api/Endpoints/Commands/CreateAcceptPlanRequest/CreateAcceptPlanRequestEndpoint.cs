@@ -7,6 +7,7 @@ using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.CreateAcceptPlanRequest;
 
+[Route(TravelPlansEndpoint.BasePath)]
 internal sealed class CreateAcceptPlanRequestEndpoint : EndpointBaseAsync
     .WithRequest<Application.AcceptPlanRequests.Commands.CreateAcceptPlanRequest>
     .WithActionResult
@@ -21,7 +22,7 @@ internal sealed class CreateAcceptPlanRequestEndpoint : EndpointBaseAsync
     [Authorize]
     [HttpPost("Plan/Acceptance/{planId:guid}/Request")]
     [SwaggerOperation(
-        Summary = "Create Accept Travel Request",
+        Summary = "Create Accept Plan Request (Owner)",
         Tags = new[] { TravelPlansEndpoint.TravelPlansTag})]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

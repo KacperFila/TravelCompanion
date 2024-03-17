@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
@@ -20,6 +21,7 @@ public sealed class Plan : AggregateRoot
     public IList<TravelPoint> TravelPlanPoints { get; private set; }
     public bool DoesAllParticipantsPaid { get; private set; }
     public bool DoesAllParticipantsAccepted { get; private set; }
+    public string PlanStatus { get; private set; }
 
     public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0)
         : this(id, ownerId)
@@ -36,11 +38,24 @@ public sealed class Plan : AggregateRoot
         AdditionalCosts = new List<Receipt>();
         ParticipantPaidIds = new List<EntityId>();
         TravelPlanPoints = new List<TravelPoint>();
+        PlanStatus = Enums.PlanStatus.DuringPlanning;
         Version = version;
     }
 
     public Plan(AggregateId id, OwnerId ownerId)
-        => (Id, OwnerId) = (id, ownerId);
+    {
+        Id = id;
+        OwnerId = ownerId;
+        AdditionalCostsValue = Money.Create(0);
+        TotalCostValue = Money.Create(0);
+        DoesAllParticipantsAccepted = false;
+        DoesAllParticipantsPaid = false;
+        Participants = new List<EntityId>();
+        AdditionalCosts = new List<Receipt>();
+        ParticipantPaidIds = new List<EntityId>();
+        TravelPlanPoints = new List<TravelPoint>();
+        PlanStatus = Enums.PlanStatus.DuringPlanning;
+    }
 
     public static Plan Create(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from,
         DateOnly to)
@@ -65,10 +80,15 @@ public sealed class Plan : AggregateRoot
         CalculateTotalCost();
         IncrementVersion();
     }
-
     public void AcceptPlan()
     {
         DoesAllParticipantsAccepted = true;
+        PlanStatus = Enums.PlanStatus.Accepted;
+    }
+
+    public void ChangeStatusToDuringAcceptance()
+    {
+        PlanStatus = Enums.PlanStatus.DuringAcceptance;
     }
     public void RemoveAdditionalCost(Guid receiptId)
     {

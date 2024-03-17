@@ -33,7 +33,8 @@ internal sealed class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder
             .HasMany(x => x.AdditionalCosts)
             .WithOne()
-            .HasForeignKey(x => x.PlanId);
+            .HasForeignKey(x => x.PlanId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .Property(x => x.AdditionalCostsValue)
@@ -42,5 +43,6 @@ internal sealed class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder
             .Property(x => x.TotalCostValue)
             .HasConversion(x => x.Amount, x => Money.Create(x));
+
     }
 }

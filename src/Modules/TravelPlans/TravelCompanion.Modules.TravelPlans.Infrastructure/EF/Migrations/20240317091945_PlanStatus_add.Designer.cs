@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.TravelPlans.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.TravelPlans.Infrastructure;
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(TravelPlansDbContext))]
-    partial class TravelPlansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317091945_PlanStatus_add")]
+    partial class PlanStatus_add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,8 +210,7 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                 {
                     b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", null)
                         .WithMany("AdditionalCosts")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlanId");
 
                     b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.TravelPoint", null)
                         .WithMany("Receipts")

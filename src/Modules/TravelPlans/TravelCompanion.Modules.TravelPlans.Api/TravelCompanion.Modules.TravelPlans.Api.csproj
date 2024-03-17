@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Endpoints\Queries\**" />
+    <EmbeddedResource Remove="Endpoints\Queries\**" />
+    <None Remove="Endpoints\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="module.travelplans.development.json" />
     <None Remove="module.travelplans.json" />
   </ItemGroup>
@@ -32,7 +38,6 @@
     <Folder Include="Endpoints\Commands\CreateAcceptPlanRequest\" />
     <Folder Include="Endpoints\Commands\RemovePlanAdditionalCost\" />
     <Folder Include="Endpoints\Commands\RemovePointReceipt\" />
-    <Folder Include="Endpoints\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

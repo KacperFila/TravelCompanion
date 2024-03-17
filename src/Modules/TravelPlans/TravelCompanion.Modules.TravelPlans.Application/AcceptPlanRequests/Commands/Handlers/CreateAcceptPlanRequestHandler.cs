@@ -42,6 +42,7 @@ public class CreateAcceptPlanRequestHandler : ICommandHandler<CreateAcceptPlanRe
         }
 
         var request = PlanAcceptRequest.Create(command.planId);
+        plan.ChangeStatusToDuringAcceptance();
         await _planAcceptRequestRepository.AddAsync(request);
     }
 }
