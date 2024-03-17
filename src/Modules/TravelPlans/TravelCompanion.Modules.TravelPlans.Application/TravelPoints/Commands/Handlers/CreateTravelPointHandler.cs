@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -23,16 +24,22 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
     public async Task HandleAsync(CreateTravelPoint command)
     {
         var plan = await _planRepository.GetAsync(command.travelPlanId);
+        
         if (plan is null)
         {
             throw new PlanNotFoundException(command.travelPlanId);
         }
 
-        var isTravelPointAccepted = _userId == plan.OwnerId;
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
 
-        var travelPoint = TravelPoint.Create(Guid.NewGuid(), command.PlaceName, command.travelPlanId, isTravelPointAccepted);
+        var isPointAccepted = _userId == plan.OwnerId;
+
+        var point = TravelPoint.Create(Guid.NewGuid(), command.PlaceName, command.travelPlanId, isPointAccepted);
         
-        plan.AddTravelPoint(travelPoint);
+        plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);
     }
 }

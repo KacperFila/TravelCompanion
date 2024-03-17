@@ -1,4 +1,7 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using System.Numerics;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -25,22 +28,27 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
     public async Task HandleAsync(ChangeTravelPoint command)
     {
-        var doesTravelPointExist = await _travelPointRepository.ExistAsync(command.pointId);
+        var doesPointExist = await _travelPointRepository.ExistAsync(command.pointId);
 
-        if (!doesTravelPointExist)
+        if (!doesPointExist)
         {
             throw new TravelPointNotFoundException(command.pointId);
         }
 
-        var travelPoint = await _travelPointRepository.GetAsync(command.pointId);
-        var travelPlan = await _planRepository.GetAsync(travelPoint.PlanId);
+        var point = await _travelPointRepository.GetAsync(command.pointId);
+        var plan = await _planRepository.GetAsync(point.PlanId);
 
-        if (!(travelPlan.OwnerId == _userId || travelPlan.Participants.Contains(_userId)))
+        if (!(plan.OwnerId == _userId || plan.Participants.Contains(_userId)))
         {
             throw new UserNotAllowedToChangeTravelPointException();
         }
 
-        if (!travelPoint.IsAccepted)
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
+        if (!point.IsAccepted)
         {
             throw new CouldNotModifyNotAcceptedTravelPointException();
         }

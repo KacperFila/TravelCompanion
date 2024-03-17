@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -27,6 +28,11 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
         if (plan == null)
         {
             throw new PlanNotFoundException(command.planId);
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         if (!plan.Participants.Contains(_userId))

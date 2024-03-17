@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -39,6 +40,11 @@ public class CreateAcceptPlanRequestHandler : ICommandHandler<CreateAcceptPlanRe
         if (plan.OwnerId != _userId)
         {
             throw new UserNotAllowedToChangePlanException(command.planId);
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         var request = PlanAcceptRequest.Create(command.planId);

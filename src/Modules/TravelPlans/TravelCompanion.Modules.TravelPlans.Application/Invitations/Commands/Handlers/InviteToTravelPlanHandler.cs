@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -24,10 +25,10 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
     public async Task HandleAsync(InviteToTravelPlan command)
     {
-        var doesTravelPlanExist = await _planRepository.ExistAsync(command.planId);
+        var doesPlanExist = await _planRepository.ExistAsync(command.planId);
         var doesUserExist = await _usersModuleApi.CheckIfUserExists(command.userId);
 
-        if (!doesTravelPlanExist)
+        if (!doesPlanExist)
         {
             throw new PlanNotFoundException(command.planId);
         }
@@ -45,11 +46,16 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             throw new InvitationAlreadyExistsException(command.userId, command.planId);
         }
 
-        var travelPlan = await _planRepository.GetAsync(command.planId);
+        var plan = await _planRepository.GetAsync(command.planId);
 
-        if (travelPlan.Participants.Contains(command.userId))
+        if (plan.Participants.Contains(command.userId))
         {
             throw new UserAlreadyParticipatesInPlanException(command.userId);
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         var invitation = Invitation.Create(command.planId, command.userId);

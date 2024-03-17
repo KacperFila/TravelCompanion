@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -50,6 +51,11 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new PlanNotFoundException(point.PlanId);
         }
 
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
         foreach (var receiptParticipant in receiptParticipants)
         {
             if (!plan.Participants.Contains(receiptParticipant))
@@ -81,6 +87,11 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new UserNotAllowedToChangeTravelPointException();
         }
 
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
         point.RemoveReceipt(receipt);
 
         await _travelPointRepository.UpdateAsync(point);
@@ -102,7 +113,12 @@ public class TravelPointDomainService : ITravelPointDomainService
         {
             throw new PlanNotFoundException(travelPointId);
         }
-        
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
         if (!plan.Participants.Contains(_userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
@@ -143,6 +159,11 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new PlanNotFoundException(point.PlanId);
         }
 
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
         if (plan.OwnerId != _userId)
         {
             throw new UserNotOwnerOfPlanException(_userId);
@@ -177,6 +198,11 @@ public class TravelPointDomainService : ITravelPointDomainService
         if (plan.OwnerId != _userId)
         {
             throw new UserNotOwnerOfPlanException(_userId);
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         await _travelPointUpdateRequestRepository.RemoveAsync(request);

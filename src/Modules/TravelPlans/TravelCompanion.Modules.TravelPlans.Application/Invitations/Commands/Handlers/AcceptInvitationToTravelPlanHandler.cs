@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
@@ -26,16 +27,21 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
             throw new InvitationNotFoundException(command.invitationId);
         }
         
-        var travelPlan = await _planRepository.GetAsync(invitation.TravelPlanId);
+        var plan = await _planRepository.GetAsync(invitation.TravelPlanId);
 
-        if (travelPlan is null)
+        if (plan is null)
         {
             throw new PlanNotFoundException(invitation.TravelPlanId);
         }
 
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
         await _invitationRepository.RemoveAsync(command.invitationId);
         
-        travelPlan.AddParticipant(invitation.InviteeId);
-        await _planRepository.UpdateAsync(travelPlan);
+        plan.AddParticipant(invitation.InviteeId);
+        await _planRepository.UpdateAsync(plan);
     }
 }

@@ -1,4 +1,6 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -35,6 +37,11 @@ internal sealed class AcceptTravelPointHandler : ICommandHandler<AcceptTravelPoi
         if (_userId != plan.OwnerId)
         {
             throw new UserNotAllowedToChangeTravelPointException();
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         travelPoint.AcceptTravelPoint();

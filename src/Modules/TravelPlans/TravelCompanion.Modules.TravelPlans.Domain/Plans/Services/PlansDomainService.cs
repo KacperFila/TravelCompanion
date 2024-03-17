@@ -84,8 +84,5 @@ public sealed class PlansDomainService : IPlansDomainService
                 plan.AdditionalCostsValue.Amount,
                 planPointIds,
                 plan.TotalCostValue.Amount));
-
-        //TODO add plan status
-        //await _planRepository.DeleteAsync(plan.Id);
     }
 }

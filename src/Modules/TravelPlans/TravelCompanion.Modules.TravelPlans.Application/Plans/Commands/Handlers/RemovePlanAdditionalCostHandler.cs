@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -40,6 +41,11 @@ public sealed class RemovePlanAdditionalCostHandler : ICommandHandler<RemovePlan
         if (plan == null)
         {
             throw new PlanNotFoundException(plan.Id);
+        }
+
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            throw new PlanNotDuringPlanningException(plan.Id);
         }
 
         if (!plan.Participants.Contains(_userId))
