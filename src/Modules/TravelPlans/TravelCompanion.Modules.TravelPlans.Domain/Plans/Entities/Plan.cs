@@ -80,15 +80,18 @@ public sealed class Plan : AggregateRoot
         CalculateTotalCost();
         IncrementVersion();
     }
-    public void AcceptPlan()
+    public void ChangeStatusToAccepted()
     {
         DoesAllParticipantsAccepted = true;
         PlanStatus = Enums.PlanStatus.Accepted;
+        IncrementVersion();
     }
 
     public void ChangeStatusToDuringAcceptance()
     {
+        DoesAllParticipantsAccepted = false;
         PlanStatus = Enums.PlanStatus.DuringAcceptance;
+        IncrementVersion();
     }
     public void RemoveAdditionalCost(Guid receiptId)
     {

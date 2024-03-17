@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
@@ -33,5 +34,20 @@ public class PlanAcceptRequest
         }
 
         ParticipantsAccepted.Add(participantId);
+    }
+
+    public void RemoveParticipantAcceptation(Guid participantId)
+    {
+        if (participantId == Guid.Empty)
+        {
+            throw new InvalidParticipantException(participantId);
+        }
+
+        if (!ParticipantsAccepted.Contains(participantId))
+        {
+            throw new UserCannotDenyAcceptRequestException(participantId);
+        }
+
+        ParticipantsAccepted.Remove(participantId);
     }
 }

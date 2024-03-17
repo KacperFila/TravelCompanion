@@ -19,10 +19,9 @@ public class AcceptPlanRequestParticipantAddedHandler : IEventHandler<AcceptPlan
         var plan = await _planRepository.GetAsync(@event.planId);
         var request = await _planAcceptRequestRepository.GetByPlanAsync(plan.Id);
 
-        //TODO add check for plan is null? or because of it's an event so the entities have to be correct already
         if (plan.Participants.SequenceEqual(request.ParticipantsAccepted))
         {
-            plan.AcceptPlan();
+            plan.ChangeStatusToAccepted();
             await _planRepository.UpdateAsync(plan);
         }
     }

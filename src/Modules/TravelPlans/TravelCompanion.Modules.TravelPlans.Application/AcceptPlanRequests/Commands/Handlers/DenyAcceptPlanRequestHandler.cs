@@ -9,7 +9,7 @@ using TravelCompanion.Shared.Abstractions.Messaging;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.AcceptPlanRequests.Commands.Handlers;
 
-public sealed class AcceptPlanAcceptRequestHandler : ICommandHandler<AcceptPlanAcceptRequest>
+public class DenyAcceptPlanRequestHandler : ICommandHandler<DenyPlanAcceptRequest>
 {
     private readonly IPlanAcceptRequestRepository _planAcceptRequestRepository;
     private readonly IPlansDomainService _planDomainService;
@@ -17,16 +17,17 @@ public sealed class AcceptPlanAcceptRequestHandler : ICommandHandler<AcceptPlanA
     private readonly Guid _userId;
     private readonly IMessageBroker _messageBroker;
 
-    public AcceptPlanAcceptRequestHandler(IPlanAcceptRequestRepository planAcceptRequestRepository, IPlansDomainService planDomainService, IContext context, IMessageBroker messageBroker)
+    public DenyAcceptPlanRequestHandler(IPlanAcceptRequestRepository planAcceptRequestRepository,
+        IMessageBroker messageBroker, IContext context, IPlansDomainService planDomainService)
     {
-        _planAcceptRequestRepository = planAcceptRequestRepository;
-        _planDomainService = planDomainService;
-        _context = context;
         _messageBroker = messageBroker;
+        _context = context;
+        _planDomainService = planDomainService;
+        _planAcceptRequestRepository = planAcceptRequestRepository;
         _userId = _context.Identity.Id;
     }
 
-    public async Task HandleAsync(AcceptPlanAcceptRequest command)
+    public async Task HandleAsync(DenyPlanAcceptRequest command)
     {
         var request = await _planAcceptRequestRepository.GetByPlanAsync(command.travelPlanId);
 
@@ -42,8 +43,8 @@ public sealed class AcceptPlanAcceptRequestHandler : ICommandHandler<AcceptPlanA
             throw new UserDoesNotParticipateInPlanException(_userId, command.travelPlanId);
         }
 
-        request.AddParticipantAcceptation(_userId);
+        request.RemoveParticipantAcceptation(_userId);
         await _planAcceptRequestRepository.UpdateAsync(request);
-        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantAdded(_userId, command.travelPlanId));
+        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantRemoved(_userId, command.travelPlanId));
     }
 }
