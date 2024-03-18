@@ -53,7 +53,7 @@ public sealed class PlansDomainService : IPlansDomainService
         return await Task.FromResult(plan.Participants.Select(x => x.Value).ToList());
     }
 
-    public async Task AcceptTravelPlan(Guid planId)
+    public async Task CreateTravelFromPlan(Guid planId)
     {
         var plan = await _planRepository.GetAsync(planId);
 

@@ -31,13 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\Commands\AcceptPlan\" />
-    <Folder Include="Endpoints\Commands\AcceptTravelPoint\" />
-    <Folder Include="Endpoints\Commands\InviteToTravelPlan\" />
-    <Folder Include="Endpoints\Commands\AddPlanAdditionalCost\" />
-    <Folder Include="Endpoints\Commands\CreateAcceptPlanRequest\" />
-    <Folder Include="Endpoints\Commands\RemovePlanAdditionalCost\" />
-    <Folder Include="Endpoints\Commands\RemovePointReceipt\" />
+    <Folder Include="Endpoints\Commands\Plans\AcceptPlan\" />
+    <Folder Include="Endpoints\Commands\TravelPoints\AcceptTravelPoint\" />
+    <Folder Include="Endpoints\Commands\Invitations\InviteToTravelPlan\" />
+    <Folder Include="Endpoints\Commands\Plans\AddPlanAdditionalCost\" />
+    <Folder Include="Endpoints\Commands\AcceptPlanRequests\CreateAcceptPlanRequest\" />
+    <Folder Include="Endpoints\Commands\Plans\RemovePlanAdditionalCost\" />
+    <Folder Include="Endpoints\Commands\TravelPoints\RemovePointReceipt\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using TravelCompanion.Shared.Abstractions.Events;
-using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 
