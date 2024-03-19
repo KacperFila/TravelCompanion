@@ -67,6 +67,10 @@ public sealed class PlansDomainService : IPlansDomainService
             throw new UserNotAllowedToChangePlanException(planId);
         }
 
+        if (!plan.DoesAllParticipantsAccepted)
+        {
+            throw new PlanNotAcceptedException(planId);
+        }
 
         var planPointIds = plan.TravelPlanPoints.Select(x => x.Id.Value).ToList();
         var planReceiptIds = plan.AdditionalCosts.Select(x => x.Id.Value).ToList();

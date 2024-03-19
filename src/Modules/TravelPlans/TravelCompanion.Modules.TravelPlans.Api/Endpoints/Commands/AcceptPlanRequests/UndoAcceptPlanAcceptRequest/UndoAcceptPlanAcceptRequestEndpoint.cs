@@ -6,18 +6,17 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.TravelPlans.Application.AcceptPlanRequests.Commands;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.Plans.UndoAcceptPlan;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AcceptPlanRequests.UndoAcceptPlanAcceptRequest;
 
 [Route(TravelPlansEndpoint.BasePath)]
-internal sealed class UndoAcceptPlanEndpoint : EndpointBaseAsync
+internal sealed class UndoAcceptPlanAcceptRequestEndpoint : EndpointBaseAsync
     .WithRequest<DenyPlanAcceptRequest>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
-    public UndoAcceptPlanEndpoint(ICommandDispatcher commandDispatcher)
+    public UndoAcceptPlanAcceptRequestEndpoint(ICommandDispatcher commandDispatcher)
     {
         _commandDispatcher = commandDispatcher;
     }

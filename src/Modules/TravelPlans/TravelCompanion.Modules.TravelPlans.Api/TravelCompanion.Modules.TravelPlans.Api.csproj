@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\Commands\Plans\AcceptPlan\" />
+    <Folder Include="Endpoints\Commands\Plans\ConfirmPlan\" />
     <Folder Include="Endpoints\Commands\TravelPoints\AcceptTravelPoint\" />
     <Folder Include="Endpoints\Commands\Invitations\InviteToTravelPlan\" />
     <Folder Include="Endpoints\Commands\Plans\AddPlanAdditionalCost\" />

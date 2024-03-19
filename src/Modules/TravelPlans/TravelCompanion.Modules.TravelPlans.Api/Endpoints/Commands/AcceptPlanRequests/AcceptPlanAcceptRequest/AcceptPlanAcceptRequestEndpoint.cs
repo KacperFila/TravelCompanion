@@ -6,16 +6,16 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.Plans.AcceptPlan;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.AcceptPlanRequests.AcceptPlanAcceptRequest;
 
 [Route(TravelPlansEndpoint.BasePath)]
-internal sealed class AcceptPlanEndpoint : EndpointBaseAsync
+internal sealed class AcceptPlanAcceptRequestEndpoint : EndpointBaseAsync
     .WithRequest<Application.AcceptPlanRequests.Commands.AcceptPlanAcceptRequest>
     .WithActionResult
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
-    public AcceptPlanEndpoint(ICommandDispatcher commandDispatcher)
+    public AcceptPlanAcceptRequestEndpoint(ICommandDispatcher commandDispatcher)
     {
         _commandDispatcher = commandDispatcher;
     }
