@@ -61,7 +61,6 @@ internal class TravelService : ITravelService
             return null;
         }
         
-
         return AsTravelDetailsDto(travel);
     }
 
@@ -200,6 +199,17 @@ internal class TravelService : ITravelService
             Rating = travel.RatingValue,
             AdditionalCosts = travel.AdditionalCostsValue.Amount,
             TotalCosts = travel.TotalCostsValue.Amount,
+            TravelPoints = travel.TravelPoints.Select(AsTravelPointDto).ToList(),
+        };
+    }
+
+    private static TravelPointDTO AsTravelPointDto(TravelPoint point)
+    {
+        return new TravelPointDTO()
+        {
+            Id = point.TravelPointId,
+            PlaceName = point.PlaceName,
+            TotalCost = point.TotalCost.Amount
         };
     }
 }

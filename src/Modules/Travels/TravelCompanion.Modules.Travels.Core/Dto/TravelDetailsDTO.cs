@@ -1,4 +1,6 @@
-﻿namespace TravelCompanion.Modules.Travels.Core.DTO;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+
+namespace TravelCompanion.Modules.Travels.Core.DTO;
 
 internal class TravelDetailsDTO
 {
@@ -10,4 +12,5 @@ internal class TravelDetailsDTO
     public float? Rating { get; set; }
     public decimal AdditionalCosts { get; set; }
     public decimal TotalCosts { get; set; }
+    public List<TravelPointDTO> TravelPoints { get; set; }
 }

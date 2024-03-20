@@ -7,5 +7,4 @@ public class PointDTO
     public Guid Id { get; set; }
     public string PlaceName { get; set; }
     public decimal TotalCost { get; set; }
-
 }

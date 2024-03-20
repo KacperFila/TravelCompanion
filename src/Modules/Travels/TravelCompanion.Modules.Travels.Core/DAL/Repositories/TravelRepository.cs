@@ -16,11 +16,10 @@ internal class TravelRepository : ITravelRepository
 
     public async Task<Travel> GetAsync(Guid id)
     {
-        var travel = await _travels
+        return await _travels
             .Include(x => x.Ratings)
+            .Include(x => x.TravelPoints)
             .SingleOrDefaultAsync(x => x.Id == id);
-
-        return travel;
     }
 
     public async Task<bool> ExistAsync(Guid id)
