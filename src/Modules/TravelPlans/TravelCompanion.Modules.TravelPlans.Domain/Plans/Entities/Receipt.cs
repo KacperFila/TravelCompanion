@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -25,6 +26,16 @@ public sealed class Receipt
     public void ChangeReceiptParticipant(List<Guid> receiptParticipants)
     {
         ReceiptParticipants = receiptParticipants;
+    }
+
+    public void AddReceiptParticipant(Guid participantId)
+    {
+        if (ReceiptParticipants.Contains(participantId))
+        {
+            throw new InvalidParticipantException(participantId); //TODO refactor exception
+        }
+
+        ReceiptParticipants.Add(participantId);
     }
 
     public void ChangeAmount(Money amount)

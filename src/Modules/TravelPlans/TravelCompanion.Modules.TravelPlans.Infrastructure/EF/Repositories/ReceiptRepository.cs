@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 
@@ -23,6 +24,22 @@ public class ReceiptRepository : IReceiptRepository
     public async Task<Receipt> GetAsync(Guid receiptId)
     {
         return await _receipts.SingleOrDefaultAsync(x => x.Id == receiptId);
+    }
+
+    public async Task<List<Receipt>> BrowseForPlanAsync(Guid planId)
+    {
+        return await _receipts
+            .AsNoTracking()
+            .Where(x => x.PlanId == planId)
+            .ToListAsync();
+    }
+
+    public async Task<List<Receipt>> BrowseForPointAsync(Guid pointId)
+    {
+        return await _receipts
+        .AsNoTracking()
+            .Where(x => x.PointId == pointId)
+            .ToListAsync();
     }
 
     public async Task RemoveAsync(Receipt receipt)

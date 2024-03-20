@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <Folder Include="AcceptPlanRequests\Events\" />
+    <Folder Include="Invitations\Events\" />
     <Folder Include="Plans\Events\External\Handlers\" />
+    <Folder Include="Plans\DTO\" />
+    <Folder Include="Plans\Queries\Handlers\" />
     <Folder Include="TravelPointRemoveRequests\Commands\Handlers\" />
     <Folder Include="TravelPoints\Events\External\Handlers\" />
   </ItemGroup>

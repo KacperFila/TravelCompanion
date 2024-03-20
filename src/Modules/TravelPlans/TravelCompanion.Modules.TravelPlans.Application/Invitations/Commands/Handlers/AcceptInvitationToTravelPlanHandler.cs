@@ -1,9 +1,11 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+﻿using TravelCompanion.Modules.TravelPlans.Application.Invitations.Events;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
+using TravelCompanion.Shared.Abstractions.Messaging;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
@@ -11,11 +13,13 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 {
     private readonly IPlanRepository _planRepository;
     private readonly IInvitationRepository _invitationRepository;
+    private readonly IMessageBroker _messageBroker;
 
-    public AcceptInvitationToTravelPlanHandler(IPlanRepository planRepository, IInvitationRepository invitationRepository)
+    public AcceptInvitationToTravelPlanHandler(IPlanRepository planRepository, IInvitationRepository invitationRepository, IMessageBroker messageBroker)
     {
         _planRepository = planRepository;
         _invitationRepository = invitationRepository;
+        _messageBroker = messageBroker;
     }
 
     public async Task HandleAsync(AcceptInvitation command)
@@ -43,5 +47,6 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
         
         plan.AddParticipant(invitation.InviteeId);
         await _planRepository.UpdateAsync(plan);
+        await _messageBroker.PublishAsync(new ParticipantAddedToPlan(invitation.InviteeId, plan.Id));
     }
 }
