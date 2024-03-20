@@ -20,8 +20,13 @@ public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
 
     public async Task HandleAsync(CreateTravelPlan command)
     {
-        var travelPlan = Plan.Create(command.Id, _userId, command.title, command.description,
-            command.from, command.to);
+        var travelPlan = Plan.Create(
+            command.Id,
+            _userId,
+            command.title,
+            command.description,
+            command.from,
+            command.to);
 
         await _planRepository.AddAsync(travelPlan);
     }

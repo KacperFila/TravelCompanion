@@ -41,9 +41,13 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
         }
 
         var receipt = Receipt.Create(
-            plan.Participants.Select(x => x.Value).ToList(),
+            plan.Participants
+                .Select(x => x.Value)
+                .ToList(),
             Money.Create(command.amount),
-            command.planId, null, command.description);
+            command.planId,
+            null,
+            command.description);
 
         plan.AddAdditionalCost(receipt);
         await _planRepository.UpdateAsync(plan);

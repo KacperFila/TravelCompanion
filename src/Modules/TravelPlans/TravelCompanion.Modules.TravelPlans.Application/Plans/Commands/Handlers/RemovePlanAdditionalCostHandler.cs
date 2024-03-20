@@ -26,14 +26,14 @@ public sealed class RemovePlanAdditionalCostHandler : ICommandHandler<RemovePlan
     {
         var receipt = await _receiptRepository.GetAsync(command.receiptId);
 
-        if (receipt == null)
+        if (receipt is null)
         {
-            throw new ReceiptNotFoundException(receipt.Id);
+            throw new ReceiptNotFoundException(command.receiptId);
         }
 
         if (receipt.PlanId is null)
         {
-            throw new ReceiptNotAssignedToPlanException(receipt.Id);
+            throw new ReceiptNotAssignedToPlanException(command.receiptId);
         }
 
         var plan = await _planRepository.GetAsync(receipt.PlanId);
