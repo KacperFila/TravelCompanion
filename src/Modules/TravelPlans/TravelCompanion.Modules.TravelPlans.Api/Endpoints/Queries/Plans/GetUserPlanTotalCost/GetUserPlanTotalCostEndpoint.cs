@@ -9,6 +9,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.Plans.GetUserPlanTotalCost;
 
+[Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetUserPlanTotalCostEndpoint : EndpointBaseAsync
     .WithRequest<Application.Plans.Queries.GetUserPlanTotalCost>
     .WithResult<Money>

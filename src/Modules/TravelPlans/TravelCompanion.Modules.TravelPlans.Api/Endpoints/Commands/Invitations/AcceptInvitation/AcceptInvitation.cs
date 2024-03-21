@@ -20,7 +20,7 @@ internal sealed class AcceptInvitation : EndpointBaseAsync
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPut("Invitation/Acceptance/{invitationId:guid}")]
+    [HttpPut("Invitation/{invitationId:guid}/Acceptance")]
     [SwaggerOperation(
         Summary = "Accept Travel Plan Invitation",
         Tags = new[] { TravelPlansEndpoint.InvitationsTag })]

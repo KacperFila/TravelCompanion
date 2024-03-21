@@ -20,7 +20,7 @@ internal sealed class AcceptTravelPointRemoveRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPut("Point/Remove/Acceptance/{requestId:guid}")]
+    [HttpPut("Point/Removal/{requestId:guid}/Acceptance")]
     [SwaggerOperation(
         Summary = "Accept Travel Point Remove Request",
         Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]

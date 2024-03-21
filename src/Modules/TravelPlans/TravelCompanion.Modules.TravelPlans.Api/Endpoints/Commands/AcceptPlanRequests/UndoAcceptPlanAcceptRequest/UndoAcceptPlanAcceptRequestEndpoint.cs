@@ -22,7 +22,7 @@ internal sealed class UndoAcceptPlanAcceptRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("Plan/Acceptance/{travelPlanId:guid}")]
+    [HttpDelete("Plan/{travelPlanId:guid}/Acceptance")]
     [SwaggerOperation(
         Summary = "Undo Accept Travel Plan",
         Tags = new[] { TravelPlansEndpoint.TravelPlansTag })]

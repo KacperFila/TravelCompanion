@@ -21,10 +21,10 @@ internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("Point/Remove/Rejection/{requestId:guid}")]
+    [HttpDelete("Point/Removal/{requestId:guid}/Rejection")]
     [SwaggerOperation(
         Summary = "Reject Travel Point Remove Request",
-        Tags = new[] { TravelPlansEndpoint.InvitationsTag })]
+        Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

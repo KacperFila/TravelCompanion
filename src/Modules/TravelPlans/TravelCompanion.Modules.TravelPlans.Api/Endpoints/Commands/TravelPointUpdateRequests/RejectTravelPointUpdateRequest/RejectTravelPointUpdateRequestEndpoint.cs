@@ -21,7 +21,7 @@ internal sealed class RejectTravelPointUpdateRequestEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpDelete("Point/Update/Rejection/{requestId:guid}")]
+    [HttpDelete("Point/Update/{requestId:guid}/Rejection")]
     [SwaggerOperation(
         Summary = "Reject Travel Point Update Request",
         Tags = new[] { TravelPlansEndpoint.TravelPointsTag })]
