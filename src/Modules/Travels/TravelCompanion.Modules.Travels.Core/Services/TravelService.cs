@@ -64,9 +64,9 @@ internal class TravelService : ITravelService
         return AsTravelDetailsDto(travel);
     }
 
-    public async Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync()
+    public async Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync(string? searchTerm)
     {
-        var travels = await _travelRepository.GetAllAsync();
+        var travels = await _travelRepository.GetAllAsync(searchTerm);
 
         var dtos = travels.Select(AsTravelDetailsDto).ToList();
 

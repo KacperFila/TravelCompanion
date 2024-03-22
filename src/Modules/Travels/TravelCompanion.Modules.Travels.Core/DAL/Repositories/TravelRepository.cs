@@ -27,9 +27,20 @@ internal class TravelRepository : ITravelRepository
         return await _travels.AnyAsync(x => x.Id == id);
     }
 
-    public async Task<List<Travel>> GetAllAsync()
+    public async Task<List<Travel>> GetAllAsync(string? searchTerm)
     {
-        return await _travels.ToListAsync();
+        var baseQuery = _travels
+            .Include(x => x.AdditionalCosts)
+            .Include(x => x.Ratings)
+            .Include(x => x.TravelPoints)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            baseQuery = baseQuery.Where(x => x.Title.Contains(searchTerm));
+        }
+
+        return await baseQuery.ToListAsync();
     }
 
     public async Task AddAsync(Travel travel)

@@ -34,7 +34,6 @@
   <ItemGroup>
     <Folder Include="Endpoints\Postcards\GetPostcardsByTravel\" />
     <Folder Include="Endpoints\Postcards\ChangePostcardStatus\" />
-    <Folder Include="Endpoints\Travels\GetAllTravels\" />
     <Folder Include="Endpoints\Travels\VisitTravelPoint\" />
   </ItemGroup>
 

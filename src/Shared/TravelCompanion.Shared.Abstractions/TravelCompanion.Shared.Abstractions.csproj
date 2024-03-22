@@ -12,7 +12,6 @@
     <Folder Include="Kernel\ValueObjects\Money\Exceptions\" />
     <Folder Include="Messaging\" />
     <Folder Include="Commands\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" Version="4.1.0" />
