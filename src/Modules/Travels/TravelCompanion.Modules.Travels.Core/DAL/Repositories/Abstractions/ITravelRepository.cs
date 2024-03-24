@@ -6,7 +6,7 @@ public interface ITravelRepository
 {
     Task<Travel> GetAsync(Guid id);
     Task<bool> ExistAsync(Guid id);
-    Task<List<Travel>> GetAllAsync(string? searchTerm);
+    Task<List<Travel>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
     Task AddAsync(Travel travel);
     Task UpdateAsync(Travel travel);
     Task DeleteAsync(Guid id);

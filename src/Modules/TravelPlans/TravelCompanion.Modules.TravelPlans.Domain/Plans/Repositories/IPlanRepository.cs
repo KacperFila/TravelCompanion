@@ -6,6 +6,7 @@ public interface IPlanRepository
 {
     Task<Plan> GetAsync(Guid id);
     Task<Plan> GetByPointIdAsync(Guid pointId);
+    Task<List<Plan>> BrowseAsync();
     Task AddAsync(Plan plan);
     Task<bool> ExistAsync(Guid id);
     Task UpdateAsync(Plan plan);

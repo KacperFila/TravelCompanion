@@ -32,6 +32,7 @@
     <Folder Include="Endpoints\Commands\AcceptPlanRequests\CreateAcceptPlanRequest\" />
     <Folder Include="Endpoints\Commands\Plans\RemovePlanAdditionalCost\" />
     <Folder Include="Endpoints\Commands\TravelPoints\RemovePointReceipt\" />
+    <Folder Include="Endpoints\Queries\Plans\GetUserPlans\" />
   </ItemGroup>
 
   <ItemGroup>

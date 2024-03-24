@@ -27,7 +27,7 @@ internal class TravelRepository : ITravelRepository
         return await _travels.AnyAsync(x => x.Id == id);
     }
 
-    public async Task<List<Travel>> GetAllAsync(string? searchTerm)
+    public async Task<List<Travel>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder)
     {
         var baseQuery = _travels
             .Include(x => x.AdditionalCosts)

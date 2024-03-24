@@ -34,6 +34,13 @@ public class PlanRepository : IPlanRepository
                 .Any(s => s.Id == pointId));
     }
 
+    public async Task<List<Plan>> BrowseAsync()
+    {
+        return _travelPlans
+            .AsNoTracking()
+            .AsQueryable();
+    }
+
     public async Task AddAsync(Plan plan)
     {
         await _travelPlans.AddAsync(plan);
