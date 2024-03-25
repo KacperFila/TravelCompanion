@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
+using TravelCompanion.Shared.Abstractions.Queries;
+using TravelCompanion.Shared.Infrastructure.Postgres;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 
@@ -34,11 +36,12 @@ public class PlanRepository : IPlanRepository
                 .Any(s => s.Id == pointId));
     }
 
-    public async Task<List<Plan>> BrowseAsync()
+    public async Task<Paged<Plan>> BrowseAsync(int page, int results)
     {
-        return _travelPlans
+        return await _travelPlans
             .AsNoTracking()
-            .AsQueryable();
+            .AsQueryable()
+            .PaginateAsync(page, results);
     }
 
     public async Task AddAsync(Plan plan)

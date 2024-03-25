@@ -14,5 +14,5 @@ public class PlanDetailsDTO
     public decimal AdditionalCostsValue { get; set; }
     public decimal TotalCostValue { get; set; }
     public string PlanStatus { get; set; }
-    public IList<PointDTO> PlanPoints { get; set; }
+    //public IList<PointDTO> PlanPoints { get; set; }
 }

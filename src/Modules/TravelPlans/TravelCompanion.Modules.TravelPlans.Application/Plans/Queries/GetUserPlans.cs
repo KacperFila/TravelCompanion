@@ -3,4 +3,4 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
-public record GetUserPlans(Guid planId) : IQuery<Paged<PlanDetailsDTO>>;
+public class GetUserPlans(Guid planId) : PagedQueryGeneric<PlanDetailsDTO>;
