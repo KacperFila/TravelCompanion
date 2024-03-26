@@ -29,7 +29,7 @@ internal sealed class GetAllTravelsEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public override async Task<ActionResult<List<TravelDetailsDTO>>> HandleAsync(GetAllTravelsRequest request, CancellationToken cancellationToken = new CancellationToken())
     {
-        var travels = await _travelService.GetAllAsync(request.searchTerm);
+        var travels = await _travelService.GetAllAsync(request.SearchTerm, request.OrderBy, request.SortOrder);
         return Ok(travels);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 using TravelCompanion.Shared.Abstractions.Queries;
 
@@ -30,9 +31,9 @@ internal sealed class GetUserPlansEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<Paged<PlanDetailsDTO>>> HandleAsync(Application.Plans.Queries.GetUserPlans query, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<Paged<PlanDetailsDTO>>> HandleAsync([FromQuery]Application.Plans.Queries.GetUserPlans query, CancellationToken cancellationToken = default)
     {
-        var result = await _queryDispatcher.QueryAsync(query);
+        var result = await _queryDispatcher.QueryAsync<Paged<PlanDetailsDTO>>(query);
         return Ok(result);
     }
 }

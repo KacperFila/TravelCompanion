@@ -3,7 +3,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
-public class GetPlanWithPoints : IQuery<PlanDetailsDTO>
+public class GetPlanWithPoints : IQuery<PlanWithPointsDTO>
 {
     public Guid planId { get; set; }
 }

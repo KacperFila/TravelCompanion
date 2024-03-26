@@ -36,10 +36,11 @@ public class PlanRepository : IPlanRepository
                 .Any(s => s.Id == pointId));
     }
 
-    public async Task<Paged<Plan>> BrowseAsync(int page, int results)
+    public async Task<Paged<Plan>> BrowseForUserAsync(Guid userId, int page, int results)
     {
         return await _travelPlans
             .AsNoTracking()
+            .Where(x => x.OwnerId == userId)
             .AsQueryable()
             .PaginateAsync(page, results);
     }

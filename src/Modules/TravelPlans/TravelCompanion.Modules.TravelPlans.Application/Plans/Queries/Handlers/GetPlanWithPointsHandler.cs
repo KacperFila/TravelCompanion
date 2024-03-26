@@ -8,7 +8,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, PlanDetailsDTO>
+public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, PlanWithPointsDTO>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
@@ -21,7 +21,7 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
         _userId = _context.Identity.Id;
     }
 
-    public async Task<PlanDetailsDTO> HandleAsync(GetPlanWithPoints query)
+    public async Task<PlanWithPointsDTO> HandleAsync(GetPlanWithPoints query)
     {
         var plan = await _planRepository.GetAsync(query.planId);
 
@@ -35,12 +35,12 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
             throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
         }
 
-        return AsPlanDetailsDto(plan);
+        return AsPlanWithPointsDto(plan);
     }
 
-    private static PlanDetailsDTO AsPlanDetailsDto(Plan plan)
+    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanDetailsDTO()
+        return new PlanWithPointsDTO()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,

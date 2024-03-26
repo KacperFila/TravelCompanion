@@ -1,6 +1,14 @@
-﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
-public class GetUserPlans(Guid planId) : PagedQueryGeneric<PlanDetailsDTO>;
+public class GetUserPlans: PagedQueryGeneric<PlanDetailsDTO>
+{
+    public GetUserPlans()
+    {
+        SortOrder = "DESC";
+        OrderBy = "Id";
+    }
+}

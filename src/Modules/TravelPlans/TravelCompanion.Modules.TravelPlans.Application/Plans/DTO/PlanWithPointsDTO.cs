@@ -1,8 +1,6 @@
-﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+﻿namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
-
-public class PlanDetailsDTO
+public class PlanWithPointsDTO
 {
     public Guid Id { get; set; }
     public Guid OwnerId { get; set; }
@@ -14,4 +12,5 @@ public class PlanDetailsDTO
     public decimal AdditionalCostsValue { get; set; }
     public decimal TotalCostValue { get; set; }
     public string PlanStatus { get; set; }
+    public IList<PointDTO> PlanPoints { get; set; }
 }

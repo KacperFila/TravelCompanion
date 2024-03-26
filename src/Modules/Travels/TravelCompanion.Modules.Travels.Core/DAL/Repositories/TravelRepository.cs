@@ -37,7 +37,9 @@ internal class TravelRepository : ITravelRepository
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            baseQuery = baseQuery.Where(x => x.Title.Contains(searchTerm));
+            baseQuery = baseQuery.Where(
+                x => x.Title.ToLower()
+                    .Contains(searchTerm.ToLower()));
         }
 
         return await baseQuery.ToListAsync();

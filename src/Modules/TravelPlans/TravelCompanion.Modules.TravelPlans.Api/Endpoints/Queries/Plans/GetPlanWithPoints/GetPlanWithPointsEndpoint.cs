@@ -12,7 +12,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.Plans.GetPla
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetPlanWithPointsEndpoint : EndpointBaseAsync
     .WithRequest<Application.Plans.Queries.GetPlanWithPoints>
-    .WithActionResult<PlanDetailsDTO>
+    .WithActionResult<PlanWithPointsDTO>
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -25,12 +25,12 @@ internal sealed class GetPlanWithPointsEndpoint : EndpointBaseAsync
     [HttpGet("Plan/{planId:guid}/Points")]
     [SwaggerOperation(
         Summary = "Get Points For Plan",
-        Tags = new[] { TravelPlansEndpoint.TravelPointsTag})]
+        Tags = new[] { TravelPlansEndpoint.TravelPlansTag})]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<PlanDetailsDTO>> HandleAsync([FromRoute]Application.Plans.Queries.GetPlanWithPoints query, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<PlanWithPointsDTO>> HandleAsync([FromRoute]Application.Plans.Queries.GetPlanWithPoints query, CancellationToken cancellationToken = default)
     {
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

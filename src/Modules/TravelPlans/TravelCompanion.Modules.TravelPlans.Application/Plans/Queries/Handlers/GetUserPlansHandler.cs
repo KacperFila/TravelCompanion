@@ -1,6 +1,7 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
+using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
@@ -8,18 +9,24 @@ namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers
 public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<PlanDetailsDTO>>
 {
     private readonly IPlanRepository _planRepository;
+    private readonly IContext _context;
+    private readonly Guid _userId;
 
-    public GetUserPlansHandler(IPlanRepository planRepository)
+    public GetUserPlansHandler(IPlanRepository planRepository, IContext context)
     {
         _planRepository = planRepository;
+        _context = context;
+        _userId = _context.Identity.Id;
     }
 
     public async Task<Paged<PlanDetailsDTO>> HandleAsync(GetUserPlans query)
     {
-        var plans = await _planRepository.BrowseAsync(query.Page, query.Results);
-
+        var plans = await _planRepository.BrowseForUserAsync(_userId, query.Page, query.Results);
         var dtos = plans.Items.Select(AsPlanDetailsDto).ToList();
-        //TODO finish pagination
+
+        var pagedDtos = new Paged<PlanDetailsDTO>(dtos, plans.CurrentPage, plans.ResultsPerPage, plans.TotalPages, plans.TotalResults);
+
+        return pagedDtos;
     }
 
     private static PlanDetailsDTO AsPlanDetailsDto(Plan plan)
