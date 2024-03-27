@@ -34,7 +34,7 @@ internal sealed class AddTravelEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public override async Task<ActionResult> HandleAsync(TravelUpsertDTO request, CancellationToken cancellationToken = default)
     {
-        await _travelDtoValidator.ValidateAndThrowAsync(request, cancellationToken);
+        await _travelDtoValidator.ValidateAndThrowAsync(request, cancellationToken); // TODO XDDDD
         await _travelService.AddAsync(request);
 
         return Created();

@@ -1,6 +1,7 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -96,6 +97,12 @@ public sealed class Plan : AggregateRoot
     public void RemoveAdditionalCost(Guid receiptId)
     {
         var cost = AdditionalCosts.FirstOrDefault(x => x.Id == receiptId);
+
+        if (cost is null)
+        {
+            throw new ReceiptNotFoundException(receiptId);
+        }
+
         AdditionalCosts.Remove(cost);
         CalculateAdditionalCosts();
         CalculateTotalCost();

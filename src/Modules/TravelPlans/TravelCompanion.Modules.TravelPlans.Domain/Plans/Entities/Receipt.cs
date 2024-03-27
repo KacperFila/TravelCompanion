@@ -57,7 +57,7 @@ public sealed class Receipt
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {
-            throw new InvalidReceiptParameteresException();
+            throw new InvalidReceiptParametersException();
         }
 
         var receipt = new Receipt(receiptParticipants, planId, pointId);
