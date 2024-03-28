@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
@@ -24,7 +23,7 @@ public sealed class Plan : AggregateRoot
     public bool DoesAllParticipantsAccepted { get; private set; }
     public string PlanStatus { get; private set; }
 
-    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0)
+    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0, string planStatus = Enums.PlanStatus.DuringPlanning)
         : this(id, ownerId)
     {
         Title = title;
@@ -39,7 +38,7 @@ public sealed class Plan : AggregateRoot
         AdditionalCosts = new List<Receipt>();
         ParticipantPaidIds = new List<EntityId>();
         TravelPlanPoints = new List<TravelPoint>();
-        PlanStatus = Enums.PlanStatus.DuringPlanning;
+        PlanStatus = planStatus;
         Version = version;
     }
 
@@ -88,6 +87,11 @@ public sealed class Plan : AggregateRoot
     }
     public void ChangeStatusToAccepted()
     {
+        if (PlanStatus == Enums.PlanStatus.Accepted)
+        {
+            throw new PlanAlreadyAcceptedException(Id);
+        }
+
         DoesAllParticipantsAccepted = true;
         PlanStatus = Enums.PlanStatus.Accepted;
         IncrementVersion();
@@ -120,7 +124,6 @@ public sealed class Plan : AggregateRoot
         var totalCost = receipts.Sum(x => x.Amount.Amount);
         totalCost += AdditionalCostsValue.Amount;
         TotalCostValue = Money.Create(totalCost);
-        IncrementVersion();
     }
 
     public void ChangeTitle(string title)
@@ -147,8 +150,7 @@ public sealed class Plan : AggregateRoot
 
     public void ChangeFrom(DateOnly from)
     {
-        //TODO add validation so from could not be later than to
-        if (from < DateOnly.FromDateTime(DateTime.UtcNow))
+        if (from < DateOnly.FromDateTime(DateTime.UtcNow) || from > To)
         {
             throw new InvalidPlanDateException(Id);
         }
@@ -159,8 +161,7 @@ public sealed class Plan : AggregateRoot
 
     public void ChangeTo(DateOnly to)
     {
-
-        if (to < DateOnly.FromDateTime(DateTime.UtcNow))
+        if (to < DateOnly.FromDateTime(DateTime.UtcNow) || to < From)
         {
             throw new InvalidPlanDateException(Id);
         }
@@ -171,6 +172,11 @@ public sealed class Plan : AggregateRoot
 
     public void AddParticipant(Guid id)
     {
+        if (Participants.Contains(id))
+        {
+            throw new UserAlreadyParticipatesInPlanException(id);
+        }
+
         Participants.Add(id);
         IncrementVersion();
     }
