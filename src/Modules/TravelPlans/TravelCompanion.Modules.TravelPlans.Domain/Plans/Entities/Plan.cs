@@ -76,6 +76,11 @@ public sealed class Plan : AggregateRoot
 
     public void AddAdditionalCost(Receipt receipt)
     {
+        if (!receipt.PlanId.Equals(Id))
+        {
+            throw new InvalidReceiptPlanIdException(receipt.Id);
+        }
+
         AdditionalCosts.Add(receipt);
         CalculateAdditionalCosts();
         CalculateTotalCost();

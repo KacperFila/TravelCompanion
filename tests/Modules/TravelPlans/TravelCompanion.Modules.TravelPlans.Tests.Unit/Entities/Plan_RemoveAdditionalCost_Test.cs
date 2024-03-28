@@ -9,9 +9,10 @@ public class Plan_RemoveAdditionalCost_Test
 {
     private void Act(ReceiptId receiptId) => _plan.RemoveAdditionalCost(receiptId);
 
-    private readonly AggregateId planId = new AggregateId(Guid.NewGuid());
-    private readonly OwnerId ownerId = new OwnerId(Guid.NewGuid());
+    private readonly Guid planId = Guid.NewGuid();
+    private readonly Guid ownerId = Guid.NewGuid();
     private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly Plan _plan;
 
     private static Receipt GetReceipt(AggregateId planId, List<Guid> receiptParticipants) =>
         Receipt.Create(receiptParticipants, Money.Create(10), planId, null, "desc");
@@ -31,7 +32,6 @@ public class Plan_RemoveAdditionalCost_Test
         exception.ShouldBeOfType<ReceiptNotFoundException>();
     }
 
-    private readonly Plan _plan;
 
     // Setup 
     public Plan_RemoveAdditionalCost_Test()
