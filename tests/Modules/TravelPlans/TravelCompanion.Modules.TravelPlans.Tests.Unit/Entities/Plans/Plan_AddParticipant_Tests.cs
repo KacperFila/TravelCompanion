@@ -3,7 +3,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
-namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities;
+namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
 public class Plan_AddParticipant_Tests
 {

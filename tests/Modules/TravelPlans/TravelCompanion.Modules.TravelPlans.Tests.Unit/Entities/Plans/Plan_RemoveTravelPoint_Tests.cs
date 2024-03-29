@@ -1,39 +1,38 @@
 ﻿using Shouldly;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 
-namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities;
+namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
-public class Plan_AddTravelPoint_Tests
+public class Plan_RemoveTravelPoint_Tests
 {
-    private void Act(TravelPoint point) => _plan.AddTravelPoint(point);
+    private void Act(TravelPoint point) => _plan.RemoveTravelPoint(point);
 
     [Fact]
-    public void given_travelPoint_does_not_exist_in_plan_addition_should_succeed()
-    {
-        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false);
-
-        var exception = Record.Exception(() => Act(point));
-
-        exception.ShouldBeNull();
-        _plan.TravelPlanPoints.ShouldContain(point);
-    }
-
-    [Fact]
-    public void given_travelPoint_is_already_added_addition_should_fail()
+    public void given_point_is_added_to_plan_removal_should_succeed()
     {
         var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false);
         _plan.AddTravelPoint(point);
 
         var exception = Record.Exception(() => Act(point));
 
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<TravelPointAlreadyAddedException>();
+        exception.ShouldBeNull();
+        _plan.TravelPlanPoints.ShouldNotContain(point);
     }
 
     [Fact]
-    public void given_travelPoint_is_null_addition_should_fail()
+    public void given_point_does_not_belong_to_plan_removal_should_fail()
+    {
+        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false);
+
+        var exception = Record.Exception(() => Act(point));
+
+        exception.ShouldNotBeNull();
+        exception.ShouldBeOfType<TravelPointNotFoundException>();
+    }
+
+    [Fact]
+    public void given_point_is_null_removal_should_fail()
     {
         TravelPoint point = null;
 
@@ -42,9 +41,9 @@ public class Plan_AddTravelPoint_Tests
         exception.ShouldNotBeNull();
         exception.ShouldBeOfType<InvalidTravelPointException>();
     }
-    
+
     private readonly Plan _plan;
-    public Plan_AddTravelPoint_Tests()
+    public Plan_RemoveTravelPoint_Tests()
     {
         _plan = new Plan(
             Guid.NewGuid(),

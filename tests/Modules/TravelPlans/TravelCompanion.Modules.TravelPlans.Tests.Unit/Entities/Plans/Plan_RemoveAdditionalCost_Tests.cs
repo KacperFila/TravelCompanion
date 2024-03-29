@@ -5,7 +5,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Time;
 
-namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities;
+namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 public class Plan_RemoveAdditionalCost_Tests
 {
     private void Act(ReceiptId receiptId) => _plan.RemoveAdditionalCost(receiptId);

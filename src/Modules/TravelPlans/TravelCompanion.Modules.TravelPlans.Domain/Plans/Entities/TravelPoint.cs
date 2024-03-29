@@ -45,13 +45,17 @@ public class TravelPoint : AggregateRoot
 
     public void AcceptTravelPoint()
     {
+        if (IsAccepted)
+        {
+            throw new PointAlreadyAcceptedException(Id);
+        }
+
         IsAccepted = true;
         IncrementVersion();
     }
     
-    public void AddReceipt(Guid pointId, decimal amount, List<Guid> receiptParticipants, string description)
+    public void AddReceipt(Receipt receipt)
     {
-        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, pointId, description);
         Receipts.Add(receipt);
         CalculateCost();
         IncrementVersion();

@@ -2,7 +2,7 @@
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 
-namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities;
+namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
 public class Plan_ChangeFrom_Tests
 {

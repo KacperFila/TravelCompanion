@@ -5,11 +5,11 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Time;
 
-namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities;
+namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 public class Plan_AddAdditionalCost_Tests
 {
     private void Act(Receipt receipt) => _plan.AddAdditionalCost(receipt);
-    
+
     private readonly AggregateId planId = new(Guid.NewGuid());
     private readonly OwnerId ownerId = new(Guid.NewGuid());
     private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();

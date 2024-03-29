@@ -8,6 +8,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
@@ -64,7 +65,8 @@ public class TravelPointDomainService : ITravelPointDomainService
             }
         }
 
-        point.AddReceipt(pointId, amount, receiptParticipants, description);
+        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, new AggregateId(pointId), description);
+        point.AddReceipt(receipt);
         await _travelPointRepository.UpdateAsync(point);
         await _messageBroker.PublishAsync(new PointReceiptAdded(plan.Id, amount));
     }
@@ -79,7 +81,6 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         var point = await _travelPointRepository.GetAsync(receipt.PointId);
-
         var plan = await _planRepository.GetAsync(point.PlanId);
 
         if (plan.OwnerId != _userId)
