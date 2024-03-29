@@ -96,7 +96,6 @@ public sealed class Plan : AggregateRoot
         PlanStatus = Enums.PlanStatus.Accepted;
         IncrementVersion();
     }
-
     public void ChangeStatusToDuringAcceptance()
     {
         DoesAllParticipantsAccepted = false;
@@ -117,7 +116,6 @@ public sealed class Plan : AggregateRoot
         CalculateTotalCost();
         IncrementVersion();
     }
-
     public void CalculateTotalCost()
     {
         var receipts = TravelPlanPoints.SelectMany(x => x.Receipts).ToList();
@@ -125,7 +123,6 @@ public sealed class Plan : AggregateRoot
         totalCost += AdditionalCostsValue.Amount;
         TotalCostValue = Money.Create(totalCost);
     }
-
     public void ChangeTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -136,7 +133,6 @@ public sealed class Plan : AggregateRoot
         Title = title; 
         IncrementVersion();
     }
-
     public void ChangeDescription(string description)
     {
         if (string.IsNullOrWhiteSpace(description))
@@ -147,7 +143,6 @@ public sealed class Plan : AggregateRoot
         Description = description;
         IncrementVersion();
     }
-
     public void ChangeFrom(DateOnly from)
     {
         if (from < DateOnly.FromDateTime(DateTime.UtcNow) || from > To)
@@ -158,7 +153,6 @@ public sealed class Plan : AggregateRoot
         From = from;
         IncrementVersion();
     }
-
     public void ChangeTo(DateOnly to)
     {
         if (to < DateOnly.FromDateTime(DateTime.UtcNow) || to < From)
@@ -169,7 +163,6 @@ public sealed class Plan : AggregateRoot
         To = to;
         IncrementVersion();
     }
-
     public void AddParticipant(Guid id)
     {
         if (Participants.Contains(id))
@@ -180,29 +173,36 @@ public sealed class Plan : AggregateRoot
         Participants.Add(id);
         IncrementVersion();
     }
-
     public void AddTravelPoint(TravelPoint travelPoint)
     {
-        if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
+        if (travelPoint is null)
         {
             throw new InvalidTravelPointException();
+        }
+
+        if (TravelPlanPoints.Contains(travelPoint))
+        {
+            throw new TravelPointAlreadyAddedException(travelPoint.Id);
         }
 
         TravelPlanPoints.Add(travelPoint);
         IncrementVersion();
     }
-
     public void RemoveTravelPoint(TravelPoint travelPoint)
     {
-        if (travelPoint is null || string.IsNullOrEmpty(travelPoint.PlaceName))
+        if (travelPoint is null)
         {
             throw new InvalidTravelPointException();
+        }
+
+        if (!TravelPlanPoints.Contains(travelPoint))
+        {
+            throw new TravelPointNotFoundException(travelPoint.Id);
         }
 
         TravelPlanPoints.Remove(travelPoint);
         IncrementVersion();
     }
-
     private void CalculateAdditionalCosts()
     {
         var amountSum = AdditionalCosts.Sum(x => x.Amount.Amount);
