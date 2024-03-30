@@ -15,10 +15,5 @@ public sealed class Invitation
     }
 
     public static Invitation Create(AggregateId travelPlanId, EntityId inviteeId)
-    {
-        var invitation = new Invitation(travelPlanId, inviteeId);
-        
-        return invitation;
-    }
-    
+    => new(travelPlanId, inviteeId);
 }

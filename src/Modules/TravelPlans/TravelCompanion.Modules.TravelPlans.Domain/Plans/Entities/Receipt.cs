@@ -22,9 +22,28 @@ public sealed class Receipt
         PlanId = planId;
         PointId = pointId;
     }
-
-    public void ChangeReceiptParticipant(List<Guid> receiptParticipants)
+    public static Receipt Create(List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
     {
+        if (!ValidPlanIdAndPointId(planId, pointId))
+        {
+            throw new InvalidReceiptParametersException();
+        }
+
+        var receipt = new Receipt(receiptParticipants, planId, pointId);
+        receipt.ChangeReceiptParticipants(receiptParticipants);
+        receipt.ChangeAmount(amount);
+        receipt.ChangeDescription(description);
+
+        return receipt;
+    }
+
+    public void ChangeReceiptParticipants(List<Guid> receiptParticipants)
+    {
+        if (!receiptParticipants.Any())
+        {
+            throw new InvalidReceiptParametersException();
+        }
+
         ReceiptParticipants = receiptParticipants;
     }
 
@@ -32,7 +51,7 @@ public sealed class Receipt
     {
         if (ReceiptParticipants.Contains(participantId))
         {
-            throw new InvalidParticipantException(participantId); //TODO refactor exception
+            throw new ParticipantAlreadyAddedException(participantId);
         }
 
         ReceiptParticipants.Add(participantId);
@@ -53,20 +72,6 @@ public sealed class Receipt
         Description = description;
     }
 
-    public static Receipt Create(List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
-    {
-        if (!ValidPlanIdAndPointId(planId, pointId))
-        {
-            throw new InvalidReceiptParametersException();
-        }
-
-        var receipt = new Receipt(receiptParticipants, planId, pointId);
-        receipt.ChangeReceiptParticipant(receiptParticipants);
-        receipt.ChangeAmount(amount);
-        receipt.ChangeDescription(description);
-
-        return receipt;
-    }
 
     private static bool ValidPlanIdAndPointId(AggregateId? planId, AggregateId? pointId)
     {
