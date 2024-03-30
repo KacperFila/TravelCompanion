@@ -25,8 +25,4 @@
     <ProjectReference Include="..\..\..\..\src\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\Points\" />
-  </ItemGroup>
-
 </Project>

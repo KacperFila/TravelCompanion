@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
@@ -63,6 +64,11 @@ public class TravelPoint : AggregateRoot
 
     public void RemoveReceipt(Receipt receipt)
     {
+        if (!Receipts.Contains(receipt))
+        {
+            throw new ReceiptNotFoundException(receipt.Id);
+        }
+
         Receipts.Remove(receipt);
         CalculateCost();
         IncrementVersion();
