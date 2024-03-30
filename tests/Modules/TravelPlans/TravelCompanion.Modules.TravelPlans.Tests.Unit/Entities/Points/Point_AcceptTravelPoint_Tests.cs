@@ -11,7 +11,7 @@ public class Point_AcceptTravelPoint_Tests
     [Fact]
     public void given_point_is_not_accepted_acceptance_should_succeed()
     {
-        var exception = Record.Exception(_point.AcceptTravelPoint);
+        var exception = Record.Exception(Act);
 
         exception.ShouldBeNull();
         _point.IsAccepted.ShouldBeTrue();
