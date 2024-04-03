@@ -15,8 +15,8 @@ internal class TravelPlansModule : IModule
     public void Register(IServiceCollection services)
     {
         services
-            .AddApplication()
             .AddDomain()
+            .AddApplication()
             .AddInfrastructure();
     }
 

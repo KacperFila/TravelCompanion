@@ -5,8 +5,8 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 public class AcceptPlanRequestForPlanNotFoundException : TravelCompanionException
 {
     public Guid Id { get; set; }
-    public AcceptPlanRequestForPlanNotFoundException(Guid id) : base($"Accept plan request for plan with Id: {id} was not found.")
+    public AcceptPlanRequestForPlanNotFoundException(Guid planId) : base($"Accept plan request for plan with Id: {planId} was not found.")
     {
-        Id = Id;
+        Id = planId;
     }
 }

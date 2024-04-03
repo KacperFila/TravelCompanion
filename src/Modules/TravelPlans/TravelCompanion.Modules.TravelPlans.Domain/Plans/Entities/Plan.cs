@@ -145,7 +145,7 @@ public sealed class Plan : AggregateRoot
     }
     public void ChangeFrom(DateOnly from)
     {
-        if (from < DateOnly.FromDateTime(DateTime.UtcNow) || from > To)
+        if (from < DateOnly.FromDateTime(DateTime.UtcNow) || (To != default && from > To))
         {
             throw new InvalidPlanDateException(Id);
         }
@@ -155,7 +155,7 @@ public sealed class Plan : AggregateRoot
     }
     public void ChangeTo(DateOnly to)
     {
-        if (to < DateOnly.FromDateTime(DateTime.UtcNow) || to < From)
+        if (to < DateOnly.FromDateTime(DateTime.UtcNow) || (From != default && to < From))
         {
             throw new InvalidPlanDateException(Id);
         }
