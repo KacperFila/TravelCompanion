@@ -1,0 +1,8 @@
+{
+  "emails": {
+    "module": {
+      "enabled": true,
+      "name": "Emails"
+    }
+  }
+}

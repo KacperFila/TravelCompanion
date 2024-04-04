@@ -17,6 +17,7 @@ using TravelCompanion.Shared.Infrastructure.Api;
 using TravelCompanion.Shared.Infrastructure.Auth;
 using TravelCompanion.Shared.Infrastructure.Commands;
 using TravelCompanion.Shared.Infrastructure.Contexts;
+using TravelCompanion.Shared.Infrastructure.Emails;
 using TravelCompanion.Shared.Infrastructure.Events;
 using TravelCompanion.Shared.Infrastructure.Exceptions;
 using TravelCompanion.Shared.Infrastructure.Kernel;
@@ -108,6 +109,7 @@ internal static class Extensions
 		services.AddModuleInfo(modules);
 		services.AddModuleRequests(assemblies);
 		services.AddAuth(modules);
+		services.AddEmails();
 		services.AddErrorHandling();
 		services.AddCommands(assemblies);
 		services.AddQueries(assemblies);
