@@ -1,6 +1,9 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Shared;
 using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
+using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
+using TravelCompanion.Modules.Users.Shared;
+using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
@@ -13,12 +16,16 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPlansModuleApi _travelPlansModuleApi;
     private readonly IMessageBroker _messageBroker;
+    private readonly IEmailSender _emailSender;
+    private readonly IUsersModuleApi _usersModuleApi;
 
-    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker)
+    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker, IEmailSender emailSender, IUsersModuleApi usersModuleApi)
     {
         _travelRepository = travelRepository;
         _travelPlansModuleApi = travelPlansModuleApi;
         _messageBroker = messageBroker;
+        _emailSender = emailSender;
+        _usersModuleApi = usersModuleApi;
     }
 
     public async Task HandleAsync(PlanAccepted @event)
@@ -52,6 +59,9 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
 
         await _travelRepository.AddAsync(travel);
         await _messageBroker.PublishAsync(new TravelFromPlanCreated(@event.planId));
+
+        var usersEmails = await _usersModuleApi.GetUsersEmails(@event.participants.ToList());
+        await _emailSender.SendEmailAsync(new AcceptedPlanEmailDTO(), usersEmails);
     }
 
     private static TravelPoint AsTravelPoint(Guid travelId, TravelPlans.Domain.Plans.Entities.TravelPoint travelPoint)

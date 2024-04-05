@@ -1,13 +1,12 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using TravelCompanion.Modules.Emails.Core.Entities;
-using TravelCompanion.Modules.Emails.Core.Services;
+using TravelCompanion.Shared.Abstractions.Emails;
 
-namespace TravelCompanion.Modules.Emails.Api.Endpoints;
+namespace TravelCompanion.Modules.Emails.Api.Endpoints.SendEmail;
 
 [Route(EmailsModule.BasePath)]
 public class SendEmailEndpoint : EndpointBaseAsync
-    .WithRequest<Email>
+    .WithRequest<SendEmailRequest>
     .WithActionResult
 {
     private readonly IEmailSender _emailSender;
@@ -18,9 +17,9 @@ public class SendEmailEndpoint : EndpointBaseAsync
     }
 
     [HttpPost]
-    public override async Task<ActionResult> HandleAsync(Email request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(SendEmailRequest request, CancellationToken cancellationToken = default)
     {
-        await _emailSender.SendEmailAsync(request);
+        await _emailSender.SendEmailAsync(request.Email, request.Receivers);
         return Ok();
     }
 }

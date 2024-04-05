@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using TravelCompanion.Modules.Users.Core.Entities;
 
 namespace TravelCompanion.Modules.Users.Core.Repositories
@@ -9,6 +10,8 @@ namespace TravelCompanion.Modules.Users.Core.Repositories
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
         Task<bool> ExistAsync(Guid id);
+        Task<List<string>> GetEmails(List<Guid> usersIds);
+        Task<string> GetEmail(Guid userId);
         Task AddAsync(User user);
         Task UpdateAsync(User user);
     }

@@ -31,7 +31,8 @@ public class AcceptPlanRequestParticipantAddedHandler : IEventHandler<AcceptPlan
             throw new AcceptPlanRequestForPlanNotFoundException(plan.Id);
         }
 
-        if (plan.Participants.SequenceEqual(request.ParticipantsAccepted))
+        if (plan.Participants.All(request.ParticipantsAccepted.Contains) &&
+            plan.Participants.Count == request.ParticipantsAccepted.Count)
         {
             plan.ChangeStatusToAccepted();
             await _planRepository.UpdateAsync(plan);
