@@ -12,5 +12,7 @@ namespace TravelCompanion.Modules.Users.Core.Entities
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public Dictionary<string, IEnumerable<string>> Claims { get; set; }
+        public string? VerificationToken { get; set; }
+        public DateTime? VerifiedAt { get; set; }
     }
 }

@@ -34,4 +34,11 @@ internal sealed class AccountController : BaseController
 	[HttpPost("sign-in")]
 	public async Task<ActionResult<JsonWebToken>> SignInAsync(SignInDto dto)
 		=> Ok(await _identityService.SignInAsync(dto));
+
+    [HttpGet("activate/{token}")]
+    public async Task<ActionResult> ActivateAccountAsync([FromRoute]string token)
+    {
+        await _identityService.ActivateAccountAsync(token);
+		return Ok();
+    }
 }

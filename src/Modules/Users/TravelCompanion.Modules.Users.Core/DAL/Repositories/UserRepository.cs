@@ -22,6 +22,7 @@ namespace TravelCompanion.Modules.Users.Core.DAL.Repositories
         public Task<User> GetAsync(Guid id) => _users.SingleOrDefaultAsync(x => x.Id == id);
 
         public Task<User> GetAsync(string email) => _users.SingleOrDefaultAsync(x => x.Email == email);
+        public async Task<User> GetByTokenAsync(string token) => await _users.SingleOrDefaultAsync(x => x.VerificationToken == token);
         public async Task<bool> ExistAsync(Guid id) => await _users.AnyAsync(x => x.Id == id);
 
         public async Task<List<string>> GetEmails(List<Guid> usersIds) =>
