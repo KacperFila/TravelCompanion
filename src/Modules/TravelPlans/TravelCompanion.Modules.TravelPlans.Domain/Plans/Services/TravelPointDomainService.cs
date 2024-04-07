@@ -45,6 +45,11 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new TravelPointNotFoundException(pointId);
         }
 
+        if (!point.IsAccepted)
+        {
+            throw new CouldNotModifyNotAcceptedTravelPointException();
+;       }
+
         var plan = await _planRepository.GetAsync(point.PlanId);
 
         if (plan == null)
