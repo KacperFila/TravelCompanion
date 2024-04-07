@@ -3,7 +3,7 @@ using System;
 
 namespace TravelCompanion.Modules.Users.Core.DTO
 {
-    public class AccountDto
+    public class AccountDTO
     {
         public Guid Id { get; set; }
         public string Email { get; set; }

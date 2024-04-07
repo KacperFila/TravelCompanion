@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Bootstrappe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DD3A7766-5710-4D8B-BB20-C1621F573C4C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{48F081DB-B38C-4476-A7EE-A49A1193AF01}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrapper", "{0C7671AE-F8C4-415D-9D3E-D2CA84D32305}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{71FC9C2B-EBB9-4069-8FBB-357E01A67EB2}"
@@ -51,9 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Tra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emails", "Emails", "{631B3274-FA12-49E1-BD91-147EC0EFA0D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Emails.Api", "src\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj", "{6988CEFE-2A98-4167-9E98-B47552AA6F09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Emails.Api", "src\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj", "{6988CEFE-2A98-4167-9E98-B47552AA6F09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Emails.Core", "src\Modules\Emails\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj", "{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Emails.Core", "src\Modules\Emails\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj", "{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

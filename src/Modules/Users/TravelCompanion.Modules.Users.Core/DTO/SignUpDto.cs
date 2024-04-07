@@ -4,7 +4,7 @@ using System;
 
 namespace TravelCompanion.Modules.Users.Core.DTO
 {
-    public class SignUpDto
+    public class SignUpDTO
     {
         public Guid Id { get; set; }
 

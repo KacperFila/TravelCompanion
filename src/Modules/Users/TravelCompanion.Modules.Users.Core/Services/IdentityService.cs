@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using TravelCompanion.Modules.Users.Core.DTO;
 using TravelCompanion.Modules.Users.Core.Entities;
 using TravelCompanion.Modules.Users.Core.Exceptions;
@@ -17,14 +16,14 @@ namespace TravelCompanion.Modules.Users.Core.Services
 {
     internal class IdentityService : IIdentityService
     {
+        private const string Alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        private static readonly Random Random = new Random();
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAuthManager _authManager;
         private readonly IClock _clock;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
-        private const string Alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        private static readonly Random Random = new Random();
 
         public IdentityService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher,
             IAuthManager authManager, IClock clock, IEmailSender emailSender, IHttpContextAccessor contextAccessor)
@@ -37,13 +36,13 @@ namespace TravelCompanion.Modules.Users.Core.Services
             _contextAccessor = contextAccessor;
         }
 
-        public async Task<AccountDto> GetAsync(Guid id)
+        public async Task<AccountDTO> GetAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
 
             return user is null
                 ? null
-                : new AccountDto
+                : new AccountDTO
                 {
                     Id = user.Id,
                     Email = user.Email,
@@ -53,7 +52,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
                 };
         }
 
-        public async Task<JsonWebToken> SignInAsync(SignInDto dto)
+        public async Task<JsonWebToken> SignInAsync(SignInDTO dto)
         {
             var user = await _userRepository.GetAsync(dto.Email.ToLowerInvariant());
             if (user is null)
@@ -78,7 +77,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
             return jwt;
         }
 
-        public async Task SignUpAsync(SignUpDto dto)
+        public async Task SignUpAsync(SignUpDTO dto)
         {
             dto.Id = Guid.NewGuid();
             var email = dto.Email.ToLowerInvariant();
@@ -103,7 +102,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
             await _userRepository.AddAsync(user);
 
             var activationLink = CreateActivationLink(user.VerificationToken);
-            await _emailSender.SendEmailAsync(new AccountVerificationEmailDto(activationLink), user.Email);
+            await _emailSender.SendEmailAsync(new AccountVerificationEmailDTO(activationLink), user.Email);
         }
 
         public async Task ActivateAccountAsync(string token)

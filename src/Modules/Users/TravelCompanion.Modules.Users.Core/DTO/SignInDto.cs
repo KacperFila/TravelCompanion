@@ -2,7 +2,7 @@
 
 namespace TravelCompanion.Modules.Users.Core.DTO
 {
-    public class SignInDto
+    public class SignInDTO
     {
         [EmailAddress]
         [Required]
