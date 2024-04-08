@@ -33,8 +33,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
                 _ => results
             };
 
-            var totalResults = await data.CountAsync();
-            // var totalPages = totalResults <= results ? 1 : (int)Math.Floor((double)totalResults / results);
+            var totalResults = await data.CountAsync(); 
             var totalPages = (int)Math.Ceiling(totalResults / (double)results);
 
             var result = await data.Skip((page - 1) * results).Take(results).ToListAsync(cancellationToken);

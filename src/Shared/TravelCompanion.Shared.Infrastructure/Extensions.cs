@@ -15,6 +15,7 @@ using TravelCompanion.Shared.Abstractions.Storage;
 using TravelCompanion.Shared.Abstractions.Time;
 using TravelCompanion.Shared.Infrastructure.Api;
 using TravelCompanion.Shared.Infrastructure.Auth;
+using TravelCompanion.Shared.Infrastructure.BackgroundJobs;
 using TravelCompanion.Shared.Infrastructure.Commands;
 using TravelCompanion.Shared.Infrastructure.Contexts;
 using TravelCompanion.Shared.Infrastructure.Emails;
@@ -111,6 +112,7 @@ internal static class Extensions
 		services.AddAuth(modules);
 		services.AddEmails();
 		services.AddErrorHandling();
+        services.AddBackgroundJobs();
 		services.AddCommands(assemblies);
 		services.AddQueries(assemblies);
 		services.AddEvents(assemblies);
