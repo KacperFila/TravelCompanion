@@ -148,6 +148,7 @@ internal static class Extensions
 	{
 		app.UseCors(CorsPolicy);
 		app.UseErrorHandling();
+		app.UseBackgroundJobs();
 		app.UseSwagger();
         app.UseSwaggerUI(c =>
         {

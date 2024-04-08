@@ -2,6 +2,8 @@
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
+using TravelCompanion.Shared.Abstractions.BackgroundJobs;
+using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Events;
 
@@ -12,12 +14,16 @@ public sealed class ParticipantAddedToPlanHandler : IEventHandler<ParticipantAdd
     private readonly IPlanRepository _planRepository;
     private readonly IEmailSender _emailSender;
     private readonly IUsersModuleApi _usersModuleApi;
+    private readonly IBackgroundJobScheduler _backgroundJobScheduler;
+    private readonly ICommandDispatcher _commandDispatcher;
 
-    public ParticipantAddedToPlanHandler(IPlanRepository planRepository, IEmailSender emailSender, IUsersModuleApi usersModuleApi)
+    public ParticipantAddedToPlanHandler(IPlanRepository planRepository, IEmailSender emailSender, IUsersModuleApi usersModuleApi, IBackgroundJobScheduler backgroundJobScheduler, ICommandDispatcher commandDispatcher)
     {
         _planRepository = planRepository;
         _emailSender = emailSender;
         _usersModuleApi = usersModuleApi;
+        _backgroundJobScheduler = backgroundJobScheduler;
+        _commandDispatcher = commandDispatcher;
     }
 
     public async Task HandleAsync(ParticipantAddedToPlan @event)
@@ -37,6 +43,8 @@ public sealed class ParticipantAddedToPlanHandler : IEventHandler<ParticipantAdd
         await _planRepository.UpdateAsync(plan);
 
         var userEmail = await _usersModuleApi.GetUserEmail(@event.participantId);
-        await _emailSender.SendEmailAsync(new ParticipantAddedToPlanEmailDTO(plan.Title), userEmail);
+
+        _backgroundJobScheduler.Enqueue(() =>
+            _emailSender.SendEmailAsync(new ParticipantAddedToPlanEmailDTO(plan.Title), userEmail));
     }
 }

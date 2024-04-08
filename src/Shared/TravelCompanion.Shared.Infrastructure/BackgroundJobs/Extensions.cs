@@ -4,6 +4,7 @@ using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TravelCompanion.Shared.Abstractions.BackgroundJobs;
 using TravelCompanion.Shared.Infrastructure.Postgres;
 
 namespace TravelCompanion.Shared.Infrastructure.BackgroundJobs;
@@ -26,6 +27,7 @@ internal static class Extensions
                     .UseNpgsqlConnection(options.HangfireConnectionString)));
 
         services.AddHangfireServer();
+        services.AddScoped<IBackgroundJobScheduler, BackgroundJobScheduler>();
 
         return services;
     }
