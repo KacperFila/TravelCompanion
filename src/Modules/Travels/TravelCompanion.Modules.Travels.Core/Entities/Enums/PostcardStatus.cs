@@ -1,8 +1,13 @@
-﻿namespace TravelCompanion.Modules.Travels.Core.Entities.Enums;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 
-public enum PostcardStatus
+namespace TravelCompanion.Modules.Travels.Core.Entities.Enums;
+
+public static class PostcardStatus
 {
-    Accepted = 1,
-    Rejected = 2,
-    Pending = 3
+    public const string Accepted = nameof(Accepted);
+    public const string Rejected = nameof(Rejected);
+    public const string Pending = nameof(Pending);
+
+    public static bool IsValid(string status)
+        => status is Accepted or Rejected or Pending;
 }

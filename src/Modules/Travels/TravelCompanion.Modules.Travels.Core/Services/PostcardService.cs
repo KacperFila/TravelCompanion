@@ -95,15 +95,14 @@ internal sealed class PostcardService : IPostcardService
         return dtos;
     }
 
-    public async Task ChangeStatus(Guid postcardId, PostcardStatus postcardStatus)
+    public async Task ChangeStatus(Guid postcardId, string postcardStatus)
     {
         var postcard = await _postcardRepository.GetAsync(postcardId);
-        
         if (postcard is null)
         {
             throw new PostcardNotFoundException(postcardId);
         }
-
+        
         var travel = await _travelRepository.GetAsync(postcard.TravelId);
         
         if (!_postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
@@ -111,6 +110,11 @@ internal sealed class PostcardService : IPostcardService
             throw new UserCannotManagePostcardException(postcard.TravelId);
         }
 
+        if (!PostcardStatus.IsValid(postcardStatus))
+        {
+            throw new InvalidPostcardStatusException(postcardStatus);
+        }
+        
         postcard.Status = postcardStatus;
         await _postcardRepository.UpdateAsync(postcard);
     }

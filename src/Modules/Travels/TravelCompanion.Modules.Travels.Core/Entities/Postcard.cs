@@ -11,7 +11,7 @@ public class Postcard : IAuditable
     public string Title { get; set; }
     public string Description { get; set; }
     public string PhotoUrl { get; set; }
-    public PostcardStatus Status { get; set; }
+    public string Status { get; set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 }
