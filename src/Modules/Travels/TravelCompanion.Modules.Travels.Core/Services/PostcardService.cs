@@ -35,7 +35,7 @@ internal sealed class PostcardService : IPostcardService
             throw new TravelNotFoundException(travelId);
         }
 
-        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravelException(_userId);
         }
@@ -78,7 +78,7 @@ internal sealed class PostcardService : IPostcardService
             throw new TravelNotFoundException(travelId);
         }
 
-        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserDoesNotParticipateInTravelException(travelId);
         }
@@ -126,7 +126,7 @@ internal sealed class PostcardService : IPostcardService
 
         var travel = await _travelRepository.GetAsync(item.TravelId);
         
-        if (!_postcardPolicy.DoesUserOwnOrParticipateInPostcardTravel(_userId, travel))
+        if (!_postcardPolicy.DoesUserParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }

@@ -14,12 +14,6 @@ internal sealed class PostcardPolicy : IPostcardPolicy
         _context = context;
     }
 
-    public bool DoesUserOwnOrParticipateInPostcardTravel(Guid userId, Travel travel)
-    {
-        //TODO refactor
-        return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false);
-    }
-
     public bool DoesUserOwnPostcardTravel(Guid userId, Travel travel)
     {
         return travel.OwnerId == userId;
