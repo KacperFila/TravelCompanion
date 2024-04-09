@@ -1,16 +1,18 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Exceptions;
+using TravelCompanion.Shared.Abstractions.Kernel;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Entities;
 
-public sealed class Receipt
+public sealed class Receipt : IAuditable
 {
     public Guid Id { get; private set; }
     public Money Amount { get; private set; }
     public string Description { get; private set; }
     public Guid? TravelId { get; private set; }
     public Guid? TravelPointId { get; private set; }
-
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
     public Receipt(string description, Guid? travelId, Guid? travelPointId)
     {
         Id = Guid.NewGuid();

@@ -12,5 +12,4 @@ internal static class Extensions
         services.AddCore();
         return services;
     }
-
 }

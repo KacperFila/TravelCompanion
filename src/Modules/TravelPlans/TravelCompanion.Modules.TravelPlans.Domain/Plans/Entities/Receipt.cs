@@ -1,11 +1,11 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+using TravelCompanion.Shared.Abstractions.Kernel;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public sealed class Receipt
+public sealed class Receipt : IAuditable
 {
     public ReceiptId Id { get; private set; }
     public List<Guid> ReceiptParticipants { get; private set; }
@@ -13,6 +13,8 @@ public sealed class Receipt
     public string Description { get; private set; }
     public AggregateId? PlanId { get; private set; }
     public AggregateId? PointId { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 
     public Receipt(List<Guid> receiptParticipants, AggregateId? planId, AggregateId? pointId)
     {
@@ -71,7 +73,6 @@ public sealed class Receipt
 
         Description = description;
     }
-
 
     private static bool ValidPlanIdAndPointId(AggregateId? planId, AggregateId? pointId)
     {

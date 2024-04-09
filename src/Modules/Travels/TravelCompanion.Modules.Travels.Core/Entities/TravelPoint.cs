@@ -1,8 +1,9 @@
-﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+﻿using TravelCompanion.Shared.Abstractions.Kernel;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Entities;
 
-public class TravelPoint
+public class TravelPoint : IAuditable
 {
     public Guid TravelPointId { get; set; }
     public Guid TravelId { get; private set; }
@@ -10,7 +11,8 @@ public class TravelPoint
     public List<Receipt> Receipts { get; private set; }
     public Money TotalCost { get; private set; }
     public bool IsVisited { get; private set; }
-
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
     public TravelPoint()
     {
         

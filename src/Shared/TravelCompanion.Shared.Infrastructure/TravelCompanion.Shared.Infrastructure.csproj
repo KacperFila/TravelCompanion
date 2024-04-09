@@ -30,6 +30,7 @@
     <Folder Include="Messaging\Dispatchers\" />
     <Folder Include="Commands\" />
     <Folder Include="Kernel\" />
+    <Folder Include="Postgres\Interceptors\" />
     <Folder Include="Queries\" />
   </ItemGroup>
 </Project>

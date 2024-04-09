@@ -1,14 +1,16 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+using TravelCompanion.Shared.Abstractions.Kernel;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public class PlanAcceptRequest
+public class PlanAcceptRequest : IAuditable
 {
     public Guid Id { get; private set; }
     public AggregateId PlanId { get; private set; }
     public IList<EntityId>? ParticipantsAccepted { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
     public PlanAcceptRequest(AggregateId planId)
     {
         Id = Guid.NewGuid();

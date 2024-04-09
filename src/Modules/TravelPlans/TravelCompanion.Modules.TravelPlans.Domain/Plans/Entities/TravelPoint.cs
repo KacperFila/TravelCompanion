@@ -1,18 +1,20 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+using TravelCompanion.Shared.Abstractions.Kernel;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public class TravelPoint : AggregateRoot
+public class TravelPoint : AggregateRoot, IAuditable
 {
     public AggregateId PlanId { get; private set; }
     public string PlaceName { get; private set; }
     public bool IsAccepted { get; private set; }
     public List<Receipt> Receipts { get; private set; }
     public Money TotalCost { get; private set; }
-
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
     public TravelPoint(AggregateId id, string placeName, AggregateId planId, bool isAccepted, int version = 0)
     {
         Id = id;

@@ -1,12 +1,13 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
+using TravelCompanion.Shared.Abstractions.Kernel;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public sealed class Plan : AggregateRoot
+public sealed class Plan : AggregateRoot, IAuditable
 {
     public OwnerId OwnerId { get; private set; }
     public IList<EntityId> Participants { get; private set; }
@@ -22,6 +23,8 @@ public sealed class Plan : AggregateRoot
     public bool DoesAllParticipantsPaid { get; private set; }
     public bool DoesAllParticipantsAccepted { get; private set; }
     public string PlanStatus { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 
     public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0, string planStatus = Enums.PlanStatus.DuringPlanning)
         : this(id, ownerId)

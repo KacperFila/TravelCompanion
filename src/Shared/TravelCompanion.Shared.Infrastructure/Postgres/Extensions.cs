@@ -7,6 +7,7 @@ using TravelCompanion.Shared.Infrastructure.Postgres.Decorators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Queries;
+using TravelCompanion.Shared.Infrastructure.Postgres.Interceptors;
 
 namespace TravelCompanion.Shared.Infrastructure.Postgres
 {
@@ -47,6 +48,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
             var options = services.GetOptions<PostgresOptions>("postgres");
             services.AddSingleton(options);
             services.AddSingleton(new UnitOfWorkTypeRegistry());
+            services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
             
             return services;
         }
@@ -61,7 +63,10 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
         public static IServiceCollection AddPostgres<T>(this IServiceCollection services) where T : DbContext
         {
             var options = services.GetOptions<PostgresOptions>("postgres");
-            services.AddDbContext<T>(x => x.UseNpgsql(options.ConnectionString));
+            services.AddDbContext<T>(
+                x => x.UseNpgsql(options.ConnectionString)
+                    .AddInterceptors(new UpdateAuditableEntitiesInterceptor())
+                );
 
             return services;
         }

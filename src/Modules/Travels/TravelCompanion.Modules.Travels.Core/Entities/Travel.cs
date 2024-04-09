@@ -1,8 +1,9 @@
-﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
+﻿using TravelCompanion.Shared.Abstractions.Kernel;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Entities;
 
-public class Travel
+public class Travel : IAuditable
 {
     public Guid Id { get; set; }
     public Guid OwnerId { get; set; }
@@ -19,4 +20,6 @@ public class Travel
     public List<TravelRating> Ratings { get; set; }
     public float? RatingValue { get; set; }
     public Money TotalCostsValue { get; set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 }
