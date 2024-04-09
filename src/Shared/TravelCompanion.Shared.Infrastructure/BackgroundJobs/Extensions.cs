@@ -1,8 +1,6 @@
-﻿using System;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.BackgroundJobs;
 using TravelCompanion.Shared.Infrastructure.Postgres;
@@ -15,8 +13,6 @@ internal static class Extensions
 
     internal static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
     {
-        //var hangfireConnectionString = configuration.GetConnectionString("postgres:hangfireConnectionString");
-
         var options = services.GetOptions<PostgresOptions>("postgres");
 
         services.AddHangfire(config => config
@@ -36,7 +32,5 @@ internal static class Extensions
     internal static void UseBackgroundJobs(this IApplicationBuilder app)
     {
         app.UseHangfireDashboard(DashboardPath);
-
-        RecurringJob.AddOrUpdate(() => Console.WriteLine("HELLO FROM HANGFIRE"), "* * * * *");
     }
 }

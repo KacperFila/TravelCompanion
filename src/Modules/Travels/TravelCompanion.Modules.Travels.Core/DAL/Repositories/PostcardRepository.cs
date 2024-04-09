@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Entities;
+using TravelCompanion.Modules.Travels.Core.Entities.Enums;
 
 namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories;
 
@@ -45,6 +46,17 @@ internal sealed class PostcardRepository : IPostcardRepository
     {
         var postcard = await _postcards.SingleOrDefaultAsync(x => x.Id == id);
         _postcards.Remove(postcard);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteExpiredUnapprovedAsync()
+    {
+        var postcards = await _postcards.Where(
+            x => x.CreatedOnUtc < DateTime.UtcNow.AddDays(-7) &&
+                 x.Status == PostcardStatus.Rejected || x.Status == PostcardStatus.Pending)
+            .ToListAsync();
+
+        _postcards.RemoveRange(postcards);
         await _dbContext.SaveChangesAsync();
     }
 }
