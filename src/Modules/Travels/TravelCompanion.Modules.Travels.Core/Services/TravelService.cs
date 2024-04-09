@@ -27,31 +27,7 @@ internal class TravelService : ITravelService
         _userId = _context.Identity.Id;
     }
 
-
-    //TODO Remove after implementing TravelPlan -> Travel
-    public async Task AddAsync(TravelUpsertDTO travelUpsert)
-    {
-        var travelId = Guid.NewGuid();
-        var item = new Travel
-        {
-            Id = travelId,
-            OwnerId = _userId,
-            ParticipantIds = null,
-            AdditionalCosts = travelUpsert.AdditionalCosts,
-            AdditionalCostsValue = travelUpsert.AdditionalCostsValue,
-            Title = travelUpsert.Title,
-            Description = travelUpsert.Description,
-            From = travelUpsert.From,
-            To = travelUpsert.To,
-            AllParticipantsPaid = travelUpsert.AllParticipantsPaid,
-            IsFinished = false,
-            Ratings = new List<TravelRating>(),
-            RatingValue = null
-        };
- 
-        await _travelRepository.AddAsync(item);
-    }
-
+    
     public async Task<TravelDetailsDTO> GetAsync(Guid TravelId)
     {
         var travel = await _travelRepository.GetAsync(TravelId);
