@@ -3,5 +3,6 @@
     internal class PostgresOptions
     {
         public string ConnectionString { get; set; }
+        public string HangfireConnectionString { get; set; }
     }
 }

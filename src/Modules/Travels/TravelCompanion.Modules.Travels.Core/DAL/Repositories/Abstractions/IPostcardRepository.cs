@@ -10,4 +10,5 @@ internal interface IPostcardRepository
     Task AddAsync(Postcard postcard);
     Task UpdateAsync(Postcard postcard);
     Task DeleteAsync(Guid id);
+    Task DeleteExpiredUnapprovedAsync();
 }
