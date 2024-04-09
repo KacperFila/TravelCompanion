@@ -29,4 +29,8 @@ internal class UsersModuleApi : IUsersModuleApi
     {
         return await _userRepository.GetEmail(userId);
     }
+    public async Task<List<Guid>> GetUsersIdsAsync()
+    {
+        return await _userRepository.BrowseActiveAsync();
+    }
 }

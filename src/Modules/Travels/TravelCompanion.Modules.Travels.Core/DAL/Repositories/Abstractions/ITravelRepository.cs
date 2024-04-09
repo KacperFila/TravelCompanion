@@ -12,6 +12,5 @@ public interface ITravelRepository
     Task DeleteAsync(Guid id);
     Task AddTravelRatingAsync(TravelRating travelRating);
     Task UpdateTravelRatingAsync(TravelRating travelRating);
-
     Task RemoveTravelRatingAsync(TravelRating travelRating);
 }

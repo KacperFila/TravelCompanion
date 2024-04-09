@@ -166,6 +166,7 @@ internal sealed class PostcardService : IPostcardService
     {
         return new PostcardDetailsDTO()
         {
+            AddedById = postcard.AddedById,
             PostcardId = postcard.Id,
             PostcardStatus = postcard.Status.ToString(),
             Description = postcard.Description,

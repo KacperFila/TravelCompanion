@@ -8,6 +8,7 @@ internal interface IPostcardService
     Task AddToTravelAsync(PostcardUpsertDTO postcard, Guid travelId);
     Task<PostcardDetailsDTO> GetAsync(Guid postcardId);
     Task<IReadOnlyList<PostcardDetailsDTO>> GetAllByTravelIdAsync(Guid travelId);
+    Task<List<PostcardDetailsDTO>> GetLastYearPostcardsFromMonthAsync(Guid userId, int month);
     Task ChangeStatus(Guid postcardId, PostcardStatus postcardStatus);
     Task UpdateAsync(PostcardUpsertDTO postcard, Guid postcardId);
     Task DeleteAsync(Guid postcardId);

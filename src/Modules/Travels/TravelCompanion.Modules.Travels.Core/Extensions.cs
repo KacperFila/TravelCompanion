@@ -9,6 +9,7 @@ using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Validators;
+using TravelCompanion.Modules.Travels.Shared;
 using TravelCompanion.Shared.Infrastructure.Postgres;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Modules.Travels.Api")]
@@ -31,6 +32,8 @@ internal static class Extensions
         
         services.AddSingleton<ITravelPolicy, TravelPolicy>();
         services.AddSingleton<IPostcardPolicy, PostcardPolicy>();
+        services.AddHostedService<PostcardBackgroundJobService>();
+        services.AddTransient<ITravelsModuleApi, TravelsModuleApi>();
 
         return services;
     }

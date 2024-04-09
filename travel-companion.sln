@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Ema
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Emails.Core", "src\Modules\Emails\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj", "{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Travels.Shared", "src\Modules\Travels\TravelCompanion.Modules.Travels.Shared\TravelCompanion.Modules.Travels.Shared.csproj", "{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758A523D-CB0D-471E-BC1B-EE555D3A2CAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{631B3274-FA12-49E1-BD91-147EC0EFA0D4} = {71FC9C2B-EBB9-4069-8FBB-357E01A67EB2}
 		{6988CEFE-2A98-4167-9E98-B47552AA6F09} = {631B3274-FA12-49E1-BD91-147EC0EFA0D4}
 		{758A523D-CB0D-471E-BC1B-EE555D3A2CAB} = {631B3274-FA12-49E1-BD91-147EC0EFA0D4}
+		{6412BDE6-BDA6-46AC-9619-EA3FEB95E1D8} = {69B8FC61-83F1-4201-847C-7CF4B6B9C2A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0FD0CE3-637A-407C-8724-2F97930B3943}

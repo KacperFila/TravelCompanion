@@ -59,4 +59,15 @@ internal sealed class PostcardRepository : IPostcardRepository
         _postcards.RemoveRange(postcards);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Postcard>> GetLastYearPostcardsFromMonth(Guid userId, int month)
+    {
+        var postcards = await _postcards.Where(
+            x => x.AddedById == userId &&
+                 x.CreatedOnUtc.Month == month &&
+                 x.CreatedOnUtc.Year == DateTime.UtcNow.Year - 1)
+            .ToListAsync();
+
+        return postcards;
+    }
 }

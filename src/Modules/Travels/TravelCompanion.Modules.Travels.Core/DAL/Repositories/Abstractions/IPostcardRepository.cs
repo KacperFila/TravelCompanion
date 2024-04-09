@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Entities;
+using TravelCompanion.Modules.Travels.Shared.DTO;
 
 namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 
@@ -11,4 +12,5 @@ internal interface IPostcardRepository
     Task UpdateAsync(Postcard postcard);
     Task DeleteAsync(Guid id);
     Task DeleteExpiredUnapprovedAsync();
+    Task<List<Postcard>> GetLastYearPostcardsFromMonth(Guid userId, int month);
 }

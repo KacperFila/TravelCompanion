@@ -9,11 +9,17 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Infrastructure\TravelCompanion.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Travels\TravelCompanion.Modules.Travels.Shared\TravelCompanion.Modules.Travels.Shared.csproj" />
     <ProjectReference Include="..\..\Users\TravelCompanion.Modules.Users.Shared\TravelCompanion.Modules.Users.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Handlers\" />
+    <Folder Include="DTO\" />
   </ItemGroup>
 
 </Project>

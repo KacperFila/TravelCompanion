@@ -10,6 +10,7 @@ namespace TravelCompanion.Modules.Users.Core.Repositories
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
         Task<User> GetByTokenAsync(string token);
+        Task<List<Guid>> BrowseActiveAsync();
         Task<bool> ExistAsync(Guid id);
         Task<List<string>> GetEmails(List<Guid> usersIds);
         Task<string> GetEmail(Guid userId);

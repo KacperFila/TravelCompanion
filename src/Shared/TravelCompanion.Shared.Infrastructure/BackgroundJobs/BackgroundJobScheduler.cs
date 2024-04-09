@@ -25,4 +25,9 @@ public class BackgroundJobScheduler : IBackgroundJobScheduler
         var manager= new RecurringJobManager();
         manager.AddOrUpdate(Guid.NewGuid().ToString(), Job.FromExpression(method), Cron.Daily());
     }
+    public void ScheduleMonthly(Expression<Action> method)
+    {
+        var manager = new RecurringJobManager();
+        manager.AddOrUpdate(Guid.NewGuid().ToString(), Job.FromExpression(method), Cron.Monthly());
+    }
 }

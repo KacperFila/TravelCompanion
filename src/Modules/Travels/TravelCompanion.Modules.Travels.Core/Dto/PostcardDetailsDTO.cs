@@ -7,4 +7,5 @@ internal class PostcardDetailsDTO
     public string Title { get; set; }
     public string Description { get; set; }
     public string PhotoUrl { get; set; }
+    public Guid AddedById { get; set; }
 }
