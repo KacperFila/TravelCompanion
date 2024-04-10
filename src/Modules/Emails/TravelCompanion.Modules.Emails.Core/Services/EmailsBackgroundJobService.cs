@@ -9,6 +9,7 @@ namespace TravelCompanion.Modules.Emails.Core.Services;
 internal sealed class EmailsBackgroundJobService : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
+    private const string jobId = "SendThrowbackEmails";
 
     public EmailsBackgroundJobService(IServiceProvider serviceProvider)
     {
@@ -17,16 +18,17 @@ internal sealed class EmailsBackgroundJobService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using (var scope = _serviceProvider.CreateScope())
-        {
-            var scheduler = scope.ServiceProvider.GetRequiredService<IBackgroundJobScheduler>();
-            var commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
+        using var scope = _serviceProvider.CreateScope();
+        var scheduler = scope.ServiceProvider.GetRequiredService<IBackgroundJobScheduler>();
+        var commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
 
-            scheduler.ScheduleMonthly(() => commandDispatcher.SendAsync(new SendThrowbackEmails()));
-        }
+        scheduler.ScheduleMonthly(() => commandDispatcher.SendAsync(new SendThrowbackEmails()), jobId);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        using var scope = _serviceProvider.CreateScope();
+        var backgroundJobScheduler = scope.ServiceProvider.GetRequiredService<IBackgroundJobScheduler>();
+        backgroundJobScheduler.RemoveIfExists(jobId);
     }
 }

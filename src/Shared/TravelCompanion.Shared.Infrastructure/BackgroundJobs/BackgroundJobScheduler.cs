@@ -20,14 +20,20 @@ public class BackgroundJobScheduler : IBackgroundJobScheduler
         return jobId;
     }
 
-    public void ScheduleDaily(Expression<Action> method)
+    public void ScheduleDaily(Expression<Action> method, string jobId)
     {
         var manager= new RecurringJobManager();
-        manager.AddOrUpdate(Guid.NewGuid().ToString(), Job.FromExpression(method), Cron.Daily());
+        manager.AddOrUpdate(jobId, Job.FromExpression(method), Cron.Daily());
     }
-    public void ScheduleMonthly(Expression<Action> method)
+    public void ScheduleMonthly(Expression<Action> method, string jobId)
     {
         var manager = new RecurringJobManager();
-        manager.AddOrUpdate(Guid.NewGuid().ToString(), Job.FromExpression(method), Cron.Monthly());
+        manager.AddOrUpdate(jobId, Job.FromExpression(method), Cron.Monthly());
+    }
+
+    public void RemoveIfExists(string JobId)
+    {
+        var manager = new RecurringJobManager();
+        manager.RemoveIfExists(JobId);
     }
 }
