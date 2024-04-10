@@ -7,5 +7,4 @@ internal interface IPostcardPolicy
     bool DoesUserOwnPostcardTravel(Guid userId, Travel travel);
     bool DoesUserParticipateInPostcardTravel(Guid userId, Travel travel);
     bool CanDeletePostcard(Postcard postcard, Travel travel);
-    bool DoesUserOwnOrParticipateInPostcardTravel(Guid userId, Travel travel);
 }

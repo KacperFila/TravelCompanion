@@ -13,13 +13,7 @@ internal sealed class PostcardPolicy : IPostcardPolicy
     {
         _context = context;
     }
-
-    public bool DoesUserOwnOrParticipateInPostcardTravel(Guid userId, Travel travel)
-    {
-        //TODO refactor
-        return travel.OwnerId == userId || (travel.ParticipantIds?.Contains(userId) ?? false);
-    }
-
+    
     public bool DoesUserOwnPostcardTravel(Guid userId, Travel travel)
     {
         return travel.OwnerId == userId;
@@ -40,7 +34,7 @@ internal sealed class PostcardPolicy : IPostcardPolicy
             return true;
         }
 
-        if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending) //TODO change from enums
+        if (postcard.AddedById == _context.Identity.Id && postcard.Status == PostcardStatus.Pending)
         {
             return true;
         }

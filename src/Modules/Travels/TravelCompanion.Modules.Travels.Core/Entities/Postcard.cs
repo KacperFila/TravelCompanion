@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.Travels.Core.Entities.Enums;
-using TravelCompanion.Shared.Abstractions.Kernel;
+﻿using TravelCompanion.Shared.Abstractions.Kernel;
 
 namespace TravelCompanion.Modules.Travels.Core.Entities;
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace TravelCompanion.Modules.Travels.Core.Entities.Enums;
+﻿namespace TravelCompanion.Modules.Travels.Core.Entities.Enums;
 
 public static class PostcardStatus
 {
