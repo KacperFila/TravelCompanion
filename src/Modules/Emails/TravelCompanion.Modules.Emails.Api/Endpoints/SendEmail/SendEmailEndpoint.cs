@@ -1,25 +1,30 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using TravelCompanion.Shared.Abstractions.Emails;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Infrastructure.Notifications;
 
 namespace TravelCompanion.Modules.Emails.Api.Endpoints.SendEmail;
 
 [Route(EmailsModule.BasePath)]
 public class SendEmailEndpoint : EndpointBaseAsync
-    .WithRequest<SendEmailRequest>
+    .WithRequest<string>
     .WithActionResult
 {
-    private readonly IEmailSender _emailSender;
+    private readonly IHubContext<NotificationsHub, INotificationClient> _notificationsHubContext;
+    private readonly INotificationService _notificationService;
 
-    public SendEmailEndpoint(IEmailSender emailSender)
+    public SendEmailEndpoint(IEmailSender emailSender, IHubContext<NotificationsHub, INotificationClient> notificationsHubContext, INotificationService notificationService)
     {
-        _emailSender = emailSender;
+        _notificationsHubContext = notificationsHubContext;
+        _notificationService = notificationService;
     }
 
     [HttpPost]
-    public override async Task<ActionResult> HandleAsync(SendEmailRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(string request, CancellationToken cancellationToken = default)
     {
-        await _emailSender.SendEmailAsync(request.Email, request.Receivers);
+        await _notificationService.SendAsync("users", "To jest z serwisu message!!!");
         return Ok();
     }
 }

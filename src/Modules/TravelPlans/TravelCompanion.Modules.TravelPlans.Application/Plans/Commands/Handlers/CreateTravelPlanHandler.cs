@@ -2,6 +2,7 @@
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handlers;
 
@@ -10,11 +11,13 @@ public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
+    private readonly INotificationService _notificationService;
 
-    public CreateTravelPlanHandler(IPlanRepository planRepository, IContext context)
+    public CreateTravelPlanHandler(IPlanRepository planRepository, IContext context, INotificationService notificationService)
     {
         _planRepository = planRepository;
         _context = context;
+        _notificationService = notificationService;
         _userId = _context.Identity.Id;
     }
 

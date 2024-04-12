@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="module.realtimenotifications.development.json" />
+    <None Remove="module.realtimenotifications.json.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="module.realtimenotifications.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="module.realtimenotifications.json.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\TravelCompanion.Modules.RealtimeNotifications.Core\TravelCompanion.Modules.RealtimeNotifications.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -24,6 +24,7 @@ using TravelCompanion.Shared.Infrastructure.Exceptions;
 using TravelCompanion.Shared.Infrastructure.Kernel;
 using TravelCompanion.Shared.Infrastructure.Messaging;
 using TravelCompanion.Shared.Infrastructure.Modules;
+using TravelCompanion.Shared.Infrastructure.Notifications;
 using TravelCompanion.Shared.Infrastructure.Postgres;
 using TravelCompanion.Shared.Infrastructure.Queries;
 using TravelCompanion.Shared.Infrastructure.Services;
@@ -101,6 +102,7 @@ internal static class Extensions
             });
         });
 
+        services.AddNotifications();
         services.AddFluentValidationAutoValidation();
 		services.AddMemoryCache();
 		services.AddSingleton<IRequestStorage, RequestStorage>();
@@ -146,7 +148,7 @@ internal static class Extensions
 
 	public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
 	{
-		app.UseCors(CorsPolicy);
+        app.UseCors(CorsPolicy);
 		app.UseErrorHandling();
 		app.UseBackgroundJobs();
 		app.UseSwagger();
@@ -159,8 +161,10 @@ internal static class Extensions
         app.UseAuthentication();
 		app.UseRouting();
 		app.UseAuthorization();
+        app.UseEndpoints(
+            x => x.MapHub<NotificationsHub>("notifications"));
 
-		return app;
+        return app;
 	}
 
 	public static T GetOptions<T>(this IServiceCollection services, string sectionName) where T : new()

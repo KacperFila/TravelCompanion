@@ -1,0 +1,8 @@
+{
+  "realtimenotifications": {
+    "module": {
+      "enabled": true,
+      "name": "RealtimeNotifications"
+    }
+  }
+}

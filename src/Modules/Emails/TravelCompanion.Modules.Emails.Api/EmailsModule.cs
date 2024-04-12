@@ -17,6 +17,5 @@ internal class EmailsModule : IModule
 
     public void Use(IApplicationBuilder app)
     {
-
     }
 }

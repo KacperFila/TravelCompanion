@@ -4,6 +4,6 @@ namespace TravelCompanion.Modules.Emails.Api.Endpoints.SendEmail;
 
 public class SendEmailRequest
 {
-    public Email Email { get; set; }
+    public string Email { get; set; }
     public List<string> Receivers { get; set; }
 }
