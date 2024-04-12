@@ -24,7 +24,7 @@ public class SendEmailEndpoint : EndpointBaseAsync
     [HttpPost]
     public override async Task<ActionResult> HandleAsync(string request, CancellationToken cancellationToken = default)
     {
-        await _notificationService.SendAsync("users", "To jest z serwisu message!!!");
+        await _notificationService.SendToAsync("e1636219-8816-4eab-b027-11548e588f74", "To jest z serwisu message!!!");
         return Ok();
     }
 }

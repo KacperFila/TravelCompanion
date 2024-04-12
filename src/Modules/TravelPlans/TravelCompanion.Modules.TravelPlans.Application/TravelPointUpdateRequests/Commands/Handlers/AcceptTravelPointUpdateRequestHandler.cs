@@ -3,6 +3,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
 
@@ -13,13 +14,15 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
+    private readonly INotificationService _notificationService;
 
-    public AcceptTravelPointUpdateRequestHandler(ITravelPointRepository travelPointRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository, IContext context, IPlanRepository planRepository)
+    public AcceptTravelPointUpdateRequestHandler(ITravelPointRepository travelPointRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository, IContext context, IPlanRepository planRepository, INotificationService notificationService)
     {
         _travelPointRepository = travelPointRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _context = context;
         _planRepository = planRepository;
+        _notificationService = notificationService;
         _userId = _context.Identity.Id;
     }
 
@@ -50,5 +53,8 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
+
+        var message = $"One of your suggested changes: {request.PlaceName} has been accepted!";
+        await _notificationService.SendToAsync(request.SuggestedById.ToString(), message);
     }
 }

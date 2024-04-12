@@ -6,6 +6,7 @@ using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
@@ -16,13 +17,15 @@ internal sealed class PostcardService : IPostcardService
     private readonly IPostcardPolicy _postcardPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
+    private readonly INotificationService _notificationService;
 
-    public PostcardService(IPostcardRepository postcardRepository, IContext context, ITravelRepository travelRepository, IPostcardPolicy postcardPolicy)
+    public PostcardService(IPostcardRepository postcardRepository, IContext context, ITravelRepository travelRepository, IPostcardPolicy postcardPolicy, INotificationService notificationService)
     {
         _postcardRepository = postcardRepository;
         _context = context;
         _travelRepository = travelRepository;
         _postcardPolicy = postcardPolicy;
+        _notificationService = notificationService;
         _userId = _context.Identity.Id;
     }
 
@@ -91,7 +94,6 @@ internal sealed class PostcardService : IPostcardService
         }
 
         var dtos = postcards.Select(AsPostcardDetailsDto).ToList();
-
         return dtos;
     }
 
