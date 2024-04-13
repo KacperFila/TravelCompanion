@@ -6,7 +6,8 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
-using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Infrastructure.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
@@ -15,12 +16,14 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly IInvitationRepository _invitationRepository;
     private readonly IPlanRepository _planRepository;
     private readonly IUsersModuleApi _usersModuleApi;
+    private readonly INotificationService _notificationService;
 
-    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, IPlanRepository planRepository, IUsersModuleApi usersModuleApi)
+    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, IPlanRepository planRepository, IUsersModuleApi usersModuleApi, INotificationService notificationService)
     {
         _invitationRepository = invitationRepository;
         _planRepository = planRepository;
         _usersModuleApi = usersModuleApi;
+        _notificationService = notificationService;
     }
 
     public async Task HandleAsync(InviteToTravelPlan command)
@@ -61,5 +64,11 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         var invitation = Invitation.Create(command.planId, command.userId);
 
         await _invitationRepository.AddAsync(invitation);
+
+        await _notificationService.SendToAsync(command.userId.ToString(),
+            NotificationMessage.Create(
+                "Invitation",
+                $"You have been invited to plan: {plan.Title}",
+                plan.OwnerId.ToString()));
     }
 }

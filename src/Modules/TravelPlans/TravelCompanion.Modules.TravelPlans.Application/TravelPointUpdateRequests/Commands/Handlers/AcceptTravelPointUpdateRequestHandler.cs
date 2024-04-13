@@ -4,6 +4,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Infrastructure.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
 
@@ -53,8 +54,5 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
-
-        var message = $"One of your suggested changes: {request.PlaceName} has been accepted!";
-        await _notificationService.SendToAsync(request.SuggestedById.ToString(), message);
     }
 }

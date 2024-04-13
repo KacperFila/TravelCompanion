@@ -13,12 +13,12 @@ public class NotificationsService : INotificationService
         _hubContext = hubContext;
     }
 
-    public async Task SendToAllAsync(string message)
+    public async Task SendToAllAsync(INotificationMessage message)
     {
         await _hubContext.Clients.All.ReceiveMessageAsync(message);
     }
 
-    public async Task SendToAsync(string userId, string message)
+    public async Task SendToAsync(string userId, INotificationMessage message)
     {
         await _hubContext.Clients.User(userId).ReceiveMessageAsync(message);
     }

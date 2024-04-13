@@ -10,11 +10,11 @@ public sealed class NotificationsHub : Hub<INotificationClient>
 {
     public override async Task OnConnectedAsync()
     {
-        await Clients.All.ReceiveMessageAsync($"{Context.ConnectionId} has joined.");
+        await Clients.All.ReceiveMessageAsync(NotificationMessage.Create("Connected!", $"ConnectionId: {Context.ConnectionId}"));
     }
 
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        await Clients.All.ReceiveMessageAsync($"{Context.ConnectionId} has disconnected.");
+        await Clients.All.ReceiveMessageAsync(NotificationMessage.Create("Disconnected!", $"ConnectionId: {Context.ConnectionId}"));
     }
 }
