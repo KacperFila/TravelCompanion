@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="module.emails.development.json" />
+    <None Remove="module.emails.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="module.emails.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="module.emails.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Endpoints\SendEmail\" />
+  </ItemGroup>
+
+</Project>
