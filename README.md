@@ -1,26 +1,36 @@
-# About Travel Companion!
+# About Travel Companion! ⛰️
 
-Travel Companion is an .NET web application focused on creating, managing and documenting trips with your friends. It allows you to create travel plans which could be edited by your friends which makes managing travels easier.
+Travel Companion is an .NET web application focused on creating, managing and documenting trips with your friends. It allows you to create travel plans which could be edited by your friends which makes managing travels easier! 
 
 ## Features:
 1. Accounts
 2. Plans (could modify, accept or reject suggestions)
-3. Travels (not finished yet)
-4. Invitations
-5. Postcards (not finished)
+3. Travels (could browse, set already visited points, rate)
+4. Invitations (users could be invited to participate in a plan)
+5. Postcards from travel points
+6. Sharing travel costs with specific users
+7. Simple real-time notifications using SignalR
+8. Sending emails using MailKit
+9. Simple background jobs using Hangfire
 
-## Planed features:
-1. Possibility to share cost among participants (you can choose who would you like to share certain cost with)
-2. Ability to create Postcards with photos for specified posts
-3. Notifications
+## Technology used:
+- ASP .NET Core
+- PostgreSQL
+- Docker
+- Entity Framework
+- Hangfire
+- SignalR
 
-What else? 
-🤷 hard to say
+## How to run?
+1. Create an empty folder and type: git clone https://github.com/KacperFila/TravelCompanion.git
+2. Move into directory by typing: cd TravelCompanion
+3. Run docker container by typing: docker-compose up -d
+4. Move into src/Bootstrapper/TravelCompanion.Bootstrapper
+5. Start project by typing: dotnet run
+  
+## Documentation
+Swagger documentation is available under localhost:5000/docs.
+Hangfire dashboard is available under localhost:5000/hangfire.
 
-Its a first try of challenging modular monoliths.
-
-## Will the app provide frontend?
-
-Hopefully
-
-### tbc
+## Planned features:
+- Stripe integration
