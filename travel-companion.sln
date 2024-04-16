@@ -51,9 +51,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Tra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emails", "Emails", "{94454BD5-BE03-4083-9FE4-AD65EBA386A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Emails.Api", "src\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj", "{34069662-6766-45E5-BD02-7BBC154005DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Emails.Api", "src\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj", "{34069662-6766-45E5-BD02-7BBC154005DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Emails.Core", "src\Modules\Emails\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj", "{44FC732B-411B-4D0D-B76B-F47C2015B199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelCompanion.Modules.Emails.Core", "src\Modules\Emails\TravelCompanion.Modules.Emails.Core\TravelCompanion.Modules.Emails.Core.csproj", "{44FC732B-411B-4D0D-B76B-F47C2015B199}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{5B72FF08-AD8F-4485-8B47-3417051E4040}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Payments.Api", "src\Modules\Payments\TravelCompanion.Modules.Payments.Api\TravelCompanion.Modules.Payments.Api.csproj", "{E20329D0-028A-4486-B02B-BC4896337691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Payments.Application", "src\Modules\Payments\TravelCompanion.Modules.Payments.Application\TravelCompanion.Modules.Payments.Application.csproj", "{A107EC8D-22DD-4090-8894-E57241D2ADFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Payments.Domain", "src\Modules\Payments\TravelCompanion.Modules.Payments.Domain\TravelCompanion.Modules.Payments.Domain.csproj", "{F769364E-0827-465A-9D4A-A9B5CDF808F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Payments.Infrastructure", "src\Modules\Payments\TravelCompanion.Modules.Payments.Infrastructure\TravelCompanion.Modules.Payments.Infrastructure.csproj", "{8DF87F0C-00E7-445B-B48B-A40C519BB347}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +139,22 @@ Global
 		{44FC732B-411B-4D0D-B76B-F47C2015B199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44FC732B-411B-4D0D-B76B-F47C2015B199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44FC732B-411B-4D0D-B76B-F47C2015B199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20329D0-028A-4486-B02B-BC4896337691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E20329D0-028A-4486-B02B-BC4896337691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E20329D0-028A-4486-B02B-BC4896337691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E20329D0-028A-4486-B02B-BC4896337691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A107EC8D-22DD-4090-8894-E57241D2ADFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A107EC8D-22DD-4090-8894-E57241D2ADFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A107EC8D-22DD-4090-8894-E57241D2ADFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A107EC8D-22DD-4090-8894-E57241D2ADFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F769364E-0827-465A-9D4A-A9B5CDF808F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F769364E-0827-465A-9D4A-A9B5CDF808F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F769364E-0827-465A-9D4A-A9B5CDF808F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F769364E-0827-465A-9D4A-A9B5CDF808F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +185,11 @@ Global
 		{94454BD5-BE03-4083-9FE4-AD65EBA386A3} = {71FC9C2B-EBB9-4069-8FBB-357E01A67EB2}
 		{34069662-6766-45E5-BD02-7BBC154005DA} = {94454BD5-BE03-4083-9FE4-AD65EBA386A3}
 		{44FC732B-411B-4D0D-B76B-F47C2015B199} = {94454BD5-BE03-4083-9FE4-AD65EBA386A3}
+		{5B72FF08-AD8F-4485-8B47-3417051E4040} = {71FC9C2B-EBB9-4069-8FBB-357E01A67EB2}
+		{E20329D0-028A-4486-B02B-BC4896337691} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
+		{A107EC8D-22DD-4090-8894-E57241D2ADFE} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
+		{F769364E-0827-465A-9D4A-A9B5CDF808F2} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
+		{8DF87F0C-00E7-445B-B48B-A40C519BB347} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0FD0CE3-637A-407C-8724-2F97930B3943}

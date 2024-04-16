@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Users\TravelCompanion.Modules.Users.Shared\TravelCompanion.Modules.Users.Shared.csproj" />
+    <ProjectReference Include="..\TravelCompanion.Modules.Payments.Domain\TravelCompanion.Modules.Payments.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
