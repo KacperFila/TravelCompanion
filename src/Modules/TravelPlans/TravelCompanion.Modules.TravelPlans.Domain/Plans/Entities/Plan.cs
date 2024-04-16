@@ -10,16 +10,16 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Plan : AggregateRoot, IAuditable
 {
     public OwnerId OwnerId { get; private set; }
-    public IList<EntityId> Participants { get; private set; }
-    public IList<EntityId>? ParticipantPaidIds { get; private set; }
+    public IList<EntityId> Participants { get; private set; } = new List<EntityId>();
+    public IList<EntityId>? ParticipantPaidIds { get; private set; } = new List<EntityId>();
     public string Title { get; private set; }
     public string? Description { get; private set; }
     public DateOnly From { get; private set; }
     public DateOnly To { get; private set; }
-    public IList<Receipt> AdditionalCosts { get; private set; }
+    public IList<Receipt> AdditionalCosts { get; private set; } = new List<Receipt>();
     public Money AdditionalCostsValue { get; private set; }
     public Money TotalCostValue { get; private set; }
-    public IList<TravelPoint> TravelPlanPoints { get; private set; }
+    public IList<TravelPoint> TravelPlanPoints { get; private set; } = new List<TravelPoint>();
     public bool DoesAllParticipantsPaid { get; private set; }
     public bool DoesAllParticipantsAccepted { get; private set; }
     public string PlanStatus { get; private set; }
@@ -53,10 +53,6 @@ public sealed class Plan : AggregateRoot, IAuditable
         TotalCostValue = Money.Create(0);
         DoesAllParticipantsAccepted = false;
         DoesAllParticipantsPaid = false;
-        Participants = new List<EntityId>();
-        AdditionalCosts = new List<Receipt>();
-        ParticipantPaidIds = new List<EntityId>();
-        TravelPlanPoints = new List<TravelPoint>();
         PlanStatus = Enums.PlanStatus.DuringPlanning;
     }
 

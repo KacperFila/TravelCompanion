@@ -11,4 +11,9 @@
     <ProjectReference Include="..\TravelCompanion.Modules.Payments.Application\TravelCompanion.Modules.Payments.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EF\Migrations\" />
+    <Folder Include="EF\Repositories\" />
+  </ItemGroup>
+
 </Project>

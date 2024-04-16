@@ -10,4 +10,10 @@
     <ProjectReference Include="..\..\..\Shared\TravelCompanion.Shared.Abstractions\TravelCompanion.Shared.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Payments\Entities\" />
+    <Folder Include="Payments\Exceptions\" />
+    <Folder Include="Payments\Repositories\" />
+  </ItemGroup>
+
 </Project>
