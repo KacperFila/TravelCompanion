@@ -28,6 +28,9 @@ internal sealed class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
             money.Property<decimal>("Amount")
                 .HasColumnName("Amount")
                 .IsRequired();
+            money.Property<string>("Currency")
+                .HasColumnName("Currency")
+                .IsRequired();
         });
     }
 }

@@ -5,8 +5,9 @@ namespace TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 public class Money
 {
-    private static readonly HashSet<string> AllowedValues = new() { "PLN", "EUR", "GBP" };
+    private static readonly HashSet<string> AllowedValues = new() { "PLN" };
     public decimal Amount { get; set; }
+    public string Currency { get; set; }
     private Money()
     {
     }
@@ -16,6 +17,7 @@ public class Money
             throw new InvalidAmountException(amount);
 
         Amount = amount;
+        Currency = "PLN";
     }
 
     public static Money Create(decimal amount)

@@ -2,10 +2,13 @@
 using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
+using TravelCompanion.Modules.Travels.Core.Events;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Events;
+using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -17,13 +20,15 @@ internal class TravelService : ITravelService
     private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
+    private readonly IMessageBroker _messageBroker;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
         _context = context;
         _travelPointRepository = travelPointRepository;
+        _messageBroker = messageBroker;
         _userId = _context.Identity.Id;
     }
 
@@ -114,7 +119,13 @@ internal class TravelService : ITravelService
         }
 
         point.VisitTravelPoint();
+
         await _travelPointRepository.UpdateAsync(point);
+
+        if (travel.TravelPoints.All(x => x.IsVisited))
+        {
+            await _messageBroker.PublishAsync(new TravelIsFinished(travel.Id));
+        }
     }
 
     public async Task RemoveRatingAsync(Guid TravelId)

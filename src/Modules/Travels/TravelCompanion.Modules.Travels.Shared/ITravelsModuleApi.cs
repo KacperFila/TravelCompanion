@@ -5,4 +5,5 @@ namespace TravelCompanion.Modules.Travels.Shared;
 public interface ITravelsModuleApi
 {
     Task<List<PostcardDto>> GetUserLastYearPostcardsFromMonth(Guid userId, int month);
+    Task<TravelDto> GetTravelInfo(Guid travelId);
 }
