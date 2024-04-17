@@ -14,6 +14,10 @@ public class ParticipantCostConfiguration : IEntityTypeConfiguration<Participant
             money.Property<decimal>("Amount")
                 .HasColumnName("Value")
                 .IsRequired();
+
+            money.Property<string>("Currency")
+                .HasColumnName("Currency")
+                .IsRequired();
         });
     }
 }
