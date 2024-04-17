@@ -5,9 +5,9 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Configurations;
 
-public class ParticipantCostConfiguration : IEntityTypeConfiguration<ParticipantCost>
+public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 {
-    public void Configure(EntityTypeBuilder<ParticipantCost> builder)
+    public void Configure(EntityTypeBuilder<Receipt> builder)
     {
         builder.OwnsOne<Money>("Value", money =>
         {

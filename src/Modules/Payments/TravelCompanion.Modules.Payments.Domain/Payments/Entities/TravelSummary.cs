@@ -75,32 +75,19 @@ public sealed class TravelSummary : AggregateRoot, IAuditable
     }
     public void AddParticipantsCost(ParticipantCost cost)
     {
-        if (ParticipantsCosts.Any(x => x.ParticipantId == cost.ParticipantId))
-        {
-            var existingCost = ParticipantsCosts
-                .SingleOrDefault(x => x.ParticipantId == cost.ParticipantId);
-
-            existingCost.Value.Amount += cost.Value.Amount;
-        }
-
         ParticipantsCosts.Add(cost);
         IncrementVersion();
     }
     public void RemoveParticipantsCost(ParticipantCost cost)
     {
-        var existingCost = ParticipantsCosts.SingleOrDefault(x => x.ParticipantId == cost.ParticipantId);
+        var existingCost = ParticipantsCosts.SingleOrDefault(x => x.Id == cost.Id);
         
-        if (!ParticipantsCosts.Contains(existingCost))
+        if (existingCost is null)
         {
-            throw new ParticipantCostNotFoundException(cost.ParticipantId);
+            throw new ParticipantCostNotFoundException(cost.Id);
         }
 
-        if (cost.Value.Amount > existingCost.Value.Amount)
-        {
-            throw new MoneyAmountExceedesCostException();
-        }
-
-        existingCost.Value.Amount -= cost.Value.Amount;
+        ParticipantsCosts.Remove(cost);
         IncrementVersion();
     }
 

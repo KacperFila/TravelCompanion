@@ -7,15 +7,15 @@ public class ParticipantCost
 {
     public Guid Id { get; set; }
     public AggregateId SummaryId { get; set; }
-    public Guid ParticipantId { get; private set; }
+    public List<Guid> ParticipantsIds { get; private set; }
     public Money Value { get; private set; }
 
-    private static ParticipantCost Create(Guid summaryId, Guid participantId, Money value)
+    private static ParticipantCost Create(Guid summaryId, List<Guid> participantId, Money value)
     {
         return new ParticipantCost()
         {
             SummaryId = summaryId,
-            ParticipantId = participantId,
+            ParticipantsIds = participantId,
             Value = value
         };
     }

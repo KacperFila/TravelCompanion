@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Payments.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.Payments.Infrastructure;
 namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(PaymentsDbContext))]
-    partial class PaymentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240417054655_TravelUserSummary_Add")]
+    partial class TravelUserSummary_Add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +27,33 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.ParticipantCost", b =>
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.PaymentRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReceiverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("TravelUserSummaryId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TravelUserSummaryId");
+
+                    b.ToTable("PaymentRecord", "payments");
+                });
+
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.Receipt", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,14 +63,14 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uuid[]");
 
-                    b.Property<Guid>("SummaryId")
+                    b.Property<Guid?>("TravelSummaryId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SummaryId");
+                    b.HasIndex("TravelSummaryId");
 
-                    b.ToTable("ParticipantsCosts", "payments");
+                    b.ToTable("Receipts", "payments");
                 });
 
             modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelSummary", b =>
@@ -72,17 +101,42 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                     b.ToTable("TravelSummaries", "payments");
                 });
 
-            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.ParticipantCost", b =>
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelUserSummary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TravelUserSummaries", "payments");
+                });
+
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.PaymentRecord", b =>
+                {
+                    b.HasOne("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelUserSummary", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("TravelUserSummaryId");
+                });
+
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.Receipt", b =>
                 {
                     b.HasOne("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelSummary", null)
                         .WithMany("ParticipantsCosts")
-                        .HasForeignKey("SummaryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TravelSummaryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "Value", b1 =>
                         {
-                            b1.Property<Guid>("ParticipantCostId")
+                            b1.Property<Guid>("ReceiptId")
                                 .HasColumnType("uuid");
 
                             b1.Property<decimal>("Amount")
@@ -94,12 +148,12 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                                 .HasColumnType("text")
                                 .HasColumnName("Currency");
 
-                            b1.HasKey("ParticipantCostId");
+                            b1.HasKey("ReceiptId");
 
-                            b1.ToTable("ParticipantsCosts", "payments");
+                            b1.ToTable("Receipts", "payments");
 
                             b1.WithOwner()
-                                .HasForeignKey("ParticipantCostId");
+                                .HasForeignKey("ReceiptId");
                         });
 
                     b.Navigation("Value")
@@ -187,6 +241,11 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
             modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelSummary", b =>
                 {
                     b.Navigation("ParticipantsCosts");
+                });
+
+            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelUserSummary", b =>
+                {
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Payments.Infrastructure;
@@ -12,9 +13,11 @@ using TravelCompanion.Modules.Payments.Infrastructure;
 namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(PaymentsDbContext))]
-    partial class PaymentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240417045534_Cost_Guid_List")]
+    partial class Cost_Guid_List
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,8 +61,17 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<decimal>("PointsAdditionalCost")
+                        .HasColumnType("numeric");
+
                     b.Property<DateOnly>("To")
                         .HasColumnType("date");
+
+                    b.Property<decimal>("TotalCost")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("TravelAdditionalCost")
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("TravelId")
                         .HasColumnType("uuid");
@@ -90,9 +102,7 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                                 .HasColumnName("Value");
 
                             b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("Currency");
+                                .HasColumnType("text");
 
                             b1.HasKey("ParticipantCostId");
 
@@ -103,84 +113,6 @@ namespace TravelCompanion.Modules.Payments.Infrastructure.EF.Migrations
                         });
 
                     b.Navigation("Value")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TravelCompanion.Modules.Payments.Domain.Payments.Entities.TravelSummary", b =>
-                {
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "PointsAdditionalCost", b1 =>
-                        {
-                            b1.Property<Guid>("TravelSummaryId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
-                                .HasColumnName("PointsAdditionalCostValue");
-
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("PointsAdditionalCostCurrency");
-
-                            b1.HasKey("TravelSummaryId");
-
-                            b1.ToTable("TravelSummaries", "payments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TravelSummaryId");
-                        });
-
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "TotalCost", b1 =>
-                        {
-                            b1.Property<Guid>("TravelSummaryId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
-                                .HasColumnName("TotalCostValue");
-
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("TotalCostCurrency");
-
-                            b1.HasKey("TravelSummaryId");
-
-                            b1.ToTable("TravelSummaries", "payments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TravelSummaryId");
-                        });
-
-                    b.OwnsOne("TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money.Money", "TravelAdditionalCost", b1 =>
-                        {
-                            b1.Property<Guid>("TravelSummaryId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
-                                .HasColumnName("TravelAdditionalCostValue");
-
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("TravelAdditionalCostCurrency");
-
-                            b1.HasKey("TravelSummaryId");
-
-                            b1.ToTable("TravelSummaries", "payments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TravelSummaryId");
-                        });
-
-                    b.Navigation("PointsAdditionalCost")
-                        .IsRequired();
-
-                    b.Navigation("TotalCost")
-                        .IsRequired();
-
-                    b.Navigation("TravelAdditionalCost")
                         .IsRequired();
                 });
 
