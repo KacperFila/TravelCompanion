@@ -3,6 +3,7 @@ using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Users.Shared;
+using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
@@ -18,14 +19,18 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
     private readonly IMessageBroker _messageBroker;
     private readonly IEmailSender _emailSender;
     private readonly IUsersModuleApi _usersModuleApi;
+    private readonly IContext _context;
+    private readonly Guid _userId;
 
-    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker, IEmailSender emailSender, IUsersModuleApi usersModuleApi)
+    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker, IEmailSender emailSender, IUsersModuleApi usersModuleApi, IContext context)
     {
         _travelRepository = travelRepository;
         _travelPlansModuleApi = travelPlansModuleApi;
         _messageBroker = messageBroker;
         _emailSender = emailSender;
         _usersModuleApi = usersModuleApi;
+        _context = context;
+        _userId = _context.Identity.Id;
     }
 
     public async Task HandleAsync(PlanAccepted @event)
@@ -84,10 +89,12 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
         {
             receiptsResult.Add(
                 Receipt.Create(
+                    receipt.ReceiptOwnerId,
                     travelId,
                     null,
                     receipt.Amount,
-                    receipt.Description));
+                    receipt.Description,
+                    receipt.ReceiptParticipants));
         }
 
         return receiptsResult;
@@ -101,10 +108,12 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
         {
             receiptsResult.Add(
                 Receipt.Create(
+                    receipt.ReceiptOwnerId,
                     null,
                     pointId,
                     receipt.Amount,
-                    receipt.Description));
+                    receipt.Description,
+                    receipt.ReceiptParticipants));
         }
 
         return receiptsResult;

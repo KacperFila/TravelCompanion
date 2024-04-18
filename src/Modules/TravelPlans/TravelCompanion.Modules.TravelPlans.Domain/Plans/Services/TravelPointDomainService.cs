@@ -70,7 +70,14 @@ public class TravelPointDomainService : ITravelPointDomainService
             }
         }
 
-        var receipt = Receipt.Create(receiptParticipants, Money.Create(amount), null, new AggregateId(pointId), description);
+        var receipt = Receipt.Create(
+            _userId,
+            receiptParticipants,
+            Money.Create(amount),
+            null,
+            new AggregateId(pointId),
+            description);
+        
         point.AddReceipt(receipt);
         await _travelPointRepository.UpdateAsync(point);
         await _messageBroker.PublishAsync(new PointReceiptAdded(plan.Id, amount));

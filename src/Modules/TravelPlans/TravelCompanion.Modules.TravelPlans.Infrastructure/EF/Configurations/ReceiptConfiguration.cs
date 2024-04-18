@@ -12,7 +12,10 @@ internal sealed class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
     {
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new ReceiptId(x));
-        
+
+        builder.Property(x => x.ReceiptOwnerId)
+            .HasConversion(x => x.Value, x => new OwnerId(x));
+
         builder.Property(x => x.PlanId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
             

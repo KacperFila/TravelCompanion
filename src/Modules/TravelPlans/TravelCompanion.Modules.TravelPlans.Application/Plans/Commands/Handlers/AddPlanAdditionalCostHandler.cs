@@ -41,6 +41,7 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
         }
 
         var receipt = Receipt.Create(
+            _userId,
             plan.Participants
                 .Select(x => x.Value)
                 .ToList(),

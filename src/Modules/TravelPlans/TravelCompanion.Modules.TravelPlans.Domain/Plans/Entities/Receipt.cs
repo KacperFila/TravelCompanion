@@ -8,6 +8,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Receipt : IAuditable
 {
     public ReceiptId Id { get; private set; }
+    public OwnerId? ReceiptOwnerId { get; private set; }
     public List<Guid> ReceiptParticipants { get; private set; }
     public Money Amount { get; private set; }
     public string Description { get; private set; }
@@ -16,23 +17,24 @@ public sealed class Receipt : IAuditable
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
-    public Receipt(List<Guid> receiptParticipants, AggregateId? planId, AggregateId? pointId)
+    public Receipt(AggregateId? planId, AggregateId? pointId)
     {
         Id = Guid.NewGuid();
-        ReceiptParticipants = receiptParticipants;
+        ReceiptParticipants = new List<Guid>();
         Amount = Money.Create(0);
         PlanId = planId;
         PointId = pointId;
     }
-    public static Receipt Create(List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
+    public static Receipt Create(Guid receiptOwnerId, List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {
             throw new InvalidReceiptParametersException();
         }
 
-        var receipt = new Receipt(receiptParticipants, planId, pointId);
+        var receipt = new Receipt(planId, pointId);
         receipt.ChangeReceiptParticipants(receiptParticipants);
+        receipt.AddReceiptOwner(receiptOwnerId);
         receipt.ChangeAmount(amount);
         receipt.ChangeDescription(description);
 
@@ -45,8 +47,18 @@ public sealed class Receipt : IAuditable
         {
             throw new InvalidReceiptParametersException();
         }
-
+        
         ReceiptParticipants = receiptParticipants;
+    }
+
+    public void AddReceiptOwner(Guid receiptOwnerId)
+    {
+        if (!ReceiptParticipants.Contains(receiptOwnerId))
+        {
+            throw new ReceiptNotFoundException(Id);
+        }
+
+        ReceiptOwnerId = receiptOwnerId;
     }
 
     public void AddReceiptParticipant(Guid participantId)
