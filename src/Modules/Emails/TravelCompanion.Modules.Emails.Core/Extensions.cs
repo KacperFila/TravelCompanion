@@ -9,7 +9,7 @@ internal static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddHostedService<EmailsBackgroundJobService>();
+        //services.AddHostedService<EmailsBackgroundJobService>();
         return services;
     }
 }

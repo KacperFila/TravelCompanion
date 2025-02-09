@@ -32,7 +32,7 @@ internal static class Extensions
         
         services.AddSingleton<ITravelPolicy, TravelPolicy>();
         services.AddSingleton<IPostcardPolicy, PostcardPolicy>();
-        services.AddHostedService<PostcardBackgroundJobService>();
+        //services.AddHostedService<PostcardBackgroundJobService>();
         services.AddTransient<ITravelsModuleApi, TravelsModuleApi>();
 
         return services;

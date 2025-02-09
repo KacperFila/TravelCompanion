@@ -19,7 +19,7 @@ namespace TravelCompanion.Shared.Infrastructure.Services
             _serviceProvider = serviceProvider;
             _logger = logger;
         }
-        
+
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
@@ -34,11 +34,35 @@ namespace TravelCompanion.Shared.Infrastructure.Services
                 {
                     continue;
                 }
-                
-                await dbContext.Database.MigrateAsync(cancellationToken);
+
+                var migrationsApplied = await HasMigrationsApplied(dbContext, cancellationToken);
+
+                if (!migrationsApplied)
+                {
+                    _logger.LogInformation($"Applying migrations for {dbContextType.Name}");
+                    await dbContext.Database.MigrateAsync(cancellationToken);
+                }
+                else
+                {
+                    _logger.LogInformation($"Migrations already applied for {dbContextType.Name}");
+                }
             }
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+        private async Task<bool> HasMigrationsApplied(DbContext dbContext, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var appliedMigrations = await dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
+                return appliedMigrations.Any();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking for applied migrations");
+                return false;
+            }
+        }
     }
 }

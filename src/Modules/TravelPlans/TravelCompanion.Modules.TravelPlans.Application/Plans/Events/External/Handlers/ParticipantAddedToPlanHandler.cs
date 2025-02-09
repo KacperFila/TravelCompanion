@@ -14,15 +14,15 @@ public sealed class ParticipantAddedToPlanHandler : IEventHandler<ParticipantAdd
     private readonly IPlanRepository _planRepository;
     private readonly IEmailSender _emailSender;
     private readonly IUsersModuleApi _usersModuleApi;
-    private readonly IBackgroundJobScheduler _backgroundJobScheduler;
+    //private readonly IBackgroundJobScheduler _backgroundJobScheduler;
     private readonly ICommandDispatcher _commandDispatcher;
 
-    public ParticipantAddedToPlanHandler(IPlanRepository planRepository, IEmailSender emailSender, IUsersModuleApi usersModuleApi, IBackgroundJobScheduler backgroundJobScheduler, ICommandDispatcher commandDispatcher)
+    public ParticipantAddedToPlanHandler(IPlanRepository planRepository, IEmailSender emailSender, IUsersModuleApi usersModuleApi, /*IBackgroundJobScheduler backgroundJobScheduler,*/ ICommandDispatcher commandDispatcher)
     {
         _planRepository = planRepository;
         _emailSender = emailSender;
         _usersModuleApi = usersModuleApi;
-        _backgroundJobScheduler = backgroundJobScheduler;
+        //_backgroundJobScheduler = backgroundJobScheduler;
         _commandDispatcher = commandDispatcher;
     }
 
@@ -44,7 +44,7 @@ public sealed class ParticipantAddedToPlanHandler : IEventHandler<ParticipantAdd
 
         var userEmail = await _usersModuleApi.GetUserEmail(@event.participantId);
 
-        _backgroundJobScheduler.Enqueue(() =>
-            _emailSender.SendEmailAsync(new ParticipantAddedToPlanEmailDTO(plan.Title), userEmail));
+        //_backgroundJobScheduler.Enqueue(() =>
+        //    _emailSender.SendEmailAsync(new ParticipantAddedToPlanEmailDTO(plan.Title), userEmail));
     }
 }

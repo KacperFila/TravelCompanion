@@ -13,24 +13,24 @@ internal static class Extensions
 
     internal static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
     {
-        var options = services.GetOptions<PostgresOptions>("postgres");
+        //var options = services.GetOptions<PostgresOptions>("postgres");
 
-        services.AddHangfire(config => config
-                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings()
-                .UsePostgreSqlStorage(opt => opt
-                    .UseNpgsqlConnection(options.HangfireConnectionString)));
+        //services.AddHangfire(config => config
+        //        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        //        .UseSimpleAssemblyNameTypeSerializer()
+        //        .UseRecommendedSerializerSettings()
+        //        .UsePostgreSqlStorage(opt => opt
+        //            .UseNpgsqlConnection(options.HangfireConnectionString)));
 
-        services.AddHangfireServer();
-        services.AddScoped<IBackgroundJobScheduler, BackgroundJobScheduler>();
+        //services.AddHangfireServer();
+        //services.AddScoped<IBackgroundJobScheduler, BackgroundJobScheduler>();
 
         return services;
     }
 
 
-    internal static void UseBackgroundJobs(this IApplicationBuilder app)
-    {
-        app.UseHangfireDashboard(DashboardPath);
-    }
+    //internal static void UseBackgroundJobs(this IApplicationBuilder app)
+    //{
+    //    app.UseHangfireDashboard(DashboardPath);
+    //}
 }

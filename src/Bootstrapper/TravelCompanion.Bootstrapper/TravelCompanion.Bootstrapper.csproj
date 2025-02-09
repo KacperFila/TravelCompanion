@@ -3,6 +3,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	  <CodeAnalysisRuleSet>..\..\..\stylecop\default.ruleset</CodeAnalysisRuleSet>
+	  <UserSecretsId>dbc99725-296a-4914-bac6-39fb307a9381</UserSecretsId>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerfileContext>..\..\..</DockerfileContext>
+	  <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj" />
@@ -24,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Endpoints" Version="1.4.0" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
