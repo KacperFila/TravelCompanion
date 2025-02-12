@@ -27,6 +27,9 @@ namespace TravelCompanion.Shared.Infrastructure.Services
                 .Where(x => typeof(DbContext).IsAssignableFrom(x) && !x.IsInterface && x != typeof(DbContext));
 
             using var scope = _serviceProvider.CreateScope();
+
+            _logger.LogInformation($"===== Start initializing db migrations... =====");
+
             foreach (var dbContextType in dbContextTypes)
             {
                 var dbContext = scope.ServiceProvider.GetService(dbContextType) as DbContext;
@@ -35,34 +38,19 @@ namespace TravelCompanion.Shared.Infrastructure.Services
                     continue;
                 }
 
-                var migrationsApplied = await HasMigrationsApplied(dbContext, cancellationToken);
+                var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync(cancellationToken);
 
-                if (!migrationsApplied)
+                if (pendingMigrations.Count() is not 0)
                 {
-                    _logger.LogInformation($"Applying migrations for {dbContextType.Name}");
+                    _logger.LogInformation($"===== Initialize migrations for {dbContextType.Name} =====");
+                    _logger.LogInformation($"===== Applying {pendingMigrations.Count()} migrations for {dbContextType.Name} =====");
                     await dbContext.Database.MigrateAsync(cancellationToken);
                 }
-                else
-                {
-                    _logger.LogInformation($"Migrations already applied for {dbContextType.Name}");
-                }
             }
+
+            _logger.LogInformation($"===== No migrations to be applied, database schema is up to date =====");
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-
-        private async Task<bool> HasMigrationsApplied(DbContext dbContext, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var appliedMigrations = await dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
-                return appliedMigrations.Any();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error checking for applied migrations");
-                return false;
-            }
-        }
     }
 }
