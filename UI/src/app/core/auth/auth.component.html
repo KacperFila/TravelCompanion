@@ -1,0 +1,29 @@
+<div>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+            type="email" 
+            id="email" 
+            class="form-control"
+            ngModel
+            name="email"
+            required
+            />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+            type="password" 
+            id="password" 
+            class="form-control"
+            ngModel
+            name="password"
+            required
+            />
+        </div>
+        <div>
+            <button>Sign up</button>
+        </div>    
+    </form>
+</div>

@@ -1,8 +1,8 @@
 services:
   travelcompanion.bootstrapper:
     build:
-      context: .
-      dockerfile: src/Bootstrapper/TravelCompanion.Bootstrapper/Dockerfile
+      context: ./API
+      dockerfile: ./src/Bootstrapper/TravelCompanion.Bootstrapper/Dockerfile
     depends_on:
       travelcompanion-postgres:
         condition: service_healthy
@@ -11,6 +11,8 @@ services:
       - postgres__hangfireConnectionString=Host=travelcompanion-postgres;Database=travelCompanionHangfire;Username=postgres;Password=postgres
     ports:
       - "5000:5000"
+    networks:
+      - travelcompanion-network
 
   travelcompanion-postgres:
     image: postgres:15
@@ -23,11 +25,33 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./scripts:/docker-entrypoint-initdb.d
+      - ./API/scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 1s
       retries: 10
+    networks:
+      - travelcompanion-network
+
+  travelcompanion-ui:
+    build:
+      context: ./UI
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./UI/src:/app/src  # Mount the src directory for live reload
+      - /node_modules  # To avoid issues with node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - travelcompanion.bootstrapper
+    networks:
+      - travelcompanion-network
 
 volumes:
   postgres_data:
+
+networks:
+  travelcompanion-network:
+    driver: bridge
