@@ -1,4 +1,7 @@
 <div>
+    <div style = "color: red" *ngIf="error">
+        {{ error }}
+    </div>
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
         <div class="form-group">
             <label for="email">Email</label>
@@ -22,8 +25,11 @@
             required
             />
         </div>
-        <div>
-            <button>Sign up</button>
-        </div>    
+        <button type="submit">
+            {{ isLoginMode ? 'Log In' : 'Sign up' }}
+        </button>
     </form>
+    <button (click)="toggleAuthMode()">
+        Switch to {{ isLoginMode ? 'Sign Up' : 'Log In' }}
+    </button> 
 </div>
