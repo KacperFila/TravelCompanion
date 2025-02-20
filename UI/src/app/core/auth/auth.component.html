@@ -1,35 +1,34 @@
-<div>
-    <div style = "color: red" *ngIf="error">
-        {{ error }}
-    </div>
+<div class="auth-container">
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
         <div class="form-group">
             <label for="email">Email</label>
             <input 
-            type="email" 
-            id="email" 
-            class="form-control"
-            ngModel
-            name="email"
-            required
+                type="email" 
+                id="email" 
+                class="form-control"
+                ngModel
+                name="email"
+                required
             />
         </div>
         <div class="form-group">
             <label for="password">Password</label>
             <input 
-            type="password" 
-            id="password" 
-            class="form-control"
-            ngModel
-            name="password"
-            required
+                type="password" 
+                id="password" 
+                class="form-control"
+                ngModel
+                name="password"
+                required
             />
         </div>
-        <button type="submit">
-            {{ isLoginMode ? 'Log In' : 'Sign up' }}
-        </button>
+        <div class="button-container">
+            <button type="submit">
+                {{ isLoginMode ? 'Log In' : 'Sign up' }}
+            </button>
+            <button class="switch-button" (click)="toggleAuthMode()">
+                Switch to {{ isLoginMode ? 'Sign Up' : 'Log In' }}
+            </button>
+        </div> 
     </form>
-    <button (click)="toggleAuthMode()">
-        Switch to {{ isLoginMode ? 'Sign Up' : 'Log In' }}
-    </button> 
 </div>

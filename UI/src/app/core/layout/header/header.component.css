@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  color: white;
+  padding: 15px 25px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 1.8em;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: #ff171788;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1em;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.logout-btn:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+
+.logout-btn:active {
+  transform: scale(0.95);
+}

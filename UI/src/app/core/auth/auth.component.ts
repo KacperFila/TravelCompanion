@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   selector: 'app-auth',
   templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.css'],
   imports: [FormsModule, CommonModule],
 })
 export class AuthComponent {
@@ -40,8 +41,6 @@ export class AuthComponent {
         }
       );
     }
-
-    console.log(form);
   }
 
   toggleAuthMode() {
