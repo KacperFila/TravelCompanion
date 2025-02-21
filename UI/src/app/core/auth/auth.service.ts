@@ -61,6 +61,38 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
+    localStorage.removeItem('user');
+  }
+
+  autoLogin() {
+    const loggedUser = localStorage.getItem('user');
+
+    if (!loggedUser) {
+      return;
+    }
+
+    const parsedUser: {
+      email: string;
+      accessToken: string;
+      refreshToken: string | null;
+      expires: number;
+      id: string;
+      role: string;
+      claims: {
+        permissions: string[];
+      };
+    } = JSON.parse(loggedUser);
+
+    const currentUser = new User(
+      parsedUser.email,
+      parsedUser.id,
+      parsedUser.role,
+      parsedUser.accessToken,
+      parsedUser.claims,
+      new Date(parsedUser.expires)
+    );
+
+    this.user.next(currentUser);
   }
 
   private handleAuthentication(
@@ -73,6 +105,8 @@ export class AuthService {
   ) {
     const expiresAt = new Date(expires);
     const user = new User(email, id, role, accessToken, claims, expiresAt);
+
+    localStorage.setItem('user', JSON.stringify(user));
 
     this.user.next(user);
   }

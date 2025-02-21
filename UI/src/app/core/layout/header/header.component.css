@@ -68,3 +68,11 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+.title {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.title:hover {
+  color: #ff6347;

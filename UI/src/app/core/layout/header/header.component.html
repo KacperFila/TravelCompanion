@@ -1,7 +1,7 @@
 <header class="header">
-    <h1 class="title">TravelCompanion</h1>
+    <h1 routerLink="/home" class="title">TravelCompanion</h1>
 
-    <nav class="nav-links">
+    <nav *ngIf="user$ | async as user;" class="nav-links">
         <a routerLink="/home" routerLinkActive="active">Home</a>
         <a routerLink="/travels" routerLinkActive="active">Travels</a>
         <a routerLink="/plans" routerLinkActive="active">Plans</a>
