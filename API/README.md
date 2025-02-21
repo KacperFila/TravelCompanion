@@ -1,6 +1,6 @@
 # About Travel Companion! ⛰️
 
-Travel Companion is an .NET web application focused on creating, managing and documenting trips with your friends. It allows you to create travel plans which could be edited by your friends which makes managing travels easier! 
+Travel Companion is an .NET/Angular web application focused on creating, managing and documenting trips with your friends. It allows you to create travel plans which could be edited by your friends which makes managing travels easier! 
 
 ## Features:
 1. Accounts
@@ -31,6 +31,3 @@ Travel Companion is an .NET web application focused on creating, managing and do
 ## Documentation
 Swagger documentation is available under localhost:5000/docs.
 Hangfire dashboard is available under localhost:5000/hangfire.
-
-## Planned features:
-- Stripe integration
