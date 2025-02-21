@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -11,7 +12,7 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, CommonModule],
 })
 export class AuthComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   isLoginMode = true;
   error: string | null = null;
@@ -24,6 +25,7 @@ export class AuthComponent {
       this.authService.login(email, password).subscribe(
         (response) => {
           console.log(response);
+          this.router.navigate(['/home']);
         },
         (error) => {
           console.log(error);
@@ -33,10 +35,9 @@ export class AuthComponent {
     } else {
       this.authService.signup(email, password).subscribe(
         (response) => {
-          console.log(response);
+          this.isLoginMode = true;
         },
         (error) => {
-          console.log(error);
           this.error = error;
         }
       );

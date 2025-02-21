@@ -1,4 +1,12 @@
 <header class="header">
     <h1 class="title">TravelCompanion</h1>
-    <button class="logout-btn" (click)="logout()">Logout</button>
+
+    <nav class="nav-links">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/travels" routerLinkActive="active">Travels</a>
+        <a routerLink="/plans" routerLinkActive="active">Plans</a>
+        <a routerLink="/costs" routerLinkActive="active">Costs</a>
+      </nav>
+
+    <button class="logout-btn" *ngIf="user$ | async as user;" (click)="logout()">Log out</button>
 </header>

@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { User } from '../../auth/user.model';
 
 interface TravelResponse {
   title: string;
@@ -14,10 +17,19 @@ interface TravelResponse {
   standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  imports: [RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterModule],
 })
 export class HeaderComponent {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.user$ = this.authService.user;
+  }
+
+  user$: Observable<User | null>;
+
   error: string | null = null;
 
   fetchData() {
@@ -36,5 +48,6 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 }
