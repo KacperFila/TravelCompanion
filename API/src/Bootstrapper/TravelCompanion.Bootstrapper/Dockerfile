@@ -1,14 +1,18 @@
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
+# Base image for running the application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 5001
+EXPOSE 5005
 
+# Build image with SDK
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Environment variables for PostgreSQL
 ENV POSTGRES_HOST=travelcompanion-postgres
 ENV POSTGRES_DB=travelCompanion
 ENV POSTGRES_USER=postgres
@@ -18,6 +22,7 @@ ENV HANGFIRE_POSTGRES_DB=travelCompanion
 ENV HANGFIRE_POSTGRES_USER=postgres
 ENV HANGFIRE_POSTGRES_PASSWORD=postgres
 
+# Copy project files
 COPY ["src/Bootstrapper/TravelCompanion.Bootstrapper/TravelCompanion.Bootstrapper.csproj", "src/Bootstrapper/TravelCompanion.Bootstrapper/"]
 COPY ["src/Modules/Emails/TravelCompanion.Modules.Emails.Api/TravelCompanion.Modules.Emails.Api.csproj", "src/Modules/Emails/TravelCompanion.Modules.Emails.Api/"]
 COPY ["src/Modules/Emails/TravelCompanion.Modules.Emails.Core/TravelCompanion.Modules.Emails.Core.csproj", "src/Modules/Emails/TravelCompanion.Modules.Emails.Core/"]
@@ -39,25 +44,39 @@ COPY ["src/Modules/Travels/TravelCompanion.Modules.Travels.Api/TravelCompanion.M
 COPY ["src/Modules/Users/TravelCompanion.Modules.Users.Api/TravelCompanion.Modules.Users.Api.csproj", "src/Modules/Users/TravelCompanion.Modules.Users.Api/"]
 COPY ["src/Modules/Users/TravelCompanion.Modules.Users.Core/TravelCompanion.Modules.Users.Core.csproj", "src/Modules/Users/TravelCompanion.Modules.Users.Core/"]
 
+# Restore dependencies
 RUN dotnet restore "./src/Bootstrapper/TravelCompanion.Bootstrapper/TravelCompanion.Bootstrapper.csproj"
 
+# Copy everything else
 COPY . .
 
+# Build application
 WORKDIR "/src/src/Bootstrapper/TravelCompanion.Bootstrapper"
 RUN dotnet build "./TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Publish application
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+# Final image for production
 FROM base AS final
 WORKDIR /app
-
 COPY --from=publish /app/publish .
-
 ENTRYPOINT ["dotnet", "TravelCompanion.Bootstrapper.dll"]
 
-FROM base AS debug
+# Debug image for development
+FROM build AS debug
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TravelCompanion.Bootstrapper.dll"]
+
+# Enable hot reload and debugging
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+# Expose debugger port
+EXPOSE 5005
+
+# Debug entrypoint with remote debugging enabled
+CMD ["dotnet", "TravelCompanion.Bootstrapper.dll", "--server.urls", "http://+:5000", "--inspect-brk=0.0.0.0:5005"]

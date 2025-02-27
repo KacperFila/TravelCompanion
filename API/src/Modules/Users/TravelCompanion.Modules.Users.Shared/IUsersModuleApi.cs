@@ -9,4 +9,6 @@ public interface IUsersModuleApi
     Task<string> GetUserEmail(Guid userId);
     Task<List<Guid>> GetUsersIdsAsync();
     Task<UserInfoDto> GetUserInfo(Guid userId);
+    Task SetUserActivePlan(Guid userId, Guid planId);
+    Task<Guid?> GetUserActivePlan(Guid userId);
 }

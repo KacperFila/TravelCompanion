@@ -13,6 +13,7 @@ interface AuthResponse {
   role: string;
   claims: {
     permissions: string[];
+    activePlanId: string[];
   };
 }
 
@@ -23,6 +24,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signup(email: string, password: string) {
+    console.log('asdadasasd');
     return this.http.post<AuthResponse>(
       `${environment.apiBaseUrl}/users-module/account/sign-up`,
       {
@@ -31,6 +33,7 @@ export class AuthService {
         role: 'user',
         claims: {
           permissions: ['users'],
+          activePlanId: [],
         },
       }
     );
@@ -80,6 +83,7 @@ export class AuthService {
       role: string;
       claims: {
         permissions: string[];
+        activePlanId: string[];
       };
     } = JSON.parse(loggedUser);
 
@@ -101,7 +105,7 @@ export class AuthService {
     role: string,
     accessToken: string,
     expires: number,
-    claims: { permissions: string[] }
+    claims: { permissions: string[]; activePlanId: string[] }
   ) {
     const expiresAt = new Date(expires);
     const user = new User(email, id, role, accessToken, claims, expiresAt);

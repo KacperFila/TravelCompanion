@@ -1,0 +1,8 @@
+<div class="item-list">
+    <ul>
+      <li *ngFor="let item of items" (click)="onItemClick(item)">
+        {{ displayProperty ? item[displayProperty] : item }}
+      </li>
+    </ul>
+  </div>
+  

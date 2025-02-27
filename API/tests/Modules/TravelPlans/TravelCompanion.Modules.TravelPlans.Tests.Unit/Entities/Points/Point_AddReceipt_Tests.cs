@@ -11,7 +11,7 @@ public class Point_AddReceipt_Tests
     [Fact]
     public void given_receipt_is_valid_addition_should_succeed()
     {
-        var receipt = Receipt.Create(new List<Guid>(), Money.Create(10), null, _point.Id, "desc");
+        var receipt = Receipt.Create(Guid.NewGuid(), new List<Guid>(), Money.Create(10), null, _point.Id, "desc");
 
         var exception = Record.Exception(() => Act(receipt));
 

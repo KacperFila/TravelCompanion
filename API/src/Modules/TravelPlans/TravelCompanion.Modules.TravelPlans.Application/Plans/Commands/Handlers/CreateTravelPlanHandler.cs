@@ -1,5 +1,6 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
+using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 
@@ -8,14 +9,16 @@ namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handler
 public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
 {
     private readonly IPlanRepository _planRepository;
+    private readonly IUsersModuleApi _usersModuleApi;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public CreateTravelPlanHandler(IPlanRepository planRepository, IContext context)
+    public CreateTravelPlanHandler(IPlanRepository planRepository, IContext context, IUsersModuleApi usersModuleApi)
     {
         _planRepository = planRepository;
         _context = context;
         _userId = _context.Identity.Id;
+        _usersModuleApi = usersModuleApi;
     }
 
     public async Task HandleAsync(CreateTravelPlan command)
@@ -29,5 +32,6 @@ public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
             command.to);
 
         await _planRepository.AddAsync(travelPlan);
+        await _usersModuleApi.SetUserActivePlan(_userId, travelPlan.Id);
     }
 }

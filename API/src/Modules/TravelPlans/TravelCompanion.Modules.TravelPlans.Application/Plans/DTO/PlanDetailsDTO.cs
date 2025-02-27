@@ -1,6 +1,4 @@
-﻿using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
-
-namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+﻿namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 
 public class PlanDetailsDTO
 {

@@ -1,2 +1,50 @@
-<h1>Welcome to the Plans Page</h1>
-<p>You are logged in!</p>
+<div class="container">
+    <div class="top-section">
+      <div class="buttons">
+        <button (click)="openCreatePlanModal()">Create plan</button>
+        <button>My plans</button>
+        <button (click)="openChangeActiveModal()">Change active</button>
+      </div>
+      <h1>Active travel plan:</h1>
+      <p *ngIf="activePlan">{{ activePlan.title }}</p>
+      <p *ngIf="!activePlan">No active plan selected</p>
+    </div>
+  
+    <div class="bottom-section">
+      <app-item-list
+        [items]="travelPlans"
+        [displayProperty]="'title'">
+      </app-item-list>
+      <div *ngIf="activePlan">
+        <h2>Active Plan Details</h2>
+        <pre>{{ activePlan | json }}</pre>
+      </div>
+    </div>
+  </div>
+  
+  <app-create-plan-modal
+  [isModalOpen]="isModalOpen"
+  (createPlanEvent)="createPlan($event)"
+  (closeModalEvent)="closeCreatePlanModal()"
+></app-create-plan-modal>
+  
+  <!-- Modal for changing active plan -->
+  <div class="modal-overlay" *ngIf="isChangeActiveModalOpen">
+    <div class="modal">
+      <h2>Select Active Plan</h2>
+      <form (submit)="setActivePlan($event)">
+        <label for="activePlan">Choose a plan:</label>
+        <select id="activePlan" [(ngModel)]="selectedPlanId" name="activePlan" required>
+          <option *ngFor="let plan of travelPlans" [value]="plan.id">
+            {{ plan.title }}
+          </option>
+        </select>
+  
+        <div class="modal-buttons">
+          <button type="submit">Set Active</button>
+          <button type="button" (click)="closeChangeActiveModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
