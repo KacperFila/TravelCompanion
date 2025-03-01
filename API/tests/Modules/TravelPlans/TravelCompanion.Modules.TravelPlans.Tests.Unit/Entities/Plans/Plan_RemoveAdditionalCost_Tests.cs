@@ -3,7 +3,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
-using TravelCompanion.Shared.Abstractions.Time;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 public class Plan_RemoveAdditionalCost_Tests
@@ -14,13 +13,16 @@ public class Plan_RemoveAdditionalCost_Tests
     private readonly Guid ownerId = Guid.NewGuid();
     private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
-    private static Receipt GetReceipt(AggregateId planId, List<Guid> receiptParticipants) =>
-        Receipt.Create(receiptParticipants, Money.Create(10), planId, null, "desc");
+    private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
+    {
+        receiptParticipants.Add(ownerId);
+        return Receipt.Create(ownerId, receiptParticipants, Money.Create(10), planId, null, "desc");
+    }
 
     [Fact]
     public void given_receipt_with_incorrect_planId_removal_should_fail()
     {
-        var receipt = GetReceipt(planId, receiptParticipants);
+        var receipt = GetReceipt(ownerId, planId, receiptParticipants);
         _plan.AddAdditionalCost(receipt);
 
         var exception = Record.Exception(() => Act(Guid.NewGuid()));
@@ -32,7 +34,7 @@ public class Plan_RemoveAdditionalCost_Tests
     [Fact]
     public void given_receipt_removal_should_succeed()
     {
-        var receipt = GetReceipt(planId, receiptParticipants);
+        var receipt = GetReceipt(ownerId, planId, receiptParticipants);
         _plan.AddAdditionalCost(receipt);
 
         var exception = Record.Exception(() => Act(receipt.Id));

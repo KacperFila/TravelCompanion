@@ -11,16 +11,19 @@ public class Plan_AddAdditionalCost_Tests
     private void Act(Receipt receipt) => _plan.AddAdditionalCost(receipt);
 
     private readonly AggregateId planId = new(Guid.NewGuid());
-    private readonly OwnerId ownerId = new(Guid.NewGuid());
+    private readonly OwnerId ownerId = (Guid.NewGuid());
     private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
-    private static Receipt GetReceipt(AggregateId planId, List<Guid> receiptParticipants) =>
-        Receipt.Create(receiptParticipants, Money.Create(10), planId, null, "desc");
+    private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
+    {
+        receiptParticipants.Add(ownerId);
+        return Receipt.Create(ownerId, receiptParticipants, Money.Create(10), planId, null, "desc");
+    }
 
     [Fact]
     public void given_receipt_addition_should_succeed()
     {
-        var receipt = GetReceipt(planId, receiptParticipants);
+        var receipt = GetReceipt(ownerId, planId, receiptParticipants);
 
         var exception = Record.Exception(() => Act(receipt));
 
@@ -31,7 +34,7 @@ public class Plan_AddAdditionalCost_Tests
     [Fact]
     public void given_receipt_planId_is_incorrect_addition_should_fail()
     {
-        var receipt = GetReceipt(Guid.NewGuid(), receiptParticipants);
+        var receipt = GetReceipt(ownerId, Guid.NewGuid(), receiptParticipants);
 
         var exception = Record.Exception(() => Act(receipt));
 
