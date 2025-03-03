@@ -56,10 +56,10 @@ public sealed class Plan : AggregateRoot, IAuditable
         PlanStatus = Enums.PlanStatus.DuringPlanning;
     }
 
-    public static Plan Create(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from,
+    public static Plan Create(OwnerId ownerId, string title, string? description, DateOnly from,
         DateOnly to)
     {
-        var travelPlan = new Plan(id, ownerId);
+        var travelPlan = new Plan(Guid.NewGuid(), ownerId);
         travelPlan.ChangeTitle(title);
         travelPlan.ChangeDescription(description);
         travelPlan.ChangeFrom(from);

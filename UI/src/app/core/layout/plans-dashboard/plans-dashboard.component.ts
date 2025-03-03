@@ -1,35 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PlansService } from './plans.service';
+import { PlansService } from '../../features/plans/services/plans.service';
 import { ItemListComponent } from '../../shared/item-list/item-list.components';
 import { AuthService } from '../../auth/auth.service';
-import { PlanCreationModal } from '../../components/plans/plan-creation-modal/plan-creation-modal.component';
-
-interface CreateTravelPlanRequest {
-  title: string;
-  description: string | null;
-  from: Date | null;
-  to: Date | null;
-}
-
-interface TravelPlan {
-  id: string;
-  ownerId: string;
-  participants: string[];
-  title: string;
-  description: string;
-  from: string;
-  to: string;
-  additionalCostsValue: number;
-  totalCostValue: number;
-  planStatus: string;
-}
+import { PlanCreationModal } from '../../features/plans/components/plan-creation-modal/plan-creation-modal.component';
+import { ChangeActivePlanModal } from '../../features/plans/components/change-active-plan-modal/change-active-plan-modal.component';
+import {
+  CreateTravelPlanRequest,
+  TravelPlan,
+} from '../../features/plans/models/plan-models';
 
 @Component({
   selector: 'app-plans-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, ItemListComponent, PlanCreationModal],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ItemListComponent,
+    PlanCreationModal,
+    ChangeActivePlanModal,
+  ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],
 })
@@ -40,14 +31,14 @@ export class PlansDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.updatePlansForUser();
+    this.onPlanCreated();
   }
+
   travelPlans: TravelPlan[] = [];
   activePlan: TravelPlan | null = null;
 
-  isModalOpen: boolean = false;
+  isCreatePlanModalOpen: boolean = false;
   isChangeActiveModalOpen: boolean = false;
-  selectedPlanId: string = '';
 
   error: string = '';
   formData: CreateTravelPlanRequest = {
@@ -58,11 +49,11 @@ export class PlansDashboardComponent implements OnInit {
   };
 
   openCreatePlanModal() {
-    this.isModalOpen = true;
+    this.isCreatePlanModalOpen = true;
   }
 
   closeCreatePlanModal() {
-    this.isModalOpen = false;
+    this.isCreatePlanModalOpen = false;
   }
 
   openChangeActiveModal() {
@@ -73,52 +64,10 @@ export class PlansDashboardComponent implements OnInit {
     this.isChangeActiveModalOpen = false;
   }
 
-  setActivePlan(event: Event) {
-    event.preventDefault();
-    if (!this.selectedPlanId) return;
-
-    this.plansService.setActivePlan(this.selectedPlanId).subscribe(
-      () => {
-        this.setUserActivePlanId(this.selectedPlanId);
-        this.updatePlansForUser();
-        this.closeChangeActiveModal();
-      },
-      (error) => {
-        console.error('Error updating active plan:', error);
-        this.error = 'Failed to update active plan';
-      }
-    );
-  }
-
-  createPlan(request: CreateTravelPlanRequest) {
-    this.plansService
-      .createPlan(request.title, request.description, request.from, request.to)
-      .subscribe(
-        (res) => {
-          this.updatePlansForUser();
-        },
-        (error) => {
-          console.log(error);
-          this.error = error;
-        }
-      );
-  }
-
-  private updatePlansForUser() {
+  updatePlansForUser(): void {
     this.plansService.getPlansForUser().subscribe(
-      (response) => {
-        this.travelPlans = response.items;
-        const user = this.authService.user.value;
-
-        if (user) {
-          const activePlanId = user.activePlanId;
-          this.activePlan =
-            this.travelPlans.find((plan) => plan.id == activePlanId) || null;
-
-          if (this.activePlan) {
-            this.setUserActivePlanId(this.activePlan?.id);
-          }
-        }
+      (res) => {
+        this.travelPlans = res.items;
       },
       (error) => {
         console.error('Error fetching plans:', error);
@@ -127,11 +76,7 @@ export class PlansDashboardComponent implements OnInit {
     );
   }
 
-  private setUserActivePlanId(planId: string) {
-    const user = this.authService.user.value;
-
-    if (user) {
-      user.activePlanId = planId;
-    }
+  onPlanCreated() {
+    this.activePlan = this.authService.getUserActivePlan();
   }
 }

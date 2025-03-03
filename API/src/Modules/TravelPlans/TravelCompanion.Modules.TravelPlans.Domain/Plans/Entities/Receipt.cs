@@ -25,7 +25,7 @@ public sealed class Receipt : IAuditable
         PlanId = planId;
         PointId = pointId;
     }
-    public static Receipt Create(Guid receiptOwnerId, List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
+    public static Receipt Create(OwnerId receiptOwnerId, List<Guid> receiptParticipants, Money amount, AggregateId? planId, AggregateId? pointId, string description)
     {
         if (!ValidPlanIdAndPointId(planId, pointId))
         {

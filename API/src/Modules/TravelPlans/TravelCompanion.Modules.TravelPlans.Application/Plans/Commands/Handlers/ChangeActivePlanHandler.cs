@@ -40,7 +40,5 @@ internal class ChangeActivePlanHandler : ICommandHandler<ChangeActivePlan>
         {
             throw new UserDoesNotParticipateInPlanException(_userId, command.planId);
         }
-
-        await _userModuleApi.SetUserActivePlan(_userId, command.planId);
     }
 }

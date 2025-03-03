@@ -12,4 +12,6 @@ public class PlanDetailsDTO
     public decimal AdditionalCostsValue { get; set; }
     public decimal TotalCostValue { get; set; }
     public string PlanStatus { get; set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 }

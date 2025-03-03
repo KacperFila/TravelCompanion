@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Subject, tap } from 'rxjs';
 import { User } from './user.model';
+import { TravelPlan } from '../features/plans/models/plan-models';
 
 interface AuthResponse {
   email: string;
@@ -13,7 +14,6 @@ interface AuthResponse {
   role: string;
   claims: {
     permissions: string[];
-    activePlanId: string[];
   };
 }
 
@@ -24,7 +24,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signup(email: string, password: string) {
-    console.log('asdadasasd');
     return this.http.post<AuthResponse>(
       `${environment.apiBaseUrl}/users-module/account/sign-up`,
       {
@@ -63,8 +62,8 @@ export class AuthService {
   }
 
   logout() {
-    this.user.next(null);
     localStorage.removeItem('user');
+    this.user.next(null);
   }
 
   autoLogin() {
@@ -83,7 +82,6 @@ export class AuthService {
       role: string;
       claims: {
         permissions: string[];
-        activePlanId: string[];
       };
     } = JSON.parse(loggedUser);
 
@@ -99,13 +97,33 @@ export class AuthService {
     this.user.next(currentUser);
   }
 
+  getUserActivePlan(): TravelPlan | null {
+    const activePlan = localStorage.getItem('activePlan');
+    if (activePlan) {
+      return JSON.parse(activePlan) as TravelPlan;
+    }
+    return null;
+  }
+
+  updateActivePlan(plan: TravelPlan) {
+    const currentUser = this.user.value;
+    if (currentUser) {
+      currentUser.activePlan = plan;
+      localStorage.setItem(
+        'activePlan',
+        JSON.stringify(currentUser.activePlan)
+      );
+      this.user.next(currentUser);
+    }
+  }
+
   private handleAuthentication(
     email: string,
     id: string,
     role: string,
     accessToken: string,
     expires: number,
-    claims: { permissions: string[]; activePlanId: string[] }
+    claims: { permissions: string[] }
   ) {
     const expiresAt = new Date(expires);
     const user = new User(email, id, role, accessToken, claims, expiresAt);

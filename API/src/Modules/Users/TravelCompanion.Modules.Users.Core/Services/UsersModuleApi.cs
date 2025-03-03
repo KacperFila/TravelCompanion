@@ -6,6 +6,7 @@ using TravelCompanion.Modules.Users.Core.Exceptions;
 using TravelCompanion.Modules.Users.Core.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Modules.Users.Shared.DTO;
+using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Users.Core.Services;
 
@@ -13,10 +14,12 @@ internal class UsersModuleApi : IUsersModuleApi
 {
     private const string activePlanIdClaimKey = "activePlanId";
     private readonly IUserRepository _userRepository;
+    private readonly IContext _context;
 
-    public UsersModuleApi(IUserRepository userRepository)
+    public UsersModuleApi(IUserRepository userRepository, IContext context)
     {
         _userRepository = userRepository;
+        _context = context;
     }
 
     public async Task<bool> CheckIfUserExists(Guid userId)
@@ -49,43 +52,5 @@ internal class UsersModuleApi : IUsersModuleApi
         };
     }
 
-    public async Task SetUserActivePlan(Guid userId, Guid planId)
-    {
-        var user = await _userRepository.GetAsync(userId);
-
-        if (user.Claims.TryGetValue(activePlanIdClaimKey, out var _))
-        {
-            user.Claims[activePlanIdClaimKey] = [planId.ToString()];
-        }
-        else
-        {
-            user.Claims.Add(activePlanIdClaimKey, [planId.ToString()]);
-        }
-
-        await _userRepository.UpdateAsync(user);
-    }
-
-    public async Task<Guid?> GetUserActivePlan(Guid userId)
-    {
-        var user = await _userRepository.GetAsync(userId);
-        Console.WriteLine($"USER: {user}");
-        var userActivePlanId = user.Claims[activePlanIdClaimKey].FirstOrDefault();
-        Console.WriteLine($"USERACTIVEPLANID: {userActivePlanId}");
-
-        if (userActivePlanId is null) // PLAN MIGHT BE NOT YET CHOSEN
-        {
-            return null;
-        }
-
-        var isUserActivePlanIdValid = Guid.TryParse(userActivePlanId, out var activePlanId);
-
-        if(!isUserActivePlanIdValid)
-        {
-            throw new InvalidClaimValueException(activePlanIdClaimKey);
-        }
-
-        Console.WriteLine($"RETURNED: {activePlanId}");
-
-        return activePlanId;
-    }
+    
 }

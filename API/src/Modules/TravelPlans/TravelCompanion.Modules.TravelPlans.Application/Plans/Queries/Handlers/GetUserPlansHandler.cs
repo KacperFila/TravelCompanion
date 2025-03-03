@@ -21,7 +21,7 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
 
     public async Task<Paged<PlanDetailsDTO>> HandleAsync(GetUserPlans query)
     {
-        var plans = await _planRepository.BrowseForUserAsync(_userId, query.Page, query.Results);
+        var plans = await _planRepository.BrowseForUserAsync(_userId, query.Page, query.Results, query.SortOrder, query.OrderBy);
         var dtos = plans.Items.Select(AsPlanDetailsDto).ToList();
 
         var pagedDtos = new Paged<PlanDetailsDTO>(dtos, plans.CurrentPage, plans.ResultsPerPage, plans.TotalPages, plans.TotalResults);
@@ -41,7 +41,9 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
             OwnerId = plan.OwnerId,
             Participants = plan.Participants.Select(x => x.Value).ToList(),
             PlanStatus = plan.PlanStatus,
-            Title = plan.Title
+            Title = plan.Title,
+            CreatedOnUtc = plan.CreatedOnUtc,
+            ModifiedOnUtc = plan.ModifiedOnUtc
         };
     }
 }
