@@ -13,9 +13,6 @@ export class User {
   ) {}
 
   get token(): string | null {
-    if (Date.now() > this.expirationDate.getTime()) {
-      return null;
-    }
     return this._token;
   }
 

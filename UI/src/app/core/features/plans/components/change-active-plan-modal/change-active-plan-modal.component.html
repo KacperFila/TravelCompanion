@@ -1,11 +1,17 @@
 <app-modal
   [isOpen]="isModalOpen"
+  (close)="closeChangeActiveModal()"
   title="Create New Plan"
 >
   <form (submit)="setActivePlan($event)">
     <label for="activePlan">Choose a plan:</label>
-    <select id="activePlan" [(ngModel)]="selectedPlanId" name="activePlan" required>
-      <option *ngFor="let plan of travelPlans" [value]="plan.id">
+    <select id="activePlan" 
+      [(ngModel)]="selectedPlan"
+      name="activePlan"
+      required
+      (click)="fetchPlans()"
+    >
+      <option *ngFor="let plan of travelPlans" [ngValue]="plan">
         {{ plan.title }}
       </option>
     </select>

@@ -2,6 +2,7 @@
     <ul>
       <li *ngFor="let item of items" (click)="onItemClick(item)">
         {{ displayProperty ? item[displayProperty] : item }}
+          <button (click)="onDelete(item); $event.stopPropagation()">Delete</button>
       </li>
     </ul>
   </div>

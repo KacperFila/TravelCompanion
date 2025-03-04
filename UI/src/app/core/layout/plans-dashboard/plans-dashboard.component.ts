@@ -10,6 +10,7 @@ import {
   CreateTravelPlanRequest,
   TravelPlan,
 } from '../../features/plans/models/plan-models';
+import { UserPlansModal } from '../../features/plans/components/user-plans-modal/user-plans-modal.component';
 
 @Component({
   selector: 'app-plans-dashboard',
@@ -20,6 +21,7 @@ import {
     ItemListComponent,
     PlanCreationModal,
     ChangeActivePlanModal,
+    UserPlansModal,
   ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],
@@ -31,7 +33,7 @@ export class PlansDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.onPlanCreated();
+    this.onPlanUpdated();
   }
 
   travelPlans: TravelPlan[] = [];
@@ -39,6 +41,7 @@ export class PlansDashboardComponent implements OnInit {
 
   isCreatePlanModalOpen: boolean = false;
   isChangeActiveModalOpen: boolean = false;
+  isUserPlansModalOpen: boolean = false;
 
   error: string = '';
   formData: CreateTravelPlanRequest = {
@@ -64,6 +67,14 @@ export class PlansDashboardComponent implements OnInit {
     this.isChangeActiveModalOpen = false;
   }
 
+  openUserPlansModal() {
+    this.isUserPlansModalOpen = true;
+  }
+
+  closeUserPlansModal() {
+    this.isUserPlansModalOpen = false;
+  }
+
   updatePlansForUser(): void {
     this.plansService.getPlansForUser().subscribe(
       (res) => {
@@ -76,7 +87,7 @@ export class PlansDashboardComponent implements OnInit {
     );
   }
 
-  onPlanCreated() {
+  onPlanUpdated() {
     this.activePlan = this.authService.getUserActivePlan();
   }
 }

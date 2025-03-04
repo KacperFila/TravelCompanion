@@ -2,9 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
-import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { switchMap, tap } from 'rxjs';
 import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan-models';
 
 @Component({
@@ -15,40 +13,19 @@ import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan-models';
   imports: [ModalComponent, FormsModule, CommonModule],
 })
 export class ChangeActivePlanModal implements OnInit {
-  constructor(
-    private plansService: PlansService,
-    private authService: AuthService
-  ) {}
+  constructor(private plansService: PlansService) {}
 
   ngOnInit(): void {
-    this.plansService
-      .getPlansForUser()
-      .pipe(
-        tap((response) => {
-          this.travelPlans = response.items;
-        }),
-        switchMap(() => this.authService.user)
-      )
-      .subscribe(
-        (user) => {
-          if (user && !user.activePlan && this.travelPlans.length > 0) {
-            user.activePlan = this.travelPlans[0];
-          }
-        },
-        (error) => {
-          console.error('Error fetching plans:', error);
-          this.error = 'Failed to load travel plans';
-        }
-      );
+    this.fetchPlans();
   }
 
-  selectedPlanId: string = '';
+  selectedPlan: TravelPlan | null = null;
   error: string = '';
   travelPlans: TravelPlan[] = [];
 
   @Input() isModalOpen: boolean = false;
 
-  @Output() setActivePlanEvent = new EventEmitter<CreateTravelPlanRequest>();
+  @Output() setActivePlanEvent = new EventEmitter<TravelPlan>();
   @Output() closeModalEvent = new EventEmitter<void>();
 
   formData: CreateTravelPlanRequest = {
@@ -60,13 +37,27 @@ export class ChangeActivePlanModal implements OnInit {
 
   setActivePlan(event: Event) {
     event.preventDefault();
-    if (!this.selectedPlanId) {
+
+    if (!this.selectedPlan) {
       return;
     }
 
-    // this.authService.updateActivePlan(this.selectedPlanId);
+    this.plansService.setActivePlan(this.selectedPlan);
     this.setActivePlanEvent.emit();
-    this.closeModalEvent.emit();
+    this.closeChangeActiveModal;
+  }
+
+  fetchPlans(): void {
+    this.plansService.getPlansForUser().subscribe(
+      (response) => {
+        this.travelPlans = response.items;
+        this.selectedPlan = response.items[0];
+      },
+      (error) => {
+        console.error('Error fetching plans:', error);
+        this.error = 'Failed to load travel plans';
+      }
+    );
   }
 
   closeChangeActiveModal(): void {

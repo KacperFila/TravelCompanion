@@ -9,12 +9,17 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./item-list.component.css'],
 })
 export class ItemListComponent<T> {
-  @Input() items: T[] = []; // Generic list of items
-  @Input() displayProperty: keyof T | null = null; // The key to display in the list
+  @Input() items: T[] = [];
+  @Input() displayProperty: keyof T | null = null;
 
-  @Output() itemClick = new EventEmitter<T>(); // Emits when an item is clicked
+  @Output() itemClick = new EventEmitter<T>();
+  @Output() deleteItem = new EventEmitter<T>();
 
   onItemClick(item: T) {
     this.itemClick.emit(item);
+  }
+
+  onDelete(item: T) {
+    this.deleteItem.emit(item);
   }
 }

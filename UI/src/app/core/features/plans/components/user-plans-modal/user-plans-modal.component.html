@@ -1,0 +1,10 @@
+<app-modal
+  [isOpen]="isModalOpen"
+  (close)="closeModal()"
+  title="User Plans">
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <app-item-list 
+    [items]="travelPlans" 
+    [displayProperty]="'title'">
+  </app-item-list>
+</app-modal>
