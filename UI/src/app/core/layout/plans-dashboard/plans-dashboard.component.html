@@ -9,19 +9,7 @@
       <p *ngIf="activePlan">{{ activePlan.title }}</p>
       <p *ngIf="!activePlan">No active plan selected</p>
     </div>
-  
-    <div class="bottom-section">
-      <app-item-list
-        [items]="travelPlans"
-        [displayProperty]="'title'">
-        (deleteItem)="deletePlan($event)">
-      </app-item-list>
-      <div *ngIf="activePlan">
-        <h2>Active Plan Details</h2>
-        <pre>{{ activePlan | json }}</pre>
-      </div>
-    </div>
-  </div>
+</div>
   
 <app-create-plan-modal
   [isModalOpen]="isCreatePlanModalOpen"

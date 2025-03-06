@@ -44,7 +44,7 @@ export class ChangeActivePlanModal implements OnInit {
 
     this.plansService.setActivePlan(this.selectedPlan);
     this.setActivePlanEvent.emit();
-    this.closeChangeActiveModal;
+    this.closeChangeActiveModal();
   }
 
   fetchPlans(): void {

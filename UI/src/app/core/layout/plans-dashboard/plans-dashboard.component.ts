@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PlansService } from '../../features/plans/services/plans.service';
-import { ItemListComponent } from '../../shared/item-list/item-list.components';
 import { AuthService } from '../../auth/auth.service';
 import { PlanCreationModal } from '../../features/plans/components/plan-creation-modal/plan-creation-modal.component';
 import { ChangeActivePlanModal } from '../../features/plans/components/change-active-plan-modal/change-active-plan-modal.component';
@@ -18,7 +17,6 @@ import { UserPlansModal } from '../../features/plans/components/user-plans-modal
   imports: [
     CommonModule,
     FormsModule,
-    ItemListComponent,
     PlanCreationModal,
     ChangeActivePlanModal,
     UserPlansModal,
@@ -27,10 +25,7 @@ import { UserPlansModal } from '../../features/plans/components/user-plans-modal
   styleUrls: ['./plans-dashboard.component.css'],
 })
 export class PlansDashboardComponent implements OnInit {
-  constructor(
-    private plansService: PlansService,
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.onPlanUpdated();
@@ -73,18 +68,6 @@ export class PlansDashboardComponent implements OnInit {
 
   closeUserPlansModal() {
     this.isUserPlansModalOpen = false;
-  }
-
-  updatePlansForUser(): void {
-    this.plansService.getPlansForUser().subscribe(
-      (res) => {
-        this.travelPlans = res.items;
-      },
-      (error) => {
-        console.error('Error fetching plans:', error);
-        this.error = 'Failed to load travel plans';
-      }
-    );
   }
 
   onPlanUpdated() {

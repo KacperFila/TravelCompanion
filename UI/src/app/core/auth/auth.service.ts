@@ -72,9 +72,7 @@ export class AuthService {
 
     const parsedUser = JSON.parse(loggedUser);
 
-    console.log('Parsed User Token:', parsedUser.token); // Debugging log
-
-    if (!parsedUser.token) {
+    if (!parsedUser._token) {
       console.error('Access token is missing!');
       return;
     }
@@ -83,12 +81,10 @@ export class AuthService {
       parsedUser.email,
       parsedUser.id,
       parsedUser.role,
-      parsedUser.token, // Ensure token is passed
+      parsedUser._token,
       parsedUser.claims,
       new Date(parsedUser.expires)
     );
-
-    console.log('Current User Token:', currentUser.token); // Debugging log
 
     this.user.next(currentUser);
   }
