@@ -2,34 +2,28 @@
     <div class="top-section">
       <div class="buttons">
         <button (click)="openCreatePlanModal()">Create plan</button>
-        <button>My plans</button>
+        <button (click)="openUserPlansModal()">My plans</button>
         <button (click)="openChangeActiveModal()">Change active</button>
       </div>
       <h1>Active travel plan:</h1>
       <p *ngIf="activePlan">{{ activePlan.title }}</p>
       <p *ngIf="!activePlan">No active plan selected</p>
     </div>
+</div>
   
-    <div class="bottom-section">
-      <app-item-list
-        [items]="travelPlans"
-        [displayProperty]="'title'">
-      </app-item-list>
-      <div *ngIf="activePlan">
-        <h2>Active Plan Details</h2>
-        <pre>{{ activePlan | json }}</pre>
-      </div>
-    </div>
-  </div>
-  
-  <app-create-plan-modal
+<app-create-plan-modal
   [isModalOpen]="isCreatePlanModalOpen"
   (closeModalEvent)="closeCreatePlanModal()"
-  (createPlanEvent)="onPlanCreated()"
-></app-create-plan-modal>
+  (createPlanEvent)="onPlanUpdated()">
+</app-create-plan-modal>
 
 <app-change-active-plan-modal
   [isModalOpen]="isChangeActiveModalOpen"
   (closeModalEvent)="closeChangeActiveModal()"
-  (setActivePlanEvent)="updatePlansForUser()"
-></app-change-active-plan-modal>
+  (setActivePlanEvent)="onPlanUpdated()">
+</app-change-active-plan-modal>
+
+<app-user-plans-modal
+  [isModalOpen]="isUserPlansModalOpen"
+  (closeModalEvent)="closeUserPlansModal()">
+</app-user-plans-modal>

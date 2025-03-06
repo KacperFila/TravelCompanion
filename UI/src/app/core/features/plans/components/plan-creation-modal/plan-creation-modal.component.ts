@@ -27,6 +27,7 @@ export class PlanCreationModal {
 
   createPlan(event: Event): void {
     event.preventDefault();
+
     this.plansService
       .createPlan(
         this.formData.title,
@@ -37,6 +38,7 @@ export class PlanCreationModal {
       .subscribe(
         () => {
           this.createPlanEvent.emit();
+          this.closePlanCreationModal();
         },
         (error) => {
           console.log('Error creating plan:', error);
@@ -44,7 +46,7 @@ export class PlanCreationModal {
       );
   }
 
-  closeModal(): void {
+  closePlanCreationModal(): void {
     this.closeModalEvent.emit();
   }
 }

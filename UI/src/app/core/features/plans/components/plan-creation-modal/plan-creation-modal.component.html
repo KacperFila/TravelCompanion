@@ -1,6 +1,6 @@
 <app-modal
   [isOpen]="isModalOpen"
-  (close)="closeModal()"
+  (close)="closePlanCreationModal()"
   title="Create New Plan"
 >
 <form (submit)="createPlan($event)">
@@ -37,7 +37,7 @@
 
   <div class="form-actions">
     <button type="submit">Create Plan</button>
-    <button type="button" (click)="closeModal()">Cancel</button>
+    <button type="button" (click)="closePlanCreationModal()">Cancel</button>
   </div>
 </form>
 </app-modal>

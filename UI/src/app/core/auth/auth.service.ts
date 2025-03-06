@@ -68,28 +68,20 @@ export class AuthService {
 
   autoLogin() {
     const loggedUser = localStorage.getItem('user');
+    if (!loggedUser) return;
 
-    if (!loggedUser) {
+    const parsedUser = JSON.parse(loggedUser);
+
+    if (!parsedUser._token) {
+      console.error('Access token is missing!');
       return;
     }
-
-    const parsedUser: {
-      email: string;
-      accessToken: string;
-      refreshToken: string | null;
-      expires: number;
-      id: string;
-      role: string;
-      claims: {
-        permissions: string[];
-      };
-    } = JSON.parse(loggedUser);
 
     const currentUser = new User(
       parsedUser.email,
       parsedUser.id,
       parsedUser.role,
-      parsedUser.accessToken,
+      parsedUser._token,
       parsedUser.claims,
       new Date(parsedUser.expires)
     );
