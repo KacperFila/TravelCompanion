@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<PlanDetailsDTO>>
+public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<PlanWithPointsDTO>>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
@@ -19,31 +19,41 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
         _userId = _context.Identity.Id;
     }
 
-    public async Task<Paged<PlanDetailsDTO>> HandleAsync(GetUserPlans query)
+    public async Task<Paged<PlanWithPointsDTO>> HandleAsync(GetUserPlans query)
     {
         var plans = await _planRepository.BrowseForUserAsync(_userId, query.Page, query.Results, query.SortOrder, query.OrderBy);
-        var dtos = plans.Items.Select(AsPlanDetailsDto).ToList();
+        var dtos = plans.Items.Select(AsPlanWithPointsDto).ToList();
 
-        var pagedDtos = new Paged<PlanDetailsDTO>(dtos, plans.CurrentPage, plans.ResultsPerPage, plans.TotalPages, plans.TotalResults);
+        var pagedDtos = new Paged<PlanWithPointsDTO>(dtos, plans.CurrentPage, plans.ResultsPerPage, plans.TotalPages, plans.TotalResults);
 
         return pagedDtos;
     }
 
-    private static PlanDetailsDTO AsPlanDetailsDto(Plan plan)
+    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanDetailsDTO
+        return new PlanWithPointsDTO()
         {
-            AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
-            Description = plan.Description,
-            From = plan.From,
-            To = plan.To,
             Id = plan.Id,
             OwnerId = plan.OwnerId,
             Participants = plan.Participants.Select(x => x.Value).ToList(),
-            PlanStatus = plan.PlanStatus,
             Title = plan.Title,
-            CreatedOnUtc = plan.CreatedOnUtc,
-            ModifiedOnUtc = plan.ModifiedOnUtc
+            Description = plan.Description,
+            From = plan.From,
+            To = plan.To,
+            AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
+            TotalCostValue = plan.TotalCostValue.Amount,
+            PlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            PlanStatus = plan.PlanStatus,
+        };
+    }
+
+    private static PointDTO AsPointDto(TravelPoint point)
+    {
+        return new PointDTO()
+        {
+            Id = point.Id,
+            PlaceName = point.PlaceName,
+            TotalCost = point.TotalCost.Amount,
         };
     }
 }

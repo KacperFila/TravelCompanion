@@ -8,8 +8,9 @@ import { ChangeActivePlanModal } from '../../features/plans/components/change-ac
 import {
   CreateTravelPlanRequest,
   TravelPlan,
-} from '../../features/plans/models/plan-models';
+} from '../../features/plans/models/plan.models';
 import { UserPlansModal } from '../../features/plans/components/user-plans-modal/user-plans-modal.component';
+import { PointsRoadmapComponent } from '../../features/plans/components/points-roadmap/points-roadmap.component';
 
 @Component({
   selector: 'app-plans-dashboard',
@@ -20,6 +21,7 @@ import { UserPlansModal } from '../../features/plans/components/user-plans-modal
     PlanCreationModal,
     ChangeActivePlanModal,
     UserPlansModal,
+    PointsRoadmapComponent,
   ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],

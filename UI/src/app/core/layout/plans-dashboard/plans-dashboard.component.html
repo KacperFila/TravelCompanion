@@ -10,7 +10,9 @@
       <p *ngIf="!activePlan">No active plan selected</p>
     </div>
 </div>
-  
+
+<app-points-roadmap></app-points-roadmap>
+
 <app-create-plan-modal
   [isModalOpen]="isCreatePlanModalOpen"
   (closeModalEvent)="closeCreatePlanModal()"

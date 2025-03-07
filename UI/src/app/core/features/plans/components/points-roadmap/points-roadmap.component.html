@@ -1,0 +1,35 @@
+<div class="roadmap">
+  <div *ngFor="let point of travelPoints; let i = index" class="node">
+    <div class="circle">{{ i + 1 }}</div>
+    <div class="info">
+      <strong>{{ point.placeName }}</strong>
+    </div>
+  </div>
+  <div class="node add-node" (click)="this.isModalOpen = true">
+    <div class="circle">+</div>
+  </div>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  (close)="closeCreatePointModal()"
+  title="Add new Travel Point">
+
+  <form (submit)="createPoint($event)">
+    <label for="newTravelPoint">Create Travel Point</label>
+
+    <input 
+      type="text" 
+      id="newTravelPoint" 
+      [(ngModel)]="newTravelPoint.placeName" 
+      name="newTravelPoint"
+      required
+    />
+    
+    <div class="modal-buttons">
+      <button type="submit">Set Active</button>
+      <button type="button" (click)="closeCreatePointModal()">Cancel</button>
+    </div>
+  </form>
+  
+</app-modal>

@@ -3,7 +3,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
-public class GetUserPlans: PagedQueryGeneric<PlanDetailsDTO>
+public class GetUserPlans: PagedQueryGeneric<PlanWithPointsDTO>
 {
     public GetUserPlans()
     {
