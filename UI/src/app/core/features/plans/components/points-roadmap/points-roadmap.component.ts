@@ -13,16 +13,17 @@ import {
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import {last, Subscription} from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
+import {TravelPointComponent} from "../travel-point/travel-point.component";
 
 @Component({
   selector: 'app-points-roadmap',
   templateUrl: './points-roadmap.component.html',
   styleUrls: ['./points-roadmap.component.css'],
   standalone: true,
-  imports: [CommonModule, ModalComponent, FormsModule],
+  imports: [CommonModule, ModalComponent, FormsModule, TravelPointComponent],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
   constructor(
@@ -101,4 +102,6 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   closeCreatePointModal() {
     this.isModalOpen = false;
   }
+
+  protected readonly last = last;
 }

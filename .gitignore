@@ -361,3 +361,24 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# JetBrains IDEs
+.idea/
+
+# User-specific files
+.idea/.ideaModule
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/shelf/
+
+# JetBrains project-specific files
+.idea/*.iml
+.idea/modules.xml
+.idea/.editorconfig
+
+# JetBrains run/debug configurations
+.idea/runConfigurations/
+
+# JetBrains File-based project settings
+.idea/.name

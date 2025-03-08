@@ -1,14 +1,11 @@
 <div class="roadmap">
-  <div *ngFor="let point of travelPoints; let i = index" class="node">
-    <div class="circle-container">
-      <div class="circle">{{ i + 1 }}</div>
-      <div class="delete-circle" (click)="deletePoint(point)">−</div>
-    </div>
-    <div class="info">
-      <strong>{{ point.placeName }}</strong>
-    </div>
+  <div *ngFor="let point of travelPoints; let i = index; let last = last">
+    <app-travel-point
+      [travelPoint]="point"
+      [nodeNumber]="i + 1"
+      (pointDeletedEvent)="deletePoint($event)"/>
   </div>
-  <div class="node add-node" (click)="isModalOpen = true">
+  <div class="node add-node" *ngIf="last" (click)="isModalOpen = true">
     <div class="circle">+</div>
   </div>
 </div>
@@ -21,17 +18,17 @@
   <form (submit)="createPoint($event)">
     <label for="newTravelPoint">Create Travel Point</label>
 
-    <input 
-      type="text" 
-      id="newTravelPoint" 
-      [(ngModel)]="newTravelPoint.placeName" 
+    <input
+      type="text"
+      id="newTravelPoint"
+      [(ngModel)]="newTravelPoint.placeName"
       name="newTravelPoint"
-      required
-    />
-    
+      required/>
+
     <div class="modal-buttons">
       <button type="submit">Set Active</button>
       <button type="button" (click)="closeCreatePointModal()">Cancel</button>
     </div>
   </form>
+
 </app-modal>

@@ -1,0 +1,30 @@
+<div>
+  <div class="circle-container">
+      <div class="circle" (click)="openPointDetailsModal()">{{ nodeNumber }}</div>
+          <div class="delete-circle" (click)="deletePoint(travelPoint)">−</div>
+  </div>
+  <div class="info">
+    <strong>{{ travelPoint.placeName }}</strong>
+  </div>
+</div>
+
+<app-modal
+  [isOpen]="isPointDetailsModalOpen"
+  (close)="closePointDetailsModal()"
+  title="Travel Point details">
+  <form>
+    <label for="travelPointDetails">Place name</label>
+    <input
+      type="text"
+      id="travelPointDetails"
+      [(ngModel)]="travelPoint.placeName"
+      name="travelPointDetails"
+      required
+    />
+
+    <div class="modal-buttons">
+      <button type="submit">Submit!</button>
+      <button type="button" (click)="closePointDetailsModal()">Cancel</button>
+    </div>
+  </form>
+</app-modal>
