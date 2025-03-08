@@ -16,6 +16,13 @@ export interface TravelPlan {
   additionalCostsValue: number;
   totalCostValue: number;
   planStatus: string;
+  planPoints: TravelPoint[];
+}
+
+export interface TravelPoint {
+  id: string;
+  placeName: string;
+  totalCost: number;
 }
 
 export interface PlanDetailsDTO {
@@ -40,4 +47,9 @@ export interface TravelPlanResponse {
   totalResults: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
+}
+
+export interface CreateTravelPointRequest {
+  travelPlanId: string;
+  placeName: string;
 }

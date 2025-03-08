@@ -20,11 +20,18 @@ public class PlanRepository : IPlanRepository
 
     public async Task<Plan> GetAsync(Guid id)
     {
-        return await _travelPlans
+        var plan = await _travelPlans
             .Include(x => x.AdditionalCosts)
             .Include(x => x.TravelPlanPoints)
             .ThenInclude(x => x.Receipts)
             .SingleOrDefaultAsync(x => x.Id == id);
+
+        if (plan != null)
+        {
+            plan.ReorderTravelPoints();
+        }
+
+        return plan;
     }
 
     public async Task<Plan> GetByPointIdAsync(Guid pointId)

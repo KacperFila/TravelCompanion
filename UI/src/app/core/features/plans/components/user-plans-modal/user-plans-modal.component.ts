@@ -3,7 +3,7 @@ import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
 import { ItemListComponent } from '../../../../shared/item-list/item-list.components';
-import { TravelPlan, TravelPlanResponse } from '../../models/plan-models';
+import { TravelPlan, TravelPlanResponse } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
 
 @Component({

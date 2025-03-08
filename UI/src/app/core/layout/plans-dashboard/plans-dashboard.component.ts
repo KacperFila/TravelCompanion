@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PlansService } from '../../features/plans/services/plans.service';
 import { AuthService } from '../../auth/auth.service';
 import { PlanCreationModal } from '../../features/plans/components/plan-creation-modal/plan-creation-modal.component';
 import { ChangeActivePlanModal } from '../../features/plans/components/change-active-plan-modal/change-active-plan-modal.component';
 import {
   CreateTravelPlanRequest,
   TravelPlan,
-} from '../../features/plans/models/plan-models';
+} from '../../features/plans/models/plan.models';
 import { UserPlansModal } from '../../features/plans/components/user-plans-modal/user-plans-modal.component';
+import { PointsRoadmapComponent } from '../../features/plans/components/points-roadmap/points-roadmap.component';
 
 @Component({
   selector: 'app-plans-dashboard',
@@ -20,6 +20,7 @@ import { UserPlansModal } from '../../features/plans/components/user-plans-modal
     PlanCreationModal,
     ChangeActivePlanModal,
     UserPlansModal,
+    PointsRoadmapComponent,
   ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],
@@ -37,6 +38,7 @@ export class PlansDashboardComponent implements OnInit {
   isCreatePlanModalOpen: boolean = false;
   isChangeActiveModalOpen: boolean = false;
   isUserPlansModalOpen: boolean = false;
+  isCreatePointModalOpen: boolean = false;
 
   error: string = '';
   formData: CreateTravelPlanRequest = {
@@ -68,6 +70,14 @@ export class PlansDashboardComponent implements OnInit {
 
   closeUserPlansModal() {
     this.isUserPlansModalOpen = false;
+  }
+
+  openCreatePointModal() {
+    this.isCreatePointModalOpen = true;
+  }
+
+  closeCreatePointModal() {
+    this.isCreatePointModalOpen = false;
   }
 
   onPlanUpdated() {

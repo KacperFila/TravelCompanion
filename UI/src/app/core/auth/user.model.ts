@@ -1,4 +1,4 @@
-import { TravelPlan } from '../features/plans/models/plan-models';
+import { TravelPlan } from '../features/plans/models/plan.models';
 
 export class User {
   public activePlan: TravelPlan | null = null;

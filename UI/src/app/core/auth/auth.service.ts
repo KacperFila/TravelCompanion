@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Subject, tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { User } from './user.model';
-import { TravelPlan } from '../features/plans/models/plan-models';
+import { TravelPlan } from '../features/plans/models/plan.models';
 
 interface AuthResponse {
   email: string;
@@ -19,9 +19,12 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  constructor(private http: HttpClient) {}
+
   user = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
+  private activePlanSubject = new BehaviorSubject<TravelPlan | null>(null);
+  activePlan$ = this.activePlanSubject.asObservable();
 
   signup(email: string, password: string) {
     return this.http.post<AuthResponse>(
@@ -57,6 +60,11 @@ export class AuthService {
             res.expires,
             res.claims
           );
+
+          const storedPlan = localStorage.getItem('activePlan');
+          if (storedPlan) {
+            this.activePlanSubject.next(JSON.parse(storedPlan));
+          }
         })
       );
   }
@@ -87,26 +95,20 @@ export class AuthService {
     );
 
     this.user.next(currentUser);
+
+    const storedPlan = localStorage.getItem('activePlan');
+    if (storedPlan) {
+      this.activePlanSubject.next(JSON.parse(storedPlan));
+    }
   }
 
   getUserActivePlan(): TravelPlan | null {
-    const activePlan = localStorage.getItem('activePlan');
-    if (activePlan) {
-      return JSON.parse(activePlan) as TravelPlan;
-    }
-    return null;
+    return this.activePlanSubject.getValue();
   }
 
   updateActivePlan(plan: TravelPlan) {
-    const currentUser = this.user.value;
-    if (currentUser) {
-      currentUser.activePlan = plan;
-      localStorage.setItem(
-        'activePlan',
-        JSON.stringify(currentUser.activePlan)
-      );
-      this.user.next(currentUser);
-    }
+    localStorage.setItem('activePlan', JSON.stringify(plan));
+    this.activePlanSubject.next(plan);
   }
 
   private handleAuthentication(

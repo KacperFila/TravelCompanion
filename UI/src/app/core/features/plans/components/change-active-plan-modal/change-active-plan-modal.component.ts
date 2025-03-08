@@ -3,7 +3,7 @@ import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
-import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan-models';
+import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan.models';
 
 @Component({
   selector: 'app-change-active-plan-modal',
@@ -43,7 +43,7 @@ export class ChangeActivePlanModal implements OnInit {
     }
 
     this.plansService.setActivePlan(this.selectedPlan);
-    this.setActivePlanEvent.emit();
+    this.setActivePlanEvent.emit(this.selectedPlan);
     this.closeChangeActiveModal();
   }
 
