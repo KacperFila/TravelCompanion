@@ -72,6 +72,11 @@ public sealed class Plan : AggregateRoot, IAuditable
         return travelPlan;
     }
 
+    public void ReorderTravelPoints()
+    {
+        TravelPlanPoints = TravelPlanPoints.OrderBy(x => x.CreatedOnUtc).ToList();
+    }
+
     public void AddAdditionalCost(Receipt receipt)
     {
         if (!receipt.PlanId.Equals(Id))

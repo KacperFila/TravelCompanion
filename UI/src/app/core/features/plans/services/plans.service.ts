@@ -66,4 +66,12 @@ export class PlansService {
       .post(`${environment.apiBaseUrl}/travelplans-module/Point`, requestBody)
       .pipe(map(() => void 0));
   }
+
+  deletePoint(travelPointId: string): Observable<void> {
+    return this.http
+      .delete(
+        `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}`
+      )
+      .pipe(map(() => void 0));
+  }
 }

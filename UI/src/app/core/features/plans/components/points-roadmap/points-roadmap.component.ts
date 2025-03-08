@@ -86,7 +86,19 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
       });
   }
 
+  deletePoint(point: TravelPoint) {
+    const activePlanId = this.authService.getUserActivePlan()?.id;
+    if (!activePlanId) return;
+
+    this.plansService.deletePoint(point.id).subscribe({
+      next: () => {
+        this.fetchPoints(activePlanId);
+      },
+      error: (err) => console.error('Error deleting point', err),
+    });
+  }
+
   closeCreatePointModal() {
-    this.closeCreatePointModalEvent.emit();
+    this.isModalOpen = false;
   }
 }

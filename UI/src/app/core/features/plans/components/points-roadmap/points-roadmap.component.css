@@ -25,3 +25,7 @@
 .add-node .circle {
   background: #28a745;
 }
+.delete-circle {
+  background: red;
+  border-radius: 100%;
+}

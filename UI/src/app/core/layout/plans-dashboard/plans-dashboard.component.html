@@ -11,7 +11,10 @@
     </div>
 </div>
 
-<app-points-roadmap></app-points-roadmap>
+<app-points-roadmap
+  [isModalOpen]="isCreatePointModalOpen"
+  (closeModalEvent)="closeCreatePointModal()">
+</app-points-roadmap>
 
 <app-create-plan-modal
   [isModalOpen]="isCreatePlanModalOpen"

@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
-public record CreateTravelPoint(Guid travelPlanId, string PlaceName) : ICommand;
+public record CreateTravelPoint(Guid travelPlanId, string placeName) : ICommand;

@@ -41,7 +41,7 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
 
         var isPointAccepted = _userId == plan.OwnerId;
 
-        var point = TravelPoint.Create(Guid.NewGuid(), command.PlaceName, command.travelPlanId, isPointAccepted);
+        var point = TravelPoint.Create(Guid.NewGuid(), command.placeName, command.travelPlanId, isPointAccepted);
         
         plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);

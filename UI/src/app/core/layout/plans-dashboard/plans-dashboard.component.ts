@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PlansService } from '../../features/plans/services/plans.service';
 import { AuthService } from '../../auth/auth.service';
 import { PlanCreationModal } from '../../features/plans/components/plan-creation-modal/plan-creation-modal.component';
 import { ChangeActivePlanModal } from '../../features/plans/components/change-active-plan-modal/change-active-plan-modal.component';
@@ -39,6 +38,7 @@ export class PlansDashboardComponent implements OnInit {
   isCreatePlanModalOpen: boolean = false;
   isChangeActiveModalOpen: boolean = false;
   isUserPlansModalOpen: boolean = false;
+  isCreatePointModalOpen: boolean = false;
 
   error: string = '';
   formData: CreateTravelPlanRequest = {
@@ -70,6 +70,14 @@ export class PlansDashboardComponent implements OnInit {
 
   closeUserPlansModal() {
     this.isUserPlansModalOpen = false;
+  }
+
+  openCreatePointModal() {
+    this.isCreatePointModalOpen = true;
+  }
+
+  closeCreatePointModal() {
+    this.isCreatePointModalOpen = false;
   }
 
   onPlanUpdated() {
