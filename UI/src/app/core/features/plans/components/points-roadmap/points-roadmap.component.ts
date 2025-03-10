@@ -13,10 +13,12 @@ import {
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import {last, Subscription} from 'rxjs';
+import { last, Subscription } from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
-import {TravelPointComponent} from "../travel-point/travel-point.component";
+import { TravelPointComponent } from "../travel-point/travel-point.component";
+import { SignalRService } from "../../../../shared/services/signalr.service";
+import { UpdatedPlan } from "../../../../shared/services/signalr-responses.models";
 
 @Component({
   selector: 'app-points-roadmap',
@@ -28,9 +30,10 @@ import {TravelPointComponent} from "../travel-point/travel-point.component";
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
   constructor(
     private plansService: PlansService,
-    private authService: AuthService
+    private authService: AuthService,
+    private signalRService: SignalRService,
   ) {}
-
+  currentPlanName: string = 'test';
   travelPoints: TravelPoint[] = [];
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0 };
   private activePlanSubscription!: Subscription;
@@ -39,21 +42,34 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
-  formData: CreateTravelPointRequest = {
-    placeName: '',
-    travelPlanId: '',
-  };
-
   ngOnInit(): void {
+    this.signalRService.startConnection();
+
+    this.signalRService.listenForUpdates((updatedRoadmap: UpdatedPlan) => {
+      console.log("SignalR response: ", JSON.stringify(updatedRoadmap));
+      this.travelPoints = updatedRoadmap.travelPlanPoints.map(
+        (planPoint) => ({
+        id: planPoint.id.value,
+        placeName: planPoint.placeName,
+        totalCost: planPoint.totalCost.amount
+      }))
+    });
+
     this.activePlanSubscription = this.authService.activePlan$.subscribe(
       (activePlan) => {
         if (activePlan) {
-          this.fetchPoints(activePlan.id);
+          this.fetchPoints(activePlan.id);  // 🔹 Fetch once at start
         } else {
           this.travelPoints = [];
         }
       }
     );
+  }
+
+  changeTitle() {
+    // this.newTravelPoint.placeName = event.;
+    console.log("currentPlanName", this.currentPlanName);
+
   }
 
   ngOnDestroy(): void {

@@ -21,8 +21,10 @@
     <input
       type="text"
       id="newTravelPoint"
-      [(ngModel)]="newTravelPoint.placeName"
       name="newTravelPoint"
+      [value]="currentPlanName"
+      (change)="changeTitle()"
+      [(ngModel)]="currentPlanName"
       required/>
 
     <div class="modal-buttons">
@@ -30,5 +32,6 @@
       <button type="button" (click)="closeCreatePointModal()">Cancel</button>
     </div>
   </form>
-
 </app-modal>
+
+<!--[(ngModel)]="newTravelPoint.placeName"-->

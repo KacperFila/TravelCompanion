@@ -1,4 +1,7 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
+﻿using Microsoft.AspNetCore.SignalR;
+using TravelCompanion.Modules.TravelPlans.Api.Hubs;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -16,8 +19,9 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly INotificationService _notificationService;
+    private IHubContext<TravelPlanHub> _hubContext;
 
-    public AcceptTravelPointUpdateRequestHandler(ITravelPointRepository travelPointRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository, IContext context, IPlanRepository planRepository, INotificationService notificationService)
+    public AcceptTravelPointUpdateRequestHandler(ITravelPointRepository travelPointRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository, IContext context, IPlanRepository planRepository, INotificationService notificationService, IHubContext<TravelPlanHub> hubContext)
     {
         _travelPointRepository = travelPointRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
@@ -25,6 +29,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         _planRepository = planRepository;
         _notificationService = notificationService;
         _userId = _context.Identity.Id;
+        _hubContext = hubContext;
     }
 
     public async Task HandleAsync(AcceptTravelPointUpdateRequest command)
@@ -54,5 +59,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
+
+        await _hubContext.Clients.All.SendAsync("ReceivePlanUpdate", travelPlan);
     }
 }

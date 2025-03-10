@@ -53,3 +53,12 @@ export interface CreateTravelPointRequest {
   travelPlanId: string;
   placeName: string;
 }
+
+export interface TravelPointUpdateRequest {
+  requestId: string;
+  travelPlanPointId: string;
+  suggestedById: string;
+  placeName: string;
+  createdOnUtc: string;
+  modifiedOnUtc: string;
+}

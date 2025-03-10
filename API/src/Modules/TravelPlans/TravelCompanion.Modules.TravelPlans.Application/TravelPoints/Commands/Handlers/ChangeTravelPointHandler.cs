@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Microsoft.AspNetCore.SignalR;
+using TravelCompanion.Modules.TravelPlans.Api.Hubs;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -16,14 +17,21 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
     private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
+    private readonly IHubContext<TravelPlanHub> _hubContext;
 
-    public ChangeTravelPointHandler(ITravelPointRepository travelPointRepository, IContext context, IPlanRepository planRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository)
+    public ChangeTravelPointHandler(
+        ITravelPointRepository travelPointRepository,
+        IContext context,
+        IPlanRepository planRepository,
+        ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
+        IHubContext<TravelPlanHub> hubContext)
     {
         _travelPointRepository = travelPointRepository;
         _context = context;
         _planRepository = planRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
+        _hubContext = hubContext;
     }
 
     public async Task HandleAsync(ChangeTravelPoint command)
@@ -56,5 +64,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         var request = TravelPointUpdateRequest.Create(command.pointId, _userId, command.placeName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
+
+        await _hubContext.Clients.All.SendAsync("ReceivePlanUpdate", plan);
     }
 }

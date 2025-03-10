@@ -1,7 +1,8 @@
 <div>
   <div class="circle-container">
       <div class="circle" (click)="openPointDetailsModal()">{{ nodeNumber }}</div>
-          <div class="delete-circle" (click)="deletePoint(travelPoint)">−</div>
+      <div class="delete-circle" (click)="deletePoint(travelPoint)">−</div>
+      <div class="edit-requests-circle" (click)="openPointEditRequestsModal()">✎</div>
   </div>
   <div class="info">
     <strong>{{ travelPoint.placeName }}</strong>
@@ -12,7 +13,7 @@
   [isOpen]="isPointDetailsModalOpen"
   (close)="closePointDetailsModal()"
   title="Travel Point details">
-  <form>
+  <form (submit)="updatePoint(travelPoint)">
     <label for="travelPointDetails">Place name</label>
     <input
       type="text"
@@ -27,4 +28,14 @@
       <button type="button" (click)="closePointDetailsModal()">Cancel</button>
     </div>
   </form>
+</app-modal>
+
+<app-modal
+  [isOpen]="isPointEditRequestsModalOpen"
+  (close)="closePointEditRequestsModal()"
+  title="Travel Point Edit Requests">
+  <app-item-list>
+    [items]="travelPlans"
+    [displayProperty]="'title'">
+  </app-item-list>
 </app-modal>

@@ -30,13 +30,14 @@ using TravelCompanion.Shared.Infrastructure.Queries;
 using TravelCompanion.Shared.Infrastructure.Services;
 using TravelCompanion.Shared.Infrastructure.Storage;
 using TravelCompanion.Shared.Infrastructure.Time;
+using Microsoft.Extensions.Options;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Bootstrapper")]
 namespace TravelCompanion.Shared.Infrastructure;
 
 internal static class Extensions
 {
-	private const string CorsPolicy = "cors";
+	private const string CorsPolicy = "AllowAngularClient";
 
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services,
 		IList<Assembly> assemblies, IList<IModule> modules)
@@ -58,16 +59,16 @@ internal static class Extensions
 				}
 			}
 		}
-
-		services.AddCors(cors =>
+        services.AddCors(cors =>
 		{
-			cors.AddPolicy(CorsPolicy, x =>
-			{
-				x.WithOrigins("*")
-					.WithMethods("POST", "PUT", "DELETE")
-					.WithHeaders("Content-Type", "Authorization");
-			});
-		});
+            cors.AddPolicy("AllowAngularClient", policy =>
+            {
+                policy.WithOrigins("http://localhost:4200")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials();
+            });
+        });
 		services.AddSwaggerGen(swagger =>
         {
             swagger.EnableAnnotations();

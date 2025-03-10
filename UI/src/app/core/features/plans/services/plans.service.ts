@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable, switchMap, tap } from 'rxjs';
-import { AuthService } from '../../../auth/auth.service';
-import { TravelPlan, TravelPlanResponse } from '../models/plan.models';
+import {Injectable} from '@angular/core';
+import {environment} from '../../../../../environments/environment';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {map, Observable, switchMap, tap} from 'rxjs';
+import {AuthService} from '../../../auth/auth.service';
+import {TravelPlan, TravelPlanResponse, TravelPoint, TravelPointUpdateRequest} from '../models/plan.models';
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
@@ -73,5 +73,26 @@ export class PlansService {
         `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}`
       )
       .pipe(map(() => void 0));
+  }
+
+  updatePoint(travelPoint: TravelPoint): Observable<void> {
+    const requestBody = {
+      pointId: travelPoint.id,
+      placeName: travelPoint.placeName
+    };
+
+    return this.http
+      .put(
+        `${environment.apiBaseUrl}/travelplans-module/Point/Update`,
+        requestBody
+      )
+      .pipe(map(() => void 0));
+  }
+
+  getTravelPointEditRequests(travelPointId: string): Observable<TravelPointUpdateRequest[]>
+  {
+    return this.http
+      .get<TravelPointUpdateRequest[]>(
+        `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}/UpdateRequests`)
   }
 }
