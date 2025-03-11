@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TravelCompanion.Shared.Abstractions.Queries;
+﻿namespace TravelCompanion.Shared.Abstractions.Queries;
 
 public interface IPagedQuery : IQuery
 {

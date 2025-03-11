@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using TravelCompanion.Modules.TravelPlans.Api.Hubs;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
-using TravelCompanion.Shared.Infrastructure.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
 
@@ -18,10 +14,16 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
-    private readonly INotificationService _notificationService;
-    private IHubContext<TravelPlanHub> _hubContext;
+    private readonly INotificationRealTimeService _notificationService;
+    private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
-    public AcceptTravelPointUpdateRequestHandler(ITravelPointRepository travelPointRepository, ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository, IContext context, IPlanRepository planRepository, INotificationService notificationService, IHubContext<TravelPlanHub> hubContext)
+    public AcceptTravelPointUpdateRequestHandler(
+        ITravelPointRepository travelPointRepository,
+        ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
+        IContext context,
+        IPlanRepository planRepository,
+        INotificationRealTimeService notificationService,
+        ITravelPlansRealTimeService travelPlansRealTimeService)
     {
         _travelPointRepository = travelPointRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
@@ -29,7 +31,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         _planRepository = planRepository;
         _notificationService = notificationService;
         _userId = _context.Identity.Id;
-        _hubContext = hubContext;
+        _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
     public async Task HandleAsync(AcceptTravelPointUpdateRequest command)
@@ -59,7 +61,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
-
-        await _hubContext.Clients.All.SendAsync("ReceivePlanUpdate", travelPlan);
+        
+        await _travelPlansRealTimeService.SendRoadmapUpdate(travelPlan);
     }
 }

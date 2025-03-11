@@ -22,6 +22,5 @@ internal class TravelPlansModule : IModule
 
     public void Use(IApplicationBuilder app)
     {
-        app.UseApplication();
     }
 }

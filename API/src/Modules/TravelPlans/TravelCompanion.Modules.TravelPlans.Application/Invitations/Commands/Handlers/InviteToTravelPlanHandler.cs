@@ -7,7 +7,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Notifications;
-using TravelCompanion.Shared.Infrastructure.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
@@ -16,9 +16,13 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly IInvitationRepository _invitationRepository;
     private readonly IPlanRepository _planRepository;
     private readonly IUsersModuleApi _usersModuleApi;
-    private readonly INotificationService _notificationService;
+    private readonly INotificationRealTimeService _notificationService;
 
-    public InviteToTravelPlanHandler(IInvitationRepository invitationRepository, IPlanRepository planRepository, IUsersModuleApi usersModuleApi, INotificationService notificationService)
+    public InviteToTravelPlanHandler(
+        IInvitationRepository invitationRepository,
+        IPlanRepository planRepository,
+        IUsersModuleApi usersModuleApi,
+        INotificationRealTimeService notificationService)
     {
         _invitationRepository = invitationRepository;
         _planRepository = planRepository;

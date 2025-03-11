@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, TemplateRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,15 +11,12 @@ import { CommonModule } from '@angular/common';
 export class ItemListComponent<T> {
   @Input() items: T[] = [];
   @Input() displayProperty: keyof T | null = null;
+  @Input() buttonTemplate!: TemplateRef<any>;
 
   @Output() itemClick = new EventEmitter<T>();
   @Output() deleteItem = new EventEmitter<T>();
 
   onItemClick(item: T) {
     this.itemClick.emit(item);
-  }
-
-  onDelete(item: T) {
-    this.deleteItem.emit(item);
   }
 }

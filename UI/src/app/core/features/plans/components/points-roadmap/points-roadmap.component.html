@@ -17,14 +17,11 @@
 
   <form (submit)="createPoint($event)">
     <label for="newTravelPoint">Create Travel Point</label>
-
     <input
       type="text"
       id="newTravelPoint"
       name="newTravelPoint"
-      [value]="currentPlanName"
-      (change)="changeTitle()"
-      [(ngModel)]="currentPlanName"
+      [(ngModel)]="newTravelPoint.placeName"
       required/>
 
     <div class="modal-buttons">
@@ -33,5 +30,3 @@
     </div>
   </form>
 </app-modal>
-
-<!--[(ngModel)]="newTravelPoint.placeName"-->

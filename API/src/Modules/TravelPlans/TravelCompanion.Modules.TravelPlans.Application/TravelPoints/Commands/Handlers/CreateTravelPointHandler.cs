@@ -5,7 +5,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
-using TravelCompanion.Shared.Infrastructure.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
 
@@ -14,9 +14,12 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
-    private readonly INotificationService _notificationService;
+    private readonly INotificationRealTimeService _notificationService;
 
-    public CreateTravelPointHandler(IPlanRepository planRepository, IContext context, INotificationService notificationService)
+    public CreateTravelPointHandler(
+        IPlanRepository planRepository,
+        IContext context,
+        INotificationRealTimeService notificationService)
     {
         _planRepository = planRepository;
         _context = context;

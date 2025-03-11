@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using TravelCompanion.Shared.Abstractions.Modules;
 using TravelCompanion.Shared.Abstractions.Storage;
 using TravelCompanion.Shared.Abstractions.Time;
@@ -30,7 +30,6 @@ using TravelCompanion.Shared.Infrastructure.Queries;
 using TravelCompanion.Shared.Infrastructure.Services;
 using TravelCompanion.Shared.Infrastructure.Storage;
 using TravelCompanion.Shared.Infrastructure.Time;
-using Microsoft.Extensions.Options;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Bootstrapper")]
 namespace TravelCompanion.Shared.Infrastructure;
@@ -103,7 +102,7 @@ internal static class Extensions
             });
         });
 
-        services.AddNotifications();
+        services.AddRealTimeCommunication();
         services.AddFluentValidationAutoValidation();
 		services.AddMemoryCache();
 		services.AddSingleton<IRequestStorage, RequestStorage>();
@@ -162,8 +161,7 @@ internal static class Extensions
         app.UseAuthentication();
 		app.UseRouting();
 		app.UseAuthorization();
-        app.UseEndpoints(
-            x => x.MapHub<NotificationsHub>("notifications"));
+        app.UseRealTimeCommunication();
 
         return app;
 	}

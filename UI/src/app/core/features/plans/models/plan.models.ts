@@ -55,10 +55,15 @@ export interface CreateTravelPointRequest {
 }
 
 export interface TravelPointUpdateRequest {
-  requestId: string;
+  requestId: GUID
   travelPlanPointId: string;
   suggestedById: string;
   placeName: string;
   createdOnUtc: string;
   modifiedOnUtc: string;
+}
+
+export interface GUID
+{
+  value: string;
 }

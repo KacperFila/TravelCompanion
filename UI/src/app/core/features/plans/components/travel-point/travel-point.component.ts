@@ -3,8 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  OnInit, OnChanges,
-  SimpleChanges
+  OnInit
 } from '@angular/core';
 import {
   TravelPoint, TravelPointUpdateRequest,
@@ -14,6 +13,7 @@ import {CommonModule} from '@angular/common';
 import {ModalComponent} from '../../../../shared/modal/modal.component';
 import {FormsModule} from '@angular/forms';
 import {ItemListComponent} from "../../../../shared/item-list/item-list.components";
+import {SignalRService} from "../../../../shared/services/signalr.service";
 
 @Component({
   selector: 'app-travel-point',
@@ -22,35 +22,38 @@ import {ItemListComponent} from "../../../../shared/item-list/item-list.componen
   standalone: true,
   imports: [CommonModule, ModalComponent, FormsModule, ItemListComponent],
 })
-export class TravelPointComponent implements OnChanges {
-  constructor(private plansService: PlansService) {
+export class TravelPointComponent implements OnInit{
+  constructor(private plansService: PlansService, private signalRService: SignalRService) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Current state of travel point: ', JSON.stringify(this.travelPoint));
-
+  ngOnInit(): void {
     this.getTravelPointEditRequests(this.travelPoint.id)
+
+    this.signalRService.startConnection();
+    this.signalRService.listenForUpdates((travelPointUpdateRequests: TravelPointUpdateRequest[]) => {
+    this.pointEditRequests = travelPointUpdateRequests;
+    });
   }
 
   @Input() travelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0};
   @Input() nodeNumber: number = 0;
-
   @Output() pointDeletedEvent = new EventEmitter<TravelPoint>();
 
+  editedTravelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0};
+  pointEditRequests: TravelPointUpdateRequest[] = [];
   isPointDetailsModalOpen: boolean = false;
   isPointEditRequestsModalOpen: boolean = false;
-  pointEditRequests: TravelPointUpdateRequest[] = [];
 
   deletePoint(point: TravelPoint) {
     this.pointDeletedEvent.emit(point);
   }
 
-  updatePoint(travelPoint: TravelPoint) {
-    console.log("travelPoint", travelPoint);
-    this.plansService.updatePoint(travelPoint)
+  updatePoint() {
+    this.travelPoint = { ...this.editedTravelPoint };
+    this.plansService.updatePoint(this.travelPoint)
       .subscribe(
         {
-          next: () => console.log("TRIGGERED")
+          next: ()=> {}
         }
       );
   }
@@ -61,7 +64,6 @@ export class TravelPointComponent implements OnChanges {
         {
           next: (response) => {
             this.pointEditRequests = response;
-            console.log(`getTravelPointEditRequests for TravelPointId: ${travelPointId}`, response);
             },
           error: (err) => {
             console.error("Error fetching data:", err);
@@ -70,6 +72,7 @@ export class TravelPointComponent implements OnChanges {
 
 }
   openPointDetailsModal() {
+    this.editedTravelPoint = { ...this.travelPoint };
     this.isPointDetailsModalOpen = true;
   }
   closePointDetailsModal() {
@@ -80,5 +83,25 @@ export class TravelPointComponent implements OnChanges {
   }
   closePointEditRequestsModal() {
     this.isPointEditRequestsModalOpen = false;
+  }
+
+  AcceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  {
+    this.plansService.acceptUpdateRequest(updateRequest.requestId.value)
+      .subscribe(
+        (response) => {
+        console.log(response);
+      },
+        (error) => {console.log(error)});
+  }
+
+  RejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  {
+    this.plansService.rejectUpdateRequest(updateRequest.requestId.value)
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {console.log(error)});
   }
 }

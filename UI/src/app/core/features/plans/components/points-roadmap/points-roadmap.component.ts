@@ -44,15 +44,13 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.signalRService.startConnection();
-
     this.signalRService.listenForUpdates((updatedRoadmap: UpdatedPlan) => {
-      console.log("SignalR response: ", JSON.stringify(updatedRoadmap));
       this.travelPoints = updatedRoadmap.travelPlanPoints.map(
         (planPoint) => ({
-        id: planPoint.id.value,
-        placeName: planPoint.placeName,
-        totalCost: planPoint.totalCost.amount
-      }))
+          id: planPoint.id.value,
+          placeName: planPoint.placeName,
+          totalCost: planPoint.totalCost.amount
+        }))
     });
 
     this.activePlanSubscription = this.authService.activePlan$.subscribe(
@@ -64,12 +62,6 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
-  changeTitle() {
-    // this.newTravelPoint.placeName = event.;
-    console.log("currentPlanName", this.currentPlanName);
-
   }
 
   ngOnDestroy(): void {

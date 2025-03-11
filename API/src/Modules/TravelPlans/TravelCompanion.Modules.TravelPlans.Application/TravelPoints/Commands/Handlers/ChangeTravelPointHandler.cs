@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using TravelCompanion.Modules.TravelPlans.Api.Hubs;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
 
@@ -17,21 +16,21 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
     private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
-    private readonly IHubContext<TravelPlanHub> _hubContext;
+    private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
     public ChangeTravelPointHandler(
         ITravelPointRepository travelPointRepository,
         IContext context,
         IPlanRepository planRepository,
         ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
-        IHubContext<TravelPlanHub> hubContext)
+        ITravelPlansRealTimeService travelPlansRealTimeService)
     {
         _travelPointRepository = travelPointRepository;
         _context = context;
         _planRepository = planRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
-        _hubContext = hubContext;
+        _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
     public async Task HandleAsync(ChangeTravelPoint command)
@@ -65,6 +64,6 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 
-        await _hubContext.Clients.All.SendAsync("ReceivePlanUpdate", plan);
+        await _travelPlansRealTimeService.SendRoadmapUpdate(plan);
     }
 }

@@ -7,6 +7,7 @@ using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
@@ -17,9 +18,14 @@ internal sealed class PostcardService : IPostcardService
     private readonly IPostcardPolicy _postcardPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
-    private readonly INotificationService _notificationService;
+    private readonly INotificationRealTimeService _notificationService;
 
-    public PostcardService(IPostcardRepository postcardRepository, IContext context, ITravelRepository travelRepository, IPostcardPolicy postcardPolicy, INotificationService notificationService)
+    public PostcardService(
+        IPostcardRepository postcardRepository,
+        IContext context,
+        ITravelRepository travelRepository,
+        IPostcardPolicy postcardPolicy,
+        INotificationRealTimeService notificationService)
     {
         _postcardRepository = postcardRepository;
         _context = context;

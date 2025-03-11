@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Hubs;
+namespace TravelCompanion.Shared.Abstractions.Hubs.TravelPlan;
 
-public  class TravelPlanHub : Hub<ITravelPlanHub>
+internal class TravelPlanHub : Hub<ITravelPlanHub>
 {
     public async Task SendRoadmapUpdate(object plan)
     {
         await Clients.All.ReceivePlanUpdate(plan);
     }
-
 }

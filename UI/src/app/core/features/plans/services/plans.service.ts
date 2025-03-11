@@ -95,4 +95,22 @@ export class PlansService {
       .get<TravelPointUpdateRequest[]>(
         `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}/UpdateRequests`)
   }
+
+  acceptUpdateRequest(updateRequestId: string): Observable<void> {
+    console.log(updateRequestId);
+    return this.http
+      .put(
+        `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Acceptance`,
+        {})
+      .pipe(map(() => void 0));
+  }
+
+  rejectUpdateRequest(updateRequestId: string): Observable<void> {
+    console.log(updateRequestId);
+    return this.http
+      .delete(
+        `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Rejection`,
+        {})
+      .pipe(map(() => void 0));
+  }
 }

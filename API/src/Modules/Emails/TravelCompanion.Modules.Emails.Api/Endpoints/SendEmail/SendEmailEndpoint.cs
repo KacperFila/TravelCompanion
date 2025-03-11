@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using TravelCompanion.Shared.Abstractions.Emails;
-using TravelCompanion.Shared.Infrastructure.Notifications;
 
 namespace TravelCompanion.Modules.Emails.Api.Endpoints.SendEmail;
 
@@ -11,12 +10,10 @@ public class SendEmailEndpoint : EndpointBaseAsync
     .WithRequest<SendEmailRequest>
     .WithActionResult
 {
-    private readonly IHubContext<NotificationsHub, INotificationClient> _notificationsHubContext;
     private readonly IEmailSender _emailSender;
 
-    public SendEmailEndpoint(IEmailSender emailSender, IHubContext<NotificationsHub, INotificationClient> notificationsHubContext)
+    public SendEmailEndpoint(IEmailSender emailSender)
     {
-        _notificationsHubContext = notificationsHubContext;
         _emailSender = emailSender;
     }
 

@@ -1,4 +1,6 @@
-﻿namespace TravelCompanion.Modules.TravelPlans.Api.Hubs;
+﻿using System.Threading.Tasks;
+
+namespace TravelCompanion.Shared.Abstractions.Hubs.TravelPlan;
 
 // METHODS TO BE USED BY CLIENT
 public interface ITravelPlanHub
