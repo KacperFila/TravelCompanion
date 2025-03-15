@@ -84,8 +84,13 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
 
     private static Plan GetPlan(Guid participantId)
     {
-        var plan =  Plan.Create(participantId, "title", "desc", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2)),
-            DateOnly.FromDateTime(DateTime.UtcNow).AddDays(3));
+        var plan =  Plan.Create(
+            participantId,
+            "title",
+            "desc",
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2)),
+            DateOnly.FromDateTime(DateTime.UtcNow).AddDays(3)
+            );
         
         return plan;
     }

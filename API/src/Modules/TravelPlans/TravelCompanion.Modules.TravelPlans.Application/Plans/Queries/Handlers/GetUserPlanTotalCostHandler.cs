@@ -33,7 +33,7 @@ internal sealed class GetUserPlanTotalCostHandler : IQueryHandler<GetUserPlanTot
             throw new PlanNotFoundException(query.planId);
         }
 
-        if (!plan.Participants.Contains(_userId))
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
         }

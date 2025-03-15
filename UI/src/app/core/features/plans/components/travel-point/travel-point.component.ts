@@ -35,11 +35,11 @@ export class TravelPointComponent implements OnInit{
     });
   }
 
-  @Input() travelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0};
+  @Input() travelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   @Input() nodeNumber: number = 0;
   @Output() pointDeletedEvent = new EventEmitter<TravelPoint>();
 
-  editedTravelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0};
+  editedTravelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   pointEditRequests: TravelPointUpdateRequest[] = [];
   isPointDetailsModalOpen: boolean = false;
   isPointEditRequestsModalOpen: boolean = false;

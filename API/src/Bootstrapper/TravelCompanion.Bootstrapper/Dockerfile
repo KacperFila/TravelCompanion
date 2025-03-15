@@ -73,7 +73,7 @@ COPY --from=publish /app/publish .
 # Enable hot reload and debugging
 ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
-ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_ENVIRONMENT=Debug
 
 # Expose debugger port
 EXPOSE 5005

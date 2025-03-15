@@ -37,6 +37,7 @@ public class Point_ChangeTravelPointPlaceName_Tests
             Guid.NewGuid(),
             "placeName",
             Guid.NewGuid(),
-            false);
+            false,
+            0);
     }
 }

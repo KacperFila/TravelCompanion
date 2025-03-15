@@ -6,7 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<TieredCompilation>false</TieredCompilation>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\Users\TravelCompanion.Modules.Users.Shared\TravelCompanion.Modules.Users.Shared.csproj" />
     <ProjectReference Include="..\TravelCompanion.Modules.TravelPlans.Domain\TravelCompanion.Modules.TravelPlans.Domain.csproj" />
   </ItemGroup>

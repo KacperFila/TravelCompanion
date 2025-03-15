@@ -50,7 +50,9 @@ public sealed class PlansDomainService : IPlansDomainService
             throw new PlanNotFoundException(planId);
         }
 
-        return await Task.FromResult(plan.Participants.Select(x => x.Value).ToList());
+        var participants = plan.Participants.Select(x => x.ParticipantId).ToList();
+
+        return await Task.FromResult(participants);
     }
 
     public async Task CreateTravelFromPlan(Guid planId)
@@ -78,7 +80,7 @@ public sealed class PlansDomainService : IPlansDomainService
         await _messageBroker.PublishAsync(
             new PlanAccepted(
                 plan.Id,
-                plan.Participants.Select(x => x.Value).ToList(),
+                plan.Participants.Select(x => x.ParticipantId),
                 plan.OwnerId,
                 plan.Title,
                 plan.Description,

@@ -48,7 +48,7 @@ public sealed class RemovePlanAdditionalCostHandler : ICommandHandler<RemovePlan
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        if (!plan.Participants.Contains(_userId))
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserNotAllowedToChangePlanException(plan.Id);
         }

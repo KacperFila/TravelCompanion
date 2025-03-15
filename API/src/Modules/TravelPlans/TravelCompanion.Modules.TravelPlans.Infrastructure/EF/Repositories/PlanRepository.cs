@@ -21,6 +21,7 @@ public class PlanRepository : IPlanRepository
     public async Task<Plan> GetAsync(Guid id)
     {
         var plan = await _travelPlans
+            .Include(x => x.Participants)
             .Include(x => x.AdditionalCosts)
             .Include(x => x.TravelPlanPoints)
             .ThenInclude(x => x.Receipts)
@@ -48,7 +49,8 @@ public class PlanRepository : IPlanRepository
     {
         var query = _travelPlans
             .AsNoTracking()
-            .Where(x => x.OwnerId == userId);
+            .Where(x => x.Participants
+            .Any(p => p.ParticipantId == userId));
 
         if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(sortOrder))
         {

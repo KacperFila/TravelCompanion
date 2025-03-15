@@ -11,7 +11,7 @@ public class Plan_RemoveTravelPoint_Tests
     [Fact]
     public void given_point_is_added_to_plan_removal_should_succeed()
     {
-        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false);
+        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false, 0);
         _plan.AddTravelPoint(point);
 
         var exception = Record.Exception(() => Act(point));
@@ -23,7 +23,7 @@ public class Plan_RemoveTravelPoint_Tests
     [Fact]
     public void given_point_does_not_belong_to_plan_removal_should_fail()
     {
-        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false);
+        var point = TravelPoint.Create(Guid.NewGuid(), "placeName", _plan.Id, false, 0);
 
         var exception = Record.Exception(() => Act(point));
 

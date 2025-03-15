@@ -35,7 +35,7 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
-            Participants = plan.Participants.Select(x => x.Value).ToList(),
+            Participants = plan.Participants.Select(x => x.ParticipantId).ToList(),
             Title = plan.Title,
             Description = plan.Description,
             From = plan.From,

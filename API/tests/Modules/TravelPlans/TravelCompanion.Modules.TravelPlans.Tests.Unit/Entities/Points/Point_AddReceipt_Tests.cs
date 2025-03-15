@@ -36,6 +36,7 @@ public class Point_AddReceipt_Tests
             Guid.NewGuid(),
             "placeName",
             Guid.NewGuid(),
-            false);
+            false,
+            0);
     }
 }

@@ -15,7 +15,8 @@ public class TravelPoint : AggregateRoot, IAuditable
     public Money TotalCost { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
-    public TravelPoint(AggregateId id, string placeName, AggregateId planId, bool isAccepted, int version = 0)
+    public int TravelPlanOrderNumber { get; private set; }
+    private TravelPoint(AggregateId id, string placeName, AggregateId planId, bool isAccepted, int version = 0)
     {
         Id = id;
         IsAccepted = isAccepted;
@@ -26,9 +27,10 @@ public class TravelPoint : AggregateRoot, IAuditable
         Version = version;
     }
 
-    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId, bool isAccepted)
+    public static TravelPoint Create(Guid id, string placeName, AggregateId travelPlanId, bool isAccepted, int orderNumber)
     {
         var travelPoint = new TravelPoint(id, placeName, travelPlanId, isAccepted);
+        travelPoint.ChangeTravelPlanOrderNumber(orderNumber);
         travelPoint.ClearEvents();
         travelPoint.Version = 0;
 
@@ -43,6 +45,23 @@ public class TravelPoint : AggregateRoot, IAuditable
         }
 
         PlaceName = placeName;
+        IncrementVersion();
+    }
+
+    public void ChangeTravelPlanOrderNumber(int orderNumber)
+    {
+        if(orderNumber < 0)
+        {
+            throw new InvalidPointOrderException(Id);
+        }
+
+        TravelPlanOrderNumber = orderNumber;
+        IncrementVersion();
+    }
+
+    public void DecreaseTravelPlanOrderNumber()
+    {
+        TravelPlanOrderNumber--;
         IncrementVersion();
     }
 

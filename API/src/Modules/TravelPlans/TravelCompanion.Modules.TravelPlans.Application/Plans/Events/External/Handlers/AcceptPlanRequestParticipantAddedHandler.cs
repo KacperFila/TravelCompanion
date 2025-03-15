@@ -31,7 +31,9 @@ public class AcceptPlanRequestParticipantAddedHandler : IEventHandler<AcceptPlan
             throw new AcceptPlanRequestForPlanNotFoundException(plan.Id);
         }
 
-        if (plan.Participants.All(request.ParticipantsAccepted.Contains) &&
+        var acceptedParticipantsGuids = request.ParticipantsAccepted.Select(x => x.Value).ToList();
+
+        if (plan.Participants.Select(x => x.ParticipantId).All(acceptedParticipantsGuids.Contains) &&
             plan.Participants.Count == request.ParticipantsAccepted.Count)
         {
             plan.ChangeStatusToAccepted();

@@ -35,6 +35,7 @@ public class Point_AcceptTravelPoint_Tests
             Guid.NewGuid(),
             "placeName",
             Guid.NewGuid(),
-            false);
+            false,
+            0);
     }
 }

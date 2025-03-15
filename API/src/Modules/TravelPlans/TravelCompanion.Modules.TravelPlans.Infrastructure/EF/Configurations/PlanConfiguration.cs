@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
+using System.Text.Json;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
@@ -19,16 +22,10 @@ internal sealed class PlanConfiguration : IEntityTypeConfiguration<Plan>
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder
-            .Property(x => x.Participants)
-            .HasConversion(
-                x => x.Select(a => a.Value).ToList(),
-                g => g.Select(g => (EntityId)g).ToList());
-
-        builder
-            .Property(x => x.ParticipantPaidIds)
-            .HasConversion(
-                x => x.Select(a => a.Value).ToList(),
-                g => g.Select(g => (EntityId)g).ToList());
+                .Property(x => x.ParticipantPaidIds)
+                .HasConversion(
+                    x => x.Select(a => a.Value).ToList(),
+                    g => g.Select(g => (EntityId)g).ToList());
 
         builder
             .HasMany(x => x.AdditionalCosts)

@@ -31,6 +31,7 @@ export interface UpdatedPlan {
       value: string;
     };
     placeName: string;
+    travelPlanOrderNumber: number;
   }>;
   doesAllParticipantsPaid: boolean;
   doesAllParticipantsAccepted: boolean;

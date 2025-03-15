@@ -35,16 +35,14 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        if (!plan.Participants.Contains(_userId))
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserNotAllowedToChangePlanException(plan.Id);
         }
 
         var receipt = Receipt.Create(
             _userId,
-            plan.Participants
-                .Select(x => x.Value)
-                .ToList(),
+            plan.Participants.Select(x => x.ParticipantId).ToList(),
             Money.Create(command.amount),
             command.planId,
             null,

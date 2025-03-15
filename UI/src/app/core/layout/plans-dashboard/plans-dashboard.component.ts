@@ -5,8 +5,7 @@ import { AuthService } from '../../auth/auth.service';
 import { PlanCreationModal } from '../../features/plans/components/plan-creation-modal/plan-creation-modal.component';
 import { ChangeActivePlanModal } from '../../features/plans/components/change-active-plan-modal/change-active-plan-modal.component';
 import {
-  CreateTravelPlanRequest,
-  TravelPlan,
+  TravelPlan
 } from '../../features/plans/models/plan.models';
 import { UserPlansModal } from '../../features/plans/components/user-plans-modal/user-plans-modal.component';
 import { PointsRoadmapComponent } from '../../features/plans/components/points-roadmap/points-roadmap.component';
@@ -32,7 +31,6 @@ export class PlansDashboardComponent implements OnInit {
     this.onPlanUpdated();
   }
 
-  travelPlans: TravelPlan[] = [];
   activePlan: TravelPlan | null = null;
 
   isCreatePlanModalOpen: boolean = false;
@@ -41,12 +39,6 @@ export class PlansDashboardComponent implements OnInit {
   isCreatePointModalOpen: boolean = false;
 
   error: string = '';
-  formData: CreateTravelPlanRequest = {
-    title: '',
-    description: '',
-    from: null,
-    to: null,
-  };
 
   openCreatePlanModal() {
     this.isCreatePlanModalOpen = true;
@@ -70,10 +62,6 @@ export class PlansDashboardComponent implements OnInit {
 
   closeUserPlansModal() {
     this.isUserPlansModalOpen = false;
-  }
-
-  openCreatePointModal() {
-    this.isCreatePointModalOpen = true;
   }
 
   closeCreatePointModal() {

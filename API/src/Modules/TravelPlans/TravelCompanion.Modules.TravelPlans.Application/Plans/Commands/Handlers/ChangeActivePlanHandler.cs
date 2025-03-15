@@ -36,7 +36,7 @@ internal class ChangeActivePlanHandler : ICommandHandler<ChangeActivePlan>
 
         var plan = await _planRepository.GetAsync(command.planId);
 
-        if(!plan.Participants.Contains(_userId))
+        if(!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, command.planId);
         }

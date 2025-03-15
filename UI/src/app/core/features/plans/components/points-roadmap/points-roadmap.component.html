@@ -1,8 +1,8 @@
 <div class="roadmap">
-  <div *ngFor="let point of travelPoints; let i = index; let last = last">
+  <div *ngFor="let point of travelPoints; let last = last">
     <app-travel-point
       [travelPoint]="point"
-      [nodeNumber]="i + 1"
+      [nodeNumber]="point.travelPlanOrderNumber"
       (pointDeletedEvent)="deletePoint($event)"/>
   </div>
   <div class="node add-node" *ngIf="last" (click)="isModalOpen = true">

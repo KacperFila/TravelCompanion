@@ -30,7 +30,9 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
             throw new PlanNotFoundException(query.planId);
         }
 
-        if (!plan.Participants.Contains(_userId))
+        var temp = plan.Participants;
+
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
         }
@@ -44,7 +46,7 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
-            Participants = plan.Participants.Select(x => x.Value).ToList(),
+            Participants = plan.Participants.Select(x => x.ParticipantId).ToList(),
             Title = plan.Title,
             Description = plan.Description,
             From = plan.From,
@@ -63,6 +65,7 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
             Id = point.Id,
             PlaceName = point.PlaceName,
             TotalCost = point.TotalCost.Amount,
+            TravelPlanOrderNumber = point.TravelPlanOrderNumber
         };
     }
 }

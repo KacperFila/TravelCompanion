@@ -47,7 +47,8 @@ public class Point_RemoveReceipt_Tests
             Guid.NewGuid(),
             "placeName",
             Guid.NewGuid(),
-            false);
+            false,
+            0);
 
         _receipt = GetReceipt(ownerId, planId, receiptParticipants);
     }

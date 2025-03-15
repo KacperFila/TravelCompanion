@@ -17,7 +17,7 @@ public class Plan_AddParticipant_Tests
         var exception = Record.Exception(() => Act(participantId));
 
         exception.ShouldBeNull();
-        _plan.Participants.ShouldContain(participantId);
+        _plan.Participants.Select(x => x.ParticipantId).ShouldContain(participantId);
     }
 
     [Fact]

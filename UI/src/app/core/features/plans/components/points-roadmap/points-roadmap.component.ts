@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import {
-  CreateTravelPointRequest,
   TravelPoint,
 } from '../../models/plan.models';
 import { PlansService } from '../../services/plans.service';
@@ -35,7 +34,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   ) {}
   currentPlanName: string = 'test';
   travelPoints: TravelPoint[] = [];
-  newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0 };
+  newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
   private activePlanSubscription!: Subscription;
 
   @Input() isModalOpen: boolean = false;
@@ -49,7 +48,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
         (planPoint) => ({
           id: planPoint.id.value,
           placeName: planPoint.placeName,
-          totalCost: planPoint.totalCost.amount
+          totalCost: planPoint.totalCost.amount,
+          travelPlanOrderNumber: planPoint.travelPlanOrderNumber
         }))
     });
 

@@ -23,6 +23,7 @@ export interface TravelPoint {
   id: string;
   placeName: string;
   totalCost: number;
+  travelPlanOrderNumber: number;
 }
 
 export interface PlanDetailsDTO {

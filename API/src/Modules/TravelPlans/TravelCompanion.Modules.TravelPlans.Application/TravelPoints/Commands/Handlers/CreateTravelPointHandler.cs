@@ -43,8 +43,9 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         }
 
         var isPointAccepted = _userId == plan.OwnerId;
+        var newPointNumber = GetNewTravelPointNumber(plan);
 
-        var point = TravelPoint.Create(Guid.NewGuid(), command.placeName, command.travelPlanId, isPointAccepted);
+        var point = TravelPoint.Create(Guid.NewGuid(), command.placeName, command.travelPlanId, isPointAccepted, newPointNumber);
         
         plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);
@@ -52,5 +53,10 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         var notification =
             NotificationMessage.Create(point.PlaceName, "One of your suggested changes has been accepted!");
         await _notificationService.SendToAsync(plan.OwnerId.ToString(), notification);
+    }
+
+    private int GetNewTravelPointNumber(Plan plan)
+    {
+        return plan.TravelPlanPoints.Count + 1;
     }
 }

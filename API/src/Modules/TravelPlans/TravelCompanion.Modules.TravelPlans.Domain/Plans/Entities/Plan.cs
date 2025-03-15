@@ -10,7 +10,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Plan : AggregateRoot, IAuditable
 {
     public OwnerId OwnerId { get; private set; }
-    public IList<EntityId> Participants { get; private set; } = new List<EntityId>();
+    public IList<PlanParticipantRecord> Participants { get; private set; }
     public IList<EntityId>? ParticipantPaidIds { get; private set; } = new List<EntityId>();
     public string Title { get; private set; }
     public string? Description { get; private set; }
@@ -37,7 +37,7 @@ public sealed class Plan : AggregateRoot, IAuditable
         TotalCostValue = Money.Create(0);
         DoesAllParticipantsAccepted = false;
         DoesAllParticipantsPaid = false;
-        Participants = new List<EntityId>();
+        Participants = new List<PlanParticipantRecord>();
         AdditionalCosts = new List<Receipt>();
         ParticipantPaidIds = new List<EntityId>();
         TravelPlanPoints = new List<TravelPoint>();
@@ -54,6 +54,7 @@ public sealed class Plan : AggregateRoot, IAuditable
         DoesAllParticipantsAccepted = false;
         DoesAllParticipantsPaid = false;
         PlanStatus = Enums.PlanStatus.DuringPlanning;
+        Participants = new List<PlanParticipantRecord>();
     }
 
     public static Plan Create(OwnerId ownerId, string title, string? description, DateOnly from,
@@ -74,7 +75,7 @@ public sealed class Plan : AggregateRoot, IAuditable
 
     public void ReorderTravelPoints()
     {
-        TravelPlanPoints = TravelPlanPoints.OrderBy(x => x.CreatedOnUtc).ToList();
+        TravelPlanPoints = TravelPlanPoints.OrderBy(x => x.TravelPlanOrderNumber).ToList();
     }
 
     public void AddAdditionalCost(Receipt receipt)
@@ -169,12 +170,13 @@ public sealed class Plan : AggregateRoot, IAuditable
     }
     public void AddParticipant(Guid id)
     {
-        if (Participants.Contains(id))
+        if (Participants.Any(x => x.ParticipantId == id))
         {
             throw new UserAlreadyParticipatesInPlanException(id);
         }
+        var participantRecord = PlanParticipantRecord.Create(id, Id);
 
-        Participants.Add(id);
+        Participants.Add(participantRecord);
         IncrementVersion();
     }
     public void AddTravelPoint(TravelPoint travelPoint)

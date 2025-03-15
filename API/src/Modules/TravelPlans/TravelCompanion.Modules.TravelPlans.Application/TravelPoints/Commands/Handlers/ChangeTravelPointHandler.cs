@@ -45,7 +45,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         var point = await _travelPointRepository.GetAsync(command.pointId);
         var plan = await _planRepository.GetAsync(point.PlanId);
 
-        if (!(plan.OwnerId == _userId || plan.Participants.Contains(_userId)))
+        if (!(plan.OwnerId == _userId || plan.Participants.Select(x => x.ParticipantId).Contains(_userId)))
         {
             throw new UserNotAllowedToChangeTravelPointException();
         }

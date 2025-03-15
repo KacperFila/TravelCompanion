@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
@@ -8,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Hubs.TravelPlan;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
@@ -76,7 +74,7 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         foreach (var receiptParticipant in receiptParticipants)
         {
-            if (!plan.Participants.Contains(receiptParticipant))
+            if (!plan.Participants.Any(x => x.ParticipantId == _userId))
             {
                 throw new UserDoesNotParticipateInPlanException(receiptParticipant, plan.Id);
             }
@@ -144,7 +142,7 @@ public class TravelPointDomainService : ITravelPointDomainService
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        if (!plan.Participants.Contains(_userId))
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
         }
@@ -153,6 +151,19 @@ public class TravelPointDomainService : ITravelPointDomainService
         {
             plan.RemoveTravelPoint(point);
             await _travelPointRepository.RemoveAsync(point);
+
+            var pointOrderNumber = point.TravelPlanOrderNumber;
+            var pointsToRecalculateOrderNumber = plan
+                .TravelPlanPoints
+                .Where(x => x.TravelPlanOrderNumber > pointOrderNumber)
+                .ToList();
+
+            foreach (var pointToRecalculate in pointsToRecalculateOrderNumber)
+            {
+                pointToRecalculate.DecreaseTravelPlanOrderNumber();
+            }
+
+            await _planRepository.UpdateAsync(plan);
         }
         else
         {
