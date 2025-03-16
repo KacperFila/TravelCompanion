@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Shared.Abstractions.Kernel;
+using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
@@ -6,18 +7,14 @@ public sealed class PlanParticipantRecord : IAuditable
 {
     public Guid Id { get; private set; }
     public Guid ParticipantId { get; private set; }
-    public Guid TravelPlanId { get; private set; }
+    public AggregateId? PlanId { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
-
-    private PlanParticipantRecord()
-    {
-        Id = Guid.NewGuid();
-    }
 
     public static PlanParticipantRecord Create(Guid participantId, Guid travelPlanId)
     {
         var participantRecord = new PlanParticipantRecord();
+        participantRecord.Id = Guid.NewGuid();
         participantRecord.ChangeParticipantId(participantId);
         participantRecord.ChangeTravelPlanId(travelPlanId);
 
@@ -31,6 +28,6 @@ public sealed class PlanParticipantRecord : IAuditable
 
     public void ChangeTravelPlanId(Guid travelPlanId)
     {
-        TravelPlanId = travelPlanId;
+        PlanId = travelPlanId;
     }
 }

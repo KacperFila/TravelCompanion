@@ -13,9 +13,10 @@ internal static class Extensions
 {
     public static IServiceCollection AddRealTimeCommunication(this IServiceCollection services)
     {
-        services.AddSignalR();
+        services.AddSignalR();            ;
         services.AddScoped<INotificationRealTimeService, NotificationsRealTimeService>();
         services.AddScoped<ITravelPlansRealTimeService, TravelPlansRealTimeService>();
+        services.AddSingleton<ConnectionManager>();
 
         return services;
     }

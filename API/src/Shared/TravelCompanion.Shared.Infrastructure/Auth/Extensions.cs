@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace TravelCompanion.Shared.Infrastructure.Auth
 {
@@ -82,6 +83,21 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
                     o.RequireHttpsMetadata = options.RequireHttpsMetadata;
                     o.IncludeErrorDetails = options.IncludeErrorDetails;
                     o.TokenValidationParameters = tokenValidationParameters;
+                    o.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("travelPlanHub")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+
                     if (!string.IsNullOrWhiteSpace(options.Challenge))
                     {
                         o.Challenge = options.Challenge;

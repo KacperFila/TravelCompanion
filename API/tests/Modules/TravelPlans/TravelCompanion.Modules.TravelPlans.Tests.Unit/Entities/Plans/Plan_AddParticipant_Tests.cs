@@ -7,7 +7,11 @@ namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
 public class Plan_AddParticipant_Tests
 {
-    private void Act(Guid participantId) => _plan.AddParticipant(participantId);
+    private void Act(Guid participantId)
+    {
+        var planParticipantRecord = PlanParticipantRecord.Create(participantId, _plan.Id);
+        _plan.AddParticipant(planParticipantRecord);
+    }
 
     [Fact]
     public void given_participant_does_not_participate_in_plan_yet_addition_should_succeed()
@@ -24,7 +28,9 @@ public class Plan_AddParticipant_Tests
     public void given_participant_already_participates_in_plan_addition_should_fail()
     {
         var participantId = new EntityId(Guid.NewGuid());
-        _plan.AddParticipant(participantId);
+
+        var planParticipantRecord = PlanParticipantRecord.Create(participantId, _plan.Id);
+        _plan.AddParticipant(planParticipantRecord);
 
         var exception = Record.Exception(() => Act(participantId));
 

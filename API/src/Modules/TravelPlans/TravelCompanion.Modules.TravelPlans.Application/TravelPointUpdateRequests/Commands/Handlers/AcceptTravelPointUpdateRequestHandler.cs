@@ -62,6 +62,11 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
         
-        await _travelPlansRealTimeService.SendRoadmapUpdate(travelPlan);
+        var participants = travelPlan.Participants
+            .Select(x => x.ParticipantId)
+            .Select(x => x.ToString())
+            .ToList();
+
+        await _travelPlansRealTimeService.SendRoadmapUpdate(participants, travelPlan);
     }
 }

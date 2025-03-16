@@ -32,7 +32,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private signalRService: SignalRService,
   ) {}
-  currentPlanName: string = 'test';
+
   travelPoints: TravelPoint[] = [];
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
   private activePlanSubscription!: Subscription;
@@ -42,8 +42,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
-    this.signalRService.startConnection();
-    this.signalRService.listenForUpdates((updatedRoadmap: UpdatedPlan) => {
+    this.signalRService.listenForUpdates("ReceivePlanUpdate", (updatedRoadmap: UpdatedPlan) => {
       this.travelPoints = updatedRoadmap.travelPlanPoints.map(
         (planPoint) => ({
           id: planPoint.id.value,
@@ -56,7 +55,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     this.activePlanSubscription = this.authService.activePlan$.subscribe(
       (activePlan) => {
         if (activePlan) {
-          this.fetchPoints(activePlan.id);  // 🔹 Fetch once at start
+          this.fetchPoints(activePlan.id);
         } else {
           this.travelPoints = [];
         }

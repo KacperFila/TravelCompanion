@@ -8,5 +8,6 @@
         <a routerLink="/costs" routerLinkActive="active">Costs</a>
       </nav>
 
+    <p class="user-name" *ngIf="user$ | async as user;" >{{user.email}}</p>
     <button class="logout-btn" *ngIf="user$ | async as user;" (click)="logout()">Log out</button>
 </header>

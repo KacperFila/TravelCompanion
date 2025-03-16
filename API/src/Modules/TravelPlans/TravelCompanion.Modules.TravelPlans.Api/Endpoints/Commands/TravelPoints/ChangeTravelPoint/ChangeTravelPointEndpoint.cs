@@ -32,6 +32,5 @@ internal sealed class ChangeTravelPointEndpoint : EndpointBaseAsync
     {
         await _commandDispatcher.SendAsync(command);
         return NoContent();
-        ;
     }
 }

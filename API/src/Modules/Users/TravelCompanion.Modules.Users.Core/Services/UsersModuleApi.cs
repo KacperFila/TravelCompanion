@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TravelCompanion.Modules.Users.Core.Exceptions;
 using TravelCompanion.Modules.Users.Core.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Modules.Users.Shared.DTO;
-using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.Users.Core.Services;
 
 internal class UsersModuleApi : IUsersModuleApi
 {
-    private const string activePlanIdClaimKey = "activePlanId";
     private readonly IUserRepository _userRepository;
-    private readonly IContext _context;
 
-    public UsersModuleApi(IUserRepository userRepository, IContext context)
+    public UsersModuleApi(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _context = context;
     }
 
     public async Task<bool> CheckIfUserExists(Guid userId)

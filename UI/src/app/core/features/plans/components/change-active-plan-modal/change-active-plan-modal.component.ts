@@ -28,13 +28,6 @@ export class ChangeActivePlanModal implements OnInit {
   @Output() setActivePlanEvent = new EventEmitter<TravelPlan>();
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  formData: CreateTravelPlanRequest = {
-    title: '',
-    description: '',
-    from: null,
-    to: null,
-  };
-
   setActivePlan(event: Event) {
     event.preventDefault();
 

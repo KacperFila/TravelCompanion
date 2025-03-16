@@ -26,18 +26,17 @@ export class TravelPointComponent implements OnInit{
   constructor(private plansService: PlansService, private signalRService: SignalRService) {
   }
 
-  ngOnInit(): void {
-    this.getTravelPointEditRequests(this.travelPoint.id)
-
-    this.signalRService.startConnection();
-    this.signalRService.listenForUpdates((travelPointUpdateRequests: TravelPointUpdateRequest[]) => {
-    this.pointEditRequests = travelPointUpdateRequests;
-    });
-  }
-
   @Input() travelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   @Input() nodeNumber: number = 0;
   @Output() pointDeletedEvent = new EventEmitter<TravelPoint>();
+
+  ngOnInit(): void {
+    this.getTravelPointEditRequests(this.travelPoint.id)
+    this.signalRService.listenForUpdates("ReceiveTravelPointUpdateRequestUpdate", (travelPointUpdateRequests: TravelPointUpdateRequest[]) => {
+      console.log("ReceiveTravelPointUpdateRequestUpdate", travelPointUpdateRequests);
+        this.pointEditRequests = travelPointUpdateRequests;
+    });
+  }
 
   editedTravelPoint: TravelPoint = {id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   pointEditRequests: TravelPointUpdateRequest[] = [];

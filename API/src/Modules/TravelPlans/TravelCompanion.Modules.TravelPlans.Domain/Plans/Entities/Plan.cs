@@ -10,7 +10,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 public sealed class Plan : AggregateRoot, IAuditable
 {
     public OwnerId OwnerId { get; private set; }
-    public IList<PlanParticipantRecord> Participants { get; private set; }
+    public IList<PlanParticipantRecord> Participants { get; private set; } = new List<PlanParticipantRecord>();
     public IList<EntityId>? ParticipantPaidIds { get; private set; } = new List<EntityId>();
     public string Title { get; private set; }
     public string? Description { get; private set; }
@@ -54,7 +54,6 @@ public sealed class Plan : AggregateRoot, IAuditable
         DoesAllParticipantsAccepted = false;
         DoesAllParticipantsPaid = false;
         PlanStatus = Enums.PlanStatus.DuringPlanning;
-        Participants = new List<PlanParticipantRecord>();
     }
 
     public static Plan Create(OwnerId ownerId, string title, string? description, DateOnly from,
@@ -66,9 +65,11 @@ public sealed class Plan : AggregateRoot, IAuditable
         travelPlan.ChangeFrom(from);
         travelPlan.ChangeTo(to);
         travelPlan.ClearEvents();
-        travelPlan.AddParticipant(ownerId);
         travelPlan.CalculateTotalCost();
         travelPlan.Version = 0;
+
+        var participantRecord = PlanParticipantRecord.Create(ownerId, travelPlan.Id);
+        travelPlan.AddParticipant(participantRecord); // TODO extract to setOwner()
 
         return travelPlan;
     }
@@ -168,15 +169,16 @@ public sealed class Plan : AggregateRoot, IAuditable
         To = to;
         IncrementVersion();
     }
-    public void AddParticipant(Guid id)
+    public void AddParticipant(PlanParticipantRecord planParticipantRecord)
     {
-        if (Participants.Any(x => x.ParticipantId == id))
+        if (Participants.Any(x => x.ParticipantId == planParticipantRecord.ParticipantId))
         {
-            throw new UserAlreadyParticipatesInPlanException(id);
+            throw new UserAlreadyParticipatesInPlanException(planParticipantRecord.ParticipantId);
         }
-        var participantRecord = PlanParticipantRecord.Create(id, Id);
 
-        Participants.Add(participantRecord);
+        planParticipantRecord.ChangeTravelPlanId(this.Id);
+
+        Participants.Add(planParticipantRecord);
         IncrementVersion();
     }
     public void AddTravelPoint(TravelPoint travelPoint)

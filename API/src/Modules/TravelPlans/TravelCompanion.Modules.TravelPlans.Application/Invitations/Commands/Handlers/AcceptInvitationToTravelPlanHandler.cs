@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.Invitations.Events;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -65,11 +66,13 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        await _invitationRepository.RemoveAsync(command.invitationId);
-        
-        plan.AddParticipant(invitation.InviteeId);
+        var participantRecord = PlanParticipantRecord.Create(invitation.InviteeId, plan.Id);
+        plan.AddParticipant(participantRecord);
         await _planRepository.UpdateAsync(plan);
+
         await _messageBroker.PublishAsync(new ParticipantAddedToPlan(invitation.InviteeId, plan.Id));
+
+        await _invitationRepository.RemoveAsync(command.invitationId);
 
         var invitee = await _usersModuleApi.GetUserInfo(invitation.InviteeId);
 

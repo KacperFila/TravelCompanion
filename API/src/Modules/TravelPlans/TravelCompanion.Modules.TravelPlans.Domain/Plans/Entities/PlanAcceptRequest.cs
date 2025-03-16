@@ -4,7 +4,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
-public class PlanAcceptRequest : IAuditable
+public sealed class PlanAcceptRequest : IAuditable
 {
     public Guid Id { get; private set; }
     public AggregateId PlanId { get; private set; }

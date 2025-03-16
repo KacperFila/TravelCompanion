@@ -64,6 +64,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 
-        await _travelPlansRealTimeService.SendRoadmapUpdate(plan);
+        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
+        await _travelPlansRealTimeService.SendRoadmapUpdate(participants, plan);
     }
 }

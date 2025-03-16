@@ -98,7 +98,8 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
     private static Plan GetPlanWithMultipleParticipants(Guid participantId)
     {
         var plan = GetPlan(participantId);
-        Enumerable.Range(0, 5).ToList().ForEach(_ => plan.AddParticipant(Guid.NewGuid()));
+
+        Enumerable.Range(0, 5).ToList().ForEach(_ => plan.AddParticipant(PlanParticipantRecord.Create(Guid.NewGuid(), plan.Id)));
 
         return plan;
     }

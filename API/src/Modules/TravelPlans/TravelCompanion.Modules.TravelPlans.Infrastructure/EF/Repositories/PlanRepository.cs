@@ -24,7 +24,7 @@ public class PlanRepository : IPlanRepository
             .Include(x => x.Participants)
             .Include(x => x.AdditionalCosts)
             .Include(x => x.TravelPlanPoints)
-            .ThenInclude(x => x.Receipts)
+                .ThenInclude(x => x.Receipts)
             .SingleOrDefaultAsync(x => x.Id == id);
 
         if (plan != null)
@@ -38,6 +38,7 @@ public class PlanRepository : IPlanRepository
     public async Task<Plan> GetByPointIdAsync(Guid pointId)
     {
         return await _travelPlans
+            .Include(x => x.Participants)
             .Include(x => x.AdditionalCosts)
             .Include(x => x.TravelPlanPoints)
             .ThenInclude(x => x.Receipts)
