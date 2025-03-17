@@ -2,6 +2,7 @@
   <div *ngFor="let point of travelPoints; let last = last">
     <app-travel-point
       [travelPoint]="point"
+      [updateRequests]="updateRequestsMap[point.id] || []"
       [nodeNumber]="point.travelPlanOrderNumber"
       (pointDeletedEvent)="deletePoint($event)"/>
   </div>

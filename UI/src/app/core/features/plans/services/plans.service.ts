@@ -59,23 +59,21 @@ export class PlansService {
     );
   }
 
-  addPointToPlan(travelPlanId: string, placeName: string): Observable<void> {
+  addPointToPlan(travelPlanId: string, placeName: string): Observable<any> {
     const requestBody = { travelPlanId, placeName };
 
     return this.http
-      .post(`${environment.apiBaseUrl}/travelplans-module/Point`, requestBody)
-      .pipe(map(() => void 0));
+      .post(`${environment.apiBaseUrl}/travelplans-module/Point`, requestBody);
   }
 
-  deletePoint(travelPointId: string): Observable<void> {
+  deletePoint(travelPointId: string): Observable<any>{
     return this.http
       .delete(
         `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}`
-      )
-      .pipe(map(() => void 0));
+      );
   }
 
-  updatePoint(travelPoint: TravelPoint): Observable<void> {
+  updatePoint(travelPoint: TravelPoint): Observable<any> {
     const requestBody = {
       pointId: travelPoint.id,
       placeName: travelPoint.placeName
@@ -86,7 +84,6 @@ export class PlansService {
         `${environment.apiBaseUrl}/travelplans-module/Point/Update`,
         requestBody
       )
-      .pipe(map(() => void 0));
   }
 
   getTravelPointEditRequests(travelPointId: string): Observable<TravelPointUpdateRequest[]>
@@ -96,21 +93,20 @@ export class PlansService {
         `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}/UpdateRequests`)
   }
 
-  acceptUpdateRequest(updateRequestId: string): Observable<void> {
+  acceptUpdateRequest(updateRequestId: string): Observable<any> {
     console.log(updateRequestId);
     return this.http
       .put(
         `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Acceptance`,
-        {})
-      .pipe(map(() => void 0));
+        {}
+      );
   }
 
-  rejectUpdateRequest(updateRequestId: string): Observable<void> {
-    console.log(updateRequestId);
+  rejectUpdateRequest(updateRequestId: string): Observable<any> {
     return this.http
       .delete(
         `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Rejection`,
-        {})
-      .pipe(map(() => void 0));
+        {}
+      );
   }
 }

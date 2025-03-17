@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import {
-  TravelPoint,
+  TravelPoint, TravelPointUpdateRequest
 } from '../../models/plan.models';
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
@@ -34,7 +34,9 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   ) {}
 
   travelPoints: TravelPoint[] = [];
+  updateRequestsMap: { [pointId: string]: TravelPointUpdateRequest[] } = {};
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
+
   private activePlanSubscription!: Subscription;
 
   @Input() isModalOpen: boolean = false;
@@ -42,21 +44,15 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
-    this.signalRService.listenForUpdates("ReceivePlanUpdate", (updatedRoadmap: UpdatedPlan) => {
-      this.travelPoints = updatedRoadmap.travelPlanPoints.map(
-        (planPoint) => ({
-          id: planPoint.id.value,
-          placeName: planPoint.placeName,
-          totalCost: planPoint.totalCost.amount,
-          travelPlanOrderNumber: planPoint.travelPlanOrderNumber
-        }))
-    });
-
+    this.setupSignalRListeners();
     this.activePlanSubscription = this.authService.activePlan$.subscribe(
       (activePlan) => {
-        if (activePlan) {
+        if (activePlan)
+        {
           this.fetchPoints(activePlan.id);
-        } else {
+        }
+        else
+        {
           this.travelPoints = [];
         }
       }
@@ -70,8 +66,12 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   fetchPoints(planId: string): void {
-    this.plansService.getActivePlanWithPoints(planId).subscribe((response) => {
+    this.plansService.getActivePlanWithPoints(planId)
+      .subscribe((response) => {
       this.travelPoints = response.planPoints;
+        this.travelPoints.forEach(point => {
+          this.getTravelPointEditRequests(point.id);
+        });
     });
   }
 
@@ -81,7 +81,10 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     if (!this.newTravelPoint?.placeName.trim()) return;
 
     const activePlanId = this.authService.getUserActivePlan()?.id;
-    if (!activePlanId) return;
+    if (!activePlanId)
+    {
+      return;
+    }
 
     this.plansService
       .addPointToPlan(activePlanId, this.newTravelPoint.placeName)
@@ -110,5 +113,50 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     this.isModalOpen = false;
   }
 
+  getTravelPointEditRequests(travelPointId: string) {
+    this.plansService.getTravelPointEditRequests(travelPointId).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.updateRequestsMap[travelPointId] = response;
+      },
+      error: (err) => {
+        console.error("Error fetching data:", err);
+      },
+    });
+  }
+
   protected readonly last = last;
+
+  private setupSignalRListeners(): void {
+    this.signalRService.listenForUpdates("ReceivePlanUpdate", (updatedRoadmap: UpdatedPlan) => {
+      this.travelPoints = updatedRoadmap.travelPlanPoints.map(
+        (planPoint) => ({
+          id: planPoint.id.value,
+          placeName: planPoint.placeName,
+          totalCost: planPoint.totalCost.amount,
+          travelPlanOrderNumber: planPoint.travelPlanOrderNumber
+        }));
+    });
+
+    this.signalRService.listenForUpdates(
+      "ReceiveTravelPointUpdateRequestUpdate",
+      (data: { pointId: string, updateRequests: any[] }) => {
+
+        const groupedRequests: TravelPointUpdateRequest[] = [];
+
+        data.updateRequests.forEach((request => {
+          const mappedRequest = {
+            requestId: request.requestId,
+            TravelPlanPointId: request.travelPlanPointId.value,
+            SuggestedById: request.suggestedById.value,
+            PlaceName: request.placeName,
+            CreatedOnUtc: request.createdOnUtc,
+            ModifiedOnUtc: request.modifiedOnUtc ?? ''
+          }
+          groupedRequests.push(mappedRequest);
+        }))
+
+        this.updateRequestsMap[data.pointId] = groupedRequests;
+      });
+  }
 }

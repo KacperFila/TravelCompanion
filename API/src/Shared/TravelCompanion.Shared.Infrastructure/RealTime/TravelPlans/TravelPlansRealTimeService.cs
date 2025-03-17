@@ -36,14 +36,14 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
         }
     }
 
-    public async Task SendTravelPointUpdateRequestUpdate(List<string> participantUserIds, object updateRequests)
+    public async Task SendTravelPointUpdateRequestUpdate(List<string> participantUserIds, object payload)
     {
         foreach (var userId in participantUserIds)
         {
             var connections = _connectionManager.GetConnections(userId);
             foreach (var connectionId in connections)
             {
-                await _hubContext.Clients.Client(connectionId).ReceiveTravelPointUpdateRequestUpdate(updateRequests);
+                await _hubContext.Clients.Client(connectionId).ReceiveTravelPointUpdateRequestUpdate(payload);
             }
         }
     }

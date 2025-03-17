@@ -243,8 +243,10 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
 
-        var requests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(request.TravelPlanPointId);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(request.TravelPlanPointId);
         var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
-        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, requests);
+        var pointId = request.TravelPlanPointId.Value.ToString();
+
+        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId } );
     }
 }

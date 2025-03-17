@@ -3,7 +3,7 @@
       <div class="circle" (click)="openPointDetailsModal()">{{ nodeNumber }}</div>
       <div class="delete-circle" (click)="deletePoint(travelPoint)">−</div>
       <div class="edit-requests-circle" (click)="openPointEditRequestsModal()">✎
-        <div *ngIf="pointEditRequests && pointEditRequests.length > 0" class="edit-requests-amount">{{pointEditRequests.length}}</div>
+        <div *ngIf="updateRequests" class="edit-requests-amount">{{updateRequests.length}}</div>
       </div>
   </div>
   <div class="info">
@@ -37,14 +37,22 @@
   (close)="closePointEditRequestsModal()"
   title="Travel Point Edit Requests">
 
-  <app-item-list
-    [items]="pointEditRequests"
-    [displayProperty]="'placeName'"
-    [buttonTemplate]="buttonsTemplate">
-  </app-item-list>
+  <ng-container *ngIf="(updateRequests && updateRequests.length > 0); else noRequestsTemplate">
+    <app-item-list
+      [items]="updateRequests"
+      [displayProperty]="'PlaceName'"
+      [buttonTemplate]="buttonsTemplate">
+    </app-item-list>
+  </ng-container>
+
+  <ng-template #noRequestsTemplate>
+    <p class="no-requests-message">No edit requests available.</p>
+  </ng-template>
 
   <ng-template #buttonsTemplate let-item>
     <button (click)="AcceptUpdateRequest(item)">Accept</button>
     <button (click)="RejectUpdateRequest(item)">Reject</button>
   </ng-template>
+
 </app-modal>
+

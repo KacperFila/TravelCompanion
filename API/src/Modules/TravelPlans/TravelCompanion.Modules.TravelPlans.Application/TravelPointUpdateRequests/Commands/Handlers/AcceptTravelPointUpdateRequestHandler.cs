@@ -14,7 +14,6 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
-    private readonly INotificationRealTimeService _notificationService;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
     public AcceptTravelPointUpdateRequestHandler(
@@ -29,7 +28,6 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _context = context;
         _planRepository = planRepository;
-        _notificationService = notificationService;
         _userId = _context.Identity.Id;
         _travelPlansRealTimeService = travelPlansRealTimeService;
     }
@@ -67,6 +65,11 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
             .Select(x => x.ToString())
             .ToList();
 
+        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(travelPoint.Id);
+        var pointId = travelPoint.Id.Value.ToString();
+
         await _travelPlansRealTimeService.SendRoadmapUpdate(participants, travelPlan);
+        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
     }
 }
+
