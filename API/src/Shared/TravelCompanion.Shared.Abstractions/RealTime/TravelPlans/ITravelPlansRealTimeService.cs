@@ -5,6 +5,6 @@ namespace TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 public interface ITravelPlansRealTimeService
 {
-    Task SendRoadmapUpdate(List<string> participantUserIds, object plan);
-    Task SendTravelPointUpdateRequestUpdate(List<string> participantUserIds, object payload);
+    Task SendPlanUpdate(List<string> participantUserIds, object plan);
+    Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object payload);
 }

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
+using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Queries;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Shared.Abstractions.Exceptions;
 using TravelCompanion.Shared.Abstractions.Queries;
 
-namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.Plans.GetTravelPointUpdateRequestsEndpoint;
+namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.TravelPointUpdateRequests.GetTravelPointUpdateRequests;
 
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetTravelPointUpdateRequestsEndpoint : EndpointBaseAsync

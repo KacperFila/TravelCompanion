@@ -11,20 +11,16 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
 {
     private readonly IHubContext<TravelPlanHub, ITravelPlanHub> _hubContext;
     private readonly ConnectionManager _connectionManager;
-    private readonly ILogger<TravelPlansRealTimeService> _logger;
 
     public TravelPlansRealTimeService(
         IHubContext<TravelPlanHub, ITravelPlanHub> hubContext,
-        ConnectionManager connectionManager
-,
-        ILogger<TravelPlansRealTimeService> logger)
+        ConnectionManager connectionManager)
     {
         _hubContext = hubContext;
         _connectionManager = connectionManager;
-        _logger = logger;
     }
 
-    public async Task SendRoadmapUpdate(List<string> participantUserIds, object plan)
+    public async Task SendPlanUpdate(List<string> participantUserIds, object plan)
     {
         foreach (var userId in participantUserIds)
         {
@@ -36,7 +32,7 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
         }
     }
 
-    public async Task SendTravelPointUpdateRequestUpdate(List<string> participantUserIds, object payload)
+    public async Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object payload)
     {
         foreach (var userId in participantUserIds)
         {

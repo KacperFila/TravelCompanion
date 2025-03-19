@@ -10,7 +10,6 @@ using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
-using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
 
@@ -19,21 +18,17 @@ public class TravelPointDomainService : ITravelPointDomainService
     private readonly IReceiptRepository _receiptRepository;
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly ITravelPointRemoveRequestRepository _travelPointRemoveRequestRepository;
-    private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly IMessageBroker _messageBroker;
-    private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
     public TravelPointDomainService(
         IReceiptRepository receiptRepository,
         ITravelPointRepository travelPointRepository,
         IPlanRepository planRepository,
         IContext context,
         IMessageBroker messageBroker,
-        ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository,
-        ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
-        ITravelPlansRealTimeService travelPlansRealTimeService)
+        ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository)
     {
         _receiptRepository = receiptRepository;
         _travelPointRepository = travelPointRepository;
@@ -41,9 +36,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         _context = context;
         _messageBroker = messageBroker;
         _travelPointRemoveRequestRepository = travelPointRemoveRequestRepository;
-        _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
-        _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
     public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants, string description)
@@ -207,47 +200,5 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         await _travelPointRemoveRequestRepository.RemoveAsync(request);
-    }
-
-    public async Task RemoveTravelPointUpdateRequest(Guid requestId)
-    {
-        var request = await _travelPointUpdateRequestRepository.GetAsync(requestId);
-
-        if (request is null)
-        {
-            throw new TravelPointUpdateRequestNotFoundException(requestId);
-        }
-
-        var pointExists = await _travelPointRepository.ExistAsync(request.TravelPlanPointId);
-
-        if (!pointExists)
-        {
-            throw new TravelPointNotFoundException(request.TravelPlanPointId);
-        }
-
-        var plan = await _planRepository.GetByPointIdAsync(request.TravelPlanPointId);
-
-        if (plan is null)
-        {
-            throw new PlanNotFoundException(request.TravelPlanPointId);
-        }
-
-        if (plan.OwnerId != _userId)
-        {
-            throw new UserNotOwnerOfPlanException(_userId);
-        }
-
-        if (plan.PlanStatus != PlanStatus.DuringPlanning)
-        {
-            throw new PlanNotDuringPlanningException(plan.Id);
-        }
-
-        await _travelPointUpdateRequestRepository.RemoveAsync(request);
-
-        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(request.TravelPlanPointId);
-        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
-        var pointId = request.TravelPlanPointId.Value.ToString();
-
-        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
     }
 }

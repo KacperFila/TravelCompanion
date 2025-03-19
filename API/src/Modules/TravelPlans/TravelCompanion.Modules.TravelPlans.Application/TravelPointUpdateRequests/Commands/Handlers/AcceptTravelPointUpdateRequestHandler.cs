@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
+﻿using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
@@ -21,7 +22,6 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
         IContext context,
         IPlanRepository planRepository,
-        INotificationRealTimeService notificationService,
         ITravelPlansRealTimeService travelPlansRealTimeService)
     {
         _travelPointRepository = travelPointRepository;
@@ -34,11 +34,11 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
     public async Task HandleAsync(AcceptTravelPointUpdateRequest command)
     {
-        var request = await _travelPointUpdateRequestRepository.GetAsync(command.requestId);
+        var request = await _travelPointUpdateRequestRepository.GetAsync(command.RequestId);
 
         if (request is null)
         {
-            throw new TravelPointUpdateRequestNotFoundException(command.requestId);
+            throw new TravelPointUpdateRequestNotFoundException(command.RequestId);
         }
 
         var travelPoint = await _travelPointRepository.GetAsync(request.TravelPlanPointId);
@@ -66,10 +66,14 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
             .ToList();
 
         var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(travelPoint.Id);
-        var pointId = travelPoint.Id.Value.ToString();
 
-        //TODO get rid off anonymous object
-        await _travelPlansRealTimeService.SendRoadmapUpdate(participants, travelPlan);
-        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
+        var updateRequestResponse = new UpdateRequestUpdateResponse
+        {
+            UpdateRequests = updateRequests,
+            PointId = travelPoint.Id
+        };
+
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, travelPlan);
+        await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
     }
 }

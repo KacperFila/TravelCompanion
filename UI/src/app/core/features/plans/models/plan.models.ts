@@ -26,19 +26,6 @@ export interface TravelPoint {
   travelPlanOrderNumber: number;
 }
 
-export interface PlanDetailsDTO {
-  id: string;
-  ownerId: string;
-  participants: string[];
-  title: string;
-  description: string | null;
-  from: string;
-  to: string;
-  additionalCostsValue: number;
-  totalCostValue: number;
-  planStatus: string;
-}
-
 export interface TravelPlanResponse {
   items: TravelPlan[];
   empty: boolean;
@@ -50,21 +37,16 @@ export interface TravelPlanResponse {
   hasNextPage: boolean;
 }
 
-export interface CreateTravelPointRequest {
-  travelPlanId: string;
-  placeName: string;
-}
-
 export interface TravelPointUpdateRequest {
-  requestId: GUID;
-  TravelPlanPointId: GUID;
-  SuggestedById: GUID;
-  PlaceName: string;
-  CreatedOnUtc: string;
-  ModifiedOnUtc: string;
+  requestId: { value: string };
+  travelPlanPointId: { value: string };
+  suggestedById: { value: string };
+  placeName: string;
+  createdOnUtc: string;
+  modifiedOnUtc: string;
 }
 
-export interface GUID
-{
-  value: string;
+export interface UpdateRequestUpdateResponse {
+  updateRequests: TravelPointUpdateRequest[];
+  pointId: string;
 }

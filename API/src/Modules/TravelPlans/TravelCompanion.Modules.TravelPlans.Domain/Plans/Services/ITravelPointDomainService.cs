@@ -8,5 +8,4 @@ public interface ITravelPointDomainService
     Task RemoveReceiptAsync(Guid receiptId);
     Task RemoveTravelPoint(Guid travelPointId);
     Task RemoveTravelPointRemoveRequest(Guid requestId);
-    Task RemoveTravelPointUpdateRequest(Guid requestId);
 }

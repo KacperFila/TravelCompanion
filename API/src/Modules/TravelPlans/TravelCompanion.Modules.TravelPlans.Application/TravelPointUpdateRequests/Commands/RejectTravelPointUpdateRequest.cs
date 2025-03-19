@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands;
 
-public record RejectTravelPointUpdateRequest(Guid requestId) : ICommand;
+public record RejectTravelPointUpdateRequest(Guid RequestId) : ICommand;

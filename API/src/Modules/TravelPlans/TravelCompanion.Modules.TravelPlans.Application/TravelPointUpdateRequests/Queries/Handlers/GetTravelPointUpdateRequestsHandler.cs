@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Queries;
 
@@ -16,7 +15,7 @@ public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointU
 
     public async Task<List<TravelPointUpdateRequest>> HandleAsync(GetTravelPointUpdateRequest request)
     {
-        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(request.pointId);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(request.PointId);
 
         return updateRequests;
     }

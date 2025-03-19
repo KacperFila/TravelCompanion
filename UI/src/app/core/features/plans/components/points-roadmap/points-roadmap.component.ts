@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import {
-  TravelPoint, TravelPointUpdateRequest
+  TravelPoint, TravelPointUpdateRequest, UpdateRequestUpdateResponse
 } from '../../models/plan.models';
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
@@ -34,7 +34,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   ) {}
 
   travelPoints: TravelPoint[] = [];
-  updateRequestsMap: { [pointId: string]: TravelPointUpdateRequest[] } = {};
+  updateRequests: Map<string, TravelPointUpdateRequest[]> = new Map<string, TravelPointUpdateRequest[]>;
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
 
   private activePlanSubscription!: Subscription;
@@ -116,8 +116,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   getTravelPointEditRequests(travelPointId: string) {
     this.plansService.getTravelPointEditRequests(travelPointId).subscribe({
       next: (response) => {
-        console.log(response);
-        this.updateRequestsMap[travelPointId] = response;
+        this.updateRequests.set(travelPointId, response);
       },
       error: (err) => {
         console.error("Error fetching data:", err);
@@ -140,23 +139,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
 
     this.signalRService.listenForUpdates(
       "ReceiveTravelPointUpdateRequestUpdate",
-      (data: { pointId: string, updateRequests: any[] }) => {
-
-        const groupedRequests: TravelPointUpdateRequest[] = [];
-
-        data.updateRequests.forEach((request => {
-          const mappedRequest = {
-            requestId: request.requestId,
-            TravelPlanPointId: request.travelPlanPointId.value,
-            SuggestedById: request.suggestedById.value,
-            PlaceName: request.placeName,
-            CreatedOnUtc: request.createdOnUtc,
-            ModifiedOnUtc: request.modifiedOnUtc ?? ''
-          }
-          groupedRequests.push(mappedRequest);
-        }))
-
-        this.updateRequestsMap[data.pointId] = groupedRequests;
+      (data: UpdateRequestUpdateResponse) => {
+        this.updateRequests.set(data.pointId, data.updateRequests);
       });
   }
 }

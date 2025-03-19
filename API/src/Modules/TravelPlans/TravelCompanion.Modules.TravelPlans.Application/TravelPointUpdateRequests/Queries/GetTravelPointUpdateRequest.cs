@@ -1,9 +1,9 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Shared.Abstractions.Queries;
 
-namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
+namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Queries;
 
 public class GetTravelPointUpdateRequest : IQuery<List<TravelPointUpdateRequest>>
 {
-    public Guid pointId { get; set; }
+    public Guid PointId { get; set; }
 }
