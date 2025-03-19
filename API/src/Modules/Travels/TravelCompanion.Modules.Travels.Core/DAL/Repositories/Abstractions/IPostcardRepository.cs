@@ -1,5 +1,4 @@
 ﻿using TravelCompanion.Modules.Travels.Core.Entities;
-using TravelCompanion.Modules.Travels.Shared.DTO;
 
 namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 

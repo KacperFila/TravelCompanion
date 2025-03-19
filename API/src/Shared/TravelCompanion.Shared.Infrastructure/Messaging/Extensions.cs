@@ -9,7 +9,7 @@ namespace TravelCompanion.Shared.Infrastructure.Messaging
     internal static class Extensions
     {
         private const string SectionName = "messaging";
-        
+
         internal static IServiceCollection AddMessaging(this IServiceCollection services)
         {
             services.AddSingleton<IMessageBroker, MessageBroker>();
@@ -23,7 +23,7 @@ namespace TravelCompanion.Shared.Infrastructure.Messaging
             {
                 services.AddHostedService<BackgroundDispatcher>();
             }
-            
+
             return services;
         }
     }

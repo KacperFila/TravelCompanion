@@ -1,7 +1,7 @@
 ﻿using Hangfire;
+using Hangfire.Common;
 using System;
 using System.Linq.Expressions;
-using Hangfire.Common;
 using TravelCompanion.Shared.Abstractions.BackgroundJobs;
 
 namespace TravelCompanion.Shared.Infrastructure.BackgroundJobs;
@@ -13,7 +13,7 @@ public class BackgroundJobScheduler : IBackgroundJobScheduler
         var jobId = BackgroundJob.Schedule(method, date);
         return jobId;
     }
-    
+
     public string Enqueue(Expression<Action> method)
     {
         var jobId = BackgroundJob.Enqueue(method);
@@ -22,7 +22,7 @@ public class BackgroundJobScheduler : IBackgroundJobScheduler
 
     public void ScheduleDaily(Expression<Action> method, string jobId)
     {
-        var manager= new RecurringJobManager();
+        var manager = new RecurringJobManager();
         manager.AddOrUpdate(jobId, Job.FromExpression(method), Cron.Daily());
     }
     public void ScheduleMonthly(Expression<Action> method, string jobId)

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Commands;
 
 namespace TravelCompanion.Shared.Infrastructure.Commands

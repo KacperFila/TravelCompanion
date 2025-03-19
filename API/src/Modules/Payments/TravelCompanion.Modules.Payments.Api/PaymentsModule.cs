@@ -22,6 +22,6 @@ internal class PaymentsModule : IModule
 
     public void Use(IApplicationBuilder app)
     {
-        
+
     }
 }

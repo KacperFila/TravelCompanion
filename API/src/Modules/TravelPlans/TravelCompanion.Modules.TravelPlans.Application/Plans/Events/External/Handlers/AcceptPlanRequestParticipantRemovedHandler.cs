@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Events;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Events.External.Handlers;

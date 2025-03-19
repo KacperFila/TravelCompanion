@@ -1,8 +1,6 @@
-﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
-using TravelCompanion.Shared.Abstractions.BackgroundJobs;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Events;

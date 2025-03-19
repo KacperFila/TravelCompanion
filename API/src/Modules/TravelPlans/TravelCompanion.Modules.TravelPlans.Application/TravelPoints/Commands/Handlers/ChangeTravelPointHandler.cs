@@ -70,6 +70,6 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         var pointId = point.Id.Value.ToString();
 
         await _travelPlansRealTimeService.SendRoadmapUpdate(participants, plan);
-        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId } );
+        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
     }
 }

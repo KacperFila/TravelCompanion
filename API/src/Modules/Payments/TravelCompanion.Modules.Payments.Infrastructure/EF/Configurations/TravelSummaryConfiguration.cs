@@ -13,7 +13,7 @@ public class TravelSummaryConfiguration : IEntityTypeConfiguration<TravelSummary
         builder
             .Property(x => x.Id)
             .HasConversion(x => x.Value, x => new AggregateId(x));
-        
+
         builder.HasMany(x => x.ParticipantsCosts)
             .WithOne()
             .HasForeignKey(x => x.SummaryId)

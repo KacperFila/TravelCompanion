@@ -35,7 +35,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     public async Task HandleAsync(AcceptTravelPointUpdateRequest command)
     {
         var request = await _travelPointUpdateRequestRepository.GetAsync(command.requestId);
-        
+
         if (request is null)
         {
             throw new TravelPointUpdateRequestNotFoundException(command.requestId);
@@ -59,7 +59,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPointRepository.UpdateAsync(travelPoint);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
-        
+
         var participants = travelPlan.Participants
             .Select(x => x.ParticipantId)
             .Select(x => x.ToString())
@@ -68,8 +68,8 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(travelPoint.Id);
         var pointId = travelPoint.Id.Value.ToString();
 
+        //TODO get rid off anonymous object
         await _travelPlansRealTimeService.SendRoadmapUpdate(participants, travelPlan);
         await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
     }
 }
-

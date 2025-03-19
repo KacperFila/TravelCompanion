@@ -4,9 +4,9 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 
 public class TravelPointAlreadyAddedException : TravelCompanionException
 {
-    public Guid pointId { get; set; }
+    public Guid PointId { get; set; }
     public TravelPointAlreadyAddedException(Guid pointId) : base($"Point with Id: {pointId} is already added to plan.")
     {
-        pointId = pointId;
+        PointId = pointId;
     }
 }

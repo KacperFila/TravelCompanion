@@ -11,7 +11,7 @@ internal class TravelsDbContext : DbContext
     }
 
     public DbSet<Travel> Travels { get; set; }
-    public DbSet<Postcard> Postcards{ get; set; }
+    public DbSet<Postcard> Postcards { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<TravelPoint> TravelPoints { get; set; }
 

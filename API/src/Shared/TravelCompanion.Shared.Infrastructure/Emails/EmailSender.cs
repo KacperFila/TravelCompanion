@@ -1,4 +1,4 @@
-﻿using System;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -6,7 +6,6 @@ using MimeKit.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MailKit.Net.Smtp;
 using TravelCompanion.Shared.Abstractions.Emails;
 namespace TravelCompanion.Shared.Infrastructure.Emails;
 

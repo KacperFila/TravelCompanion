@@ -1,5 +1,4 @@
-﻿using TravelCompanion.Modules.Payments.Domain.Payments.Entities;
-using TravelCompanion.Modules.Payments.Domain.Payments.Exceptions;
+﻿using TravelCompanion.Modules.Payments.Domain.Payments.Exceptions;
 using TravelCompanion.Modules.Travels.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;

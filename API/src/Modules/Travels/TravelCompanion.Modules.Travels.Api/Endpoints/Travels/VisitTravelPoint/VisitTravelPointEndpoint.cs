@@ -27,7 +27,7 @@ internal sealed class VisitTravelPointEndpoint : EndpointBaseAsync
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult> HandleAsync([FromRoute]Guid pointId, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync([FromRoute] Guid pointId, CancellationToken cancellationToken = new CancellationToken())
     {
         await _travelService.VisitTravelPointAsync(pointId);
         return NoContent();

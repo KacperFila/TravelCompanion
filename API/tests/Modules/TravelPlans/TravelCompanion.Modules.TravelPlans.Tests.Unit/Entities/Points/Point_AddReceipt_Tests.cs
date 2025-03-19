@@ -28,7 +28,7 @@ public class Point_AddReceipt_Tests
         exception.ShouldBeNull();
         _point.Receipts.ShouldContain(receipt);
     }
-    
+
     private readonly TravelPoint _point;
     public Point_AddReceipt_Tests()
     {

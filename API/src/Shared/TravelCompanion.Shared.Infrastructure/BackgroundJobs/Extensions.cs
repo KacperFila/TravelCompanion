@@ -13,7 +13,7 @@ internal static class Extensions
     internal const string DashboardPath = "/hangfire";
     internal static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
     {
-       
+
         var options = services.GetOptions<PostgresOptions>("postgres");
 
         services.AddHangfire(config => config

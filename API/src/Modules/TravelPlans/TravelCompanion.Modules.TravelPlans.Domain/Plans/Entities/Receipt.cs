@@ -47,7 +47,7 @@ public sealed class Receipt : IAuditable
         {
             throw new InvalidReceiptParametersException();
         }
-        
+
         ReceiptParticipants = receiptParticipants;
     }
 

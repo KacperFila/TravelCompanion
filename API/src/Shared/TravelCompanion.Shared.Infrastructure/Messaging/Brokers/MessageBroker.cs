@@ -35,7 +35,7 @@ namespace TravelCompanion.Shared.Infrastructure.Messaging.Brokers
             }
 
             var tasks = new List<Task>();
-            
+
             foreach (var message in messages)
             {
                 if (_messagingOptions.UseBackgroundDispatcher)
@@ -43,7 +43,7 @@ namespace TravelCompanion.Shared.Infrastructure.Messaging.Brokers
                     await _asyncMessageDispatcher.PublishAsync(message);
                     continue;
                 }
-                
+
                 tasks.Add(_moduleClient.PublishAsync(message));
             }
 

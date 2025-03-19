@@ -7,17 +7,17 @@ namespace TravelCompanion.Modules.Travels.Api;
 
 public class TravelsModule : IModule
 {
-	public const string BasePath = "travels-module";
-	public string Name { get; } = "Travels";
-	public string Path => BasePath;
-	public IEnumerable<string> Policies { get; } = [ "travels" ];
-	public void Register(IServiceCollection services)
+    public const string BasePath = "travels-module";
+    public string Name { get; } = "Travels";
+    public string Path => BasePath;
+    public IEnumerable<string> Policies { get; } = ["travels"];
+    public void Register(IServiceCollection services)
     {
         services.AddCore();
     }
 
-	public void Use(IApplicationBuilder app)
-	{
+    public void Use(IApplicationBuilder app)
+    {
 
-	}
+    }
 }

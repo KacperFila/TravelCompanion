@@ -1,7 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
+﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
 using TravelCompanion.Shared.Abstractions.Commands;
-using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
 

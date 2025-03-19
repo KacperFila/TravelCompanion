@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TravelCompanion.Shared.Infrastructure.Postgres
 {
-    internal class  UnitOfWorkTypeRegistry
+    internal class UnitOfWorkTypeRegistry
     {
         private readonly Dictionary<string, Type> _types = new();
 

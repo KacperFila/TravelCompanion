@@ -31,7 +31,7 @@ public class CreateAcceptPlanRequestHandler : ICommandHandler<CreateAcceptPlanRe
         }
 
         var plan = await _planRepository.GetAsync(command.planId);
-        
+
         if (plan is null)
         {
             throw new PlanNotFoundException(command.planId);

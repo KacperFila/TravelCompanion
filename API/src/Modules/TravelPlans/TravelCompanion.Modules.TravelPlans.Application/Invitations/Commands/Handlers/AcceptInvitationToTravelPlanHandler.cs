@@ -53,7 +53,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
         {
             throw new UserNotAllowedToManageInvitationException(_userId);
         }
-        
+
         var plan = await _planRepository.GetAsync(invitation.TravelPlanId);
 
         if (plan is null)

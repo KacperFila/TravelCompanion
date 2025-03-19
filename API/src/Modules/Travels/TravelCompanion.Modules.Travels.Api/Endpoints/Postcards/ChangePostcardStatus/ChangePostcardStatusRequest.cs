@@ -4,6 +4,6 @@ namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.ChangePostcard
 
 internal class ChangePostcardStatusRequest
 {
-    [FromRoute(Name="postcardId")] public Guid PostcardId { get; set; }
+    [FromRoute(Name = "postcardId")] public Guid PostcardId { get; set; }
     [FromBody] public string PostcardStatus { get; set; }
 }

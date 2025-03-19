@@ -1,6 +1,4 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-
-namespace TravelCompanion.Modules.Travels.Core.DTO;
+﻿namespace TravelCompanion.Modules.Travels.Core.DTO;
 
 internal class TravelDetailsDTO
 {

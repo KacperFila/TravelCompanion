@@ -15,7 +15,7 @@ public class TravelPoint : IAuditable
     public DateTime? ModifiedOnUtc { get; set; }
     public TravelPoint()
     {
-        
+
     }
     public TravelPoint(Guid id, string placeName, Guid travelId, List<Receipt> receipts, Money totalCost)
     {

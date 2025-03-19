@@ -30,7 +30,7 @@ internal sealed class GetUserPlanTotalCostEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<Money> HandleAsync([FromRoute]Application.Plans.Queries.GetUserPlanTotalCost query, CancellationToken cancellationToken = default)
+    public override async Task<Money> HandleAsync([FromRoute] Application.Plans.Queries.GetUserPlanTotalCost query, CancellationToken cancellationToken = default)
     {
         var result = await _queryDispatcher.QueryAsync(query);
         return await Task.FromResult(result);

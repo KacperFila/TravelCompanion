@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.Commands;
-using TravelCompanion.Shared.Infrastructure.Postgres.Decorators;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Queries;
+using TravelCompanion.Shared.Infrastructure.Postgres.Decorators;
 using TravelCompanion.Shared.Infrastructure.Postgres.Interceptors;
 
 namespace TravelCompanion.Shared.Infrastructure.Postgres
@@ -34,7 +34,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
                 _ => results
             };
 
-            var totalResults = await data.CountAsync(); 
+            var totalResults = await data.CountAsync();
             var totalPages = (int)Math.Ceiling(totalResults / (double)results);
 
             var result = await data.Skip((page - 1) * results).Take(results).ToListAsync(cancellationToken);
@@ -48,7 +48,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
             services.AddSingleton(options);
             services.AddSingleton(new UnitOfWorkTypeRegistry());
             services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
-            
+
             return services;
         }
 

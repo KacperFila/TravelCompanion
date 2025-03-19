@@ -31,7 +31,7 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
     public async Task HandleAsync(CreateTravelPoint command)
     {
         var plan = await _planRepository.GetAsync(command.travelPlanId);
-        
+
         if (plan is null)
         {
             throw new PlanNotFoundException(command.travelPlanId);
@@ -46,7 +46,7 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         var newPointNumber = GetNewTravelPointNumber(plan);
 
         var point = TravelPoint.Create(Guid.NewGuid(), command.placeName, command.travelPlanId, isPointAccepted, newPointNumber);
-        
+
         plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);
 

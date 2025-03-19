@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -6,12 +12,6 @@ using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Modules;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace TravelCompanion.Shared.Infrastructure.Modules
 {
@@ -37,7 +37,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
                 return context.Response.WriteAsJsonAsync(moduleInfoProvider.Modules);
             });
         }
-        
+
         internal static IHostBuilder ConfigureModules(this IHostBuilder builder)
             => builder.ConfigureAppConfiguration((ctx, cfg) =>
             {
@@ -55,7 +55,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
                     => Directory.EnumerateFiles(ctx.HostingEnvironment.ContentRootPath,
                         $"module.{pattern}.json", SearchOption.AllDirectories);
             });
-        
+
         internal static IServiceCollection AddModuleRequests(this IServiceCollection services,
             IList<Assembly> assemblies)
         {
@@ -74,11 +74,11 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
         {
             var registry = new ModuleRegistry();
             var types = assemblies.SelectMany(x => x.GetTypes()).ToArray();
-            
+
             var commandTypes = types
                 .Where(t => t.IsClass && typeof(ICommand).IsAssignableFrom(t))
                 .ToArray();
-            
+
             var eventTypes = types
                 .Where(x => x.IsClass && typeof(IEvent).IsAssignableFrom(x))
                 .ToArray();
@@ -87,24 +87,24 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
             {
                 var commandDispatcher = sp.GetRequiredService<ICommandDispatcher>();
                 var commandDispatcherType = commandDispatcher.GetType();
-                
+
                 var eventDispatcher = sp.GetRequiredService<IEventDispatcher>();
                 var eventDispatcherType = eventDispatcher.GetType();
 
                 foreach (var type in commandTypes)
                 {
                     registry.AddBroadcastAction(type, @event =>
-                        (Task) commandDispatcherType.GetMethod(nameof(commandDispatcher.SendAsync))
+                        (Task)commandDispatcherType.GetMethod(nameof(commandDispatcher.SendAsync))
                             ?.MakeGenericMethod(type)
-                            .Invoke(commandDispatcher, new[] {@event}));
+                            .Invoke(commandDispatcher, new[] { @event }));
                 }
-                
+
                 foreach (var type in eventTypes)
                 {
                     registry.AddBroadcastAction(type, @event =>
-                        (Task) eventDispatcherType.GetMethod(nameof(eventDispatcher.PublishAsync))
+                        (Task)eventDispatcherType.GetMethod(nameof(eventDispatcher.PublishAsync))
                             ?.MakeGenericMethod(type)
-                            .Invoke(eventDispatcher, new[] {@event}));
+                            .Invoke(eventDispatcher, new[] { @event }));
                 }
 
                 return registry;

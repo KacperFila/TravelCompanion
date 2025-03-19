@@ -26,7 +26,7 @@ public class Point_RemoveReceipt_Tests
         _point.AddReceipt(_receipt);
 
         var exception = Record.Exception(() => Act(_receipt));
-        
+
         exception.ShouldBeNull();
         _point.Receipts.ShouldNotContain(_receipt);
     }
@@ -35,7 +35,7 @@ public class Point_RemoveReceipt_Tests
     public void given_receipt_is_not_added_removal_should_fail()
     {
         var exception = Record.Exception(() => Act(_receipt));
-        
+
         exception.ShouldBeOfType<ReceiptNotFoundException>();
     }
 

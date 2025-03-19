@@ -1,6 +1,6 @@
-﻿using TravelCompanion.Shared.Abstractions.Exceptions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using TravelCompanion.Shared.Abstractions.Exceptions;
 
 namespace TravelCompanion.Shared.Infrastructure.Exceptions
 {

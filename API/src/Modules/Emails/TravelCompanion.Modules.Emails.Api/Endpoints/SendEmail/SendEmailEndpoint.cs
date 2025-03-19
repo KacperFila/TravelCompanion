@@ -1,6 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using TravelCompanion.Shared.Abstractions.Emails;
 
 namespace TravelCompanion.Modules.Emails.Api.Endpoints.SendEmail;

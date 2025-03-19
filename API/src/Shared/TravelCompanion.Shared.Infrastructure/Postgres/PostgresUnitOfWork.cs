@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace TravelCompanion.Shared.Infrastructure.Postgres
 {
@@ -12,7 +12,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
         {
             _dbContext = dbContext;
         }
-        
+
         public async Task ExecuteAsync(Func<Task> action)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.Modules;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TravelCompanion.Shared.Infrastructure.Modules
 {
@@ -15,7 +15,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
             _moduleRegistry = moduleRegistry;
             _serviceProvider = serviceProvider;
         }
-        
+
         public IModuleSubscriber Subscribe<TRequest, TResponse>(string path,
             Func<TRequest, IServiceProvider, Task<TResponse>> action)
             where TRequest : class where TResponse : class
@@ -24,7 +24,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
                 async request =>
                 {
                     using var scope = _serviceProvider.CreateScope();
-                    return await action((TRequest) request, scope.ServiceProvider);
+                    return await action((TRequest)request, scope.ServiceProvider);
                 });
 
             return this;

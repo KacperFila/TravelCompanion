@@ -40,6 +40,6 @@ internal class TravelPlanHub : Hub<ITravelPlanHub>
     public async Task SendRoadmapUpdate(object plan)
     {
         await Clients.All.ReceivePlanUpdate(plan);
-    }   
+    }
 
 }

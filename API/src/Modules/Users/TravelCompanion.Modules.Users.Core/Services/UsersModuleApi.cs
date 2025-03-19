@@ -46,5 +46,5 @@ internal class UsersModuleApi : IUsersModuleApi
         };
     }
 
-    
+
 }

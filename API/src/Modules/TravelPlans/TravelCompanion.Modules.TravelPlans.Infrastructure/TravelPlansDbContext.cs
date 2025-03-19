@@ -3,10 +3,10 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure;
 
-public class TravelPlansDbContext :DbContext
+public class TravelPlansDbContext : DbContext
 {
     public TravelPlansDbContext(DbContextOptions<TravelPlansDbContext> options)
-    :base(options)
+    : base(options)
     {
     }
 

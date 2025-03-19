@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
-using TravelCompanion.Modules.Emails.Core.Services;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Modules.Emails.Api")]
 namespace TravelCompanion.Modules.Emails.Core;

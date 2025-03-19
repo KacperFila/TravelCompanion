@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TravelCompanion.Shared.Abstractions.Auth;
-using TravelCompanion.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using TravelCompanion.Shared.Abstractions.Auth;
+using TravelCompanion.Shared.Abstractions.Modules;
 
 namespace TravelCompanion.Shared.Infrastructure.Auth
 {

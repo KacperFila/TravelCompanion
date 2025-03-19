@@ -22,14 +22,14 @@ internal static class Extensions
         services.AddPostgres<TravelsDbContext>();
 
         services.AddValidatorsFromAssemblyContaining<TravelDtoValidator>();
-        
+
         services.AddScoped<ITravelService, TravelService>();
         services.AddScoped<IPostcardService, PostcardService>();
-        
+
         services.AddScoped<ITravelRepository, TravelRepository>();
         services.AddScoped<ITravelPointRepository, TravelPointRepository>();
         services.AddScoped<IPostcardRepository, PostcardRepository>();
-        
+
         services.AddSingleton<ITravelPolicy, TravelPolicy>();
         services.AddSingleton<IPostcardPolicy, PostcardPolicy>();
         //services.AddHostedService<PostcardBackgroundJobService>();

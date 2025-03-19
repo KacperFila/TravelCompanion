@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.Commands;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TravelCompanion.Shared.Infrastructure.Postgres.Decorators
 {
@@ -19,7 +19,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres.Decorators
             _serviceProvider = serviceProvider;
             _unitOfWorkTypeRegistry = unitOfWorkTypeRegistry;
         }
-        
+
         public async Task HandleAsync(T command)
         {
             var unitOfWorkType = _unitOfWorkTypeRegistry.Resolve<T>();
@@ -29,7 +29,7 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres.Decorators
                 return;
             }
 
-            var unitOfWork = (IUnitOfWork) _serviceProvider.GetRequiredService(unitOfWorkType);
+            var unitOfWork = (IUnitOfWork)_serviceProvider.GetRequiredService(unitOfWorkType);
             await unitOfWork.ExecuteAsync(() => _handler.HandleAsync(command));
         }
     }

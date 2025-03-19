@@ -32,7 +32,7 @@ public sealed class PlansDomainService : IPlansDomainService
     public async Task<Guid> CheckPlanOwnerAsync(Guid planId)
     {
         var plan = await _planRepository.GetAsync(planId);
-        
+
         if (plan is null)
         {
             throw new PlanNotFoundException(planId);

@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,7 +7,6 @@ using System.Security.Claims;
 using System.Text;
 using TravelCompanion.Shared.Abstractions.Auth;
 using TravelCompanion.Shared.Abstractions.Time;
-using Microsoft.IdentityModel.Tokens;
 
 namespace TravelCompanion.Shared.Infrastructure.Auth
 {
@@ -28,7 +28,7 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
 
             _options = options;
             _clock = clock;
-            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.IssuerSigningKey)),  SecurityAlgorithms.HmacSha256);
+            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.IssuerSigningKey)), SecurityAlgorithms.HmacSha256);
             _issuer = options.Issuer;
         }
 

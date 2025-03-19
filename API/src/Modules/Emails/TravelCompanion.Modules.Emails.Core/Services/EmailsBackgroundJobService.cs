@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using TravelCompanion.Modules.Emails.Core.Commands;
-using TravelCompanion.Shared.Abstractions.BackgroundJobs;
-using TravelCompanion.Shared.Abstractions.Commands;
-
-namespace TravelCompanion.Modules.Emails.Core.Services;
+﻿namespace TravelCompanion.Modules.Emails.Core.Services;
 
 internal sealed class EmailsBackgroundJobService /*: IHostedService*/
 {

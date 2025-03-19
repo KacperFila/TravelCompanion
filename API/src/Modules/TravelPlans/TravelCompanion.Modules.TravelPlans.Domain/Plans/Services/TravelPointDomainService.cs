@@ -49,7 +49,7 @@ public class TravelPointDomainService : ITravelPointDomainService
     public async Task AddReceiptAsync(TravelPointId pointId, decimal amount, List<Guid> receiptParticipants, string description)
     {
         var point = await _travelPointRepository.GetAsync(pointId);
-        
+
         if (point == null)
         {
             throw new TravelPointNotFoundException(pointId);
@@ -58,7 +58,8 @@ public class TravelPointDomainService : ITravelPointDomainService
         if (!point.IsAccepted)
         {
             throw new CouldNotModifyNotAcceptedTravelPointException();
-;       }
+            ;
+        }
 
         var plan = await _planRepository.GetAsync(point.PlanId);
 
@@ -87,7 +88,7 @@ public class TravelPointDomainService : ITravelPointDomainService
             null,
             new AggregateId(pointId),
             description);
-        
+
         point.AddReceipt(receipt);
         await _travelPointRepository.UpdateAsync(point);
         await _messageBroker.PublishAsync(new PointReceiptAdded(plan.Id, amount));
@@ -182,7 +183,7 @@ public class TravelPointDomainService : ITravelPointDomainService
         }
 
         var point = await _travelPointRepository.GetAsync(request.TravelPointId);
-        
+
         if (point is null)
         {
             throw new TravelPointNotFoundException(request.TravelPointId);
@@ -247,6 +248,6 @@ public class TravelPointDomainService : ITravelPointDomainService
         var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
         var pointId = request.TravelPlanPointId.Value.ToString();
 
-        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId } );
+        await _travelPlansRealTimeService.SendTravelPointUpdateRequestUpdate(participants, new { updateRequests, pointId });
     }
 }

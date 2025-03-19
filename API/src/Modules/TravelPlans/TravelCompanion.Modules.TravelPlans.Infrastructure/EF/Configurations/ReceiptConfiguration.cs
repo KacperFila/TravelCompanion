@@ -18,7 +18,7 @@ internal sealed class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 
         builder.Property(x => x.PlanId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
-            
+
         builder.Property(x => x.PointId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
 

@@ -1,7 +1,6 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Shared.Abstractions.Kernel;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using EmptyReceiptDescriptionException = TravelCompanion.Modules.Travels.Core.Exceptions.EmptyReceiptDescriptionException;
 
@@ -77,7 +76,7 @@ public sealed class Receipt : IAuditable
         ReceiptParticipants = receiptParticipants;
     }
 
-    
+
 
     private static bool ValidTravelIdAndPointId(Guid? travelId, Guid? pointId)
     {

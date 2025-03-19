@@ -36,30 +36,30 @@ namespace TravelCompanion.Shared.Infrastructure;
 
 internal static class Extensions
 {
-	private const string CorsPolicy = "AllowAngularClient";
+    private const string CorsPolicy = "AllowAngularClient";
 
-	public static IServiceCollection AddInfrastructure(this IServiceCollection services,
-		IList<Assembly> assemblies, IList<IModule> modules)
-	{
-		var disabledModules = new List<string>();
-		using (var serviceProvider = services.BuildServiceProvider())
-		{
-			var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-			foreach (var (key, value) in configuration.AsEnumerable())
-			{
-				if (!key.Contains(":module:enabled"))
-				{
-					continue;
-				}
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        IList<Assembly> assemblies, IList<IModule> modules)
+    {
+        var disabledModules = new List<string>();
+        using (var serviceProvider = services.BuildServiceProvider())
+        {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            foreach (var (key, value) in configuration.AsEnumerable())
+            {
+                if (!key.Contains(":module:enabled"))
+                {
+                    continue;
+                }
 
-				if (!bool.Parse(value))
-				{
-					disabledModules.Add(key.Split(":")[0]);
-				}
-			}
-		}
+                if (!bool.Parse(value))
+                {
+                    disabledModules.Add(key.Split(":")[0]);
+                }
+            }
+        }
         services.AddCors(cors =>
-		{
+        {
             cors.AddPolicy("AllowAngularClient", policy =>
             {
                 policy.WithOrigins("http://localhost:4200")
@@ -68,15 +68,15 @@ internal static class Extensions
                       .AllowCredentials();
             });
         });
-		services.AddSwaggerGen(swagger =>
+        services.AddSwaggerGen(swagger =>
         {
             swagger.EnableAnnotations();
             swagger.CustomSchemaIds(x => x.FullName);
-			swagger.SwaggerDoc("v1", new OpenApiInfo
-			{
-				Title = "TravelCompanion API",
-				Version = "v1"
-			});
+            swagger.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "TravelCompanion API",
+                Version = "v1"
+            });
             swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -104,54 +104,54 @@ internal static class Extensions
 
         services.AddRealTimeCommunication();
         services.AddFluentValidationAutoValidation();
-		services.AddMemoryCache();
-		services.AddSingleton<IRequestStorage, RequestStorage>();
-		services.AddSingleton<IContextFactory, ContextFactory>();
-		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-		services.AddTransient(sp => sp.GetRequiredService<IContextFactory>().Create());
-		services.AddModuleInfo(modules);
-		services.AddModuleRequests(assemblies);
-		services.AddAuth(modules);
-		services.AddEmails();
-		services.AddErrorHandling();
-		services.AddBackgroundJobs();
-		services.AddCommands(assemblies);
-		services.AddQueries(assemblies);
-		services.AddEvents(assemblies);
-		services.AddDomainEvents(assemblies);
-		services.AddMessaging();
-		services.AddPostgres();
-		services.AddTransactionalDecorators();
-		services.AddSingleton<IClock, UtcClock>();
-		services.AddHostedService<AppInitializer>();
-		services.AddControllers()
-			.ConfigureApplicationPartManager(manager =>
-			{
-				var removedParts = new List<ApplicationPart>();
-				foreach (var disabledModule in disabledModules)
-				{
-					var parts = manager.ApplicationParts.Where(x => x.Name.Contains(disabledModule,
-						StringComparison.InvariantCultureIgnoreCase));
-					removedParts.AddRange(parts);
-				}
+        services.AddMemoryCache();
+        services.AddSingleton<IRequestStorage, RequestStorage>();
+        services.AddSingleton<IContextFactory, ContextFactory>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddTransient(sp => sp.GetRequiredService<IContextFactory>().Create());
+        services.AddModuleInfo(modules);
+        services.AddModuleRequests(assemblies);
+        services.AddAuth(modules);
+        services.AddEmails();
+        services.AddErrorHandling();
+        services.AddBackgroundJobs();
+        services.AddCommands(assemblies);
+        services.AddQueries(assemblies);
+        services.AddEvents(assemblies);
+        services.AddDomainEvents(assemblies);
+        services.AddMessaging();
+        services.AddPostgres();
+        services.AddTransactionalDecorators();
+        services.AddSingleton<IClock, UtcClock>();
+        services.AddHostedService<AppInitializer>();
+        services.AddControllers()
+            .ConfigureApplicationPartManager(manager =>
+            {
+                var removedParts = new List<ApplicationPart>();
+                foreach (var disabledModule in disabledModules)
+                {
+                    var parts = manager.ApplicationParts.Where(x => x.Name.Contains(disabledModule,
+                        StringComparison.InvariantCultureIgnoreCase));
+                    removedParts.AddRange(parts);
+                }
 
-				foreach (var part in removedParts)
-				{
-					manager.ApplicationParts.Remove(part);
-				}
+                foreach (var part in removedParts)
+                {
+                    manager.ApplicationParts.Remove(part);
+                }
 
-				manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
-			});
+                manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
+            });
 
-		return services;
-	}
+        return services;
+    }
 
-	public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
-	{
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+    {
         app.UseCors(CorsPolicy);
-		app.UseErrorHandling();
-		app.UseBackgroundJobs();
-		app.UseSwagger();
+        app.UseErrorHandling();
+        app.UseBackgroundJobs();
+        app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
             c.RoutePrefix = "docs";
@@ -159,39 +159,39 @@ internal static class Extensions
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelCompanion");
         });
         app.UseAuthentication();
-		app.UseRouting();
-		app.UseAuthorization();
+        app.UseRouting();
+        app.UseAuthorization();
         app.UseRealTimeCommunication();
 
         return app;
-	}
+    }
 
-	public static T GetOptions<T>(this IServiceCollection services, string sectionName) where T : new()
-	{
-		using var serviceProvider = services.BuildServiceProvider();
-		var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-		return configuration.GetOptions<T>(sectionName);
-	}
+    public static T GetOptions<T>(this IServiceCollection services, string sectionName) where T : new()
+    {
+        using var serviceProvider = services.BuildServiceProvider();
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+        return configuration.GetOptions<T>(sectionName);
+    }
 
-	public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : new()
-	{
-		var options = new T();
-		configuration.GetSection(sectionName).Bind(options);
-		return options;
-	}
+    public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : new()
+    {
+        var options = new T();
+        configuration.GetSection(sectionName).Bind(options);
+        return options;
+    }
 
-	public static string GetModuleName(this object value)
-		=> value?.GetType().GetModuleName() ?? string.Empty;
+    public static string GetModuleName(this object value)
+        => value?.GetType().GetModuleName() ?? string.Empty;
 
-	public static string GetModuleName(this Type type)
-	{
-		if (type?.Namespace is null)
-		{
-			return string.Empty;
-		}
+    public static string GetModuleName(this Type type)
+    {
+        if (type?.Namespace is null)
+        {
+            return string.Empty;
+        }
 
-		return type.Namespace.StartsWith("TravelCompanion.Modules.")
-			? type.Namespace.Split(".")[2].ToLowerInvariant()
-			: string.Empty;
-	}
+        return type.Namespace.StartsWith("TravelCompanion.Modules.")
+            ? type.Namespace.Split(".")[2].ToLowerInvariant()
+            : string.Empty;
+    }
 }

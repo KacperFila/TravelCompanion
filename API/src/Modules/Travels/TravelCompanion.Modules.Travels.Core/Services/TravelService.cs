@@ -7,7 +7,6 @@ using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
@@ -32,7 +31,7 @@ internal class TravelService : ITravelService
         _userId = _context.Identity.Id;
     }
 
-    
+
     public async Task<TravelDetailsDTO> GetAsync(Guid TravelId)
     {
         var travel = await _travelRepository.GetAsync(TravelId);
@@ -41,7 +40,7 @@ internal class TravelService : ITravelService
         {
             return null;
         }
-        
+
         return AsTravelDetailsDto(travel);
     }
 

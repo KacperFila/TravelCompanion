@@ -11,7 +11,7 @@ namespace TravelCompanion.Shared.Infrastructure.Exceptions
     internal class ExceptionToResponseMapper : IExceptionToResponseMapper
     {
         private static readonly ConcurrentDictionary<Type, string> Codes = new();
-        
+
         public ExceptionResponse Map(Exception exception)
             => exception switch
             {

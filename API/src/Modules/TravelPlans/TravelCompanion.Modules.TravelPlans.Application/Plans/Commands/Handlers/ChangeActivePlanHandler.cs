@@ -9,20 +9,17 @@ namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands.Handler
 
 internal class ChangeActivePlanHandler : ICommandHandler<ChangeActivePlan>
 {
-    private readonly IUsersModuleApi _userModuleApi;
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
     public ChangeActivePlanHandler(
         IContext context,
-        IPlanRepository planRepository,
-        IUsersModuleApi userModuleApi
+        IPlanRepository planRepository
         )
     {
         _context = context;
         _userId = _context.Identity.Id;
         _planRepository = planRepository;
-        _userModuleApi = userModuleApi;
     }
 
     public async Task HandleAsync(ChangeActivePlan command)
@@ -36,7 +33,7 @@ internal class ChangeActivePlanHandler : ICommandHandler<ChangeActivePlan>
 
         var plan = await _planRepository.GetAsync(command.planId);
 
-        if(!plan.Participants.Any(x => x.ParticipantId == _userId))
+        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
             throw new UserDoesNotParticipateInPlanException(_userId, command.planId);
         }

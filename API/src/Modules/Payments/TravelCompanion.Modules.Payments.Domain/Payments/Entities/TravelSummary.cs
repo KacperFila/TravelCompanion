@@ -81,7 +81,7 @@ public sealed class TravelSummary : AggregateRoot, IAuditable
     public void RemoveParticipantsCost(ParticipantCost cost)
     {
         var existingCost = ParticipantsCosts.SingleOrDefault(x => x.Id == cost.Id);
-        
+
         if (existingCost is null)
         {
             throw new ParticipantCostNotFoundException(cost.Id);

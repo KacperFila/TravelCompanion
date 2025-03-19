@@ -26,7 +26,7 @@ internal class TravelsModuleApi : ITravelsModuleApi
     public async Task<TravelDto> GetTravelInfo(Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
-        
+
         if (travel is null)
         {
             throw new TravelNotFoundException(travelId);

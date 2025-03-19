@@ -1,5 +1,5 @@
-﻿using TravelCompanion.Shared.Abstractions.Contexts;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using TravelCompanion.Shared.Abstractions.Contexts;
 
 namespace TravelCompanion.Shared.Infrastructure.Contexts
 {
@@ -11,7 +11,7 @@ namespace TravelCompanion.Shared.Infrastructure.Contexts
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        
+
         public IContext Create()
         {
             var httpContext = _httpContextAccessor.HttpContext;

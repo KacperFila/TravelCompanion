@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Shared.Infrastructure.Queries

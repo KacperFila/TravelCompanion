@@ -24,7 +24,7 @@ namespace TravelCompanion.Shared.Abstractions.Kernel.Types
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((AggregateId<T>) obj);
+            return Equals((AggregateId<T>)obj);
         }
 
         public override int GetHashCode()
@@ -38,7 +38,7 @@ namespace TravelCompanion.Shared.Abstractions.Kernel.Types
         public AggregateId() : this(Guid.NewGuid())
         {
         }
-        
+
         public AggregateId(Guid value) : base(value)
         {
         }

@@ -19,7 +19,7 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
     {
         var plan = GetPlan(_participantId);
         var @event = new AcceptPlanRequestParticipantAdded(_participantId, plan.Id);
-        
+
         var exception = await Record.ExceptionAsync(() => Act(@event));
 
         exception.ShouldNotBeNull();
@@ -84,14 +84,14 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
 
     private static Plan GetPlan(Guid participantId)
     {
-        var plan =  Plan.Create(
+        var plan = Plan.Create(
             participantId,
             "title",
             "desc",
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2)),
             DateOnly.FromDateTime(DateTime.UtcNow).AddDays(3)
             );
-        
+
         return plan;
     }
 

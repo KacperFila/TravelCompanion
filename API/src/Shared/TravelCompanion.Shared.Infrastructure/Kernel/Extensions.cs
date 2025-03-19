@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Kernel;
 
 namespace TravelCompanion.Shared.Infrastructure.Kernel

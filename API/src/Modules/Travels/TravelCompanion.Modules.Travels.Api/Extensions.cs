@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
 using TravelCompanion.Modules.Travels.Core;
 
 [assembly: InternalsVisibleTo("TravelCompanion.Bootstrapper")]

@@ -47,6 +47,6 @@ public class Receipt_ChangeDescription_Tests
     {
         var currentParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
-        _receipt = GetReceipt(ownerId, planId, receiptParticipants);    
+        _receipt = GetReceipt(ownerId, planId, receiptParticipants);
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using Microsoft.AspNetCore.Http;
 
 namespace TravelCompanion.Shared.Infrastructure.Contexts
 {

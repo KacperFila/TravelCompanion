@@ -64,12 +64,10 @@ public sealed class Plan : AggregateRoot, IAuditable
         travelPlan.ChangeDescription(description);
         travelPlan.ChangeFrom(from);
         travelPlan.ChangeTo(to);
+        travelPlan.SetOwner(ownerId);
         travelPlan.ClearEvents();
         travelPlan.CalculateTotalCost();
         travelPlan.Version = 0;
-
-        var participantRecord = PlanParticipantRecord.Create(ownerId, travelPlan.Id);
-        travelPlan.AddParticipant(participantRecord); // TODO extract to setOwner()
 
         return travelPlan;
     }
@@ -136,7 +134,7 @@ public sealed class Plan : AggregateRoot, IAuditable
             throw new EmptyPlanTitleException(Id);
         }
 
-        Title = title; 
+        Title = title;
         IncrementVersion();
     }
     public void ChangeDescription(string description)
@@ -215,5 +213,11 @@ public sealed class Plan : AggregateRoot, IAuditable
     {
         var amountSum = AdditionalCosts.Sum(x => x.Amount.Amount);
         AdditionalCostsValue = Money.Create(amountSum);
+    }
+
+    private void SetOwner(Guid ownerId)
+    {
+        var participantRecord = PlanParticipantRecord.Create(ownerId, Id);
+        AddParticipant(participantRecord);
     }
 }

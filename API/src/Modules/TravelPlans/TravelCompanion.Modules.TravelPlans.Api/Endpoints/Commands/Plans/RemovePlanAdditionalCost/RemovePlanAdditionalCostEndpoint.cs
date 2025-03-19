@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Exceptions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Commands.Plans.RemovePlanAdditionalCost;
 

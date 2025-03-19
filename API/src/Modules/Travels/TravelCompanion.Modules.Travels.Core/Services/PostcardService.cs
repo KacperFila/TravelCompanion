@@ -7,7 +7,6 @@ using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
-using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
 
@@ -50,7 +49,7 @@ internal sealed class PostcardService : IPostcardService
         }
 
         var isCurrentUserTravelOwner = _postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel);
-        
+
         var postcardsStatus = isCurrentUserTravelOwner ? PostcardStatus.Accepted : PostcardStatus.Pending;
 
         var item = new Postcard()
@@ -110,9 +109,9 @@ internal sealed class PostcardService : IPostcardService
         {
             throw new PostcardNotFoundException(postcardId);
         }
-        
+
         var travel = await _travelRepository.GetAsync(postcard.TravelId);
-        
+
         if (!_postcardPolicy.DoesUserOwnPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(postcard.TravelId);
@@ -122,7 +121,7 @@ internal sealed class PostcardService : IPostcardService
         {
             throw new InvalidPostcardStatusException(postcardStatus);
         }
-        
+
         postcard.Status = postcardStatus;
         await _postcardRepository.UpdateAsync(postcard);
     }
@@ -130,20 +129,20 @@ internal sealed class PostcardService : IPostcardService
     public async Task UpdateAsync(PostcardUpsertDTO postcard, Guid postcardId)
     {
         var item = await _postcardRepository.GetAsync(postcardId);
-        
+
         if (item is null)
         {
             throw new PostcardNotFoundException(postcardId);
         }
 
         var travel = await _travelRepository.GetAsync(item.TravelId);
-        
+
         if (!_postcardPolicy.DoesUserParticipateInPostcardTravel(_userId, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }
 
-        if(!_postcardPolicy.CanDeletePostcard(item, travel))
+        if (!_postcardPolicy.CanDeletePostcard(item, travel))
         {
             throw new UserCannotManagePostcardException(item.Id);
         }

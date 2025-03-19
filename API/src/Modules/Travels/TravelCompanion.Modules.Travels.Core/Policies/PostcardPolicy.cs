@@ -13,7 +13,7 @@ internal sealed class PostcardPolicy : IPostcardPolicy
     {
         _context = context;
     }
-    
+
     public bool DoesUserOwnPostcardTravel(Guid userId, Travel travel)
     {
         return travel.OwnerId == userId;

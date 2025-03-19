@@ -50,7 +50,7 @@ public class TravelPoint : AggregateRoot, IAuditable
 
     public void ChangeTravelPlanOrderNumber(int orderNumber)
     {
-        if(orderNumber < 0)
+        if (orderNumber < 0)
         {
             throw new InvalidPointOrderException(Id);
         }
@@ -75,7 +75,7 @@ public class TravelPoint : AggregateRoot, IAuditable
         IsAccepted = true;
         IncrementVersion();
     }
-    
+
     public void AddReceipt(Receipt receipt)
     {
         Receipts.Add(receipt);

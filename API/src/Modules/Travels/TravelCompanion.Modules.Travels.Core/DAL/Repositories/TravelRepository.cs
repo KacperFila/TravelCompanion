@@ -45,7 +45,7 @@ internal class TravelRepository : ITravelRepository
 
         return await baseQuery.ToListAsync();
     }
-    
+
     public async Task AddAsync(Travel travel)
     {
         await _travels.AddAsync(travel);

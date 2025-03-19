@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Shared.Infrastructure.Queries
@@ -18,9 +18,9 @@ namespace TravelCompanion.Shared.Infrastructure.Queries
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             var handler = scope.ServiceProvider.GetRequiredService(handlerType);
 
-            return await (Task<TResult>) handlerType
+            return await (Task<TResult>)handlerType
                 .GetMethod(nameof(IQueryHandler<IQuery<TResult>, TResult>.HandleAsync))
-                ?.Invoke(handler, new[] {query});
+                ?.Invoke(handler, new[] { query });
         }
     }
 }

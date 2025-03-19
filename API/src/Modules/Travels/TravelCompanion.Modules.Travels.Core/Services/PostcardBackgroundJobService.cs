@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
-using TravelCompanion.Shared.Abstractions.BackgroundJobs;
-
-namespace TravelCompanion.Modules.Travels.Core.Services;
+﻿namespace TravelCompanion.Modules.Travels.Core.Services;
 
 internal sealed class PostcardBackgroundJobService /*: IHostedService*/
 {

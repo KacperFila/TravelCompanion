@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using TravelCompanion.Shared.Abstractions.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TravelCompanion.Shared.Infrastructure.Exceptions
 {
@@ -13,7 +13,7 @@ namespace TravelCompanion.Shared.Infrastructure.Exceptions
         {
             _serviceProvider = serviceProvider;
         }
-        
+
         public ExceptionResponse Map(Exception exception)
         {
             using var scope = _serviceProvider.CreateScope();

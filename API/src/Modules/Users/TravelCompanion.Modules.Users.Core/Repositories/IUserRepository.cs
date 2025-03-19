@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TravelCompanion.Modules.Users.Core.Entities;
 
 namespace TravelCompanion.Modules.Users.Core.Repositories

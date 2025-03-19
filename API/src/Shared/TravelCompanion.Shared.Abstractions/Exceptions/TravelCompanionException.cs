@@ -6,7 +6,7 @@ namespace TravelCompanion.Shared.Abstractions.Exceptions
     {
         protected TravelCompanionException(string message) : base(message)
         {
-            
+
         }
     }
 }

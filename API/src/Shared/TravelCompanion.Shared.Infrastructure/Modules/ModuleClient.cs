@@ -41,7 +41,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
                 .Where(r => r.ReceiverType != message.GetType());
 
             var tasks = new List<Task>();
-            
+
             foreach (var registration in registrations)
             {
                 var action = registration.Action;
@@ -54,7 +54,7 @@ namespace TravelCompanion.Shared.Infrastructure.Modules
 
         private T TranslateType<T>(object value)
             => _moduleSerializer.Deserialize<T>(_moduleSerializer.Serialize(value));
-        
+
         private object TranslateType(object value, Type type)
             => _moduleSerializer.Deserialize(_moduleSerializer.Serialize(value), type);
     }

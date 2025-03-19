@@ -38,7 +38,7 @@ internal class AcceptTravelPointRemoveRequestHandler : ICommandHandler<AcceptTra
             .Where(x => x.TravelPlanOrderNumber > pointOrderNumber)
             .ToList();
 
-        foreach(var pointToRecalculate in pointsToRecalculateOrderNumber)
+        foreach (var pointToRecalculate in pointsToRecalculateOrderNumber)
         {
             pointToRecalculate.DecreaseTravelPlanOrderNumber();
         }
