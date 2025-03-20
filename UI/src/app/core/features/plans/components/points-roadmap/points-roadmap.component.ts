@@ -12,7 +12,7 @@ import {
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { last, Subscription } from 'rxjs';
+import {BehaviorSubject, last, map, Observable, Subscription} from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { TravelPointComponent } from "../travel-point/travel-point.component";
@@ -47,14 +47,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     this.setupSignalRListeners();
     this.activePlanSubscription = this.authService.activePlan$.subscribe(
       (activePlan) => {
-        if (activePlan)
-        {
-          this.fetchPoints(activePlan.id);
-        }
-        else
-        {
-          this.travelPoints = [];
-        }
+        activePlan ? this.fetchPoints(activePlan.id) : (this.travelPoints = []);
       }
     );
   }
@@ -78,7 +71,10 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   createPoint(event: Event): void {
     event.preventDefault();
 
-    if (!this.newTravelPoint?.placeName.trim()) return;
+    if (!this.newTravelPoint?.placeName.trim())
+    {
+      return;
+    }
 
     const activePlanId = this.authService.getUserActivePlan()?.id;
     if (!activePlanId)
@@ -140,7 +136,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     this.signalRService.listenForUpdates(
       "ReceiveTravelPointUpdateRequestUpdate",
       (data: UpdateRequestUpdateResponse) => {
-        this.updateRequests.set(data.pointId, data.updateRequests);
+        this.updateRequests = new Map(this.updateRequests.set(data.pointId.value, data.updateRequests));
       });
   }
 }

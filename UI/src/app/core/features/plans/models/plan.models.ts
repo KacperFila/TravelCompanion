@@ -48,5 +48,5 @@ export interface TravelPointUpdateRequest {
 
 export interface UpdateRequestUpdateResponse {
   updateRequests: TravelPointUpdateRequest[];
-  pointId: string;
+  pointId: { value: string };
 }
