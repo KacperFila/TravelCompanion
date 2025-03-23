@@ -19,7 +19,7 @@ internal sealed class AccountController : BaseController
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("info")]
     [Authorize]
     public async Task<ActionResult<AccountDTO>> GetAsync()
         => OkOrNotFound(await _identityService.GetAsync(_context.Identity.Id));

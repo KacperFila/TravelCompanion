@@ -1,17 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, tap } from 'rxjs';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import { User } from './user.model';
 import { TravelPlan } from '../features/plans/models/plan.models';
 
-interface AuthResponse {
+interface AccountDTO {
   email: string;
   accessToken: string;
   refreshToken: string | null;
   expires: number;
   id: string;
   role: string;
+  activePlanId: string;
+  claims: {
+    permissions: string[];
+  };
+}
+
+interface JsonWebToken {
+  accessToken: string,
+  refreshToken: string | null,
+  expires: number,
+  id: string,
+  role: string,
+  email: string,
   claims: {
     permissions: string[];
   };
@@ -23,11 +36,8 @@ export class AuthService {
 
   user = new BehaviorSubject<User | null>(null);
 
-  private activePlanSubject = new BehaviorSubject<TravelPlan | null>(null);
-  activePlan$ = this.activePlanSubject.asObservable();
-
   signup(email: string, password: string) {
-    return this.http.post<AuthResponse>(
+    return this.http.post(
       `${environment.apiBaseUrl}/users-module/account/sign-up`,
       {
         email: email,
@@ -41,9 +51,9 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string) : Observable<any> {
     return this.http
-      .post<AuthResponse>(
+      .post<JsonWebToken>(
         `${environment.apiBaseUrl}/users-module/account/sign-in`,
         {
           email: email,
@@ -51,20 +61,8 @@ export class AuthService {
         }
       )
       .pipe(
-        tap((res) => {
-          this.handleAuthentication(
-            res.email,
-            res.id,
-            res.role,
-            res.accessToken,
-            res.expires,
-            res.claims
-          );
-
-          const storedPlan = localStorage.getItem('activePlan');
-          if (storedPlan) {
-            this.activePlanSubject.next(JSON.parse(storedPlan));
-          }
+        switchMap((token) => {
+          return this.handleAuthentication(token.accessToken);
         })
       );
   }
@@ -76,7 +74,10 @@ export class AuthService {
 
   autoLogin() {
     const loggedUser = localStorage.getItem('user');
-    if (!loggedUser) return;
+    if (!loggedUser)
+    {
+      return;
+    }
 
     const parsedUser = JSON.parse(loggedUser);
 
@@ -89,41 +90,50 @@ export class AuthService {
       parsedUser.email,
       parsedUser.id,
       parsedUser.role,
+      parsedUser.activePlanId,
       parsedUser._token,
       parsedUser.claims,
       new Date(parsedUser.expires)
     );
 
     this.user.next(currentUser);
+  }
 
-    const storedPlan = localStorage.getItem('activePlan');
-    if (storedPlan) {
-      this.activePlanSubject.next(JSON.parse(storedPlan));
+  setActivePlan(activePlanId: string) {
+    const user = this.user.getValue()
+
+    if (user === null) {
+      return;
     }
-  }
 
-  getUserActivePlan(): TravelPlan | null {
-    return this.activePlanSubject.getValue();
-  }
-
-  updateActivePlan(plan: TravelPlan) {
-    localStorage.setItem('activePlan', JSON.stringify(plan));
-    this.activePlanSubject.next(plan);
-  }
-
-  private handleAuthentication(
-    email: string,
-    id: string,
-    role: string,
-    accessToken: string,
-    expires: number,
-    claims: { permissions: string[] }
-  ) {
-    const expiresAt = new Date(expires);
-    const user = new User(email, id, role, accessToken, claims, expiresAt);
-
-    localStorage.setItem('user', JSON.stringify(user));
+    user.activePlanId = activePlanId;
 
     this.user.next(user);
+  }
+
+  private handleAuthentication(token: string): Observable<any> {
+    return this.http
+      .get<AccountDTO>(`${environment.apiBaseUrl}/users-module/account/info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .pipe(
+        tap((response) => {
+          const expiresAt = new Date(response.expires);
+          const user = new User(
+            response.email,
+            response.id,
+            response.role,
+            response.activePlanId,
+            token,
+            response.claims,
+            expiresAt
+          );
+
+          localStorage.setItem('user', JSON.stringify(user));
+          this.user.next(user);
+        })
+      );
   }
 }

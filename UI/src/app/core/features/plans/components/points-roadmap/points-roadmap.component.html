@@ -4,7 +4,8 @@
       [travelPoint]="point"
       [updateRequests]="updateRequests.get(point.id) || []"
       [nodeNumber]="point.travelPlanOrderNumber"
-      (pointDeletedEvent)="deletePoint($event)"/>
+      (pointDeletedEvent)="deletePoint($event)"
+    />
   </div>
   <div class="node add-node" *ngIf="last" (click)="isModalOpen = true">
     <div class="circle">+</div>

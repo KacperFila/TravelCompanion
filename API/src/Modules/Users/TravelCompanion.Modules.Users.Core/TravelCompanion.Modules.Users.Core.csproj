@@ -3,6 +3,11 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="DAL\obj\**" />
+    <EmbeddedResource Remove="DAL\obj\**" />
+    <None Remove="DAL\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="DAL\Configurations\" />
     <Folder Include="DAL\Repositories\" />
     <Folder Include="Entities\" />

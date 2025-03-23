@@ -13,8 +13,8 @@ export class PlansService {
     title: string,
     description: string | null,
     from: Date | null,
-    to: Date | null
-  ): Observable<void> {
+    to: Date | null) : Observable<void>
+  {
     const requestBody = { title, description, from, to };
 
     return this.http
@@ -23,15 +23,17 @@ export class PlansService {
         switchMap(() => this.getUserLastPlan()),
         tap((response) => {
           if (response.items.length > 0) {
-            this.authService.updateActivePlan(response.items[0]);
           }
         }),
         map(() => void 0)
       );
   }
 
-  setActivePlan(travelPlan: TravelPlan) {
-    this.authService.updateActivePlan(travelPlan);
+  setActivePlan(planId: string) : Observable<any> {
+    const requestBody = { planId };
+
+    return this.http
+      .post(`${environment.apiBaseUrl}/travelplans-module/Plan/Active`, requestBody);
   }
 
   getPlansForUser(): Observable<TravelPlanResponse> {
@@ -53,9 +55,10 @@ export class PlansService {
     );
   }
 
-  getActivePlanWithPoints(planId: string): Observable<TravelPlan> {
+  getActivePlanWithPoints(): Observable<TravelPlan> {
     return this.http.get<TravelPlan>(
-      `${environment.apiBaseUrl}/travelplans-module/Plan/${planId}/Points`
+      `${environment.apiBaseUrl}/travelplans-module/Plan/Active`,
+      {} //TODO remove unnecessary empty object
     );
   }
 

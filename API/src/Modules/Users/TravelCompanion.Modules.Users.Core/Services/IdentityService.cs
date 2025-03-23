@@ -48,6 +48,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
                     Email = user.Email,
                     Role = user.Role,
                     Claims = user.Claims,
+                    ActivePlanId = user.ActivePlanId,
                     CreatedOnUtc = user.CreatedOnUtc,
                     ModifiedOnUtc = user.ModifiedOnUtc
                 };

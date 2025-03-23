@@ -7,26 +7,22 @@
         <button (click)="openManageParticipantsModal()">Manage Participants</button>
       </div>
       <h1>Active travel plan:</h1>
-      <p *ngIf="activePlan">{{ activePlan.title }}</p>
-      <p *ngIf="!activePlan">No active plan selected</p>
     </div>
 </div>
 
 <app-points-roadmap
   [isModalOpen]="isCreatePointModalOpen"
-  (closeModalEvent)="closeCreatePointModal()">
-</app-points-roadmap>
+></app-points-roadmap>
 
 <app-create-plan-modal
   [isModalOpen]="isCreatePlanModalOpen"
-  (closeModalEvent)="closeCreatePlanModal()"
-  (createPlanEvent)="onPlanUpdated()">
+  (closeModalEvent)="closeCreatePlanModal()">
 </app-create-plan-modal>
 
 <app-change-active-plan-modal
   [isModalOpen]="isChangeActiveModalOpen"
   (closeModalEvent)="closeChangeActiveModal()"
-  (setActivePlanEvent)="onPlanUpdated()">
+  (setActivePlanEvent)="activePlanChanged()">
 </app-change-active-plan-modal>
 
 <app-user-plans-modal

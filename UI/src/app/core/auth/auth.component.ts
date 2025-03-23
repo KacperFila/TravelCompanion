@@ -23,8 +23,7 @@ export class AuthComponent {
 
     if (this.isLoginMode) {
       this.authService.login(email, password).subscribe(
-        (response) => {
-          console.log(response);
+        () => {
           this.router.navigate(['/home']);
         },
         (error) => {
@@ -34,7 +33,7 @@ export class AuthComponent {
       );
     } else {
       this.authService.signup(email, password).subscribe(
-        (response) => {
+        () => {
           this.isLoginMode = true;
         },
         (error) => {

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan.models';
+import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
   selector: 'app-change-active-plan-modal',
@@ -13,7 +14,7 @@ import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan.models';
   imports: [ModalComponent, FormsModule, CommonModule],
 })
 export class ChangeActivePlanModal implements OnInit {
-  constructor(private plansService: PlansService) {}
+  constructor(private plansService: PlansService, private authService: AuthService ) {}
 
   ngOnInit(): void {
     this.fetchPlans();
@@ -24,8 +25,7 @@ export class ChangeActivePlanModal implements OnInit {
   travelPlans: TravelPlan[] = [];
 
   @Input() isModalOpen: boolean = false;
-
-  @Output() setActivePlanEvent = new EventEmitter<TravelPlan>();
+  @Output() setActivePlanEvent = new EventEmitter();
   @Output() closeModalEvent = new EventEmitter<void>();
 
   setActivePlan(event: Event) {
@@ -35,16 +35,26 @@ export class ChangeActivePlanModal implements OnInit {
       return;
     }
 
-    this.plansService.setActivePlan(this.selectedPlan);
-    this.setActivePlanEvent.emit(this.selectedPlan);
+    this.plansService.setActivePlan(this.selectedPlan.id).
+    subscribe(() =>
+    {
+      this.setActivePlanEvent.emit();
+    });
     this.closeChangeActiveModal();
   }
 
   fetchPlans(): void {
-    this.plansService.getPlansForUser().subscribe(
+      this.plansService.getPlansForUser().subscribe(
       (response) => {
         this.travelPlans = response.items;
-        this.selectedPlan = response.items[0];
+
+        const activePlanId = this.authService.user.value?.activePlanId || null;
+        const hasActivePlan = response.items.some(x => x.id === activePlanId);
+
+        if (hasActivePlan)
+        {
+          this.selectedPlan = response.items.find(x => x.id === activePlanId) || null;
+        }
       },
       (error) => {
         console.error('Error fetching plans:', error);
