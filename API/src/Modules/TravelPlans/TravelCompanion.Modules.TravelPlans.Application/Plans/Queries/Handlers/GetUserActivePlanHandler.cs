@@ -3,36 +3,49 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
+using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, PlanWithPointsDTO>
+internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan, PlanWithPointsDTO>
 {
     private readonly IPlanRepository _planRepository;
+    private readonly IUsersModuleApi _usersModuleApi;
     private readonly IContext _context;
     private readonly Guid _userId;
 
-    public GetPlanWithPointsHandler(IPlanRepository planRepository, IContext context)
+    public GetUserActivePlanHandler(
+        IPlanRepository planRepository,
+        IContext context,
+        IUsersModuleApi usersModuleApi)
     {
         _planRepository = planRepository;
         _context = context;
         _userId = _context.Identity.Id;
+        _usersModuleApi = usersModuleApi;
     }
 
-    public async Task<PlanWithPointsDTO> HandleAsync(GetPlanWithPoints query)
+    public async Task<PlanWithPointsDTO> HandleAsync(GetUserActivePlan query)
     {
-        var plan = await _planRepository.GetAsync(query.planId);
+        var userInfo = await _usersModuleApi.GetUserInfo(_userId);
+
+        if (userInfo.ActivePlanId is null)
+        {
+            throw new NoActivePlanForUserException(_userId);
+        }
+
+        var plan = await _planRepository.GetAsync((Guid)userInfo.ActivePlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(query.planId);
+            throw new NoActivePlanForUserException(_userId);
         }
 
         if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
+            throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
         }
 
         return AsPlanWithPointsDto(plan);

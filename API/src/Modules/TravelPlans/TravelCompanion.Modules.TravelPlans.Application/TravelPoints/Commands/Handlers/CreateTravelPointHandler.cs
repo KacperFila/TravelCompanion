@@ -6,6 +6,7 @@ using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
 
@@ -15,16 +16,19 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly INotificationRealTimeService _notificationService;
+    private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
     public CreateTravelPointHandler(
         IPlanRepository planRepository,
         IContext context,
-        INotificationRealTimeService notificationService)
+        INotificationRealTimeService notificationService,
+        ITravelPlansRealTimeService travelPlansRealTimeService)
     {
         _planRepository = planRepository;
         _context = context;
         _notificationService = notificationService;
         _userId = _context.Identity.Id;
+        _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
 
@@ -53,6 +57,13 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         var notification =
             NotificationMessage.Create(point.PlaceName, "One of your suggested changes has been accepted!");
         await _notificationService.SendToAsync(plan.OwnerId.ToString(), notification);
+
+        var participants = plan.Participants
+                    .Select(x => x.ParticipantId)
+                    .Select(x => x.ToString())
+                    .ToList();
+
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, plan);
     }
 
     private int GetNewTravelPointNumber(Plan plan)

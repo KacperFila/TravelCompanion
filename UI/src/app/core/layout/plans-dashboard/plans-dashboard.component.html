@@ -4,6 +4,7 @@
         <button (click)="openCreatePlanModal()">Create plan</button>
         <button (click)="openUserPlansModal()">My plans</button>
         <button (click)="openChangeActiveModal()">Change active</button>
+        <button (click)="openManageParticipantsModal()">Manage Participants</button>
       </div>
       <h1>Active travel plan:</h1>
       <p *ngIf="activePlan">{{ activePlan.title }}</p>
@@ -32,3 +33,8 @@
   [isModalOpen]="isUserPlansModalOpen"
   (closeModalEvent)="closeUserPlansModal()">
 </app-user-plans-modal>
+
+<app-manage-participants-modal
+  [isModalOpen]="isManageParticipantsModalOpen"
+  (closeModalEvent)="closeManageParticipantsModal()">
+</app-manage-participants-modal>

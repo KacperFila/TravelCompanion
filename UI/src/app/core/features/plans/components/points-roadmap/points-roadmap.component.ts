@@ -86,7 +86,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
       .addPointToPlan(activePlanId, this.newTravelPoint.placeName)
       .subscribe({
         next: () => {
-          this.fetchPoints(activePlanId);
+          // this.fetchPoints(activePlanId);
           this.closeCreatePointModal();
         },
         error: (err) => console.error('Error creating point', err),
@@ -98,9 +98,6 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     if (!activePlanId) return;
 
     this.plansService.deletePoint(point.id).subscribe({
-      next: () => {
-        this.fetchPoints(activePlanId);
-      },
       error: (err) => console.error('Error deleting point', err),
     });
   }
@@ -124,6 +121,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
 
   private setupSignalRListeners(): void {
     this.signalRService.listenForUpdates("ReceivePlanUpdate", (updatedRoadmap: UpdatedPlan) => {
+      const user = this.authService.user;
       this.travelPoints = updatedRoadmap.travelPlanPoints.map(
         (planPoint) => ({
           id: planPoint.id.value,

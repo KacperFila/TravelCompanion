@@ -1,16 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { User } from '../../auth/user.model';
-
-interface TravelResponse {
-  title: string;
-  description: string;
-}
+import { Invitation } from "../../features/plans/models/plan.models";
+import { HttpClient } from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -19,35 +15,31 @@ interface TravelResponse {
   styleUrls: ['./header.component.css'],
   imports: [CommonModule, RouterModule],
 })
-export class HeaderComponent {
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private router: Router
-  ) {
+export class HeaderComponent implements OnInit {
+  constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient)
+  {
     this.user$ = this.authService.user;
   }
 
-  user$: Observable<User | null>;
+  ngOnInit(): void {
 
-  error: string | null = null;
-
-  fetchData() {
-    this.http
-      .get<TravelResponse[]>(`${environment.apiBaseUrl}/travels-module/Travel`)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-          this.error = error;
-        }
-      );
   }
+
+  user$: Observable<User | null>;
+  invitations$: Observable<Invitation[]> = new Observable<Invitation[]>();
+  error: string | null = null;
+  private invitations: Invitation[] = [];
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/auth']);
+  }
+
+  fetchInvitations(userId: string) {
+    // return this.httpClient
+    //   .get(
+    //     `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Acceptance`,
+    //     {}
+    //   );
   }
 }

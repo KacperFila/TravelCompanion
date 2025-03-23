@@ -25,8 +25,8 @@ internal static class Extensions
     {
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapHub<TravelPlanHub>("travelPlanHub");
-            endpoints.MapHub<NotificationHub>("notifications");
+            endpoints.MapHub<TravelPlanHub>("/travelPlanHub");
+            endpoints.MapHub<NotificationHub>("/notifications");
         });
 
         return app;

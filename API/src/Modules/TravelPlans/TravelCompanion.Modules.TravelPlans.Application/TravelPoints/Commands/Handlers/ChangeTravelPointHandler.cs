@@ -56,9 +56,9 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        if (!point.IsAccepted)
+        if (point.IsAccepted)
         {
-            throw new CouldNotModifyNotAcceptedTravelPointException();
+            throw new CouldNotModifyAcceptedTravelPointException();
         }
 
         var request = TravelPointUpdateRequest.Create(command.pointId, _userId, command.placeName);

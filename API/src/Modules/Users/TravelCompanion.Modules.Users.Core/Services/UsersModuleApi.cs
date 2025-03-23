@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TravelCompanion.Modules.Users.Core.Exceptions;
 using TravelCompanion.Modules.Users.Core.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Modules.Users.Shared.DTO;
@@ -39,10 +40,16 @@ internal class UsersModuleApi : IUsersModuleApi
     {
         var user = await _userRepository.GetAsync(userId);
 
+        if (user is null)
+        {
+            throw new UserNotFoundException(userId);
+        }
+
         return new UserInfoDto()
         {
             Email = user.Email,
-            UserName = user.Email.Split("@")[0]
+            UserName = user.Email.Split("@")[0],
+            ActivePlanId = user.ActivePlanId,
         };
     }
 

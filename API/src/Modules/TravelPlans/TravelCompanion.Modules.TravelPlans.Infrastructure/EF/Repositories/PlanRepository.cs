@@ -51,7 +51,7 @@ public class PlanRepository : IPlanRepository
         var query = _travelPlans
             .AsNoTracking()
             .Where(x => x.Participants
-            .Any(p => p.ParticipantId == userId));
+                .Any(p => p.ParticipantId == userId));
 
         if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(sortOrder))
         {
@@ -59,7 +59,7 @@ public class PlanRepository : IPlanRepository
             var property = Expression.Property(parameter, orderBy);
             var lambda = Expression.Lambda<Func<Plan, object>>(Expression.Convert(property, typeof(object)), parameter);
 
-            query = sortOrder.ToLower() == "desc"
+            query = sortOrder.Equals("desc", StringComparison.CurrentCultureIgnoreCase)
                 ? query.OrderByDescending(lambda)
                 : query.OrderBy(lambda);
         }

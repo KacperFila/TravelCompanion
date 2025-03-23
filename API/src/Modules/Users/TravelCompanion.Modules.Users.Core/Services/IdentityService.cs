@@ -48,7 +48,8 @@ namespace TravelCompanion.Modules.Users.Core.Services
                     Email = user.Email,
                     Role = user.Role,
                     Claims = user.Claims,
-                    CreatedAt = user.CreatedAt
+                    CreatedOnUtc = user.CreatedOnUtc,
+                    ModifiedOnUtc = user.ModifiedOnUtc
                 };
         }
 
@@ -94,7 +95,6 @@ namespace TravelCompanion.Modules.Users.Core.Services
                 Email = email,
                 Password = password,
                 Role = dto.Role?.ToLowerInvariant() ?? "user",
-                CreatedAt = _clock.CurrentDate(),
                 IsActive = false,
                 Claims = dto.Claims ?? new Dictionary<string, IEnumerable<string>>(),
                 VerificationToken = CreateRandomToken(64)

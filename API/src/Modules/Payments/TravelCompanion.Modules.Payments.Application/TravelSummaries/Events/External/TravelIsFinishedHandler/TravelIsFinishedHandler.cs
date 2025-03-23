@@ -4,7 +4,7 @@ using TravelCompanion.Shared.Abstractions.Events;
 
 namespace TravelCompanion.Modules.Payments.Application.TravelSummaries.Events.External.TravelIsFinishedHandler;
 
-public class TravelIsFinishedHandler : IEventHandler<TravelIsFinished>
+public class TravelIsFinishedHandler : IEventHandler<TravelFinished>
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
@@ -13,7 +13,7 @@ public class TravelIsFinishedHandler : IEventHandler<TravelIsFinished>
         _commandDispatcher = commandDispatcher;
     }
 
-    public async Task HandleAsync(TravelIsFinished @event)
+    public async Task HandleAsync(TravelFinished @event)
     {
         await _commandDispatcher.SendAsync(new GenerateTravelSummary(@event.travelId));
     }

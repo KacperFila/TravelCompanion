@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.Payments.Application.TravelSummaries.Events.External;
 
-public record TravelIsFinished(Guid travelId) : IEvent;
+public record TravelFinished(Guid travelId) : IEvent;

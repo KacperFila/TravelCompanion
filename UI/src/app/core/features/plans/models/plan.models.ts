@@ -50,3 +50,16 @@ export interface UpdateRequestUpdateResponse {
   updateRequests: TravelPointUpdateRequest[];
   pointId: { value: string };
 }
+
+export interface PlanParticipant {
+  id: { value: string };
+  email: string;
+}
+
+export interface Invitation {
+  id: { value: string };
+  travelPlanId: { value: string };
+  inviteeId: { value: string };
+  createdOnUtc: string;
+  modifiedOnUtc: string;
+}

@@ -50,7 +50,7 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         if (!point.IsAccepted)
         {
-            throw new CouldNotModifyNotAcceptedTravelPointException();
+            throw new CouldNotModifyAcceptedTravelPointException();
             ;
         }
 
@@ -113,57 +113,6 @@ public class TravelPointDomainService : ITravelPointDomainService
 
         await _travelPointRepository.UpdateAsync(point);
         await _receiptRepository.RemoveAsync(receipt);
-    }
-
-    public async Task RemoveTravelPoint(Guid travelPointId)
-    {
-        var point = await _travelPointRepository.GetAsync(travelPointId);
-
-        if (point is null)
-        {
-            throw new TravelPointNotFoundException(travelPointId);
-        }
-
-        var plan = await _planRepository.GetAsync(point.PlanId);
-
-        if (plan is null)
-        {
-            throw new PlanNotFoundException(travelPointId);
-        }
-
-        if (plan.PlanStatus != PlanStatus.DuringPlanning)
-        {
-            throw new PlanNotDuringPlanningException(plan.Id);
-        }
-
-        if (!plan.Participants.Any(x => x.ParticipantId == _userId))
-        {
-            throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
-        }
-
-        if (plan.OwnerId == _userId)
-        {
-            plan.RemoveTravelPoint(point);
-            await _travelPointRepository.RemoveAsync(point);
-
-            var pointOrderNumber = point.TravelPlanOrderNumber;
-            var pointsToRecalculateOrderNumber = plan
-                .TravelPlanPoints
-                .Where(x => x.TravelPlanOrderNumber > pointOrderNumber)
-                .ToList();
-
-            foreach (var pointToRecalculate in pointsToRecalculateOrderNumber)
-            {
-                pointToRecalculate.DecreaseTravelPlanOrderNumber();
-            }
-
-            await _planRepository.UpdateAsync(plan);
-        }
-        else
-        {
-            var removeRequest = TravelPointRemoveRequest.Create(point.Id, _userId);
-            await _travelPointRemoveRequestRepository.AddAsync(removeRequest);
-        }
     }
 
     public async Task RemoveTravelPointRemoveRequest(Guid requestId)

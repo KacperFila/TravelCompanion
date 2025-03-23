@@ -9,6 +9,9 @@ import {
 } from '../../features/plans/models/plan.models';
 import { UserPlansModal } from '../../features/plans/components/user-plans-modal/user-plans-modal.component';
 import { PointsRoadmapComponent } from '../../features/plans/components/points-roadmap/points-roadmap.component';
+import {
+  ManageParticipantsModal,
+} from "../../features/plans/components/manage-participants-modal/manage-participants-modal.component";
 
 @Component({
   selector: 'app-plans-dashboard',
@@ -20,6 +23,9 @@ import { PointsRoadmapComponent } from '../../features/plans/components/points-r
     ChangeActivePlanModal,
     UserPlansModal,
     PointsRoadmapComponent,
+    ManageParticipantsModal,
+    UserPlansModal,
+
   ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],
@@ -37,6 +43,7 @@ export class PlansDashboardComponent implements OnInit {
   isChangeActiveModalOpen: boolean = false;
   isUserPlansModalOpen: boolean = false;
   isCreatePointModalOpen: boolean = false;
+  isManageParticipantsModalOpen: boolean = false;
 
   error: string = '';
 
@@ -66,6 +73,14 @@ export class PlansDashboardComponent implements OnInit {
 
   closeCreatePointModal() {
     this.isCreatePointModalOpen = false;
+  }
+
+  openManageParticipantsModal(){
+    this.isManageParticipantsModalOpen = true;
+  }
+
+  closeManageParticipantsModal() {
+    this.isManageParticipantsModalOpen = false;
   }
 
   onPlanUpdated() {
