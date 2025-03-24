@@ -70,6 +70,6 @@ export class PlansDashboardComponent {
   }
 
   activePlanChanged() {
-    this.pointsRoadmapComponent.getActivePlan();
+    this.pointsRoadmapComponent.getActivePlan()
   }
 }

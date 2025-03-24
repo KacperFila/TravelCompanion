@@ -5,6 +5,7 @@ import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { CreateTravelPlanRequest, TravelPlan } from '../../models/plan.models';
 import {AuthService} from "../../../../auth/auth.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-change-active-plan-modal',
@@ -30,16 +31,17 @@ export class ChangeActivePlanModal implements OnInit {
 
   setActivePlan(event: Event) {
     event.preventDefault();
+    if (!this.selectedPlan) return;
 
-    if (!this.selectedPlan) {
-      return;
-    }
-
-    this.plansService.setActivePlan(this.selectedPlan.id).
-    subscribe(() =>
-    {
-      this.setActivePlanEvent.emit();
+    this.plansService.setActivePlan(this.selectedPlan.id)
+      .pipe(
+      switchMap(
+        () => this.plansService.getActivePlanWithPoints()
+      )
+    ).subscribe(response => {
+      this.setActivePlanEvent.emit(response);
     });
+
     this.closeChangeActiveModal();
   }
 

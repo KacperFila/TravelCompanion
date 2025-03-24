@@ -67,7 +67,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
         });
 
         this.authService.setActivePlan(response.id);
-      })
+    })
   }
 
   createPoint(event: Event): void {
@@ -87,7 +87,6 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
       .addPointToPlan(this.activePlanId, this.newTravelPoint.placeName)
       .subscribe({
         next: () => {
-          // this.fetchPoints(activePlanId);
           this.closeCreatePointModal();
         },
         error: (err) => console.error('Error creating point', err),

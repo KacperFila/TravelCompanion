@@ -31,7 +31,6 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
-
     public async Task HandleAsync(CreateTravelPoint command)
     {
         var plan = await _planRepository.GetAsync(command.travelPlanId);
