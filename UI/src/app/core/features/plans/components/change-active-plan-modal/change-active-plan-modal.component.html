@@ -7,7 +7,7 @@
     <label for="selectedPlan">Choose a plan:</label>
     <select
       id="selectedPlan"
-      [(ngModel)]="selectedPlan"
+      [(ngModel)]="this.selectedPlan"
       name = "selectedPlan">
       <option *ngFor="let plan of travelPlans" [ngValue]="plan">
         {{ plan.title }}

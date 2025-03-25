@@ -1,5 +1,6 @@
+<p>Active plan: {{ this.travelPlan?.title }}</p>
 <div class="roadmap">
-  <div *ngFor="let point of travelPoints; let last = last">
+  <div *ngFor="let point of this.travelPlan?.planPoints; let last = last">
     <app-travel-point
       [travelPoint]="point"
       [updateRequests]="updateRequests.get(point.id) || []"

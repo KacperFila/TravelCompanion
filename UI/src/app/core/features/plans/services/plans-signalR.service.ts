@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import {AuthService} from "../../auth/auth.service";
-import {User} from "../../auth/user.model";
+import {AuthService} from "../../../auth/auth.service";
+import {User} from "../../../auth/user.model";
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class SignalRService {
+export class PlansSignalRService {
   private hubConnection!: signalR.HubConnection;
 
   private currentUser: User | null = null;

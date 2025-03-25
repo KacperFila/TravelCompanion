@@ -7,17 +7,18 @@ import {
   Output,
 } from '@angular/core';
 import {
+  TravelPlan,
   TravelPoint, TravelPointUpdateRequest, UpdateRequestUpdateResponse
 } from '../../models/plan.models';
 import { PlansService } from '../../services/plans.service';
 import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import {last, Subscription} from 'rxjs';
+import { last } from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { TravelPointComponent } from "../travel-point/travel-point.component";
-import { SignalRService } from "../../../../shared/services/signalr.service";
-import { UpdatedPlan } from "../../../../shared/services/signalr-responses.models";
+import { PlansSignalRService } from "../../services/plans-signalR.service";
+import { UpdatedPlan } from "../../services/plans-signalR-responses.models";
 
 @Component({
   selector: 'app-points-roadmap',
@@ -29,16 +30,13 @@ import { UpdatedPlan } from "../../../../shared/services/signalr-responses.model
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
   constructor(
     private plansService: PlansService,
-    private authService: AuthService,
-    private signalRService: SignalRService,
+    private plansSignalRService: PlansSignalRService,
   ) {}
 
-  activePlanId: string | null = null;
-  travelPoints: TravelPoint[] = [];
+  travelPlan: TravelPlan = { id: '', ownerId: '', participants: [], title: '', description: '', from: '', to: '', additionalCostsValue: 0, totalCostValue: 0, planStatus: '', planPoints: [] };
   updateRequests: Map<string, TravelPointUpdateRequest[]> = new Map<string, TravelPointUpdateRequest[]>;
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
 
-  private activePlanSubscription!: Subscription;
   protected readonly last = last;
 
   @Input() planUpdated: boolean = false;
@@ -47,27 +45,23 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
-    this.setupSignalRListeners();
     this.getActivePlan();
+    this.setupSignalRListeners();
   }
 
   ngOnDestroy(): void {
-    if (this.activePlanSubscription) {
-      this.activePlanSubscription.unsubscribe();
-    }
+    this.plansSignalRService.stopConnection()
   }
 
   getActivePlan(): void {
-    this.plansService.getActivePlanWithPoints().subscribe(
-      (response) => {
-        this.activePlanId = response.id;
-        this.travelPoints = response.planPoints;
-        this.travelPoints.forEach(point => {
+    this.plansService.getActivePlanWithPoints()
+      .subscribe(
+      (activePlan) => {
+        this.travelPlan = activePlan;
+        this.travelPlan.planPoints.forEach(point => {
           this.getTravelPointEditRequests(point.id);
         });
-
-        this.authService.setActivePlan(response.id);
-    })
+      })
   }
 
   createPoint(event: Event): void {
@@ -78,13 +72,13 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.activePlanId)
+    if (!this.travelPlan)
     {
       return;
     }
 
     this.plansService
-      .addPointToPlan(this.activePlanId, this.newTravelPoint.placeName)
+      .addPointToPlan(this.travelPlan.id, this.newTravelPoint.placeName)
       .subscribe({
         next: () => {
           this.closeCreatePointModal();
@@ -94,7 +88,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   deletePoint(point: TravelPoint) {
-    if (!this.activePlanId) {
+    if (!this.travelPlan)
+    {
       return;
     }
 
@@ -108,7 +103,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   getTravelPointEditRequests(travelPointId: string) {
-    this.plansService.getTravelPointEditRequests(travelPointId).subscribe({
+    this.plansService.getTravelPointEditRequests(travelPointId)
+      .subscribe({
       next: (response) => {
         this.updateRequests.set(travelPointId, response);
       },
@@ -119,18 +115,19 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   private setupSignalRListeners(): void {
-    this.signalRService.listenForUpdates("ReceivePlanUpdate", (updatedRoadmap: UpdatedPlan) => {
-      const user = this.authService.user;
-      this.travelPoints = updatedRoadmap.travelPlanPoints.map(
-        (planPoint) => ({
+    this.plansSignalRService.listenForUpdates("ReceivePlanUpdate", (updatedPlan: UpdatedPlan) => {
+      this.travelPlan.planPoints = updatedPlan.travelPlanPoints.map(
+        (planPoint) => (
+          {
           id: planPoint.id.value,
           placeName: planPoint.placeName,
           totalCost: planPoint.totalCost.amount,
           travelPlanOrderNumber: planPoint.travelPlanOrderNumber
-        }));
+          }
+        ));
     });
 
-    this.signalRService.listenForUpdates(
+    this.plansSignalRService.listenForUpdates(
       "ReceiveTravelPointUpdateRequestUpdate",
       (data: UpdateRequestUpdateResponse) => {
         this.updateRequests = new Map(this.updateRequests.set(data.pointId.value, data.updateRequests));
