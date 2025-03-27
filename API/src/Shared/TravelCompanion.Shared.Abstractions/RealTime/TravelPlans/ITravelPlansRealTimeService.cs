@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
@@ -6,5 +7,7 @@ namespace TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 public interface ITravelPlansRealTimeService
 {
     Task SendPlanUpdate(List<string> participantUserIds, object plan);
-    Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object payload);
+    Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object updateRequests);
+    Task SendPlanInvitation(string inviteeId, object invitation);
+    Task SendPlanInvitationRemoved(string inviteeId, object payload);
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import {AuthService} from "../../../auth/auth.service";
-import {User} from "../../../auth/user.model";
-
+import { AuthService } from "../../../auth/auth.service";
+import { User } from "../../../auth/user.model";
 
 @Injectable({
   providedIn: 'root',

@@ -11,7 +11,6 @@ import {
   TravelPoint, TravelPointUpdateRequest, UpdateRequestUpdateResponse
 } from '../../models/plan.models';
 import { PlansService } from '../../services/plans.service';
-import { AuthService } from '../../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { last } from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
@@ -19,13 +18,17 @@ import { FormsModule } from '@angular/forms';
 import { TravelPointComponent } from "../travel-point/travel-point.component";
 import { PlansSignalRService } from "../../services/plans-signalR.service";
 import { UpdatedPlan } from "../../services/plans-signalR-responses.models";
+import {ManageParticipantsModal} from "../manage-participants-modal/manage-participants-modal.component";
+import {ChangeActivePlanModal} from "../change-active-plan-modal/change-active-plan-modal.component";
+import {PlanCreationModal} from "../plan-creation-modal/plan-creation-modal.component";
+import {UserPlansModal} from "../user-plans-modal/user-plans-modal.component";
 
 @Component({
   selector: 'app-points-roadmap',
   templateUrl: './points-roadmap.component.html',
   styleUrls: ['./points-roadmap.component.css'],
   standalone: true,
-  imports: [CommonModule, ModalComponent, FormsModule, TravelPointComponent],
+  imports: [CommonModule, ModalComponent, FormsModule, TravelPointComponent, ManageParticipantsModal, ChangeActivePlanModal, PlanCreationModal, UserPlansModal],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
   constructor(
@@ -40,7 +43,14 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   protected readonly last = last;
 
   @Input() planUpdated: boolean = false;
-  @Input() isModalOpen: boolean = false;
+
+  isCreatePointModalOpen: boolean = false;
+  isManageParticipantsModalOpen: boolean = false;
+  isCreatePlanModalOpen: boolean = false;
+  isChangeActiveModalOpen: boolean = false;
+  isUserPlansModalOpen: boolean = false;
+
+
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
@@ -98,8 +108,29 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     });
   }
 
-  closeCreatePointModal() {
-    this.isModalOpen = false;
+  closeCreatePointModal()
+  {
+    this.isCreatePointModalOpen = false;
+  }
+
+  closeManageParticipantsModal()
+  {
+    this.isManageParticipantsModalOpen = false;
+  }
+
+  closeCreatePlanModal()
+  {
+    this.isCreatePlanModalOpen = false;
+  }
+
+  closeChangeActiveModal()
+  {
+    this.isChangeActiveModalOpen = false;
+  }
+
+  closeUserPlansModal()
+  {
+    this.isUserPlansModalOpen = false;
   }
 
   getTravelPointEditRequests(travelPointId: string) {
@@ -115,7 +146,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   private setupSignalRListeners(): void {
-    this.plansSignalRService.listenForUpdates("ReceivePlanUpdate", (updatedPlan: UpdatedPlan) => {
+    this.plansSignalRService.listenForUpdates("ReceivePlanUpdate",
+      (updatedPlan: UpdatedPlan) => {
       this.travelPlan.planPoints = updatedPlan.travelPlanPoints.map(
         (planPoint) => (
           {

@@ -1,4 +1,10 @@
-<p>Active plan: {{ this.travelPlan?.title }}</p>
+<button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
+<button (click)="isCreatePlanModalOpen = true" >Create plan</button>
+<button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
+<button (click)="isUserPlansModalOpen = true" >User plans</button>
+
+<p>Active plan: {{ this.travelPlan.title }}</p>
+
 <div class="roadmap">
   <div *ngFor="let point of this.travelPlan?.planPoints; let last = last">
     <app-travel-point
@@ -8,13 +14,13 @@
       (pointDeletedEvent)="deletePoint($event)"
     />
   </div>
-  <div class="node add-node" *ngIf="last" (click)="isModalOpen = true">
+  <div class="node add-node" *ngIf="last" (click)="isCreatePointModalOpen = true">
     <div class="circle">+</div>
   </div>
 </div>
 
 <app-modal
-  [isOpen]="isModalOpen"
+  [isModalOpen]="isCreatePointModalOpen"
   (close)="closeCreatePointModal()"
   title="Add new Travel Point">
 
@@ -33,3 +39,24 @@
     </div>
   </form>
 </app-modal>
+
+<app-manage-participants-modal
+  [isModalOpen]="isManageParticipantsModalOpen"
+  (closeModalEvent)="closeManageParticipantsModal()">
+</app-manage-participants-modal>
+
+<app-create-plan-modal
+  [isModalOpen]="isCreatePlanModalOpen"
+  (closeModalEvent)="closeCreatePlanModal()">
+</app-create-plan-modal>
+
+<app-change-active-plan-modal
+  [isModalOpen]="isChangeActiveModalOpen"
+  (closeModalEvent)="closeChangeActiveModal()"
+  (setActivePlanEvent)="getActivePlan()">
+</app-change-active-plan-modal>
+
+<app-user-plans-modal
+  [isModalOpen]="isUserPlansModalOpen"
+  (closeModalEvent)="closeUserPlansModal()">
+</app-user-plans-modal>

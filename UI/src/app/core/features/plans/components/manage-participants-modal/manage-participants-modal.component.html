@@ -1,5 +1,5 @@
 <app-modal
-  [isOpen]="isModalOpen"
+  [isModalOpen]="isModalOpen"
   (close)="closeModal()"
   title="Manage Participants">
 
@@ -14,6 +14,11 @@
 
   <app-item-list
     [items]="planParticipants"
-    [displayProperty]="'email'">
+    [displayProperty]="'email'"
+    [buttonTemplate]="addButton">
   </app-item-list>
+
+  <ng-template #addButton let-item>
+    <button (click)="addParticipant(item)">Add</button>
+  </ng-template>
 </app-modal>

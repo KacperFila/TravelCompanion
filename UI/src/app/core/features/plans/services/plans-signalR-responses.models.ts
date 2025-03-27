@@ -8,9 +8,9 @@ export interface UpdatedPlan {
   participantPaidIds: string[];
   title: string;
   description: string;
-  from: string; // Date in string format, you can change this to Date type if you want to convert it later
-  to: string; // Same for this
-  additionalCosts: any[]; // Adjust type as needed
+  from: string;
+  to: string;
+  additionalCosts: any[];
   additionalCostsValue: {
     amount: number;
     currency: string;
@@ -42,5 +42,19 @@ export interface UpdatedPlan {
     value: string;
   };
   version: number;
-  events: any[]; // Adjust as needed
+  events: any[];
+}
+
+export interface PlanInvitationResponse
+{
+  invitationId: string,
+  planId: string,
+  inviterName: string,
+  planTitle: string,
+  invitationDate: string
+}
+
+export interface PlanInvitationRemovedResponse
+{
+  invitationId: string
 }

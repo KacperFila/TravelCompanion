@@ -56,10 +56,3 @@ export interface PlanParticipant {
   email: string;
 }
 
-export interface Invitation {
-  id: { value: string };
-  travelPlanId: { value: string };
-  inviteeId: { value: string };
-  createdOnUtc: string;
-  modifiedOnUtc: string;
-}

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import { User } from './user.model';
 import { TravelPlan } from '../features/plans/models/plan.models';
+import {PlansSignalRService} from "../features/plans/services/plans-signalR.service";
 
 interface AccountDTO {
   email: string;
@@ -97,18 +98,6 @@ export class AuthService {
     );
 
     this.user.next(currentUser);
-  }
-
-  setActivePlan(activePlanId: string) {
-    const user = this.user.getValue()
-
-    if (user === null) {
-      return;
-    }
-
-    user.activePlanId = activePlanId;
-
-    this.user.next(user);
   }
 
   private handleAuthentication(token: string): Observable<any> {

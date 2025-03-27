@@ -1,13 +1,14 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Application.Invitations.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
-using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Invitations;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands.Handlers;
 
@@ -17,17 +18,20 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly IPlanRepository _planRepository;
     private readonly IUsersModuleApi _usersModuleApi;
     private readonly INotificationRealTimeService _notificationService;
+    private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
     public InviteToTravelPlanHandler(
         IInvitationRepository invitationRepository,
         IPlanRepository planRepository,
         IUsersModuleApi usersModuleApi,
-        INotificationRealTimeService notificationService)
+        INotificationRealTimeService notificationService,
+        ITravelPlansRealTimeService travelPlansRealTimeService)
     {
         _invitationRepository = invitationRepository;
         _planRepository = planRepository;
         _usersModuleApi = usersModuleApi;
         _notificationService = notificationService;
+        _travelPlansRealTimeService = travelPlansRealTimeService;
     }
 
     public async Task HandleAsync(InviteToTravelPlan command)
@@ -48,10 +52,10 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         var doesInvitationAlreadyExist = await _invitationRepository
             .ExistsForUserAndTravelPlanAsync(command.userId, command.planId);
 
-        if (doesInvitationAlreadyExist)
-        {
-            throw new InvitationAlreadyExistsException(command.userId, command.planId);
-        }
+        //if (doesInvitationAlreadyExist)
+        //{
+        //    throw new InvitationAlreadyExistsException(command.userId, command.planId);
+        //}
 
         var plan = await _planRepository.GetAsync(command.planId);
 
@@ -74,5 +78,18 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
                 "Invitation",
                 $"You have been invited to plan: {plan.Title}",
                 plan.OwnerId.ToString()));
+
+        var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
+
+        var invitationResponse = new PlanInvitationResponse()
+        {
+            InvitationId = invitation.Id,
+            PlanId = plan.Id,
+            PlanTitle = plan.Title,
+            InviterName = planOwnerInfo.Email,
+            InvitationDate = DateTime.UtcNow
+        };
+
+        await _travelPlansRealTimeService.SendPlanInvitation(command.userId.ToString(), invitationResponse);
     }
 }

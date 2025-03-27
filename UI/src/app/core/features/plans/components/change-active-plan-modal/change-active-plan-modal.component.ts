@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { TravelPlan } from '../../models/plan.models';
-import {AuthService} from "../../../../auth/auth.service";
 import {switchMap, tap} from "rxjs";
 
 @Component({
@@ -31,7 +30,7 @@ export class ChangeActivePlanModal implements OnInit {
 
   setActivePlan(event: Event) {
     event.preventDefault();
-    
+
     if (!this.selectedPlan)
     {
       return;

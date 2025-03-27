@@ -112,4 +112,28 @@ export class PlansService {
         {}
       );
   }
+
+  inviteUserToPlan(planId: string, userId: string) {
+    return this.http.post(
+      `${environment.apiBaseUrl}/travelplans-module/Invitation/${planId}/${userId}`,
+      {}
+    );
+  }
+
+
+  acceptPlanInvitation(invitationId: string)
+  {
+    return this.http
+      .put(
+        `${environment.apiBaseUrl}/travelplans-module/Invitation/${invitationId}/Acceptance`, null
+      );
+  }
+
+  rejectPlanInvitation(invitationId: string)
+  {
+    return this.http
+      .delete(
+        `${environment.apiBaseUrl}/travelplans-module/Invitation/${invitationId}/Rejection`
+      );
+  }
 }

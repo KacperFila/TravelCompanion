@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ItemListComponent } from '../../../../shared/item-list/item-list.components';
 import { PlanParticipant } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
+import {PlansService} from "../../services/plans.service";
 
 @Component({
   selector: 'app-manage-participants-modal',
@@ -13,8 +14,11 @@ import { CommonModule } from '@angular/common';
   imports: [ModalComponent, FormsModule, ItemListComponent, CommonModule],
 })
 export class ManageParticipantsModal implements OnInit {
-  allUsers: PlanParticipant[] = []; // Full list from mock API
-  planParticipants: PlanParticipant[] = []; // Filtered list for UI
+  constructor(private plansService: PlansService) {
+  }
+
+  allUsers: PlanParticipant[] = [];
+  planParticipants: PlanParticipant[] = [];
   searchQuery: string = '';
   error: string = '';
 
@@ -26,13 +30,8 @@ export class ManageParticipantsModal implements OnInit {
   }
 
   fetchUsers(): void {
-    // Mock API Response
     this.allUsers = [
-      { id: { value: '1' }, email: 'alice@example.com' },
-      { id: { value: '2' }, email: 'bob@example.com' },
-      { id: { value: '3' }, email: 'charlie@example.com' },
-      { id: { value: '4' }, email: 'david@example.com' },
-      { id: { value: '5' }, email: 'eve@example.com' },
+      { id: { value: "f6f210c2-2e0c-48c3-8d2b-c980fa50c0e5" }, email: 'test2@test.com' },
     ];
     this.planParticipants = [...this.allUsers];
   }
@@ -47,6 +46,12 @@ export class ManageParticipantsModal implements OnInit {
     this.planParticipants = this.allUsers.filter(user =>
       user.email.toLowerCase().includes(query)
     );
+  }
+
+  addParticipant(item: PlanParticipant) {
+    console.log('Adding participant:', item);
+    this.plansService.inviteUserToPlan("6e5fd955-e0fd-42b7-9b3f-bc733ac34e2d", item.id.value)
+      .subscribe();
   }
 
   closeModal(): void {

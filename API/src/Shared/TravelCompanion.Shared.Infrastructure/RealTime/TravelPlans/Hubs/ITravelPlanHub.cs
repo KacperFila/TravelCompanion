@@ -5,5 +5,7 @@ namespace TravelCompanion.Shared.Infrastructure.RealTime.TravelPlans.Hubs;
 public interface ITravelPlanHub
 {
     Task ReceivePlanUpdate(object plan);
-    Task ReceiveTravelPointUpdateRequestUpdate(object payload);
+    Task ReceiveTravelPointUpdateRequestUpdate(object updateRequests);
+    Task ReceivePlanInvitation(object invitation);
+    Task ReceivePlanInvitationRemoved(object invitationId);
 }

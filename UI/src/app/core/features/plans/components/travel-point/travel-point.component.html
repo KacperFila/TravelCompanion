@@ -12,7 +12,7 @@
 </div>
 
 <app-modal
-  [isOpen]="isPointDetailsModalOpen"
+  [isModalOpen]="isPointDetailsModalOpen"
   (close)="closePointDetailsModal()"
   title="Travel Point details">
   <form (submit)="updatePoint()">
@@ -33,7 +33,7 @@
 </app-modal>
 
 <app-modal
-  [isOpen]="isPointEditRequestsModalOpen"
+  [isModalOpen]="isPointEditRequestsModalOpen"
   (close)="closePointEditRequestsModal()"
   title="Travel Point Edit Requests">
 

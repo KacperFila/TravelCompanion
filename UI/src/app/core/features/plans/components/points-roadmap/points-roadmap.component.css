@@ -29,3 +29,29 @@
   background: red;
   border-radius: 100%;
 }
+
+button {
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
