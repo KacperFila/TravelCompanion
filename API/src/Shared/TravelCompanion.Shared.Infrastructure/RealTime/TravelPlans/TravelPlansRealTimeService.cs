@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
@@ -22,6 +20,15 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
     }
 
     //TODO extract dtos to nuget - use strongly typed objects
+
+    public async Task SendActivePlanChanged(string userId, string planId)
+    {
+        var connections = _connectionManager.GetConnections(userId);
+        foreach (var connectionId in connections)
+        {
+            await _hubContext.Clients.Client(connectionId).ReceiveActivePlanChanged(planId);
+        }
+    }
 
     public async Task SendPlanInvitation(string inviteeId, object invitation)
     {

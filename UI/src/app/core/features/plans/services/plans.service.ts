@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {map, Observable, switchMap, tap} from 'rxjs';
 import {AuthService} from '../../../auth/auth.service';
 import {TravelPlan, TravelPlanResponse, TravelPoint, TravelPointUpdateRequest} from '../models/plan.models';
+import {PlanInvitationResponse} from "./plans-signalR-responses.models";
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
@@ -120,7 +121,6 @@ export class PlansService {
     );
   }
 
-
   acceptPlanInvitation(invitationId: string)
   {
     return this.http
@@ -135,5 +135,12 @@ export class PlansService {
       .delete(
         `${environment.apiBaseUrl}/travelplans-module/Invitation/${invitationId}/Rejection`
       );
+  }
+
+  getInvitationsForUser()
+  {
+    return this.http.get<PlanInvitationResponse[]>(
+      `${environment.apiBaseUrl}/travelplans-module/Invitation`
+    );
   }
 }

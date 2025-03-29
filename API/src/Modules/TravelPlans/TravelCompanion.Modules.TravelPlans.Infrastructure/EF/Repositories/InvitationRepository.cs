@@ -49,4 +49,9 @@ public class InvitationRepository : IInvitationRepository
         _invitations.Remove(invitation);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Invitation>> GetInvitationsForUser(Guid userId)
+    {
+        return await _invitations.Where(x => x.InviteeId == userId).ToListAsync();
+    }
 }

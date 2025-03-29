@@ -9,26 +9,29 @@ public class NotificationMessage : INotificationMessage
     public string Message { get; set; }
     public DateTime SentAt { get; set; }
     public string SentFrom { get; set; }
+    public NotificationSeverity Severity { get; set; }
 
-    public static NotificationMessage Create(string title, string message, string from)
+    public static NotificationMessage Create(string title, string message, string from, NotificationSeverity severity)
     {
         return new NotificationMessage()
         {
             Message = message,
             SentAt = DateTime.UtcNow,
             Title = title,
-            SentFrom = from
+            SentFrom = from,
+            Severity = severity
         };
     }
 
-    public static NotificationMessage Create(string title, string message)
+    public static NotificationMessage Create(string title, string message, NotificationSeverity severity)
     {
         return new NotificationMessage()
         {
             Message = message,
             SentAt = DateTime.UtcNow,
             Title = title,
-            SentFrom = null
+            SentFrom = null,
+            Severity = severity
         };
     }
 }

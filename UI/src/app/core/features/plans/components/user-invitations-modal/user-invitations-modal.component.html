@@ -1,0 +1,16 @@
+<app-modal
+  [isModalOpen]="isModalOpen"
+  (close)="closeModal()"
+  title="Manage Participants">
+
+  <app-item-list
+    [items]="invitations"
+    [displayProperty]="'planTitle'"
+    [buttonTemplate]="addButton">
+  </app-item-list>
+
+  <ng-template #addButton let-item>
+    <button (click)="acceptInvitation(item)">Add</button>
+    <button (click)="rejectInvitation(item)">Add</button>
+  </ng-template>
+</app-modal>

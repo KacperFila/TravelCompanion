@@ -91,4 +91,11 @@ public class PlanRepository : IPlanRepository
         _dbContext.Remove(plan);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Plan>> BrowseById(List<Guid> pointIds)
+    {
+        var plans = await _travelPlans
+            .Where(x => pointIds.Contains(x.Id)).ToListAsync();
+        return plans;
+    }
 }

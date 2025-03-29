@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
@@ -77,14 +78,45 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
             }
 
             var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
-                
+            
+            var planDto = AsPlanWithPointsDto(plan);
+
             await _planRepository.UpdateAsync(plan);
-            await _travelPlansRealTimeService.SendPlanUpdate(participants, plan);
+            await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
         }
         else
         {
             var removeRequest = TravelPointRemoveRequest.Create(point.Id, _userId);
             await _travelPointRemoveRequestRepository.AddAsync(removeRequest);
         }
+    }
+
+    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    {
+        return new PlanWithPointsDTO()
+        {
+            Id = plan.Id,
+            OwnerId = plan.OwnerId,
+            Participants = plan.Participants.Select(x => x.ParticipantId).ToList(),
+            Title = plan.Title,
+            Description = plan.Description,
+            From = plan.From,
+            To = plan.To,
+            AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
+            TotalCostValue = plan.TotalCostValue.Amount,
+            TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            PlanStatus = plan.PlanStatus,
+        };
+    }
+
+    private static PointDTO AsPointDto(TravelPoint point)
+    {
+        return new PointDTO()
+        {
+            Id = point.Id,
+            PlaceName = point.PlaceName,
+            TotalCost = point.TotalCost.Amount,
+            TravelPlanOrderNumber = point.TravelPlanOrderNumber
+        };
     }
 }

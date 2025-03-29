@@ -23,6 +23,7 @@ export class ManageParticipantsModal implements OnInit {
   error: string = '';
 
   @Input() isModalOpen: boolean = false;
+  @Input() planId: string = '';
   @Output() closeModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class ManageParticipantsModal implements OnInit {
 
   fetchUsers(): void {
     this.allUsers = [
-      { id: { value: "f6f210c2-2e0c-48c3-8d2b-c980fa50c0e5" }, email: 'test2@test.com' },
+      { id: { value: "4125fa31-5521-473c-91a3-56f68034e9c8" }, email: 'test2@test.com' },
     ];
     this.planParticipants = [...this.allUsers];
   }
@@ -49,8 +50,7 @@ export class ManageParticipantsModal implements OnInit {
   }
 
   addParticipant(item: PlanParticipant) {
-    console.log('Adding participant:', item);
-    this.plansService.inviteUserToPlan("6e5fd955-e0fd-42b7-9b3f-bc733ac34e2d", item.id.value)
+    this.plansService.inviteUserToPlan(this.planId, item.id.value)
       .subscribe();
   }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TravelCompanion.Modules.Users.Core.Exceptions;
 using TravelCompanion.Modules.Users.Core.Repositories;
@@ -53,5 +54,16 @@ internal class UsersModuleApi : IUsersModuleApi
         };
     }
 
+    public async Task<List<UserInfoDto>> BrowseUsersInfo(List<Guid> usersIds)
+    {
+        var users = await _userRepository.BrowseAsync(usersIds);
+        var userInfoDto = users.Select(x => new UserInfoDto()
+        {
+            Email = x.Email,
+            UserName = x.Email.Split("@")[0],
+            ActivePlanId = x.ActivePlanId,
+        });
 
+        return userInfoDto.ToList();
+    }
 }

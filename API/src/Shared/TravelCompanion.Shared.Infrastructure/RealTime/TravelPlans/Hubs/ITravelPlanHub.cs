@@ -8,4 +8,5 @@ public interface ITravelPlanHub
     Task ReceiveTravelPointUpdateRequestUpdate(object updateRequests);
     Task ReceivePlanInvitation(object invitation);
     Task ReceivePlanInvitationRemoved(object invitationId);
+    Task ReceiveActivePlanChanged(string planId);
 }

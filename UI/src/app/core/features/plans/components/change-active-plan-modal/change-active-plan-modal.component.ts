@@ -5,6 +5,7 @@ import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { TravelPlan } from '../../models/plan.models';
 import {switchMap, tap} from "rxjs";
+import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
   selector: 'app-change-active-plan-modal',
@@ -14,7 +15,7 @@ import {switchMap, tap} from "rxjs";
   imports: [ModalComponent, FormsModule, CommonModule],
 })
 export class ChangeActivePlanModal implements OnInit {
-  constructor(private plansService: PlansService) {}
+  constructor(private plansService: PlansService ) {}
 
   ngOnInit(): void {
     this.fetchPlans();
@@ -48,7 +49,7 @@ export class ChangeActivePlanModal implements OnInit {
   fetchPlans(): void {
     this.plansService.getActivePlanWithPoints().pipe(
       tap(response => {
-        this.selectedPlan = response; // Ensure it's set before modal opens
+        this.selectedPlan = response;
       }),
       switchMap(() => this.plansService.getPlansForUser())
     ).subscribe({

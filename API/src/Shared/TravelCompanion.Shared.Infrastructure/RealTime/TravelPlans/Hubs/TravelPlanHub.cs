@@ -36,10 +36,4 @@ internal class TravelPlanHub : Hub<ITravelPlanHub>
 
         await base.OnDisconnectedAsync(exception);
     }
-
-    public async Task SendRoadmapUpdate(object plan)
-    {
-        await Clients.All.ReceivePlanUpdate(plan);
-    }
-
 }

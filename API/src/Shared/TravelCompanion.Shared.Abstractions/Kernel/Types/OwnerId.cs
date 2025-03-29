@@ -9,4 +9,5 @@ public class OwnerId : TypeId
     }
 
     public static implicit operator OwnerId(Guid id) => new(id);
+    public static implicit operator Guid(OwnerId id) => id.Value;
 }

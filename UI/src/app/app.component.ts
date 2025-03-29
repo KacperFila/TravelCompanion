@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './core/auth/auth.service';
-import { PlansSignalRService } from "./core/features/plans/services/plans-signalR.service";
+import { NotificationComponent } from "./core/shared/notification/notification.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderComponent, RouterOutlet, RouterModule],
+  imports: [HeaderComponent, RouterOutlet, RouterModule, NotificationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

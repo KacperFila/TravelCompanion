@@ -1,6 +1,8 @@
-﻿namespace TravelCompanion.Shared.Infrastructure.RealTime.Notifications.Hubs
+﻿using System.Threading.Tasks;
+
+namespace TravelCompanion.Shared.Infrastructure.RealTime.Notifications.Hubs;
+
+public interface INotificationHub
 {
-    internal interface INotificationHub
-    {
-    }
+    Task ReceiveNotification(object notification);
 }

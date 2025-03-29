@@ -51,4 +51,9 @@ internal class UserRepository : IUserRepository
         _users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<User>> BrowseAsync(List<Guid> usersIds)
+    {
+        return await _users.Where(x => usersIds.Contains(x.Id)).ToListAsync();
+    }
 }

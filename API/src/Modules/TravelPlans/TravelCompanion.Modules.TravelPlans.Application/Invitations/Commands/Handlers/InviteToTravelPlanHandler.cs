@@ -77,11 +77,12 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             NotificationMessage.Create(
                 "Invitation",
                 $"You have been invited to plan: {plan.Title}",
-                plan.OwnerId.ToString()));
+                plan.OwnerId.ToString(),
+            NotificationSeverity.Alert));
 
         var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
 
-        var invitationResponse = new PlanInvitationResponse()
+        var invitationResponse = new InvitationDTO()
         {
             InvitationId = invitation.Id,
             PlanId = plan.Id,

@@ -23,16 +23,16 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
 
     public async Task<PlanWithPointsDTO> HandleAsync(GetPlanWithPoints query)
     {
-        var plan = await _planRepository.GetAsync(query.planId);
+        var plan = await _planRepository.GetAsync(query.PlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(query.planId);
+            throw new PlanNotFoundException(query.PlanId);
         }
 
         if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
+            throw new UserDoesNotParticipateInPlanException(_userId, query.PlanId);
         }
 
         return AsPlanWithPointsDto(plan);
@@ -51,7 +51,7 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
             To = plan.To,
             AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
             TotalCostValue = plan.TotalCostValue.Amount,
-            PlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
             PlanStatus = plan.PlanStatus,
         };
     }

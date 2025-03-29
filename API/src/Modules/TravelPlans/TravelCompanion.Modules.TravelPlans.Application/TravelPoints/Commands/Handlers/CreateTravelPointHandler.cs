@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
@@ -53,20 +54,52 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);
 
-        var notification =
-            NotificationMessage.Create(point.PlaceName, "One of your suggested changes has been accepted!");
-        await _notificationService.SendToAsync(plan.OwnerId.ToString(), notification);
-
         var participants = plan.Participants
                     .Select(x => x.ParticipantId)
                     .Select(x => x.ToString())
                     .ToList();
 
-        await _travelPlansRealTimeService.SendPlanUpdate(participants, plan);
+        var planDto = AsPlanWithPointsDto(plan);
+
+        var notification =
+            NotificationMessage.Create(point.PlaceName, "One of your suggested changes has been accepted!", NotificationSeverity.Information);
+
+        await _notificationService.SendToGroup(participants, notification);
+
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
     }
 
     private int GetNewTravelPointNumber(Plan plan)
     {
         return plan.TravelPlanPoints.Count + 1;
+    }
+
+    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    {
+        return new PlanWithPointsDTO()
+        {
+            Id = plan.Id,
+            OwnerId = plan.OwnerId,
+            Participants = plan.Participants.Select(x => x.ParticipantId).ToList(),
+            Title = plan.Title,
+            Description = plan.Description,
+            From = plan.From,
+            To = plan.To,
+            AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
+            TotalCostValue = plan.TotalCostValue.Amount,
+            TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            PlanStatus = plan.PlanStatus,
+        };
+    }
+
+    private static PointDTO AsPointDto(TravelPoint point)
+    {
+        return new PointDTO()
+        {
+            Id = point.Id,
+            PlaceName = point.PlaceName,
+            TotalCost = point.TotalCost.Amount,
+            TravelPlanOrderNumber = point.TravelPlanOrderNumber
+        };
     }
 }

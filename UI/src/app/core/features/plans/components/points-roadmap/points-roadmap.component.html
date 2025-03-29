@@ -2,11 +2,13 @@
 <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
 <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
 <button (click)="isUserPlansModalOpen = true" >User plans</button>
+<button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
 
 <p>Active plan: {{ this.travelPlan.title }}</p>
+<p>Invitations: {{invitations.length}}</p>
 
 <div class="roadmap">
-  <div *ngFor="let point of this.travelPlan?.planPoints; let last = last">
+  <div *ngFor="let point of this.travelPlan?.travelPlanPoints; let last = last">
     <app-travel-point
       [travelPoint]="point"
       [updateRequests]="updateRequests.get(point.id) || []"
@@ -42,6 +44,7 @@
 
 <app-manage-participants-modal
   [isModalOpen]="isManageParticipantsModalOpen"
+  [planId]="this.travelPlan.id"
   (closeModalEvent)="closeManageParticipantsModal()">
 </app-manage-participants-modal>
 
@@ -52,11 +55,15 @@
 
 <app-change-active-plan-modal
   [isModalOpen]="isChangeActiveModalOpen"
-  (closeModalEvent)="closeChangeActiveModal()"
-  (setActivePlanEvent)="getActivePlan()">
+  (closeModalEvent)="closeChangeActiveModal()">
 </app-change-active-plan-modal>
 
 <app-user-plans-modal
   [isModalOpen]="isUserPlansModalOpen"
   (closeModalEvent)="closeUserPlansModal()">
 </app-user-plans-modal>
+
+<app-user-invitations-modal
+  [isModalOpen]="isUserInvitationsModalOpen"
+  (closeModalEvent)="closeUserInvitationsModal()">
+</app-user-invitations-modal>

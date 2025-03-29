@@ -10,4 +10,5 @@ public interface ITravelPlansRealTimeService
     Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object updateRequests);
     Task SendPlanInvitation(string inviteeId, object invitation);
     Task SendPlanInvitationRemoved(string inviteeId, object payload);
+    Task SendActivePlanChanged(string userId, string planId);
 }

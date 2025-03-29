@@ -16,7 +16,7 @@ export interface TravelPlan {
   additionalCostsValue: number;
   totalCostValue: number;
   planStatus: string;
-  planPoints: TravelPoint[];
+  travelPlanPoints: TravelPoint[];
 }
 
 export interface TravelPoint {

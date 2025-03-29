@@ -5,5 +5,5 @@ namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
 public class GetPlanWithPoints : IQuery<PlanWithPointsDTO>
 {
-    public Guid planId { get; set; }
+    public Guid PlanId { get; set; }
 }

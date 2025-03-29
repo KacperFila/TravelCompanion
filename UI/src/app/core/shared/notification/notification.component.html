@@ -1,0 +1,5 @@
+<div *ngIf="notification" class="notification" [ngClass]="getSeverityClass(notification.severity)">
+  <strong>{{ notification.title }}</strong><br />
+  <span>{{ notification.message }}</span><br />
+  <small>From: {{ notification.sentFrom || 'Unknown' }} | Sent at: {{ notification.sentAt }}</small>
+</div>

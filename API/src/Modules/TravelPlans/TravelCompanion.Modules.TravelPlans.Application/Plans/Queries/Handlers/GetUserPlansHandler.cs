@@ -42,7 +42,7 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
             To = plan.To,
             AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
             TotalCostValue = plan.TotalCostValue.Amount,
-            PlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
             PlanStatus = plan.PlanStatus,
         };
     }
