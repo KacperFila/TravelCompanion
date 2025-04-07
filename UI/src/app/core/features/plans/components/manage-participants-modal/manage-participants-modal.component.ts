@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ItemListComponent } from '../../../../shared/item-list/item-list.components';
 import { PlanParticipant } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
-import {PlansService} from "../../services/plans.service";
+import {PlansService} from "../../services/plans/plans.service";
+import {UsersService} from "../../services/users/users.service";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-manage-participants-modal',
@@ -14,7 +16,7 @@ import {PlansService} from "../../services/plans.service";
   imports: [ModalComponent, FormsModule, ItemListComponent, CommonModule],
 })
 export class ManageParticipantsModal implements OnInit {
-  constructor(private plansService: PlansService) {
+  constructor(private plansService: PlansService, private usersService: UsersService) {
   }
 
   allUsers: PlanParticipant[] = [];
@@ -31,10 +33,17 @@ export class ManageParticipantsModal implements OnInit {
   }
 
   fetchUsers(): void {
-    this.allUsers = [
-      { id: { value: "4125fa31-5521-473c-91a3-56f68034e9c8" }, email: 'test2@test.com' },
-    ];
-    this.planParticipants = [...this.allUsers];
+    this.usersService.browseUsers()
+      .pipe(
+        map(users => users.map(user => ({
+          id: user.userId,
+          email: user.email,
+        })))
+      )
+      .subscribe(mappedUsers => {
+        this.allUsers = mappedUsers;
+        this.planParticipants = [...mappedUsers];
+      });
   }
 
   filterUsers(): void {
@@ -50,7 +59,7 @@ export class ManageParticipantsModal implements OnInit {
   }
 
   addParticipant(item: PlanParticipant) {
-    this.plansService.inviteUserToPlan(this.planId, item.id.value)
+    this.plansService.inviteUserToPlan(this.planId, item.id)
       .subscribe();
   }
 

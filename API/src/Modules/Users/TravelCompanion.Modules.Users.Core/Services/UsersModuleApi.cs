@@ -34,7 +34,7 @@ internal class UsersModuleApi : IUsersModuleApi
     }
     public async Task<List<Guid>> GetUsersIdsAsync()
     {
-        return await _userRepository.BrowseActiveAsync();
+        return await _userRepository.BrowseActiveIdsAsync();
     }
 
     public async Task<UserInfoDto> GetUserInfo(Guid userId)
@@ -59,6 +59,7 @@ internal class UsersModuleApi : IUsersModuleApi
         var users = await _userRepository.BrowseAsync(usersIds);
         var userInfoDto = users.Select(x => new UserInfoDto()
         {
+            UserId = x.Id,
             Email = x.Email,
             UserName = x.Email.Split("@")[0],
             ActivePlanId = x.ActivePlanId,

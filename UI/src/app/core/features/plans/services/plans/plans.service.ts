@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {map, Observable, switchMap, tap} from 'rxjs';
-import {AuthService} from '../../../auth/auth.service';
-import {TravelPlan, TravelPlanResponse, TravelPoint, TravelPointUpdateRequest} from '../models/plan.models';
+import {AuthService} from '../../../../auth/auth.service';
+import {TravelPlan, TravelPlanResponse, TravelPoint, TravelPointUpdateRequest} from '../../models/plan.models';
 import {PlanInvitationResponse} from "./plans-signalR-responses.models";
 
 @Injectable({ providedIn: 'root' })
@@ -114,7 +114,7 @@ export class PlansService {
       );
   }
 
-  inviteUserToPlan(planId: string, userId: string) {
+  inviteUserToPlan(planId: string, userId: { value: string }) {
     return this.http.post(
       `${environment.apiBaseUrl}/travelplans-module/Invitation/${planId}/${userId}`,
       {}

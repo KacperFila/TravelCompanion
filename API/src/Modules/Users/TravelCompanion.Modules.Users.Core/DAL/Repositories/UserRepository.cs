@@ -23,7 +23,7 @@ internal class UserRepository : IUserRepository
 
     public Task<User> GetAsync(string email) => _users.SingleOrDefaultAsync(x => x.Email == email);
     public async Task<User> GetByTokenAsync(string token) => await _users.SingleOrDefaultAsync(x => x.VerificationToken == token);
-    public async Task<List<Guid>> BrowseActiveAsync()
+    public async Task<List<Guid>> BrowseActiveIdsAsync()
         => await _users
             .Where(x => x.IsActive)
             .Select(x => x.Id)
@@ -55,5 +55,10 @@ internal class UserRepository : IUserRepository
     public async Task<List<User>> BrowseAsync(List<Guid> usersIds)
     {
         return await _users.Where(x => usersIds.Contains(x.Id)).ToListAsync();
+    }
+
+    public async Task<List<User>> BrowseAllAsync()
+    {
+        return await _users.ToListAsync();
     }
 }

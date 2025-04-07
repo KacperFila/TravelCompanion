@@ -7,7 +7,7 @@ import {
 import {
   TravelPoint, TravelPointUpdateRequest,
 } from '../../models/plan.models';
-import {PlansService} from '../../services/plans.service';
+import {PlansService} from '../../services/plans/plans.service';
 import {CommonModule} from '@angular/common';
 import {ModalComponent} from '../../../../shared/modal/modal.component';
 import {FormsModule} from '@angular/forms';

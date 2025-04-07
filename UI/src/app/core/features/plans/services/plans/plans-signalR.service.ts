@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from "../../../auth/auth.service";
+import { AuthService } from "../../../../auth/auth.service";
 import { PlansService } from "./plans.service";
-import { User } from "../../../auth/user.model";
+import { User } from "../../../../auth/user.model";
 import { PlanInvitationResponse } from "./plans-signalR-responses.models";
-import {TravelPlan} from "../models/plan.models";
+import {TravelPlan} from "../../models/plan.models";
 
 @Injectable({
   providedIn: 'root',

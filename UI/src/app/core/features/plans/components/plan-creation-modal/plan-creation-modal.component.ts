@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
-import { PlansService } from '../../services/plans.service';
+import { PlansService } from '../../services/plans/plans.service';
 import { CreateTravelPlanRequest } from '../../models/plan.models';
 
 @Component({

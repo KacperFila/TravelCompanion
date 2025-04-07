@@ -10,18 +10,18 @@ import {
   TravelPlan,
   TravelPoint, TravelPointUpdateRequest, UpdateRequestUpdateResponse
 } from '../../models/plan.models';
-import { PlansService } from '../../services/plans.service';
+import { PlansService } from '../../services/plans/plans.service';
 import { CommonModule } from '@angular/common';
 import {last, Subscription} from 'rxjs';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { TravelPointComponent } from "../travel-point/travel-point.component";
-import { PlansSignalRService } from "../../services/plans-signalR.service";
+import { PlansSignalRService } from "../../services/plans/plans-signalR.service";
 import {
   PlanInvitationRemovedResponse,
   PlanInvitationResponse,
   UpdatedPlan
-} from "../../services/plans-signalR-responses.models";
+} from "../../services/plans/plans-signalR-responses.models";
 import {ManageParticipantsModal} from "../manage-participants-modal/manage-participants-modal.component";
 import {ChangeActivePlanModal} from "../change-active-plan-modal/change-active-plan-modal.component";
 import {PlanCreationModal} from "../plan-creation-modal/plan-creation-modal.component";

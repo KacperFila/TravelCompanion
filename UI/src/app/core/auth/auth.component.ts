@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import {PlansSignalRService} from "../features/plans/services/plans-signalR.service";
+import {PlansSignalRService} from "../features/plans/services/plans/plans-signalR.service";
 
 @Component({
   standalone: true,

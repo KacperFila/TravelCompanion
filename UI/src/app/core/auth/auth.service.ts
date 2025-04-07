@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import { User } from './user.model';
-import {PlansSignalRService} from "../features/plans/services/plans-signalR.service";
+import {PlansSignalRService} from "../features/plans/services/plans/plans-signalR.service";
 
 interface AccountDTO {
   email: string;

@@ -8,6 +8,7 @@ using TravelCompanion.Modules.Users.Core.DTO;
 using TravelCompanion.Modules.Users.Core.Entities;
 using TravelCompanion.Modules.Users.Core.Exceptions;
 using TravelCompanion.Modules.Users.Core.Repositories;
+using TravelCompanion.Modules.Users.Shared.DTO;
 using TravelCompanion.Shared.Abstractions.Auth;
 using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Time;
@@ -129,6 +130,19 @@ namespace TravelCompanion.Modules.Users.Core.Services
         public static string CreateRandomToken(int length)
         {
             return CreateRandomToken(Alphabet, length);
+        }
+
+        public async Task<List<UserInfoDto>> GetAllAsync()
+        {
+            var users = await _userRepository.BrowseAllAsync();
+            var userInfoDto = users.Select(x => new UserInfoDto()
+            {
+                UserId = x.Id,
+                Email = x.Email,
+                UserName = x.Email.Split("@")[0],
+                ActivePlanId = x.ActivePlanId,
+            });
+            return userInfoDto.ToList();
         }
 
         public static string CreateRandomToken(string characters, int length)
