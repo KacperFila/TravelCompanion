@@ -44,17 +44,17 @@ export class TravelPointComponent {
     this.pointDeletedEvent.emit(point);
   }
 
-  AcceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  acceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
-    this.plansService.acceptUpdateRequest(updateRequest.requestId.value)
+    this.plansService.acceptUpdateRequest(updateRequest.requestId.valueOf())
       .subscribe(
         (error) => {console.log(error)}
       );
   }
 
-  RejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  rejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
-    this.plansService.rejectUpdateRequest(updateRequest.requestId.value)
+    this.plansService.rejectUpdateRequest(updateRequest.requestId.valueOf())
       .subscribe(
         (error) => {console.log(error)}
       );

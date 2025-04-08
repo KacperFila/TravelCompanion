@@ -38,9 +38,9 @@ export interface TravelPlanResponse {
 }
 
 export interface TravelPointUpdateRequest {
-  requestId: { value: string };
-  travelPlanPointId: { value: string };
-  suggestedById: { value: string };
+  requestId: string;
+  travelPlanPointId: string;
+  suggestedById: string;
   placeName: string;
   createdOnUtc: string;
   modifiedOnUtc: string;
@@ -48,11 +48,11 @@ export interface TravelPointUpdateRequest {
 
 export interface UpdateRequestUpdateResponse {
   updateRequests: TravelPointUpdateRequest[];
-  pointId: { value: string };
+  pointId: string;
 }
 
 export interface PlanParticipant {
-  id: { value: string };
+  id: string;
   email: string;
 }
 

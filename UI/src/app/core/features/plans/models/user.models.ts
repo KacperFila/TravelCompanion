@@ -1,11 +1,7 @@
 export interface UserInfoDto
 {
-  userId: {
-    value: string
-  },
+  userId: string,
   userName: string,
-  email: string
-  activePlanId: {
-    value: string
-  }
+  email: string,
+  activePlanId: string
 }
