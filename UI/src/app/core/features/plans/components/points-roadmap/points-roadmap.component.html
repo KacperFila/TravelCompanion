@@ -7,19 +7,19 @@
 <p>Active plan: {{ this.travelPlan.title }}</p>
 <p>Invitations: {{invitations.length}}</p>
 
-<div class="roadmap">
-  <div *ngFor="let point of this.travelPlan?.travelPlanPoints; let last = last">
+<span class="roadmap">
+  <span *ngFor="let point of this.travelPlan?.travelPlanPoints; let last = last">
     <app-travel-point
       [travelPoint]="point"
       [updateRequests]="updateRequests.get(point.id) || []"
       [nodeNumber]="point.travelPlanOrderNumber"
       (pointDeletedEvent)="deletePoint($event)"
     />
-  </div>
-  <div class="node add-node" *ngIf="last" (click)="isCreatePointModalOpen = true">
-    <div class="circle">+</div>
-  </div>
-</div>
+  </span>
+  <span class="node add-node" *ngIf="last" (click)="isCreatePointModalOpen = true">
+    <span class="circle">+</span>
+  </span>
+</span>
 
 <app-modal
   [isModalOpen]="isCreatePointModalOpen"
@@ -35,10 +35,10 @@
       [(ngModel)]="newTravelPoint.placeName"
       required/>
 
-    <div class="modal-buttons">
+    <span class="modal-buttons">
       <button type="submit">Set Active</button>
       <button type="button" (click)="closeCreatePointModal()">Cancel</button>
-    </div>
+    </span>
   </form>
 </app-modal>
 

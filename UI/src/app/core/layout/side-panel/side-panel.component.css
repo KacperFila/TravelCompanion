@@ -1,0 +1,43 @@
+.side-panel {
+  position: absolute;
+  height: calc(100vh - 70px);
+  background-color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  width: 50px;
+}
+
+.side-panel.expanded {
+  width: 25%;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.panel-content a {
+  display: flex;
+  color: white;
+  align-items: center;
+  text-decoration: none;
+  font-size: 50px;
+}
+
+.panel-content a:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.label {
+  height: 50px;
+  font-size: 20px;
+}
+
+.material-icons {
+  font-size: 30px;
+  padding: 10px;
+}

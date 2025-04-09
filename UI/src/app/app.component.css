@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  width: 100%;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+.dimmed {
+  opacity: 0.5;
+  background: black;
+  pointer-events: none;
+}
