@@ -1,15 +1,17 @@
 .side-panel {
   position: absolute;
-  height: calc(100vh - 70px);
-  background-color: #2c3e50;
+  height: 95vh;
+  background-color: dimgray;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
   width: 50px;
+  color: white;
 }
 
 .side-panel.expanded {
   width: 25%;
+  display: block;
 }
 
 .panel-content {
@@ -19,25 +21,24 @@
   width: 100%;
 }
 
-.panel-content a {
-  display: flex;
-  color: white;
-  align-items: center;
-  text-decoration: none;
-  font-size: 50px;
-}
-
-.panel-content a:hover {
-  opacity: 0.9;
-  cursor: pointer;
-}
-
-.label {
-  height: 50px;
-  font-size: 20px;
-}
-
 .material-icons {
   font-size: 30px;
   padding: 10px;
+  color: white;
+}
+
+.side-panel-element {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.side-panel-element:not(:first-child):hover{
+  background-color: #4b6cb7;
+}
+
+.side-panel-icon-label {
+  color: white;
 }

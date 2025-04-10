@@ -1,21 +1,21 @@
 <div class="side-panel" [class.expanded]="isSidebarExpanded">
 
   <div class="panel-content">
-    <a>
-      <span *ngIf="isSidebarExpanded" (click)="togglePanel()" class="material-icons">close</span>
-      <span *ngIf="!isSidebarExpanded" (click)="togglePanel()" class="material-icons">menu</span>
+    <a class="side-panel-element">
+      <span class="side-panel-icon material-icons" *ngIf="isSidebarExpanded" (click)="togglePanel()">close</span>
+      <span class="side-panel-icon material-icons" *ngIf="!isSidebarExpanded" (click)="togglePanel()">menu</span>
     </a>
-    <a routerLink="/travels" routerLinkActive="active">
-      <span class="material-icons">flight_takeoff</span>
-      <span *ngIf="isSidebarExpanded" class="label">Travels</span>
+    <a class="side-panel-element" routerLink="/travels" routerLinkActive="active">
+      <span class="side-panel-icon material-icons">flight_takeoff</span>
+      <span class="side-panel-icon-label" *ngIf="isSidebarExpanded">Travels</span>
     </a>
-    <a routerLink="/plans" routerLinkActive="active">
-      <span class="material-icons">assignment</span>
-      <span *ngIf="isSidebarExpanded" class="label">Plans</span>
+    <a class="side-panel-element" routerLink="/plans" routerLinkActive="active">
+      <span class="side-panel-icon material-icons">assignment</span>
+      <span class="side-panel-icon-label" *ngIf="isSidebarExpanded">Plans</span>
     </a>
-    <a routerLink="/costs" routerLinkActive="active">
-      <span class="material-icons">attach_money</span>
-      <span *ngIf="isSidebarExpanded" class="label">Costs</span>
+    <a class="side-panel-element" routerLink="/costs" routerLinkActive="active">
+      <span class="side-panel-icon material-icons">attach_money</span>
+      <span class="side-panel-icon-label" *ngIf="isSidebarExpanded">Costs</span>
     </a>
   </div>
 </div>

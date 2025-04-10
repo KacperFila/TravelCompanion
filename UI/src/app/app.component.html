@@ -2,10 +2,10 @@
 <app-notification></app-notification>
 
 <div class="layout">
-  <div class="side-panel" [class.expanded]="isSidebarExpanded">
+  <div class="side-panel" [class.side-panel-expanded]="isSidebarExpanded">
     <app-side-panel *ngIf="user$ | async" (toggle)="toggleSidebar($event)"></app-side-panel>
   </div>
-  <div class="main-content" [class.dimmed]="isSidebarExpanded">
+  <div class="main-content" [class.main-content-expanded]="isSidebarExpanded">
     <router-outlet></router-outlet>
   </div>
 </div>
