@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f9f9f9;
+    background-color: var(--background-color);
 }
 
 .error-message {
@@ -17,12 +17,13 @@
 
 .form-group {
     margin-bottom: 15px;
+    color: var(--header-background-color);
 }
 
 .button-container {
     display: flex;
-    justify-content: space-between; /* Space out the buttons */
-    width: 100%; /* Take the full width of the form */
+    justify-content: space-between;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -32,36 +33,34 @@ button {
     border: none;
     border-radius: 4px;
     font-size: 16px;
-    width: 48%; /* Slightly less than half to account for spacing */
+    width: 48%;
 }
 
 button[type="submit"] {
-    background-color: #007bff; /* Blue background for login/signup button */
+    background-color: var(--primary-color);
     color: white;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: var(--primary-hover-color);
+  color: var(--background-color)
 }
 
 button.switch-button {
-    background-color: transparent; /* Transparent background for switch button */
-    border: 2px solid #007bff; /* Blue border */
-    color: #007bff; /* Blue text */
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
 }
 
 button.switch-button:hover {
-    background-color: #007bff; /* Blue background on hover */
-    color: white; /* White text on hover */
+  background-color: var(--primary-hover-color);
+  border: 2px solid var(--primary-hover-color);
+  color: white;
 }
 
 form {
-    width: 90%; /* Adjust the width as needed */
-    max-width: 400px; /* Set a max-width for the form */
+    width: 90%;
+    max-width: 400px;
     padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 input.form-control {
@@ -69,4 +68,8 @@ input.form-control {
     padding: 10px;
     margin-top: 5px;
     box-sizing: border-box;
+    border-radius: 20px;
+    background: var(--secondary-color);
+    border: transparent;
+    color: var(--header-background-color);
 }

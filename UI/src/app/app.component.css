@@ -1,10 +1,11 @@
 .layout {
   display: flex;
   width: 100%;
-  height: 95vh;
+  height: calc(100vh - 70px);
 }
 
 .main-content {
+  background: var(--background-color);
   display: flex;
   width: calc(100vw - 50px);
   height: 100%;
@@ -13,15 +14,20 @@
   align-items: center;
 }
 
-.side-panel{
-  display: flex;
-  width: 50px;
-  transition: width 0.3s ease;
-}
-
 .main-content-expanded {
   display: flex;
   width: 75%;
+  transition: width 0.3s ease;
+}
+
+.main-content-dimmed {
+  filter: brightness(0.5);
+  pointer-events: none;
+}
+
+.side-panel{
+  display: flex;
+  width: 50px;
   transition: width 0.3s ease;
 }
 
@@ -29,4 +35,11 @@
   display: flex;
   width: 25%;
   transition: width 0.3s ease;
+}
+
+.dimmed {
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.5;
 }

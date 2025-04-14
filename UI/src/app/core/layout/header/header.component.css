@@ -1,71 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
 .header {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 70px;
+  background-color: var(--header-background-color);
+  color: var(--secondary-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  width: 50px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.content {
+  width: calc(100vw - 50px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #4b6cb7, #182848);
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  height: 5vh;
-  padding: 20px;
+  padding: 0 1rem;
 }
 
 .title {
-  font-size: 1.8em;
-  font-weight: 600;
-}
-
-.logout-btn {
-  background: #ff171788;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  font-size: 1em;
-  font-family: inherit;
   cursor: pointer;
-  border-radius: 8px;
+  margin: 0;
+  font-size: 1.5rem;
+  text-decoration: none;
 }
 
-.logout-btn:hover {
-  background: #cc0000;
-  transform: scale(1.05);
-}
-
-.logout-btn:active {
-  transform: scale(0.95);
-}
-
-.nav-links {
+.user-section {
   display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
+.user-name {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.logout-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
   border-radius: 4px;
-  transition: background 0.3s;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  background-color: #1abc9c;
-}
-
-.logout-link {
-  color: white;
   cursor: pointer;
-  text-decoration: underline;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.title {
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.title:hover {
-  color: #ff6347;
+.logout-btn:hover {
+  background-color: var(--primary-hover-color);
 }

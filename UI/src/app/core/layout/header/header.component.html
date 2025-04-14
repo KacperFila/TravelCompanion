@@ -1,6 +1,12 @@
 <header class="header">
+  <div class="material-icons logo">
+    landscape
+  </div>
+  <div class="content">
     <h1 routerLink="/home" class="title">TravelCompanion</h1>
-
-    <p class="user-name" *ngIf="user$ | async as user;" >{{user.email}}</p>
-  <button class="logout-btn" *ngIf="user$ | async as user;" (click)="logout()">Log out</button>
+    <div class="user-section" *ngIf="user$ | async as user">
+      <p class="user-name">{{ user.email }}</p>
+      <button class="logout-btn" (click)="logout()">Log out</button>
+    </div>
+  </div>
 </header>

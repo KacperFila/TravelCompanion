@@ -1,17 +1,13 @@
 .side-panel {
   position: absolute;
-  height: 95vh;
-  background-color: dimgray;
+  background-color: var(--secondary-color);
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  width: 50px;
-  color: white;
 }
 
 .side-panel.expanded {
   width: 25%;
-  display: block;
 }
 
 .panel-content {
@@ -23,22 +19,31 @@
 
 .material-icons {
   font-size: 30px;
+}
+
+.side-panel-icon,
+.side-panel-icon-label {
+  color: var(--header-background-color);
+}
+
+.side-panel-icon:hover,
+.side-panel-icon-label:hover {
+  color: var(--header-background-color);
+}
+
+.side-panel-icon {
   padding: 10px;
-  color: white;
 }
 
 .side-panel-element {
   display: flex;
-  width: 100%;
   align-items: center;
+  width: 100%;
   text-decoration: none;
   cursor: pointer;
 }
 
-.side-panel-element:not(:first-child):hover{
-  background-color: #4b6cb7;
-}
-
-.side-panel-icon-label {
-  color: white;
+.side-panel-element:not(:first-child):hover,
+.side-panel-element.active {
+  background-color: var(--primary-color);
 }
