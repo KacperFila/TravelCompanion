@@ -1,58 +1,12 @@
-<div>
-  <div class="circle-container">
-      <div class="circle" (click)="openPointDetailsModal()">{{ nodeNumber }}</div>
-      <div class="delete-circle" (click)="deletePoint(travelPoint)">−</div>
-      <div class="edit-requests-circle" (click)="openPointEditRequestsModal()">✎
-        <div *ngIf="updateRequests" class="edit-requests-amount">{{updateRequests.length}}</div>
-      </div>
+<div class="point-container">
+  <div class="left-container">
+    <span>{{ travelPoint.placeName }}</span>
+    <button (click)="deletePoint(travelPoint)">🗑</button>
+    <button (click)="triggerEditRequestsModal()">📝</button>
+    <button (click)="triggerEditPointModal()">📝</button>
   </div>
-  <div class="info">
-    <strong>{{ travelPoint.placeName }}</strong>
+  <div class="central-container">
+    <div class="circle">{{ nodeNumber }}</div>
   </div>
+  <div class="right-container"></div>
 </div>
-
-<app-modal
-  [isModalOpen]="isPointDetailsModalOpen"
-  (close)="closePointDetailsModal()"
-  title="Travel Point details">
-  <form (submit)="updatePoint()">
-    <label for="travelPointDetails">Place name</label>
-    <input
-      type="text"
-      id="travelPointDetails"
-      [(ngModel)]="editedTravelPoint.placeName"
-      name="travelPointDetails"
-      required
-    />
-
-    <div class="modal-buttons">
-      <button type="submit">Submit!</button>
-      <button type="button" (click)="closePointDetailsModal()">Cancel</button>
-    </div>
-  </form>
-</app-modal>
-
-<app-modal
-  [isModalOpen]="isPointEditRequestsModalOpen"
-  (close)="closePointEditRequestsModal()"
-  title="Travel Point Edit Requests">
-
-  <ng-container *ngIf="(updateRequests && updateRequests.length > 0); else noRequestsTemplate">
-    <app-item-list
-      [items]="updateRequests"
-      [displayProperty]="'placeName'"
-      [buttonTemplate]="buttonsTemplate">
-    </app-item-list>
-  </ng-container>
-
-  <ng-template #noRequestsTemplate>
-    <p class="no-requests-message">No edit requests available.</p>
-  </ng-template>
-
-  <ng-template #buttonsTemplate let-item>
-    <button (click)="acceptUpdateRequest(item)">Accept</button>
-    <button (click)="rejectUpdateRequest(item)">Reject</button>
-  </ng-template>
-
-</app-modal>
-

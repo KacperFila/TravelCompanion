@@ -26,7 +26,10 @@ export class TravelPointComponent {
   @Input() travelPoint: TravelPoint = { id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   @Input() updateRequests: TravelPointUpdateRequest[] = [];
   @Input() nodeNumber: number = 0;
+
   @Output() pointDeletedEvent = new EventEmitter<TravelPoint>();
+  @Output() openEditRequestsModalEvent = new EventEmitter<TravelPointUpdateRequest[]>();
+  @Output() openEditPointModalEvent = new EventEmitter<TravelPoint>();
 
   editedTravelPoint: TravelPoint = { id: '', placeName: '', totalCost: 0, travelPlanOrderNumber: 0 };
   isPointDetailsModalOpen: boolean = false;
@@ -38,6 +41,14 @@ export class TravelPointComponent {
       .subscribe(
         (error) => {console.log(error)}
       );
+  }
+
+  triggerEditRequestsModal() {
+    this.openEditRequestsModalEvent.emit(this.updateRequests);
+  }
+
+  triggerEditPointModal() {
+    this.openEditPointModalEvent.emit(this.travelPoint);
   }
 
   deletePoint(point: TravelPoint) {

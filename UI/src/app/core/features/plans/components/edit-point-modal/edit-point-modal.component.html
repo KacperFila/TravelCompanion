@@ -1,0 +1,20 @@
+<app-modal
+  [isModalOpen]="isModalOpen"
+  (close)="closeEditPointModal()"
+  title="Edit Travel Point"
+>
+  <form (ngSubmit)="editedPointEvent.emit(editedTravelPoint)">
+    <label for="placeName">Place Name:</label>
+    <input
+      id="placeName"
+      type="text"
+      [(ngModel)]="editedTravelPoint.placeName"
+      name="placeName"
+      required
+    />
+    <div class="modal-buttons">
+      <button type="submit">Update</button>
+      <button type="button" (click)="closeEditPointModal()">Cancel</button>
+    </div>
+  </form>
+</app-modal>

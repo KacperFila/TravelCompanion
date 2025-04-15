@@ -1,15 +1,23 @@
 <app-header></app-header>
 <app-notification></app-notification>
 
-<div class="layout">
-  <div class="side-panel"
-       [class.side-panel-expanded]="isSidebarExpanded">
-    <app-side-panel *ngIf="user$ | async" (toggle)="toggleSidebar($event)"></app-side-panel>
+<ng-container *ngIf="user$ | async as user; else contentOnly">
+  <div class="content">
+    <div class="side-panel" [class.side-panel-expanded]="isSidebarExpanded">
+      <app-side-panel (toggle)="toggleSidebar($event)"></app-side-panel>
+    </div>
+    <div class="main-content"
+         [class.main-content-expanded]="isSidebarExpanded"
+         [class.main-content-dimmed]="isSidebarExpanded">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-  <div class="main-content"
-       [class.main-content-expanded]="isSidebarExpanded"
-       [class.main-content-dimmed]="isSidebarExpanded"
-  >
-    <router-outlet></router-outlet>
+</ng-container>
+
+<ng-template #contentOnly>
+  <div class="content">
+    <div class="main-content full-width">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-</div>
+</ng-template>

@@ -1,0 +1,22 @@
+<app-modal
+  [isModalOpen]="isModalOpen"
+  (close)="closeEditRequestModal()"
+  title="Travel Point Edit Requests">
+
+  <ng-container *ngIf="(updateRequests && updateRequests.length > 0); else noRequestsTemplate">
+    <app-item-list
+      [items]="updateRequests"
+      [displayProperty]="'placeName'"
+      [buttonTemplate]="buttonsTemplate">
+    </app-item-list>
+  </ng-container>
+
+  <ng-template #noRequestsTemplate>
+    <p class="no-requests-message">No edit requests available.</p>
+  </ng-template>
+
+  <ng-template #buttonsTemplate let-item>
+    <button (click)="acceptEditRequest()">Accept</button>
+    <button (click)="rejectEditRequest()">Reject</button>
+  </ng-template>
+</app-modal>

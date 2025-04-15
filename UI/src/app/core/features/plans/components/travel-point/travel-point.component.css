@@ -1,92 +1,40 @@
-.circle-container {
+.point-container{
   display: flex;
-  align-items: center;
-  gap: 10px;
+  width: 60vw;
+  height: 10vh;
+}
+
+.left-container {
+  background: red;
+  height: 100%;
+  width: 25vw;
+}
+
+.central-container {
+  width: 10vh;
+  height: 10vh;
+}
+
+.right-container {
+  background: blue;
+  width: 25vw;
+  height: 100%;
 }
 
 .circle {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.delete-circle {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: #dc3545;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.delete-circle:hover {
-  background-color: #c82333;
-}
-
-.edit-requests-circle {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: cornflowerblue;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
   position: relative;
-}
-
-.edit-requests-amount
-{
-  font-size: 10px;
-  color: black;
-  background-color: red;
-  position: absolute;
-  border-radius: 100%;
-  top: 50%;
-  left: 50%;
-}
-
-.edit-requests-circle:hover {
-  background-color: cornflowerblue;
-}
-
-.info {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-form {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: solid var(--primary-color) 2px;
+  color: var(--header-background-color);
+  border-radius: 100%;
+  height: 100%;
+  font-family: var(--font-family), serif;
+  font-size: 1.5rem;
 }
 
-form label {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-form input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.invisible{
+  opacity: 0;
+  pointer-events: none;
 }

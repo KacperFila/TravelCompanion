@@ -27,13 +27,16 @@ import {ChangeActivePlanModal} from "../change-active-plan-modal/change-active-p
 import {PlanCreationModal} from "../plan-creation-modal/plan-creation-modal.component";
 import {UserPlansModal} from "../user-plans-modal/user-plans-modal.component";
 import {UserInvitationsModalComponent} from "../user-invitations-modal/user-invitations-modal.component";
+import {CreateTravelPointModal} from "../create-travel-point-modal/create-travel-point-modal.component";
+import {EditRequestModalComponent} from "../edit-request-modal/edit-request-modal.component";
+import {EditPointModalComponent} from "../edit-point-modal/edit-point-modal.component";
 
 @Component({
   selector: 'app-points-roadmap',
   templateUrl: './points-roadmap.component.html',
   styleUrls: ['./points-roadmap.component.css'],
   standalone: true,
-  imports: [CommonModule, ModalComponent, FormsModule, TravelPointComponent, ManageParticipantsModal, ChangeActivePlanModal, PlanCreationModal, UserPlansModal, UserInvitationsModalComponent],
+  imports: [CommonModule, FormsModule, TravelPointComponent, ManageParticipantsModal, ChangeActivePlanModal, PlanCreationModal, UserPlansModal, UserInvitationsModalComponent, CreateTravelPointModal, EditRequestModalComponent, EditPointModalComponent],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
   constructor(
@@ -45,6 +48,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   updateRequests: Map<string, TravelPointUpdateRequest[]> = new Map<string, TravelPointUpdateRequest[]>;
   newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
   invitations: PlanInvitationResponse[] =[];
+  selectedUpdateRequests: TravelPointUpdateRequest[] = [];
+
   private invitationsSubscription!: Subscription;
   private planSubscription!: Subscription;
 
@@ -58,6 +63,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   isChangeActiveModalOpen: boolean = false;
   isUserPlansModalOpen: boolean = false;
   isUserInvitationsModalOpen: boolean = false;
+  isEditRequestsModalOpen = false;
+  isEditPointModalOpen = false;
 
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
@@ -85,10 +92,21 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     }
   }
 
-  createPoint(event: Event): void {
-    event.preventDefault();
+  onShowEditRequests(requests: TravelPointUpdateRequest[]) {
+    this.selectedUpdateRequests = requests;
+    this.isEditRequestsModalOpen = true;
+  }
 
-    if (!this.newTravelPoint?.placeName.trim())    {
+  onShowEditPoint(point: TravelPoint) {
+    this.isEditPointModalOpen = true;
+  }
+
+  closeEditRequestsModal() {
+    this.isEditRequestsModalOpen = false;
+  }
+
+  onTravelPointCreated(newPoint: TravelPoint): void {
+    if (!newPoint?.placeName.trim())    {
       return;
     }
 
@@ -97,13 +115,13 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     }
 
     this.plansService
-      .addPointToPlan(this.travelPlan.id, this.newTravelPoint.placeName)
+      .addPointToPlan(this.travelPlan.id, newPoint.placeName)
       .subscribe({
         next: () => {
           this.closeCreatePointModal();
         },
         error: (err) => console.error('Error creating point', err),
-      });
+      });    this.isCreatePointModalOpen = false;
   }
 
   deletePoint(point: TravelPoint) {
@@ -129,6 +147,10 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
   closeCreatePointModal(){
     this.isCreatePointModalOpen = false;
+  }
+
+  closeEditPointModal(){
+    this.isEditPointModalOpen = false;
   }
 
   closeManageParticipantsModal(){

@@ -1,45 +1,18 @@
-<button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
-<button (click)="isCreatePlanModalOpen = true" >Create plan</button>
-<button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
-<button (click)="isUserPlansModalOpen = true" >User plans</button>
-<button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+<app-edit-request-modal
+  [isModalOpen]="isEditRequestsModalOpen"
+  (closeModalEvent)="isEditRequestsModalOpen = false">
+</app-edit-request-modal>
 
-<p class="active-plan-title">Active plan: {{ this.travelPlan.title }}</p>
+<app-edit-point-modal
+  [isModalOpen]="isEditPointModalOpen"
+  (closeModalEvent)="isEditPointModalOpen = false">
+</app-edit-point-modal>
 
-<span class="roadmap">
-  <span *ngFor="let point of this.travelPlan?.travelPlanPoints; let last = last">
-    <app-travel-point
-      [travelPoint]="point"
-      [updateRequests]="updateRequests.get(point.id) || []"
-      [nodeNumber]="point.travelPlanOrderNumber"
-      (pointDeletedEvent)="deletePoint($event)"
-    />
-  </span>
-  <span class="node add-node" *ngIf="last" (click)="isCreatePointModalOpen = true">
-    <span class="circle">+</span>
-  </span>
-</span>
-
-<app-modal
+<app-create-travel-point-modal
   [isModalOpen]="isCreatePointModalOpen"
-  (close)="closeCreatePointModal()"
-  title="Add new Travel Point">
-
-  <form (submit)="createPoint($event)">
-    <label for="newTravelPoint">Create Travel Point</label>
-    <input
-      type="text"
-      id="newTravelPoint"
-      name="newTravelPoint"
-      [(ngModel)]="newTravelPoint.placeName"
-      required/>
-
-    <span class="modal-buttons">
-      <button type="submit">Set Active</button>
-      <button type="button" (click)="closeCreatePointModal()">Cancel</button>
-    </span>
-  </form>
-</app-modal>
+  (closeModalEvent)="isCreatePointModalOpen = false"
+  (createdPointEvent)="onTravelPointCreated($event)">
+</app-create-travel-point-modal>
 
 <app-manage-participants-modal
   [isModalOpen]="isManageParticipantsModalOpen"
@@ -66,3 +39,32 @@
   [isModalOpen]="isUserInvitationsModalOpen"
   (closeModalEvent)="closeUserInvitationsModal()">
 </app-user-invitations-modal>
+
+<button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
+<button (click)="isCreatePlanModalOpen = true" >Create plan</button>
+<button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
+<button (click)="isUserPlansModalOpen = true" >User plans</button>
+<button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+
+<p class="active-plan-title">Active plan: {{ this.travelPlan.title }}</p>
+
+<span class="roadmap">
+  <ng-container *ngFor="let point of travelPlan?.travelPlanPoints; let i = index; let last = last">
+    <div class="node-container">
+      <div class="node">
+        <app-travel-point
+          [travelPoint]="point"
+          [updateRequests]="updateRequests.get(point.id) || []"
+          [nodeNumber]="point.travelPlanOrderNumber"
+          (pointDeletedEvent)="deletePoint($event)"
+          (openEditRequestsModalEvent)="onShowEditRequests($event)"
+          (openEditPointModalEvent)="onShowEditPoint($event)"
+        ></app-travel-point>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="node add-node" (click)="isCreatePointModalOpen = true">
+    <span class="circle">+</span>
+  </div>
+</span>

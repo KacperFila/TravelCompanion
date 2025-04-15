@@ -1,6 +1,7 @@
 .roadmap {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -66,4 +67,34 @@ button:active {
   color: var(--primary-color);
   font-size: 30px;
   font-weight: bold;
+}
+
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.node-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.line {
+  width: 4px;
+  height: 40px;
+  background-color: #007bff;
+  margin: 0 auto;
 }
