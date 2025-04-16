@@ -43,19 +43,19 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
             throw new TravelPointUpdateRequestNotFoundException(command.RequestId);
         }
 
-        var planPointId = request?.TravelPlanPointId;
-        var pointExists = await _travelPointRepository.ExistAsync(planPointId);
+        var pointId = request?.TravelPlanPointId;
+        var pointExists = await _travelPointRepository.ExistAsync(pointId);
 
         if (!pointExists)
         {
-            throw new TravelPointNotFoundException(planPointId);
+            throw new TravelPointNotFoundException(pointId);
         }
 
-        var plan = await _planRepository.GetByPointIdAsync(planPointId);
+        var plan = await _planRepository.GetByPointIdAsync(pointId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(planPointId);
+            throw new PlanNotFoundException(pointId);
         }
 
         if (plan.OwnerId != _userId)
@@ -69,13 +69,13 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         }
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(planPointId);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(pointId);
         var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {
             UpdateRequests = updateRequests,
-            PointId = planPointId
+            PointId = pointId
         };
 
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);

@@ -23,9 +23,9 @@ internal sealed class GetTravelPointUpdateRequestsEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpGet("Point/{pointId:guid}/UpdateRequests")]
+    [HttpGet("Point/{planId:guid}/UpdateRequests")]
     [SwaggerOperation(
-        Summary = "Get Update Requests For Point",
+        Summary = "Get Update Requests For Plan",
         Tags = new[] { TravelPlansEndpoint.TravelPlansTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]

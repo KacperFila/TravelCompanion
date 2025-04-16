@@ -1,14 +1,13 @@
 <app-modal
   [isModalOpen]="isModalOpen"
   (close)="closeEditPointModal()"
-  title="Edit Travel Point"
->
-  <form (ngSubmit)="editedPointEvent.emit(editedTravelPoint)">
+  title="Edit Travel Point">
+  <form *ngIf="pointToEdit" (ngSubmit)="editedPointEvent.emit(pointToEdit)">
     <label for="placeName">Place Name:</label>
     <input
       id="placeName"
       type="text"
-      [(ngModel)]="editedTravelPoint.placeName"
+      [(ngModel)]="pointToEdit.placeName"
       name="placeName"
       required
     />

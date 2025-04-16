@@ -14,6 +14,10 @@ internal sealed class TravelPointUpdateRequestConfiguration : IEntityTypeConfigu
             .HasConversion(x => x.Value, x => new AggregateId(x));
 
         builder
+            .Property(x => x.PlanId)
+            .HasConversion(x => x.Value, x => new AggregateId(x));
+
+        builder
             .Property(x => x.SuggestedById)
             .HasConversion(x => x.Value, x => new EntityId(x));
 

@@ -46,9 +46,9 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
 
   travelPlan: TravelPlan = { id: '', ownerId: '', participants: [], title: '', description: '', from: '', to: '', additionalCostsValue: 0, totalCostValue: 0, planStatus: '', travelPlanPoints: [] };
   updateRequests: Map<string, TravelPointUpdateRequest[]> = new Map<string, TravelPointUpdateRequest[]>;
-  newTravelPoint: TravelPoint = { placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0 };
   invitations: PlanInvitationResponse[] =[];
   selectedUpdateRequests: TravelPointUpdateRequest[] = [];
+  pointToEdit!: TravelPoint;
 
   private invitationsSubscription!: Subscription;
   private planSubscription!: Subscription;
@@ -98,11 +98,13 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   }
 
   onShowEditPoint(point: TravelPoint) {
+    this.pointToEdit = {...point};
     this.isEditPointModalOpen = true;
   }
 
-  closeEditRequestsModal() {
-    this.isEditRequestsModalOpen = false;
+  onEditedPoint(point: TravelPoint) {
+    this.plansService.updatePoint(point).subscribe();
+    this.isEditPointModalOpen = false;
   }
 
   onTravelPointCreated(newPoint: TravelPoint): void {

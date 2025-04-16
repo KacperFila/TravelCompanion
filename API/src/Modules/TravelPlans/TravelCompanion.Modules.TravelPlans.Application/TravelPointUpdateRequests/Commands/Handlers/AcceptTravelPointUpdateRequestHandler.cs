@@ -3,7 +3,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
@@ -41,39 +40,40 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
             throw new TravelPointUpdateRequestNotFoundException(command.RequestId);
         }
 
-        var travelPoint = await _travelPointRepository.GetAsync(request.TravelPlanPointId);
+        var point = await _travelPointRepository.GetAsync(request.TravelPlanPointId);
 
-        if (travelPoint is null)
+        if (point is null)
         {
-            throw new TravelPointNotFoundException(travelPoint.Id);
+            throw new TravelPointNotFoundException(request.TravelPlanPointId);
         }
 
-        var travelPlan = await _planRepository.GetAsync(travelPoint.PlanId);
+        var plan = await _planRepository.GetAsync(point.PlanId);
 
-        if (travelPlan.OwnerId != _userId)
+        if (plan.OwnerId != _userId)
         {
             throw new UserNotAllowedToChangeTravelPointException();
         }
 
-        travelPoint.ChangeTravelPointPlaceName(request.PlaceName);
+        point.ChangeTravelPointPlaceName(request.PlaceName);
 
-        await _travelPointRepository.UpdateAsync(travelPoint);
+        await _travelPointRepository.UpdateAsync(point);
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
 
-        var participants = travelPlan.Participants
+        var participants = plan.Participants
             .Select(x => x.ParticipantId)
-            .Select(x => x.ToString())
-            .ToList();
+        .Select(x => x.ToString())
+        .ToList();
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(travelPoint.Id);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(plan.Id);
+        updateRequests = updateRequests.Where(x => x.TravelPlanPointId == point.Id).ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {
             UpdateRequests = updateRequests,
-            PointId = travelPoint.Id
+            PointId = point.Id
         };
 
-        await _travelPlansRealTimeService.SendPlanUpdate(participants, travelPlan);
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, plan);
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
     }
 }

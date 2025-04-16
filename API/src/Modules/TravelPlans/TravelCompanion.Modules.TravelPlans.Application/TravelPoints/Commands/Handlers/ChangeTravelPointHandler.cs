@@ -17,6 +17,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
     private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
     private readonly IContext _context;
     private readonly Guid _userId;
+
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
 
     public ChangeTravelPointHandler(
@@ -56,16 +57,18 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        if (point.IsAccepted)
-        {
-            throw new CouldNotModifyAcceptedTravelPointException();
-        }
+        //if (point.IsAccepted)
+        //{
+        //    throw new CouldNotModifyAcceptedTravelPointException();
+        //}
 
-        var request = TravelPointUpdateRequest.Create(command.pointId, _userId, command.placeName);
+        var request = TravelPointUpdateRequest.Create(command.pointId, plan.Id, _userId, command.placeName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetRequestsForPointAsync(point.Id);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(plan.Id);
+        updateRequests = updateRequests.Where(x => x.TravelPlanPointId == point.Id).ToList();
+
         var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse

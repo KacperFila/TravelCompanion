@@ -7,5 +7,5 @@ public interface ITravelPointUpdateRequestRepository
     Task AddAsync(TravelPointUpdateRequest request);
     Task<TravelPointUpdateRequest> GetAsync(Guid requestId);
     Task RemoveAsync(TravelPointUpdateRequest request);
-    Task<List<TravelPointUpdateRequest>> GetRequestsForPointAsync(Guid travelPointId);
+    Task<List<TravelPointUpdateRequest>> GetUpdateRequestsForPlanAsync(Guid planId);
 }

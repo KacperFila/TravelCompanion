@@ -1,12 +1,16 @@
-<div class="point-container">
-  <div class="left-container">
-    <span>{{ travelPoint.placeName }}</span>
-    <button (click)="deletePoint(travelPoint)">🗑</button>
-    <button (click)="triggerEditRequestsModal()">📝</button>
-    <button (click)="triggerEditPointModal()">📝</button>
+<div class="point-container" [ngClass]="{ 'reversed': nodeNumber % 2 === 0 }">
+<div class="content-container" [ngClass]="{ 'reversed': nodeNumber % 2 === 0 }">
+  <div class="upper-part">
+    <span class="point-title">{{ travelPoint.placeName }}</span>
+    </div>
+  <div class="lower-part">
+    <button (click)="triggerEditPointModal()">Edit</button>
+    <button (click)="triggerEditRequestsModal()">Edit Requests</button>
+    <button class = "delete-button" (click)="deletePoint(travelPoint)">🗑</button>
+  </div>
   </div>
   <div class="central-container">
-    <div class="circle">{{ nodeNumber }}</div>
+    <div class="circle" [ngClass]="{ 'offset-circle': nodeNumber % 2 === 0 }">{{ nodeNumber }}</div>
   </div>
-  <div class="right-container"></div>
+  <div class="placeholder-container"></div>
 </div>

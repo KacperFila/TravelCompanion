@@ -80,14 +80,10 @@ export class PlansSignalRService {
 
         localStorage.setItem('user', JSON.stringify(updatedUser));
         this.authService.user.next(updatedUser);
-
-        console.log(`🔄 Active Plan Changed: ${activePlanId}`);
       }
     });
 
     this.hubConnection.on("ReceivePlanUpdate", (updatedPlan: TravelPlan) => {
-      console.log("Updated planId: " + updatedPlan.id);
-      console.log("Active planId: " + this.currentUser?.activePlanId);
       if(updatedPlan.id === this.currentUser?.activePlanId)
       {
         this.travelPlanSubject.next(updatedPlan);

@@ -5,6 +5,8 @@
   --background-color: #F6F6F6;
   --header-background-color: #000;
   --font-family: 'Inter', sans-serif;
+  --error-color: #ff0000;
+  --error-hover-color: #cc0000;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -24,6 +26,7 @@
  html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+   overflow-x: hidden;
   }
 
   /* Sections

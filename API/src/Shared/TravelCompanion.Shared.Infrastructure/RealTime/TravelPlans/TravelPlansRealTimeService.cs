@@ -19,8 +19,6 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
         _connectionManager = connectionManager;
     }
 
-    //TODO extract dtos to nuget - use strongly typed objects
-
     public async Task SendActivePlanChanged(string userId, string planId)
     {
         var connections = _connectionManager.GetConnections(userId);
