@@ -11,25 +11,33 @@
 </div>
 
 <span class="roadmap">
-  <ng-container *ngFor="let point of travelPlan?.travelPlanPoints; let i = index; let last = last">
-    <div class="node-container">
-      <div class="node">
-        <app-travel-point
-          [travelPoint]="point"
-          [updateRequests]="updateRequests.get(point.id) || []"
-          [nodeNumber]="point.travelPlanOrderNumber"
-          (pointDeletedEvent)="deletePoint($event)"
-          (openEditRequestsModalEvent)="onShowEditRequests($event)"
-          (openEditPointModalEvent)="onShowEditPoint($event)"
-        ></app-travel-point>
+  <ng-container *ngIf="travelPlan?.travelPlanPoints?.length && travelPlan.travelPlanPoints.length > 0; else noPoints">
+    <ng-container *ngFor="let point of travelPlan.travelPlanPoints; let i = index; let last = last">
+      <div class="node-container">
+        <div class="node">
+          <app-travel-point
+            [travelPoint]="point"
+            [updateRequests]="updateRequests.get(point.id) || []"
+            [nodeNumber]="point.travelPlanOrderNumber"
+            (pointDeletedEvent)="deletePoint($event)"
+            (openEditRequestsModalEvent)="onShowEditRequests($event)"
+            (openEditPointModalEvent)="onShowEditPoint($event)"
+          ></app-travel-point>
+        </div>
       </div>
-    </div>
-    <div class="line"></div>
+      <div class="line"></div>
+    </ng-container>
   </ng-container>
 
-  <div class="node add-node" (click)="isCreatePointModalOpen = true">
-    <span class="circle">+</span>
+  <div class="node" (click)="isCreatePointModalOpen = true">
+    <span class="add-button">+</span>
   </div>
+
+  <ng-template #noPoints>
+    <div class="no-points-message">
+      No travel points yet. Click button below to add the first one!
+    </div>
+  </ng-template>
 </span>
 
 <app-edit-request-modal

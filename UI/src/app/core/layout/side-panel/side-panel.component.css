@@ -24,11 +24,11 @@
 .side-panel-icon,
 .side-panel-icon-label {
   color: var(--header-background-color);
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .side-panel-icon:hover,
 .side-panel-icon-label:hover {
-  color: var(--header-background-color);
 }
 
 .side-panel-icon {
@@ -41,6 +41,7 @@
   width: 100%;
   text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .side-panel-element:not(:first-child):hover,

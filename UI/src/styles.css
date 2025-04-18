@@ -1,12 +1,12 @@
 :root {
-  --primary-color: #126dfe;
-  --primary-hover-color: #0f5cda;
+  --primary-color: #126DFE;
+  --primary-hover-color: #0F5CDA;
   --secondary-color: #FFF;
   --background-color: #F6F6F6;
   --header-background-color: #000;
   --font-family: 'Inter', sans-serif;
-  --error-color: #ff0000;
-  --error-hover-color: #cc0000;
+  --error-color: #FF5733;
+  --error-hover-color: #CC0000;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */

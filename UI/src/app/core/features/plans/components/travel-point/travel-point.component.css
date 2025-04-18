@@ -1,4 +1,4 @@
-.point-container{
+.point-container {
   display: flex;
   height: 10vh;
 }
@@ -10,7 +10,6 @@
 .content-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 15vw;
 }
 
@@ -24,15 +23,10 @@
 }
 
 .placeholder-container {
-  opacity: 0;
-  pointer-events: none;
-  cursor: default;
   width: 15vw;
-  height: 100%;
 }
 
 .circle {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,13 +53,13 @@ button {
   margin: 5px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: var(--primary-hover-color);
-  color: var(--secondary-color);
+  transform: scale(0.98);
 }
 
 .delete-button {
@@ -74,4 +68,8 @@ button:hover {
 
 .delete-button:hover {
   background-color: var(--error-hover-color);
+}
+
+.upper-part {
+  padding-bottom: 1rem;
 }

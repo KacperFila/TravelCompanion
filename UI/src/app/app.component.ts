@@ -5,13 +5,13 @@ import { NotificationComponent } from './core/shared/notification/notification.c
 import { SidePanelComponent } from './core/layout/side-panel/side-panel.component';
 import { Observable } from 'rxjs';
 import { User } from './core/auth/user.model';
-import { AsyncPipe, NgIf } from '@angular/common';
+import {AsyncPipe, NgIf, NgOptimizedImage} from '@angular/common';
 import {HeaderComponent} from "./core/layout/header/header.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NotificationComponent, RouterOutlet, RouterModule, SidePanelComponent, AsyncPipe, NgIf, HeaderComponent],
+  imports: [NotificationComponent, RouterOutlet, RouterModule, SidePanelComponent, AsyncPipe, NgIf, HeaderComponent, NgOptimizedImage],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
