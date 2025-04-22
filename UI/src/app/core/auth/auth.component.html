@@ -1,10 +1,18 @@
 <div class="auth-container">
+  <div class="logo">
+    <div class="material-icons logo-icon">
+      landscape
+    </div>
+    <div class="logo-text">
+      Travel Companion
+    </div>
+  </div>
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
         <div class="form-group">
             <label for="email">Email</label>
-            <input 
-                type="email" 
-                id="email" 
+            <input
+                type="email"
+                id="email"
                 class="form-control"
                 ngModel
                 name="email"
@@ -13,9 +21,9 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input 
-                type="password" 
-                id="password" 
+            <input
+                type="password"
+                id="password"
                 class="form-control"
                 ngModel
                 name="password"
@@ -29,6 +37,6 @@
             <button type = "button" class="switch-button" (click)="toggleAuthMode()">
                 {{ isLoginMode ? 'Create account!' : 'Switch to Log in!' }}
             </button>
-        </div> 
+        </div>
     </form>
 </div>

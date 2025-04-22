@@ -1,5 +1,6 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.Events;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -31,6 +32,11 @@ public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
             command.description,
             command.from,
             command.to);
+
+        if(command.title is null || command.title.Length < 3)
+        {
+            throw new InvalidPlanTitleException();
+        }
 
         await _planRepository.AddAsync(travelPlan);
         await _messageBroker.PublishAsync(new PlanCreated(_userId, travelPlan.Id));

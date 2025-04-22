@@ -2,18 +2,22 @@
   [isModalOpen]="isModalOpen"
   (close)="closeEditPointModal()"
   title="Edit Travel Point">
-  <form *ngIf="pointToEdit" (ngSubmit)="editedPointEvent.emit(pointToEdit)">
-    <label for="placeName">Place Name:</label>
-    <input
-      id="placeName"
-      type="text"
-      [(ngModel)]="pointToEdit.placeName"
-      name="placeName"
-      required
-    />
-    <div class="modal-buttons">
-      <button type="submit">Update</button>
-      <button type="button" (click)="closeEditPointModal()">Cancel</button>
-    </div>
-  </form>
+  <div class="form-group">
+    <form *ngIf="pointToEdit" (ngSubmit)="editedPointEvent.emit(pointToEdit)">
+      <div class="input-group">
+        <label class="input-group-label" for="placeName">Point name:</label>
+        <input
+          id="placeName"
+          type="text"
+          [(ngModel)]="pointToEdit.placeName"
+          name="placeName"
+          required
+        />
+      </div>
+      <div class="button-group">
+        <button type="submit">Update</button>
+        <button type="button" (click)="closeEditPointModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </app-modal>

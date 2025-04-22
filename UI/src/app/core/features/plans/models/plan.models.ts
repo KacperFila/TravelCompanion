@@ -1,8 +1,8 @@
 export interface CreateTravelPlanRequest {
   title: string;
   description: string | null;
-  from: Date | null;
-  to: Date | null;
+  from: string | null;
+  to: string | null;
 }
 
 export interface TravelPlan {

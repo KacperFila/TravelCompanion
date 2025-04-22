@@ -27,18 +27,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid var(--primary-color) 2px;
   border-radius: 100%;
   width:7vh;
   height: 7vh;
   font-family: var(--font-family), serif;
   font-size: 1.5rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #67AE6E;
+  color: white;
 }
 
 .add-button:hover {
-  background-color: var(--primary-hover-color);
-  border: solid var(--primary-hover-color) 2px;
+  background-color: #328E6E;
+  transform: scale(0.98);
 }
 
 button {
@@ -78,7 +79,6 @@ button:hover {
 }
 
 .active-plan-description {
-  margin-bottom: 10vh;
   border-bottom: solid var(--header-background-color) 2px;
 }
 
@@ -103,14 +103,23 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px 0;
   position: relative;
-  z-index: 1;
 }
 
 .line {
   width: 2px;
-  height: 5vh;
+  height: 10vh;
   background-color: var(--header-background-color);
   margin: 0 auto;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-around;
 }

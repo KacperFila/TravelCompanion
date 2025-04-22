@@ -14,8 +14,8 @@ public sealed class Plan : AggregateRoot, IAuditable
     public IList<EntityId>? ParticipantPaidIds { get; private set; } = new List<EntityId>();
     public string Title { get; private set; }
     public string? Description { get; private set; }
-    public DateOnly From { get; private set; }
-    public DateOnly To { get; private set; }
+    public DateOnly? From { get; private set; }
+    public DateOnly? To { get; private set; }
     public IList<Receipt> AdditionalCosts { get; private set; } = new List<Receipt>();
     public Money AdditionalCostsValue { get; private set; }
     public Money TotalCostValue { get; private set; }
@@ -26,7 +26,7 @@ public sealed class Plan : AggregateRoot, IAuditable
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
-    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly from, DateOnly to, int version = 0, string planStatus = Enums.PlanStatus.DuringPlanning)
+    public Plan(AggregateId id, OwnerId ownerId, string title, string? description, DateOnly? from, DateOnly? to, int version = 0, string planStatus = Enums.PlanStatus.DuringPlanning)
         : this(id, ownerId)
     {
         Title = title;
@@ -56,8 +56,8 @@ public sealed class Plan : AggregateRoot, IAuditable
         PlanStatus = Enums.PlanStatus.DuringPlanning;
     }
 
-    public static Plan Create(OwnerId ownerId, string title, string? description, DateOnly from,
-        DateOnly to)
+    public static Plan Create(OwnerId ownerId, string title, string? description, DateOnly? from,
+        DateOnly? to)
     {
         var travelPlan = new Plan(Guid.NewGuid(), ownerId);
         travelPlan.ChangeTitle(title);
@@ -131,7 +131,7 @@ public sealed class Plan : AggregateRoot, IAuditable
     {
         if (string.IsNullOrWhiteSpace(title))
         {
-            throw new EmptyPlanTitleException(Id);
+            throw new InvalidPlanTitleException();
         }
 
         Title = title;
@@ -139,16 +139,16 @@ public sealed class Plan : AggregateRoot, IAuditable
     }
     public void ChangeDescription(string description)
     {
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new EmptyPlanDescriptionException(Id);
-        }
-
         Description = description;
         IncrementVersion();
     }
-    public void ChangeFrom(DateOnly from)
+    public void ChangeFrom(DateOnly? from)
     {
+        if (from is null)
+        {
+            return;
+        }
+
         if (from < DateOnly.FromDateTime(DateTime.UtcNow) || (To != default && from > To))
         {
             throw new InvalidPlanDateException(Id);
@@ -157,8 +157,13 @@ public sealed class Plan : AggregateRoot, IAuditable
         From = from;
         IncrementVersion();
     }
-    public void ChangeTo(DateOnly to)
+    public void ChangeTo(DateOnly? to)
     {
+        if (to is null)
+        {
+            return;
+        }
+
         if (to < DateOnly.FromDateTime(DateTime.UtcNow) || (From != default && to < From))
         {
             throw new InvalidPlanDateException(Id);

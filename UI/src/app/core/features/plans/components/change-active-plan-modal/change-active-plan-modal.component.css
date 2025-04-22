@@ -1,14 +1,39 @@
 .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.input-group-label {
+  padding-bottom: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color);
+  color: var(--secondary-color);
+  transform: scale(0.98);
+}

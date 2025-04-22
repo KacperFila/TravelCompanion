@@ -14,3 +14,22 @@ button:hover {
   background-color: var(--primary-hover-color);
   color: var(--secondary-color);
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.button-group {
+  display: flex;
+}
+
+.input-group-label {
+  padding-bottom: 0.5rem;
+}

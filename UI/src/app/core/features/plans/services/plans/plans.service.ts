@@ -13,8 +13,8 @@ export class PlansService {
   createPlan(
     title: string,
     description: string | null,
-    from: Date | null,
-    to: Date | null) : Observable<void>
+    from: string | null,
+    to: string | null) : Observable<void>
   {
     const requestBody = { title, description, from, to };
 

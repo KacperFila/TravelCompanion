@@ -43,7 +43,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: var(--primary-hover-color);
-  color: var(--background-color)
+    color: var(--background-color)
 }
 
 button.switch-button {
@@ -72,4 +72,19 @@ input.form-control {
     background: var(--secondary-color);
     border: transparent;
     color: var(--header-background-color);
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  font-size: 50px;
+  padding-bottom: 2rem;
+}
+
+.logo-icon {
+  padding-right: 1rem;
+}
+
+.material-icons {
+  font-size:50px;
 }

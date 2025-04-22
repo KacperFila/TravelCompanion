@@ -2,17 +2,22 @@
   [isModalOpen]="isModalOpen"
   (close)="closeModal()"
   title="Create Travel Point">
-  <form (submit)="createPoint($event)">
-    <label for="newTravelPoint">Create Travel Point</label>
-    <input
-      type="text"
-      id="newTravelPoint"
-      name="newTravelPoint"
-      [(ngModel)]="newTravelPoint.placeName"
-      required/>
-    <span class="modal-buttons">
-      <button type="submit">Set Active</button>
-      <button type="button" (click)="closeModal()">Cancel</button>
-    </span>
-  </form>
+  <div class="form-group">
+    <form (submit)="createPoint($event)">
+      <div class="input-group">
+      <label class="input-group-label" for="newTravelPoint">Point name:</label>
+      <input
+        class="form-input"
+        type="text"
+        id="newTravelPoint"
+        name="newTravelPoint"
+        [(ngModel)]="newTravelPoint.placeName"
+        required/>
+      </div>
+      <div class="button-group">
+        <button type="submit">Add</button>
+        <button type="button" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </app-modal>
