@@ -8,6 +8,7 @@ namespace TravelCompanion.Shared.Abstractions.Contexts
         bool IsAuthenticated { get; }
         public Guid Id { get; }
         string Role { get; }
+        string Email { get; }
         Dictionary<string, IEnumerable<string>> Claims { get; }
     }
 }

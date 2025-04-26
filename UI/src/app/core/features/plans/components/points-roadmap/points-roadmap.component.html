@@ -1,16 +1,19 @@
 <div class="component-container">
-  <div class="active-plan-description">
-    <p class="active-plan-title">{{ this.travelPlan.title }}</p>
-    <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
-    <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
-  </div>
 
-  <div class="buttons-container">
-    <button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
-    <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
-    <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
-    <button (click)="isUserPlansModalOpen = true" >User plans</button>
-    <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+  <div class="roadmap-header">
+    <div class="active-plan-description">
+      <p class="active-plan-title">{{ this.travelPlan.title }}</p>
+      <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
+      <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
+    </div>
+
+    <div class="buttons-container">
+      <button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
+      <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
+      <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
+      <button (click)="isUserPlansModalOpen = true" >User plans</button>
+      <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+    </div>
   </div>
 
   <span class="roadmap">
@@ -22,7 +25,7 @@
               [travelPoint]="point"
               [updateRequests]="updateRequests.get(point.id) || []"
               [nodeNumber]="point.travelPlanOrderNumber"
-              [showLineAfter]="!last"
+              [showLineAfter]="!last || travelPlan.travelPlanPoints.length === 1"
               [showLineBefore]="i !== 0"
               (pointDeletedEvent)="deletePoint($event)"
               (openEditRequestsModalEvent)="onShowEditRequests($event)"

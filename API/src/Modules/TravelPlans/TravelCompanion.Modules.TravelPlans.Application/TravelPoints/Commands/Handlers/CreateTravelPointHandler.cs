@@ -62,7 +62,12 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         var planDto = AsPlanWithPointsDto(plan);
 
         var notification =
-            NotificationMessage.Create(point.PlaceName, "One of your suggested changes has been accepted!", NotificationSeverity.Information);
+            NotificationMessage.Create(
+                plan.Title,
+                $"Added point: \"{point.PlaceName}\"!",
+                _context.Identity.Email,
+                NotificationSeverity.Information
+            );
 
         await _notificationService.SendToGroup(participants, notification);
 

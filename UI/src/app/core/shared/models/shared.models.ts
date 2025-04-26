@@ -7,9 +7,9 @@ export interface NotificationMessage{
 }
 
 export enum NotificationSeverity {
-  Alert = 'Alert',
-  Error = 'Error',
-  Information = 'Information',
+  Alert = 1,
+  Error = 2,
+  Information = 3
 }
 
 export interface APIError {

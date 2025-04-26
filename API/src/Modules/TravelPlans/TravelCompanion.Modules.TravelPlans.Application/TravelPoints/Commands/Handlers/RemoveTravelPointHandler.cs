@@ -7,6 +7,8 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
@@ -17,6 +19,7 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
     private readonly IPlanRepository _planRepository;
     private readonly ITravelPointRemoveRequestRepository _travelPointRemoveRequestRepository;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
+    private readonly INotificationRealTimeService _notificationService;
     private readonly IContext _context;
     private readonly Guid _userId;
 
@@ -25,7 +28,8 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         IPlanRepository planRepository,
         IContext context,
         ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository,
-        ITravelPlansRealTimeService travelPlansRealTimeService)
+        ITravelPlansRealTimeService travelPlansRealTimeService,
+        INotificationRealTimeService notificationRealTimeService)
     {
         _travelPointRepository = travelPointRepository;
         _planRepository = planRepository;
@@ -33,6 +37,7 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         _userId = _context.Identity.Id;
         _travelPointRemoveRequestRepository = travelPointRemoveRequestRepository;
         _travelPlansRealTimeService = travelPlansRealTimeService;
+        _notificationService = notificationRealTimeService;
     }
 
     public async Task HandleAsync(RemoveTravelPoint command)
@@ -82,7 +87,14 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
             var planDto = AsPlanWithPointsDto(plan);
 
             await _planRepository.UpdateAsync(plan);
+
             await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
+            await _notificationService.SendToGroup(participants,
+                        NotificationMessage.Create(
+                            "Removed point",
+                            $"Removed travel point: \"{point.PlaceName}\"!",
+                            _context.Identity.Email,
+                        NotificationSeverity.Information));
         }
         else
         {

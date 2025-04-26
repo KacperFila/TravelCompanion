@@ -32,7 +32,7 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
             _issuer = options.Issuer;
         }
 
-        public JsonWebToken CreateToken(string userId, string role = null, string audience = null,
+        public JsonWebToken CreateToken(string userId, string role = null, string email = null, string audience = null,
             IDictionary<string, IEnumerable<string>> claims = null)
         {
             if (string.IsNullOrWhiteSpace(userId))
@@ -48,9 +48,14 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeMilliseconds().ToString())
             };
+
             if (!string.IsNullOrWhiteSpace(role))
             {
                 jwtClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                jwtClaims.Add(new Claim(ClaimTypes.Email, email));
             }
 
             if (!string.IsNullOrWhiteSpace(audience))
@@ -88,6 +93,7 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
                 Expires = new DateTimeOffset(expires).ToUnixTimeMilliseconds(),
                 Id = userId,
                 Role = role ?? string.Empty,
+                Email = email ?? string.Empty,
                 Claims = claims ?? EmptyClaims
             };
         }

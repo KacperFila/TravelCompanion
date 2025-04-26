@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {NotificationMessage} from "../models/shared.models";
-import {NotificationService} from "../services/notification.service";
-import {NgClass, NgIf} from "@angular/common";
+import { NotificationMessage } from "../models/shared.models";
+import { NotificationService } from "../services/notification.service";
+import { DatePipe, NgClass, NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-notification',
@@ -10,20 +10,27 @@ import {NgClass, NgIf} from "@angular/common";
   styleUrls: ['./notification.component.css'],
   imports: [
     NgClass,
-    NgIf
+    DatePipe,
+    NgForOf
   ],
-  standalone: true
+  standalone: true,
 })
 export class NotificationComponent implements OnInit, OnDestroy {
-  notification: NotificationMessage | null = null;
+  notifications: (NotificationMessage & { leaving?: boolean })[] = [];
   private notificationSubscription!: Subscription;
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService) {}
 
   ngOnInit(): void {
-    this.notificationSubscription = this.notificationService.notification$.subscribe(notification => {
-      this.notification = notification;
-    });
+    this.notificationSubscription = this.notificationService.notification$
+      .subscribe(notification => {
+        if (notification) {
+          const newNotification = { ...notification };
+          this.notifications.push(newNotification);
+
+          setTimeout(() => this.startRemovingNotification(newNotification), 3000);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -32,13 +39,29 @@ export class NotificationComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Method to get severity class
-  getSeverityClass(severity: string): string {
+  startRemovingNotification(notification: NotificationMessage & { leaving?: boolean }): void {
+    notification.leaving = true;
+
+    setTimeout(() => {
+      this.notifications = this.notifications.filter(n => n !== notification);
+    }, 300); // match CSS animation duration
+  }
+
+  getSeverityClass(severity: number): string {
     switch (severity) {
-      case 'Alert': return 'alert-class';
-      case 'Error': return 'error-class';
-      case 'Information': return 'info-class';
+      case 1: return 'error';
+      case 2: return 'alert';
+      case 3: return 'information';
       default: return '';
+    }
+  }
+
+  getSeverityIcon(severity: number): string {
+    switch (severity) {
+      case 1: return 'error';
+      case 2: return 'warning';
+      case 3: return 'info';
+      default: return 'notifications';
     }
   }
 }

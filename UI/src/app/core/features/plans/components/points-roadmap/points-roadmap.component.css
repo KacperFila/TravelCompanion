@@ -99,7 +99,8 @@ button:hover {
 }
 
 .active-plan-description {
-  border-bottom: 2px solid var(--header-background-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .component-container {
@@ -114,4 +115,8 @@ button:hover {
 
 .no-points-message{
   padding: 5vh 0;
+}
+
+.roadmap-container {
+  display: flex;
 }

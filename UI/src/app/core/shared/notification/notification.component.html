@@ -1,5 +1,22 @@
-<div *ngIf="notification" class="notification" [ngClass]="getSeverityClass(notification.severity)">
-  <strong>{{ notification.title }}</strong><br />
-  <span>{{ notification.message }}</span><br />
-  <small>From: {{ notification.sentFrom || 'Unknown' }} | Sent at: {{ notification.sentAt }}</small>
+<div class="notifications-container">
+  <div
+    *ngFor="let notification of notifications"
+    class="notification"
+    [ngClass]="[
+      getSeverityClass(notification.severity),
+      notification.leaving ? 'notification-leave' : ''
+    ]"
+  >
+    <div class="notification-header">
+      <span class="notification-icon material-icons">
+        {{ getSeverityIcon(notification.severity) }}
+      </span>
+      <span>{{ notification.title }}</span>
+    </div>
+    <div class="notification-body">{{ notification.message }}</div>
+    <div class="notification-footer">
+      <small>From: {{ notification.sentFrom || 'Unknown' }}</small>
+      <small>Sent at: {{ notification.sentAt | date: 'dd-MM-yyyy HH:mm' }}</small>
+    </div>
+  </div>
 </div>

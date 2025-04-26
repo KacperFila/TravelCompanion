@@ -6,6 +6,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
+using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
@@ -19,19 +20,22 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly IUsersModuleApi _usersModuleApi;
     private readonly INotificationRealTimeService _notificationService;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
+    private readonly IContext _context;
 
     public InviteToTravelPlanHandler(
         IInvitationRepository invitationRepository,
         IPlanRepository planRepository,
         IUsersModuleApi usersModuleApi,
         INotificationRealTimeService notificationService,
-        ITravelPlansRealTimeService travelPlansRealTimeService)
+        ITravelPlansRealTimeService travelPlansRealTimeService,
+        IContext context)
     {
         _invitationRepository = invitationRepository;
         _planRepository = planRepository;
         _usersModuleApi = usersModuleApi;
         _notificationService = notificationService;
         _travelPlansRealTimeService = travelPlansRealTimeService;
+        _context = context;
     }
 
     public async Task HandleAsync(InviteToTravelPlan command)
@@ -76,8 +80,8 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         await _notificationService.SendToAsync(command.userId.ToString(),
             NotificationMessage.Create(
                 "Invitation",
-                $"You have been invited to plan: {plan.Title}",
-                plan.OwnerId.ToString(),
+                $"You have been invited to plan: \"{plan.Title}\"",
+                _context.Identity.Email,
             NotificationSeverity.Alert));
 
         var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);

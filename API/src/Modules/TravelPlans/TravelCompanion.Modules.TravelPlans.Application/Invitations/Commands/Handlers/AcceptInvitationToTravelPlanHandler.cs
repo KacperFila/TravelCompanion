@@ -86,8 +86,9 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
         await _notificationService.SendToAsync(plan.OwnerId.ToString(),
             NotificationMessage.Create(
                 "Invitation accepted",
-                $"{invitee.UserName} accepted your invitation!",
-            NotificationSeverity.Error));
+                $"\"{invitee.UserName}\" accepted your invitation!",
+                _context.Identity.Email,
+            NotificationSeverity.Alert));
 
         var invitationRemovedResponse = new PlanInvitationRemovedResponse()
         {

@@ -79,7 +79,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
                 throw new UserNotActiveException(user.Id);
             }
 
-            var jwt = _authManager.CreateToken(user.Id.ToString(), user.Role, claims: user.Claims);
+            var jwt = _authManager.CreateToken(user.Id.ToString(), user.Role, user.Email, claims: user.Claims);
             jwt.Email = user.Email;
 
             return jwt;
