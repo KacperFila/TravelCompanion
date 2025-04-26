@@ -1,16 +1,16 @@
 <div class="component-container">
+  <div class="active-plan-description">
+    <p class="active-plan-title">{{ this.travelPlan.title }}</p>
+    <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
+    <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
+  </div>
+
   <div class="buttons-container">
     <button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
     <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
     <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
     <button (click)="isUserPlansModalOpen = true" >User plans</button>
     <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
-  </div>
-
-  <div class="active-plan-description">
-    <p class="active-plan-title">{{ this.travelPlan.title }}</p>
-    <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
-    <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
   </div>
 
   <span class="roadmap">

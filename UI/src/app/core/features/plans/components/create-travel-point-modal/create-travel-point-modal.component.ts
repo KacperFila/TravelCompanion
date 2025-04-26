@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {PlanParticipant, TravelPoint} from '../../models/plan.models';
+import { TravelPoint } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
-import {PlansService} from "../../services/plans/plans.service";
-import {UsersService} from "../../services/users/users.service";
-import {map} from "rxjs";
 import {ModalComponent} from "../../../../shared/modal/modal.component";
 
 @Component({

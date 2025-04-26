@@ -7,36 +7,48 @@
       Travel Companion
     </div>
   </div>
-    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input
-                type="email"
-                id="email"
-                class="form-control"
-                ngModel
-                name="email"
-                required
-            />
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input
-                type="password"
-                id="password"
-                class="form-control"
-                ngModel
-                name="password"
-                required
-            />
-        </div>
-        <div class="button-container">
-            <button type="submit">
-                {{ isLoginMode ? 'Log In' : 'Sign up' }}
-            </button>
-            <button type = "button" class="switch-button" (click)="toggleAuthMode()">
-                {{ isLoginMode ? 'Create account!' : 'Switch to Log in!' }}
-            </button>
-        </div>
-    </form>
+
+  <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        class="form-control"
+        name="email"
+        [(ngModel)]="credentials.email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        name="password"
+        [(ngModel)]="credentials.password"
+        required
+      />
+    </div>
+
+    <div class="button-container">
+      <button type="submit">
+        {{ isLoginMode ? 'Log In' : 'Sign up' }}
+      </button>
+      <button
+        type="button"
+        class="switch-button"
+        (click)="toggleAuthMode()"
+      >
+        {{ isLoginMode ? 'Create account!' : 'Switch to Log in!' }}
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="errorMessages.length > 0" class="auth-errors fade-in">
+    <div *ngFor="let error of errorMessages" class="auth-error">
+      {{ error }}
+    </div>
+  </div>
 </div>

@@ -28,6 +28,8 @@ button:hover {
 
 .button-group {
   display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .input-group-label {

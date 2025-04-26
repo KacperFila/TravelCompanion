@@ -1,90 +1,86 @@
 .auth-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 1 auto;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-}
-
-.error-message {
-    color: yellow;
-    margin-bottom: 15px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    color: var(--header-background-color);
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 48%;
-}
-
-button[type="submit"] {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-button[type="submit"]:hover {
-    background-color: var(--primary-hover-color);
-    color: var(--background-color)
-}
-
-button.switch-button {
-    background-color: transparent;
-    border: 2px solid var(--primary-color);
-}
-
-button.switch-button:hover {
-  background-color: var(--primary-hover-color);
-  border: 2px solid var(--primary-hover-color);
-  color: white;
-}
-
-form {
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
-}
-
-input.form-control {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    border-radius: 20px;
-    background: var(--secondary-color);
-    border: transparent;
-    color: var(--header-background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
 .logo {
   display: flex;
-  align-items: baseline;
-  font-size: 50px;
-  padding-bottom: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .logo-icon {
-  padding-right: 1rem;
+  font-size: 3rem;
+  margin-right: 1rem;
 }
 
-.material-icons {
-  font-size:50px;
+.logo-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color);
+  transform: scale(0.98);
+}
+
+.auth-errors {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.auth-error {
+  color: var(--error-color);
+  background-color: var(--error-background-color);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

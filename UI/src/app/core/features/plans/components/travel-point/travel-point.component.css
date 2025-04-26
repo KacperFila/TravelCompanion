@@ -50,10 +50,9 @@
 }
 
 .point-background {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   padding: 1rem;
   border-radius: 8px;
-  color: white;
 }
 
 .upper-part {
@@ -74,7 +73,6 @@ button {
 
 button:hover {
   background-color: var(--primary-hover-color);
-  transform: scale(0.98);
 }
 
 .delete-button {

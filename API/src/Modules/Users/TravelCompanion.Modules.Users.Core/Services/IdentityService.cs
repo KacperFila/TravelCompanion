@@ -57,6 +57,11 @@ namespace TravelCompanion.Modules.Users.Core.Services
 
         public async Task<JsonWebToken> SignInAsync(SignInDTO dto)
         {
+            if (dto.Email is null || dto.Password is null)
+            {
+                throw new InvalidCredentialsException();
+            }
+
             var user = await _userRepository.GetAsync(dto.Email.ToLowerInvariant());
             if (user is null)
             {

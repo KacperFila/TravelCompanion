@@ -35,5 +35,4 @@ button {
 button:hover {
   background-color: var(--primary-hover-color);
   color: var(--secondary-color);
-  transform: scale(0.98);
 }

@@ -4,7 +4,6 @@ namespace TravelCompanion.Modules.Users.Core.DTO
 {
     public class SignInDTO
     {
-        [EmailAddress]
         [Required]
         public string Email { get; set; }
 

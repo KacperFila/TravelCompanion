@@ -15,6 +15,8 @@
 
 .button-group {
   display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 button {
@@ -32,10 +34,9 @@ button {
 button:hover {
   background-color: var(--primary-hover-color);
   color: var(--secondary-color);
-  transform: scale(0.98);
 }
 
-.error-message {
+.error-messages {
   color: var(--error-color);
   background-color: var(--error-background-color);
   padding: 0.75rem;
@@ -46,4 +47,34 @@ button:hover {
 
 .required {
   color: var(--error-color);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-errors {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.auth-error {
+  color: var(--error-color);
+  background-color: var(--error-background-color);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  text-align: center;
 }

@@ -11,3 +11,8 @@ export enum NotificationSeverity {
   Error = 'Error',
   Information = 'Information',
 }
+
+export interface APIError {
+  code: string;
+  message: string;
+}

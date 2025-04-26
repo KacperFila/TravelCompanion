@@ -1,11 +1,26 @@
 .roadmap {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
+  padding: 5vh 0;
+  gap: 0;
+}
+
+.node-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.node-container.reverse {
+  flex-direction: row-reverse;
 }
 
 .node {
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
   cursor: pointer;
 }
 
@@ -13,7 +28,7 @@
   width: 7vh;
   height: 7vh;
   border-radius: 50%;
-  background: var(--primary-color);;
+  background: var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,23 +38,29 @@
   margin-left: 10px;
 }
 
+.line {
+  width: 2px;
+  height: 10vh;
+  background-color: var(--header-background-color);
+  margin: 0 auto;
+}
+
 .add-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
-  width:7vh;
+  width: 7vh;
   height: 7vh;
+  border-radius: 50%;
   font-family: var(--font-family), serif;
   font-size: 1.5rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
   background-color: #67AE6E;
   color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
   background-color: #328E6E;
-  transform: scale(0.98);
 }
 
 button {
@@ -57,7 +78,6 @@ button {
 button:hover {
   background-color: var(--primary-hover-color);
   color: var(--secondary-color);
-  transform: scale(0.98);
 }
 
 .modal-buttons {
@@ -79,38 +99,7 @@ button:hover {
 }
 
 .active-plan-description {
-  border-bottom: solid var(--header-background-color) 2px;
-}
-
-.roadmap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.node-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.node-container.reverse {
-  flex-direction: row-reverse;
-}
-
-.node {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.line {
-  width: 2px;
-  height: 10vh;
-  background-color: var(--header-background-color);
-  margin: 0 auto;
+  border-bottom: 2px solid var(--header-background-color);
 }
 
 .component-container {
@@ -121,5 +110,8 @@ button:hover {
 
 .buttons-container {
   display: flex;
-  justify-content: space-around;
+}
+
+.no-points-message{
+  padding: 5vh 0;
 }

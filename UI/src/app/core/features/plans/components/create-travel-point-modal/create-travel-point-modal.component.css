@@ -13,7 +13,6 @@ button {
 button:hover {
   background-color: var(--primary-hover-color);
   color: var(--secondary-color);
-  transform: scale(0.98);
 }
 
 .form-group {
@@ -29,8 +28,14 @@ button:hover {
 
 .button-group {
   display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .input-group-label {
   padding-bottom: 0.5rem;
+}
+
+.required {
+  color: var(--error-color);
 }
