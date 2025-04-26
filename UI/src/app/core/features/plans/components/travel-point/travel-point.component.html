@@ -2,7 +2,9 @@
   <div class="placeholder-container"></div>
 
   <div class="central-container">
-    <div class="circle">{{ nodeNumber }}</div>
+    <div *ngIf="showLineBefore" class="line"></div>
+    <div class="circle" #circle>{{ nodeNumber }}</div>
+    <div *ngIf="showLineAfter" class="line"></div>
   </div>
 
   <div class="content-container" [ngClass]="{ 'content-reversed': nodeNumber % 2 === 0 }">
@@ -17,5 +19,4 @@
       </div>
     </div>
   </div>
-
 </div>

@@ -22,6 +22,8 @@
               [travelPoint]="point"
               [updateRequests]="updateRequests.get(point.id) || []"
               [nodeNumber]="point.travelPlanOrderNumber"
+              [showLineAfter]="!last"
+              [showLineBefore]="i !== 0"
               (pointDeletedEvent)="deletePoint($event)"
               (openEditRequestsModalEvent)="onShowEditRequests($event)"
               (openEditPointModalEvent)="onShowEditPoint($event)"
