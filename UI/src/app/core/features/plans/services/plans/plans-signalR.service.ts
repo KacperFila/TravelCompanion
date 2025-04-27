@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AuthService } from "../../../../auth/auth.service";
 import { PlansService } from "./plans.service";
 import { User } from "../../../../auth/user.model";
@@ -18,6 +18,8 @@ export class PlansSignalRService {
   invitations$ = this.invitationsSubject.asObservable();
   private travelPlanSubject = new BehaviorSubject<TravelPlan | null>(null);
   travelPlan$ = this.travelPlanSubject.asObservable();
+  private activePlanChangedEvent = new Subject<void>();
+  activePlanChanged$ = this.activePlanChangedEvent.asObservable();
 
   constructor(private authService: AuthService, private plansService: PlansService) {
     this.authService.user.subscribe(
@@ -80,6 +82,8 @@ export class PlansSignalRService {
 
         localStorage.setItem('user', JSON.stringify(updatedUser));
         this.authService.user.next(updatedUser);
+
+        this.activePlanChangedEvent.next();
       }
     });
 

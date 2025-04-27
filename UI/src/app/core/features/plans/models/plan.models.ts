@@ -26,17 +26,6 @@ export interface TravelPoint {
   travelPlanOrderNumber: number;
 }
 
-export interface TravelPlanResponse {
-  items: TravelPlan[];
-  empty: boolean;
-  currentPage: number;
-  resultsPerPage: number;
-  totalPages: number;
-  totalResults: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-}
-
 export interface TravelPointUpdateRequest {
   requestId: string;
   travelPlanPointId: string;

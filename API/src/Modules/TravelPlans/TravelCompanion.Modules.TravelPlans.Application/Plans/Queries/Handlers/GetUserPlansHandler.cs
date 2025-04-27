@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<PlanWithPointsDTO>>
+public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanWithPointsDTO>>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
@@ -19,14 +19,12 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, Paged<Plan
         _userId = _context.Identity.Id;
     }
 
-    public async Task<Paged<PlanWithPointsDTO>> HandleAsync(GetUserPlans query)
+    public async Task<List<PlanWithPointsDTO>> HandleAsync(GetUserPlans query)
     {
-        var plans = await _planRepository.BrowseForUserAsync(_userId, query.Page, query.Results, query.SortOrder, query.OrderBy);
-        var dtos = plans.Items.Select(AsPlanWithPointsDto).ToList();
+        var plans = await _planRepository.BrowseForUserAsync(_userId);
+        var dtos = plans.Select(AsPlanWithPointsDto).ToList();
 
-        var pagedDtos = new Paged<PlanWithPointsDTO>(dtos, plans.CurrentPage, plans.ResultsPerPage, plans.TotalPages, plans.TotalResults);
-
-        return pagedDtos;
+        return dtos;
     }
 
     private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)

@@ -2,8 +2,6 @@
 using System.Linq.Expressions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
-using TravelCompanion.Shared.Abstractions.Queries;
-using TravelCompanion.Shared.Infrastructure.Postgres;
 
 namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Repositories;
 
@@ -46,26 +44,14 @@ public class PlanRepository : IPlanRepository
                 .Any(s => s.Id == pointId));
     }
 
-    public async Task<Paged<Plan>> BrowseForUserAsync(Guid userId, int page, int results, string sortOrder, string orderBy)
+    public async Task<List<Plan>> BrowseForUserAsync(Guid userId)
     {
         var query = _travelPlans
             .AsNoTracking()
             .Where(x => x.Participants
                 .Any(p => p.ParticipantId == userId));
 
-        if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(sortOrder))
-        {
-            var parameter = Expression.Parameter(typeof(Plan), "x");
-            var property = Expression.Property(parameter, orderBy);
-            var lambda = Expression.Lambda<Func<Plan, object>>(Expression.Convert(property, typeof(object)), parameter);
-
-            query = sortOrder.Equals("desc", StringComparison.CurrentCultureIgnoreCase)
-                ? query.OrderByDescending(lambda)
-                : query.OrderBy(lambda);
-        }
-        return await query
-            .AsQueryable()
-            .PaginateAsync(page, results);
+        return await query.ToListAsync();
     }
 
     public async Task AddAsync(Plan plan)

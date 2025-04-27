@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans/plans.service';
 import { CommonModule } from '@angular/common';
 import { TravelPlan } from '../../models/plan.models';
-import {switchMap, tap} from "rxjs";
-import {AuthService} from "../../../../auth/auth.service";
+import {Subscription, switchMap, tap} from "rxjs";
+import {PlansSignalRService} from "../../services/plans/plans-signalR.service";
 
 @Component({
   selector: 'app-change-active-plan-modal',
@@ -14,11 +14,23 @@ import {AuthService} from "../../../../auth/auth.service";
   standalone: true,
   imports: [ModalComponent, FormsModule, CommonModule],
 })
-export class ChangeActivePlanModal implements OnInit {
-  constructor(private plansService: PlansService ) {}
+export class ChangeActivePlanModal implements OnInit, OnDestroy {
+  constructor(private plansService: PlansService, private plansSignalRService: PlansSignalRService) {}
 
-  ngOnInit(): void {
+  private subscriptions = new Subscription();
+
+  ngOnInit() {
     this.fetchPlans();
+
+    this.subscriptions.add(
+      this.plansSignalRService.activePlanChanged$.subscribe(() => {
+        this.fetchPlans();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   selectedPlan: TravelPlan | null = null;
@@ -47,14 +59,15 @@ export class ChangeActivePlanModal implements OnInit {
   }
 
   fetchPlans(): void {
-    this.plansService.getActivePlanWithPoints().pipe(
-      tap(response => {
-        this.selectedPlan = response;
+    this.plansService.getActivePlanWithPoints()
+      .pipe(
+        tap(response => {
+            this.selectedPlan = response;
       }),
       switchMap(() => this.plansService.getPlansForUser())
     ).subscribe({
       next: (response) => {
-        this.travelPlans = response.items;
+        this.travelPlans = response;
         this.selectedPlan = this.travelPlans.find(plan => plan.id === this.selectedPlan?.id) || null;
       },
       error: (error) => {

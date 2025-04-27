@@ -3,11 +3,4 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
-public class GetUserPlans : PagedQueryGeneric<PlanWithPointsDTO>
-{
-    public GetUserPlans()
-    {
-        SortOrder = "DESC";
-        OrderBy = "Id";
-    }
-}
+public record GetUserPlans : IQuery<List<PlanWithPointsDTO>> { }

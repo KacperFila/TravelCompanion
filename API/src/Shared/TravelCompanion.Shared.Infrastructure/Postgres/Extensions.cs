@@ -27,12 +27,17 @@ namespace TravelCompanion.Shared.Infrastructure.Postgres
                 page = 1;
             }
 
-            results = results switch
+            switch (results)
             {
-                <= 0 => 10,
-                > 100 => 100,
-                _ => results
-            };
+                case <= 0:
+                    results = 10;
+                    break;
+                case > 100:
+                    results = 100;
+                    break;
+                default:
+                    break;
+            }
 
             var totalResults = await data.CountAsync();
             var totalPages = (int)Math.Ceiling(totalResults / (double)results);

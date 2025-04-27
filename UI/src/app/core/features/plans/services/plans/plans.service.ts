@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../../../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {map, Observable, switchMap, tap} from 'rxjs';
-import {AuthService} from '../../../../auth/auth.service';
-import {TravelPlan, TravelPlanResponse, TravelPoint, TravelPointUpdateRequest} from '../../models/plan.models';
+import {TravelPlan, TravelPoint, TravelPointUpdateRequest} from '../../models/plan.models';
 import {PlanInvitationResponse} from "./plans-signalR-responses.models";
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   createPlan(
     title: string,
@@ -23,8 +22,6 @@ export class PlansService {
       .pipe(
         switchMap(() => this.getUserLastPlan()),
         tap((response) => {
-          if (response.items.length > 0) {
-          }
         }),
         map(() => void 0)
       );
@@ -32,27 +29,19 @@ export class PlansService {
 
   setActivePlan(planId: string) : Observable<any> {
     const requestBody = { planId };
-
     return this.http
       .post(`${environment.apiBaseUrl}/travelplans-module/Plan/Active`, requestBody);
   }
 
-  getPlansForUser(): Observable<TravelPlanResponse> {
-    return this.http.get<TravelPlanResponse>(
+  getPlansForUser(): Observable<TravelPlan[]> {
+    return this.http.get<TravelPlan[]>(
       `${environment.apiBaseUrl}/travelplans-module/Plan`
     );
   }
 
-  getUserLastPlan(): Observable<TravelPlanResponse> {
-    let params = new HttpParams()
-      .set('Page', 0)
-      .set('Results', 1)
-      .set('OrderBy', 'createdOnUtc')
-      .set('SortOrder', 'DESC');
-
-    return this.http.get<TravelPlanResponse>(
-      `${environment.apiBaseUrl}/travelplans-module/Plan`,
-      { params }
+  getUserLastPlan(): Observable<TravelPlan[]> {
+    return this.http.get<TravelPlan[]>(
+      `${environment.apiBaseUrl}/travelplans-module/Plan`
     );
   }
 

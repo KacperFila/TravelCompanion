@@ -3,7 +3,7 @@ import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans/plans.service';
 import { ItemListComponent } from '../../../../shared/item-list/item-list.components';
-import { TravelPlan, TravelPlanResponse } from '../../models/plan.models';
+import { TravelPlan } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -28,8 +28,8 @@ export class UserPlansModal implements OnInit {
 
   fetchPlans(): void {
     this.plansService.getPlansForUser().subscribe(
-      (response: TravelPlanResponse) => {
-        this.travelPlans = response.items;
+      (response: TravelPlan[]) => {
+        this.travelPlans = response;
       },
       (error) => {
         console.error('Error fetching travel plans:', error);
