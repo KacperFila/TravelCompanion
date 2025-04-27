@@ -2,9 +2,14 @@
   [isModalOpen]="isModalOpen"
   (close)="closeModal()"
   title="User Plans">
+
   <div *ngIf="error" class="error">{{ error }}</div>
-  <app-item-list
-    [items]="travelPlans"
-    [displayProperty]="'title'">
-  </app-item-list>
+
+  <div class="plans-list-wrapper">
+    <app-item-list
+      [items]="travelPlans"
+      [displayProperty]="'title'">
+    </app-item-list>
+  </div>
+
 </app-modal>
