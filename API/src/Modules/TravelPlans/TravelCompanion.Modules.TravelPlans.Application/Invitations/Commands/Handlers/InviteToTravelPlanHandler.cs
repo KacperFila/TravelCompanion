@@ -21,6 +21,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
     private readonly INotificationRealTimeService _notificationService;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
     private readonly IContext _context;
+    private readonly Guid _userId;
 
     public InviteToTravelPlanHandler(
         IInvitationRepository invitationRepository,
@@ -36,36 +37,51 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         _notificationService = notificationService;
         _travelPlansRealTimeService = travelPlansRealTimeService;
         _context = context;
+        _userId = _context.Identity.Id;
     }
 
     public async Task HandleAsync(InviteToTravelPlan command)
     {
-        var doesPlanExist = await _planRepository.ExistAsync(command.planId);
-        var doesUserExist = await _usersModuleApi.CheckIfUserExists(command.userId);
+        var doesPlanExist = await _planRepository.ExistAsync(command.PlanId);
+        var doesUserExist = await _usersModuleApi.CheckIfUserExists(command.InviteeId);
 
         if (!doesPlanExist)
         {
-            throw new PlanNotFoundException(command.planId);
+            throw new PlanNotFoundException(command.PlanId);
         }
 
         if (!doesUserExist)
         {
-            throw new UserNotFoundException(command.userId);
+            throw new UserNotFoundException(command.InviteeId);
         }
 
         var doesInvitationAlreadyExist = await _invitationRepository
-            .ExistsForUserAndTravelPlanAsync(command.userId, command.planId);
+            .ExistsForUserAndTravelPlanAsync(command.InviteeId, command.PlanId);
 
-        //if (doesInvitationAlreadyExist)
-        //{
-        //    throw new InvitationAlreadyExistsException(command.userId, command.planId);
-        //}
-
-        var plan = await _planRepository.GetAsync(command.planId);
-
-        if (plan.Participants.Select(x => x.ParticipantId).Contains(command.userId))
+        if (doesInvitationAlreadyExist)
         {
-            throw new UserAlreadyParticipatesInPlanException(command.userId);
+            await _notificationService.SendToAsync(
+            _userId.ToString(),
+            NotificationMessage.Create(
+                "Invitation",
+                $"You have already invited given user!",
+            NotificationSeverity.Error));
+
+            return;
+        }
+
+        var plan = await _planRepository.GetAsync(command.PlanId);
+
+        if (plan.Participants.Select(x => x.ParticipantId).Contains(command.InviteeId))
+        {
+            await _notificationService.SendToAsync(
+            _userId.ToString(),
+            NotificationMessage.Create(
+                "Invitation",
+                $"User already participates in this plan!",
+            NotificationSeverity.Error));
+
+            throw new UserAlreadyParticipatesInPlanException(command.InviteeId);
         }
 
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
@@ -73,16 +89,25 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        var invitation = Invitation.Create(command.planId, command.userId);
+        var invitation = Invitation.Create(command.PlanId, command.InviteeId);
 
         await _invitationRepository.AddAsync(invitation);
 
-        await _notificationService.SendToAsync(command.userId.ToString(),
+        await _notificationService.SendToAsync(
+            command.InviteeId.ToString(),
             NotificationMessage.Create(
                 "Invitation",
                 $"You have been invited to plan: \"{plan.Title}\"",
                 _context.Identity.Email,
             NotificationSeverity.Alert));
+
+        await _notificationService.SendToAsync(
+            _userId.ToString(),
+            NotificationMessage.Create(
+                "Invitation",
+                $"Invitation has been sent!",
+                _context.Identity.Email,
+            NotificationSeverity.Information));
 
         var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
 
@@ -95,6 +120,6 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             InvitationDate = DateTime.UtcNow
         };
 
-        await _travelPlansRealTimeService.SendPlanInvitation(command.userId.ToString(), invitationResponse);
+        await _travelPlansRealTimeService.SendPlanInvitation(command.InviteeId.ToString(), invitationResponse);
     }
 }

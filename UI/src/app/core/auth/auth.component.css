@@ -50,6 +50,18 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.switch-button {
+  background-color: transparent;
+  border: solid var(--primary-color) 2px;
+  color: var(--primary-color);
+}
+
+.switch-button:hover {
+  background-color: var(--primary-hover-color);
+  border: solid var(--primary-hover-color) 2px;
+  color: var(--secondary-color);
+}
+
 button:hover {
   background-color: var(--primary-hover-color);
   transform: scale(0.98);

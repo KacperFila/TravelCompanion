@@ -103,9 +103,9 @@ export class PlansService {
       );
   }
 
-  inviteUserToPlan(planId: string, userId: string) {
+  inviteUserToPlan(planId: string, inviteeId: string) {
     return this.http.post(
-      `${environment.apiBaseUrl}/travelplans-module/Invitation/${planId}/${userId}`,
+      `${environment.apiBaseUrl}/travelplans-module/Invitation/${planId}/${inviteeId}`,
       {}
     );
   }

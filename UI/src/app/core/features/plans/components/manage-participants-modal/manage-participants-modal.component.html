@@ -1,24 +1,32 @@
-<app-modal
-  [isModalOpen]="isModalOpen"
-  (close)="closeModal()"
-  title="Manage Participants">
+  <app-modal
+    [isModalOpen]="isModalOpen"
+    (close)="closeModal()"
+    title="Manage Participants">
 
-  <input
-    type="text"
-    [(ngModel)]="searchQuery"
-    (input)="filterUsers()"
-    placeholder="Search users..."
-    class="search-input" />
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="filterUsers()"
+      placeholder="Search users..."
+      class="search-input" />
 
-  <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
 
-  <app-item-list
-    [items]="planParticipants"
-    [displayProperty]="'email'"
-    [buttonTemplate]="addButton">
-  </app-item-list>
+    <div class="item-list-wrapper">
+      <ng-container *ngIf="planParticipants.length > 0; else noResults">
+        <app-item-list
+          class="item-list"
+          [items]="planParticipants"
+          [displayProperty]="'email'"
+          [buttonTemplate]="addButton">
+        </app-item-list>
+      </ng-container>
+      <ng-template #noResults>
+        <span class="no-results">No users found.</span>
+      </ng-template>
+    </div>
 
-  <ng-template #addButton let-item>
-    <button (click)="addParticipant(item)">Add</button>
-  </ng-template>
-</app-modal>
+    <ng-template #addButton let-item>
+      <button (click)="addParticipant(item)">Add</button>
+    </ng-template>
+  </app-modal>

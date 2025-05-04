@@ -18,7 +18,7 @@ internal sealed class UsersController : BaseController
     [HttpGet("browse")]
     public async Task<List<UserInfoDto>> GetAllUsers()
     {
-        var users = await _identityService.GetAllAsync();
+        var users = await _identityService.BrowseActiveUsersAsync();
         return await Task.FromResult(users);
     }
 }

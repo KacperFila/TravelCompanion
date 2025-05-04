@@ -21,7 +21,7 @@ internal sealed class InviteToTravelPlanEndpoint : EndpointBaseAsync
     }
 
     [Authorize]
-    [HttpPost("Invitation/{planId:guid}/{userId:guid}")]
+    [HttpPost("Invitation/{planId:guid}/{inviteeId:guid}")]
     [SwaggerOperation(
         Summary = "Invite User to Plan",
         Tags = new[] { TravelPlansEndpoint.InvitationsTag })]

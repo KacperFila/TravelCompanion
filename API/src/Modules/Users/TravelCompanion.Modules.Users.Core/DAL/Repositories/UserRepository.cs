@@ -57,8 +57,10 @@ internal class UserRepository : IUserRepository
         return await _users.Where(x => usersIds.Contains(x.Id)).ToListAsync();
     }
 
-    public async Task<List<User>> BrowseAllAsync()
+    public async Task<List<User>> BrowseActiveAsync()
     {
-        return await _users.ToListAsync();
+        return await _users
+            .Where(x => x.IsActive)
+            .ToListAsync();
     }
 }

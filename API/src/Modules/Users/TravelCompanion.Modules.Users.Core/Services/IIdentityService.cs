@@ -14,6 +14,6 @@ namespace TravelCompanion.Modules.Users.Core.Services
         Task<JsonWebToken> SignInAsync(SignInDTO dto);
         Task SignUpAsync(SignUpDTO dto);
         Task ActivateAccountAsync(string token);
-        Task<List<UserInfoDto>> GetAllAsync();
+        Task<List<UserInfoDto>> BrowseActiveUsersAsync();
     }
 }

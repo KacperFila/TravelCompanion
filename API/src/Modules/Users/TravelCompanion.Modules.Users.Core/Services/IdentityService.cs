@@ -76,7 +76,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
 
             if (!user.IsActive)
             {
-                throw new UserNotActiveException(user.Id);
+                throw new UserNotActiveException();
             }
 
             var jwt = _authManager.CreateToken(user.Id.ToString(), user.Role, user.Email, claims: user.Claims);
@@ -137,9 +137,9 @@ namespace TravelCompanion.Modules.Users.Core.Services
             return CreateRandomToken(Alphabet, length);
         }
 
-        public async Task<List<UserInfoDto>> GetAllAsync()
+        public async Task<List<UserInfoDto>> BrowseActiveUsersAsync()
         {
-            var users = await _userRepository.BrowseAllAsync();
+            var users = await _userRepository.BrowseActiveAsync();
             var userInfoDto = users.Select(x => new UserInfoDto()
             {
                 UserId = x.Id,

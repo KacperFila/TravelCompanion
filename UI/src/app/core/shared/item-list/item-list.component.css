@@ -2,14 +2,16 @@
     list-style: none;
     padding: 0;
   }
-  
+
   .item-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
   }
-  
+
   .item-list li:hover {
     background-color: #f0f0f0;
   }
-  

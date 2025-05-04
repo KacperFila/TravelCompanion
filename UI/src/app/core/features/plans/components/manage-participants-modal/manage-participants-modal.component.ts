@@ -6,7 +6,8 @@ import { PlanParticipant } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
 import {PlansService} from "../../services/plans/plans.service";
 import {UsersService} from "../../services/users/users.service";
-import {map} from "rxjs";
+import {filter, map} from "rxjs";
+import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
   selector: 'app-manage-participants-modal',
@@ -16,8 +17,13 @@ import {map} from "rxjs";
   imports: [ModalComponent, FormsModule, ItemListComponent, CommonModule],
 })
 export class ManageParticipantsModal implements OnInit {
-  constructor(private plansService: PlansService, private usersService: UsersService) {
+  constructor(
+    private plansService: PlansService,
+    private usersService: UsersService,
+    private authService: AuthService) {
   }
+
+  currentUserId: string = '';
 
   allUsers: PlanParticipant[] = [];
   planParticipants: PlanParticipant[] = [];
@@ -29,13 +35,20 @@ export class ManageParticipantsModal implements OnInit {
   @Output() closeModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
-    this.fetchUsers();
+    this.authService.user
+      .pipe(filter(user => !!user))
+      .subscribe(user => {
+        this.currentUserId = user!.id;
+        this.fetchUsers();
+      });
   }
 
   fetchUsers(): void {
     this.usersService.browseUsers()
       .pipe(
-        map(users => users.map(user => ({
+        map(users => users
+          .filter(user => user.userId !== this.currentUserId)
+          .map(user => ({
           id: user.userId,
           email: user.email,
         })))
@@ -58,8 +71,8 @@ export class ManageParticipantsModal implements OnInit {
     );
   }
 
-  addParticipant(item: PlanParticipant) {
-    this.plansService.inviteUserToPlan(this.planId, item.id)
+  addParticipant(participant: PlanParticipant) {
+    this.plansService.inviteUserToPlan(this.planId, participant.id)
       .subscribe();
   }
 

@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands;
 
-public record InviteToTravelPlan(Guid planId, Guid userId) : ICommand;
+public record InviteToTravelPlan(Guid PlanId, Guid InviteeId) : ICommand;
