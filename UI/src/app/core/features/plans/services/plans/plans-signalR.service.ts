@@ -5,7 +5,7 @@ import { AuthService } from "../../../../auth/auth.service";
 import { PlansService } from "./plans.service";
 import { User } from "../../../../auth/user.model";
 import { PlanInvitationResponse } from "./plans-signalR-responses.models";
-import {TravelPlan} from "../../models/plan.models";
+import {TravelPlan, UpdateRequestUpdateResponse} from "../../models/plan.models";
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,9 @@ export class PlansSignalRService {
   invitations$ = this.invitationsSubject.asObservable();
   private travelPlanSubject = new BehaviorSubject<TravelPlan | null>(null);
   travelPlan$ = this.travelPlanSubject.asObservable();
+  private updateRequestSubject = new BehaviorSubject<UpdateRequestUpdateResponse | null>(null);
+  updateRequests$ = this.updateRequestSubject.asObservable();
+
   private activePlanChangedEvent = new Subject<void>();
   activePlanChanged$ = this.activePlanChangedEvent.asObservable();
 
@@ -93,6 +96,10 @@ export class PlansSignalRService {
         this.travelPlanSubject.next(updatedPlan);
       }
     });
+
+    this.hubConnection.on("ReceiveTravelPointUpdateRequestUpdate", (response: UpdateRequestUpdateResponse) => {
+      this.updateRequestSubject.next(response);
+    });
   }
 
   initialFetchInvitations(): void {
@@ -107,6 +114,13 @@ export class PlansSignalRService {
     .subscribe((activePlan) => {
       this.travelPlanSubject.next(activePlan);
     });
+  }
+
+  initialFetchUpdateRequests(): void {
+    this.plansService.getActivePlanWithPoints()
+      .subscribe((activePlan) => {
+        this.travelPlanSubject.next(activePlan);
+      });
   }
 
   stopConnection(): void {

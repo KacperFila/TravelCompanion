@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TravelPointUpdateRequest } from '../../models/plan.models';
 import { ItemListComponent } from "../../../../shared/item-list/item-list.components";
 import {NgIf} from "@angular/common";
+import {PlansService} from "../../services/plans/plans.service";
 
 @Component({
   selector: 'app-edit-request-modal',
@@ -13,6 +14,8 @@ import {NgIf} from "@angular/common";
   imports: [ModalComponent, FormsModule, ItemListComponent, NgIf],
 })
 export class EditRequestModalComponent {
+  constructor(private plansService: PlansService) {
+  }
 
   @Input() isModalOpen: boolean = false;
   @Input() updateRequests: TravelPointUpdateRequest[] = [];
@@ -21,17 +24,25 @@ export class EditRequestModalComponent {
   @Output() rejectRequestEvent = new EventEmitter<void>();
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  acceptEditRequest()
-  {
-    this.acceptRequestEvent.emit();
-  }
-
-  rejectEditRequest()
-  {
-    this.acceptRequestEvent.emit();
-  }
-
   closeEditRequestModal(): void {
+    this.closeModalEvent.emit();
+  }
+
+  acceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  {
+    this.plansService.acceptUpdateRequest(updateRequest.requestId.value)
+      .subscribe(
+        (error) => {console.log(error)}
+      );
+    this.closeModalEvent.emit();
+  }
+
+  rejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
+  {
+    this.plansService.rejectUpdateRequest(updateRequest.requestId.value)
+      .subscribe(
+        (error) => {console.log(error)}
+      );
     this.closeModalEvent.emit();
   }
 }

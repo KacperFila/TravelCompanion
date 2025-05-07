@@ -64,7 +64,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         .Select(x => x.ToString())
         .ToList();
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(plan.Id);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(point.Id);
         updateRequests = updateRequests.Where(x => x.TravelPlanPointId == point.Id).ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse

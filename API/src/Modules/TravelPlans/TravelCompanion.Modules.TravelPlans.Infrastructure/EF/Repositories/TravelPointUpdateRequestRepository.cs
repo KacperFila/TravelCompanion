@@ -25,10 +25,10 @@ public class TravelPointUpdateRequestRepository : ITravelPointUpdateRequestRepos
         return await _requests.SingleOrDefaultAsync(x => x.RequestId == requestId);
     }
 
-    public async Task<List<TravelPointUpdateRequest>> GetUpdateRequestsForPlanAsync(Guid planId)
+    public async Task<List<TravelPointUpdateRequest>> GetUpdateRequestsForPointAsync(Guid pointId)
     {
         return await _requests
-                    .Where(x => x.PlanId == planId)
+                    .Where(x => x.TravelPlanPointId == pointId)
                     .ToListAsync();
     }
 

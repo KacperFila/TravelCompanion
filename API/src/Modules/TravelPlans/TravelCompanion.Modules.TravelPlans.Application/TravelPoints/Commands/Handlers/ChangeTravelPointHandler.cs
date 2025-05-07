@@ -57,19 +57,19 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        //if (point.IsAccepted)
-        //{
-        //    throw new CouldNotModifyAcceptedTravelPointException();
-        //}
-
+        
         var request = TravelPointUpdateRequest.Create(command.pointId, plan.Id, _userId, command.placeName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(plan.Id);
-        updateRequests = updateRequests.Where(x => x.TravelPlanPointId == point.Id).ToList();
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(point.Id);
+        updateRequests = updateRequests
+            .Where(x => x.TravelPlanPointId == command.pointId)
+            .ToList();
 
-        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
+        var participants = plan.Participants
+            .Select(x => x.ParticipantId.ToString())
+            .ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {

@@ -27,8 +27,8 @@ export interface TravelPoint {
 }
 
 export interface TravelPointUpdateRequest {
-  requestId: string;
-  travelPlanPointId: string;
+  requestId: { value: string };
+  travelPlanPointId: { value: string };
   suggestedById: string;
   placeName: string;
   createdOnUtc: string;

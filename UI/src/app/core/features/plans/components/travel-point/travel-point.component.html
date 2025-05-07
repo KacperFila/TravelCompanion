@@ -15,6 +15,7 @@
       <div class="lower-part">
         <button (click)="triggerEditPointModal()">Edit</button>
         <button (click)="triggerEditRequestsModal()">Requests</button>
+        <div *ngIf="updateRequests.length > 0" class="circle-indicator">{{this.updateRequests.length}}</div>
         <button class="delete-button" (click)="deletePoint(travelPoint)">Delete</button>
       </div>
     </div>

@@ -6,172 +6,169 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  TravelPlan,
-  TravelPoint, TravelPointUpdateRequest, UpdateRequestUpdateResponse
-} from '../../models/plan.models';
-import { PlansService } from '../../services/plans/plans.service';
 import { CommonModule } from '@angular/common';
-import {last, Subscription} from 'rxjs';
-import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
-import { TravelPointComponent } from "../travel-point/travel-point.component";
-import { PlansSignalRService } from "../../services/plans/plans-signalR.service";
-import {
-  PlanInvitationRemovedResponse,
-  PlanInvitationResponse,
-  UpdatedPlan
-} from "../../services/plans/plans-signalR-responses.models";
-import {ManageParticipantsModal} from "../manage-participants-modal/manage-participants-modal.component";
-import {ChangeActivePlanModal} from "../change-active-plan-modal/change-active-plan-modal.component";
-import {PlanCreationModal} from "../plan-creation-modal/plan-creation-modal.component";
-import {UserPlansModal} from "../user-plans-modal/user-plans-modal.component";
-import {UserInvitationsModalComponent} from "../user-invitations-modal/user-invitations-modal.component";
-import {CreateTravelPointModal} from "../create-travel-point-modal/create-travel-point-modal.component";
-import {EditRequestModalComponent} from "../edit-request-modal/edit-request-modal.component";
-import {EditPointModalComponent} from "../edit-point-modal/edit-point-modal.component";
+import { Subscription } from 'rxjs';
+import { TravelPlan, TravelPoint, TravelPointUpdateRequest } from '../../models/plan.models';
+import { PlansService } from '../../services/plans/plans.service';
+import { PlansSignalRService } from '../../services/plans/plans-signalR.service';
+import { PlanInvitationResponse } from '../../services/plans/plans-signalR-responses.models';
+import { TravelPointComponent } from '../travel-point/travel-point.component';
+import { ManageParticipantsModal } from '../manage-participants-modal/manage-participants-modal.component';
+import { ChangeActivePlanModal } from '../change-active-plan-modal/change-active-plan-modal.component';
+import { PlanCreationModal } from '../plan-creation-modal/plan-creation-modal.component';
+import { UserPlansModal } from '../user-plans-modal/user-plans-modal.component';
+import { UserInvitationsModalComponent } from '../user-invitations-modal/user-invitations-modal.component';
+import { CreateTravelPointModal } from '../create-travel-point-modal/create-travel-point-modal.component';
+import { EditRequestModalComponent } from '../edit-request-modal/edit-request-modal.component';
+import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.component';
 
 @Component({
   selector: 'app-points-roadmap',
   templateUrl: './points-roadmap.component.html',
   styleUrls: ['./points-roadmap.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, TravelPointComponent, ManageParticipantsModal, ChangeActivePlanModal, PlanCreationModal, UserPlansModal, UserInvitationsModalComponent, CreateTravelPointModal, EditRequestModalComponent, EditPointModalComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TravelPointComponent,
+    ManageParticipantsModal,
+    ChangeActivePlanModal,
+    PlanCreationModal,
+    UserPlansModal,
+    UserInvitationsModalComponent,
+    CreateTravelPointModal,
+    EditRequestModalComponent,
+    EditPointModalComponent
+  ],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
-  constructor(
-    private plansService: PlansService,
-    private plansSignalRService: PlansSignalRService,
-  ) {}
 
-  travelPlan: TravelPlan = { id: '', ownerId: '', participants: [], title: '', description: '', from: '', to: '', additionalCostsValue: 0, totalCostValue: 0, planStatus: '', travelPlanPoints: [] };
-  updateRequests: Map<string, TravelPointUpdateRequest[]> = new Map<string, TravelPointUpdateRequest[]>;
-  invitations: PlanInvitationResponse[] =[];
-  selectedUpdateRequests: TravelPointUpdateRequest[] = [];
-  pointToEdit!: TravelPoint;
-
-  private invitationsSubscription!: Subscription;
-  private planSubscription!: Subscription;
-
-  protected readonly last = last;
-
-  @Input() planUpdated: boolean = false;
-
-  isCreatePointModalOpen: boolean = false;
-  isManageParticipantsModalOpen: boolean = false;
-  isCreatePlanModalOpen: boolean = false;
-  isChangeActiveModalOpen: boolean = false;
-  isUserPlansModalOpen: boolean = false;
-  isUserInvitationsModalOpen: boolean = false;
-  isEditRequestsModalOpen = false;
-  isEditPointModalOpen = false;
-
+  @Input() planUpdated = false;
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
 
+  travelPlan: TravelPlan = {} as TravelPlan;
+  invitations: PlanInvitationResponse[] = [];
+  pointUpdateRequestsMap = new Map<string, TravelPointUpdateRequest[]>();
+  selectedUpdateRequests: TravelPointUpdateRequest[] = [];
+  pointToEdit!: TravelPoint;
+
+  isCreatePointModalOpen = false;
+  isManageParticipantsModalOpen = false;
+  isCreatePlanModalOpen = false;
+  isChangeActiveModalOpen = false;
+  isUserPlansModalOpen = false;
+  isUserInvitationsModalOpen = false;
+  isEditRequestsModalOpen = false;
+  isEditPointModalOpen = false;
+
+  private invitationsSubscription!: Subscription;
+  private planSubscription!: Subscription;
+  private requestsSubscription!: Subscription;
+
+  constructor(
+    private plansService: PlansService,
+    private plansSignalRService: PlansSignalRService
+  ) {}
+
   ngOnInit(): void {
     this.invitationsSubscription = this.plansSignalRService.invitations$
-      .subscribe((invitations) => {
-      this.invitations = invitations;
-    });
+      .subscribe(invitations => this.onInvitations(invitations));
 
     this.planSubscription = this.plansSignalRService.travelPlan$
-      .subscribe((updatedPlan) => {
-      if (updatedPlan) {
-        this.travelPlan = updatedPlan;
-        this.travelPlan.travelPlanPoints.forEach((point) => {
-          this.getTravelPointEditRequests(point.id);
-        });
-      }
-    });
+      .subscribe(plan => this.onPlanUpdate(plan));
+
+    this.requestsSubscription = this.plansSignalRService.updateRequests$
+      .subscribe(event => this.onRequestsUpdate(event));
   }
 
   ngOnDestroy(): void {
-    if (this.invitationsSubscription) {
-      this.invitationsSubscription.unsubscribe();
-    }
+    this.invitationsSubscription?.unsubscribe();
+    this.planSubscription?.unsubscribe();
+    this.requestsSubscription?.unsubscribe();
   }
 
-  onShowEditRequests(requests: TravelPointUpdateRequest[]) {
+  onShowEditRequests(requests: TravelPointUpdateRequest[]): void {
     this.selectedUpdateRequests = requests;
     this.isEditRequestsModalOpen = true;
   }
 
-  onShowEditPoint(point: TravelPoint) {
-    this.pointToEdit = {...point};
+  onShowEditPoint(point: TravelPoint): void {
+    this.pointToEdit = { ...point };
     this.isEditPointModalOpen = true;
   }
 
-  onEditedPoint(point: TravelPoint) {
+  onEditedPoint(point: TravelPoint): void {
     this.plansService.updatePoint(point).subscribe();
     this.isEditPointModalOpen = false;
   }
 
   onTravelPointCreated(newPoint: TravelPoint): void {
-    if (!newPoint?.placeName.trim())    {
+    if (!newPoint?.placeName.trim()) {
       return;
     }
-
-    if (!this.travelPlan){
-      return;
-    }
-
-    this.plansService
-      .addPointToPlan(this.travelPlan.id, newPoint.placeName)
+    this.plansService.addPointToPlan(this.travelPlan.id, newPoint.placeName)
       .subscribe({
-        next: () => {
-          this.closeCreatePointModal();
-        },
-        error: (err) => console.error('Error creating point', err),
-      });    this.isCreatePointModalOpen = false;
-  }
-
-  deletePoint(point: TravelPoint) {
-    if (!this.travelPlan){
-      return;
-    }
-
-    this.plansService.deletePoint(point.id).subscribe({
-      error: (err) => console.error('Error deleting point', err),
-    });
-  }
-
-  getTravelPointEditRequests(travelPointId: string) {
-    this.plansService.getTravelPointEditRequests(travelPointId)
-      .subscribe({
-        next: (response) => {
-          this.updateRequests.set(travelPointId, response);
-        },
-        error: (err) => {
-          console.error("Error fetching data:", err);
-        },
+        next: () => this.closeCreatePointModal(),
+        error: err => console.error('Error creating point', err)
       });
-  }
-  closeCreatePointModal(){
     this.isCreatePointModalOpen = false;
   }
 
-  closeEditPointModal(){
-    this.isEditPointModalOpen = false;
+  deletePoint(point: TravelPoint): void {
+    this.plansService.deletePoint(point.id).subscribe({
+      error: err => console.error('Error deleting point', err)
+    });
   }
 
-  closeManageParticipantsModal(){
+  closeCreatePointModal(): void {
+    this.isCreatePointModalOpen = false;
+  }
+
+  closeManageParticipantsModal(): void {
     this.isManageParticipantsModalOpen = false;
   }
 
-  closeCreatePlanModal(){
+  closeCreatePlanModal(): void {
     this.isCreatePlanModalOpen = false;
   }
 
-  closeChangeActiveModal(){
+  closeChangeActiveModal(): void {
     this.isChangeActiveModalOpen = false;
   }
 
-  closeUserPlansModal(){
+  closeUserPlansModal(): void {
     this.isUserPlansModalOpen = false;
   }
 
-  closeUserInvitationsModal(){
+  closeUserInvitationsModal(): void {
     this.isUserInvitationsModalOpen = false;
+  }
+
+  private onInvitations(invitations: PlanInvitationResponse[]): void {
+    this.invitations = invitations;
+  }
+
+  private onPlanUpdate(plan: TravelPlan | null): void {
+    if (plan) {
+      this.travelPlan = plan;
+    }
+  }
+
+  private onRequestsUpdate(event: { updateRequests: TravelPointUpdateRequest[] } | null): void {
+    if (!event?.updateRequests?.length) {
+      return;
+    }
+
+    const requestsGroupedByPoint: Record<string, TravelPointUpdateRequest[]> = {};
+    for (const req of event.updateRequests) {
+      const pointId = req.travelPlanPointId.value;
+      requestsGroupedByPoint[pointId] ??= [];
+      requestsGroupedByPoint[pointId].push(req);
+    }
+    for (const pointId in requestsGroupedByPoint) {
+      this.pointUpdateRequestsMap.set(pointId, requestsGroupedByPoint[pointId]);
+    }
   }
 }

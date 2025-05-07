@@ -69,7 +69,7 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         }
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
 
-        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(pointId);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(pointId);
         var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse

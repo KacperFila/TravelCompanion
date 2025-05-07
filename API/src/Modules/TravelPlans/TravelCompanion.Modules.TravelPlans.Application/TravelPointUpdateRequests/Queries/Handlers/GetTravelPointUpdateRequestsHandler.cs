@@ -15,7 +15,7 @@ public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointU
 
     public async Task<List<TravelPointUpdateRequest>> HandleAsync(GetTravelPointUpdateRequest request)
     {
-        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPlanAsync(request.PlanId);
+        var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(request.PointId);
 
         return updateRequests;
     }

@@ -79,15 +79,14 @@ export class PlansService {
       )
   }
 
-  getTravelPointEditRequests(travelPointId: string): Observable<TravelPointUpdateRequest[]>
+  getTravelPointEditRequests(pointId: string): Observable<TravelPointUpdateRequest[]>
   {
     return this.http
       .get<TravelPointUpdateRequest[]>(
-        `${environment.apiBaseUrl}/travelplans-module/Point/${travelPointId}/UpdateRequests`)
+        `${environment.apiBaseUrl}/travelplans-module/Point/${pointId}/UpdateRequests`)
   }
 
   acceptUpdateRequest(updateRequestId: string): Observable<any> {
-    console.log(updateRequestId);
     return this.http
       .put(
         `${environment.apiBaseUrl}/travelplans-module/Point/Update/${updateRequestId}/Acceptance`,

@@ -5,5 +5,5 @@ namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateReque
 
 public class GetTravelPointUpdateRequest : IQuery<List<TravelPointUpdateRequest>>
 {
-    public Guid PlanId { get; set; }
+    public Guid PointId { get; set; }
 }

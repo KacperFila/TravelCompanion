@@ -23,10 +23,10 @@
           <div class="node">
             <app-travel-point
               [travelPoint]="point"
-              [updateRequests]="updateRequests.get(point.id) || []"
               [nodeNumber]="point.travelPlanOrderNumber"
               [showLineAfter]="!last || travelPlan.travelPlanPoints.length === 1"
               [showLineBefore]="i !== 0"
+              [updateRequests]="pointUpdateRequestsMap.get(point.id) || []"
               (pointDeletedEvent)="deletePoint($event)"
               (openEditRequestsModalEvent)="onShowEditRequests($event)"
               (openEditPointModalEvent)="onShowEditPoint($event)"
@@ -49,9 +49,9 @@
   </span>
 
   <app-edit-request-modal
+    [updateRequests]="selectedUpdateRequests"
     [isModalOpen]="isEditRequestsModalOpen"
-    (closeModalEvent)="isEditRequestsModalOpen = false"
-  >
+    (closeModalEvent)="isEditRequestsModalOpen = false">
   </app-edit-request-modal>
 
   <app-edit-point-modal
