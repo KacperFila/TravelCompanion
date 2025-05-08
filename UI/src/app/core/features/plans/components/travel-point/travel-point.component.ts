@@ -12,7 +12,6 @@ import {
 import {PlansService} from '../../services/plans/plans.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Subscription} from "rxjs";
 import {PlansSignalRService} from "../../services/plans/plans-signalR.service";
 
 @Component({

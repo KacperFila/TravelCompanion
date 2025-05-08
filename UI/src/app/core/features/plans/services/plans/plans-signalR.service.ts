@@ -116,13 +116,6 @@ export class PlansSignalRService {
     });
   }
 
-  initialFetchUpdateRequests(): void {
-    this.plansService.getActivePlanWithPoints()
-      .subscribe((activePlan) => {
-        this.travelPlanSubject.next(activePlan);
-      });
-  }
-
   stopConnection(): void {
     if (this.hubConnection) {
       this.hubConnection.stop().then(() => {

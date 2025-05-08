@@ -31,18 +31,15 @@ export class EditRequestModalComponent {
   acceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
     this.plansService.acceptUpdateRequest(updateRequest.requestId.value)
-      .subscribe(
-        (error) => {console.log(error)}
-      );
+      .subscribe();
+
     this.closeModalEvent.emit();
   }
 
   rejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
     this.plansService.rejectUpdateRequest(updateRequest.requestId.value)
-      .subscribe(
-        (error) => {console.log(error)}
-      );
+      .subscribe();
     this.closeModalEvent.emit();
   }
 }

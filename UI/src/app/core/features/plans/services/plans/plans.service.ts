@@ -48,7 +48,14 @@ export class PlansService {
   getActivePlanWithPoints(): Observable<TravelPlan> {
     return this.http.get<TravelPlan>(
       `${environment.apiBaseUrl}/travelplans-module/Plan/Active`,
-      {} //TODO remove unnecessary empty object
+      {}
+    );
+  }
+
+  getPlanWithPoints(planId: string): Observable<TravelPlan> {
+    return this.http.get<TravelPlan>(
+      `${environment.apiBaseUrl}/travelplans-module/Plan/${planId}/Points`,
+      {}
     );
   }
 
