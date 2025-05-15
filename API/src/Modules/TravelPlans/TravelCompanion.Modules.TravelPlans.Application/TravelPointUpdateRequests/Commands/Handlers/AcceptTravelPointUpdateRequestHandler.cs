@@ -1,4 +1,6 @@
-﻿using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
+﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
+using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -68,11 +70,56 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {
-            UpdateRequests = updateRequests,
+            UpdateRequests = updateRequests.Select(AsUpdateRequestDto),
             PointId = point.Id
         };
 
-        await _travelPlansRealTimeService.SendPlanUpdate(participants, plan);
+        var planDto = AsPlanWithPointsDto(plan);
+
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
+    }
+
+    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    {
+        return new PlanWithPointsDTO()
+        {
+            Id = plan.Id,
+            OwnerId = plan.OwnerId,
+            Participants = plan.Participants.Select(x => x.ParticipantId).ToList(),
+            Title = plan.Title,
+            Description = plan.Description,
+            From = plan.From,
+            To = plan.To,
+            AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
+            TotalCostValue = plan.TotalCostValue.Amount,
+            TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
+            PlanStatus = plan.PlanStatus,
+        };
+    }
+
+    private static PointDTO AsPointDto(TravelPoint point)
+    {
+        return new PointDTO()
+        {
+            Id = point.Id,
+            PlaceName = point.PlaceName,
+            TotalCost = point.TotalCost.Amount,
+            TravelPlanOrderNumber = point.TravelPlanOrderNumber
+        };
+    }
+
+    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    {
+        return new UpdateRequestDTO()
+        {
+            RequestId = request.RequestId,
+            PlanId = request.TravelPlanPointId,
+            TravelPlanPointId = request.TravelPlanPointId,
+            SuggestedById = request.SuggestedById,
+            PlaceName = request.PlaceName,
+            CreatedOnUtc = request.CreatedOnUtc,
+            ModifiedOnUtc = request.ModifiedOnUtc,
+        };
     }
 }

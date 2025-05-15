@@ -52,13 +52,6 @@ export class PlansService {
     );
   }
 
-  getPlanWithPoints(planId: string): Observable<TravelPlan> {
-    return this.http.get<TravelPlan>(
-      `${environment.apiBaseUrl}/travelplans-module/Plan/${planId}/Points`,
-      {}
-    );
-  }
-
   addPointToPlan(travelPlanId: string, placeName: string): Observable<any> {
     const requestBody = { travelPlanId, placeName };
 

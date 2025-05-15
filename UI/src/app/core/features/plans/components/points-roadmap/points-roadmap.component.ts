@@ -160,7 +160,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     const requestsGroupedByPoint: Record<string, TravelPointUpdateRequest[]> = {};
 
     for (const request of event?.updateRequests ?? []) {
-      const pointId = request.travelPlanPointId.value;
+      const pointId = request.travelPlanPointId;
       requestsGroupedByPoint[pointId] ??= [];
       requestsGroupedByPoint[pointId].push(request);
     }

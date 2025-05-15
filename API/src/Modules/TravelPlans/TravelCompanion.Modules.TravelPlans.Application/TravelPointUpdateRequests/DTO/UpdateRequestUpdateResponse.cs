@@ -1,10 +1,7 @@
-﻿using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
-using TravelCompanion.Shared.Abstractions.Kernel.Types;
-
-namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
+﻿namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
 
 internal sealed class UpdateRequestUpdateResponse
 {
-    public IEnumerable<TravelPointUpdateRequest> UpdateRequests { get; set; }
-    public AggregateId PointId { get; set; }
+    public IEnumerable<UpdateRequestDTO> UpdateRequests { get; set; } = default!;
+    public Guid PointId { get; set; }
 }

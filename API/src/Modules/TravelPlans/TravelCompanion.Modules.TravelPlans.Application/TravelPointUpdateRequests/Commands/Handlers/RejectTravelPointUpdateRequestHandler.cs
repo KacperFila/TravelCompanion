@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
@@ -74,10 +75,24 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {
-            UpdateRequests = updateRequests,
+            UpdateRequests = updateRequests.Select(AsUpdateRequestDto),
             PointId = pointId
         };
 
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
+    }
+
+    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    {
+        return new UpdateRequestDTO()
+        {
+            RequestId = request.RequestId,
+            PlanId = request.TravelPlanPointId,
+            TravelPlanPointId = request.TravelPlanPointId,
+            SuggestedById = request.SuggestedById,
+            PlaceName = request.PlaceName,
+            CreatedOnUtc = request.CreatedOnUtc,
+            ModifiedOnUtc = request.ModifiedOnUtc,
+        };
     }
 }

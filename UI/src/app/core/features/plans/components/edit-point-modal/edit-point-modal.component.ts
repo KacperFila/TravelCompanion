@@ -21,4 +21,9 @@ export class EditPointModalComponent {
   closeEditPointModal(): void {
     this.closeModalEvent.emit();
   }
+
+  editedPoint(): void {
+    console.log("EDITED POINT: ", this.pointToEdit)
+    this.editedPointEvent.emit(this.pointToEdit)
+  }
 }

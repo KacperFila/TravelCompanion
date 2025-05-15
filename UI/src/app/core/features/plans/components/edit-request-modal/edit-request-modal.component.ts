@@ -30,7 +30,7 @@ export class EditRequestModalComponent {
 
   acceptUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
-    this.plansService.acceptUpdateRequest(updateRequest.requestId.value)
+    this.plansService.acceptUpdateRequest(updateRequest.requestId)
       .subscribe();
 
     this.closeModalEvent.emit();
@@ -38,7 +38,7 @@ export class EditRequestModalComponent {
 
   rejectUpdateRequest(updateRequest: TravelPointUpdateRequest)
   {
-    this.plansService.rejectUpdateRequest(updateRequest.requestId.value)
+    this.plansService.rejectUpdateRequest(updateRequest.requestId)
       .subscribe();
     this.closeModalEvent.emit();
   }

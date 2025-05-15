@@ -3,7 +3,7 @@
   (close)="closeEditPointModal()"
   title="Edit Travel Point">
   <div class="form-group">
-    <form *ngIf="pointToEdit" (ngSubmit)="editedPointEvent.emit(pointToEdit)">
+    <form *ngIf="pointToEdit" (ngSubmit)="editedPoint()">
       <div class="input-group">
         <label class="input-group-label" for="placeName">Point name:</label>
         <input
