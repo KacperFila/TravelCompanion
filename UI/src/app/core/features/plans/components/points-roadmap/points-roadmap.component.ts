@@ -9,7 +9,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { TravelPlan, TravelPoint, TravelPointUpdateRequest } from '../../models/plan.models';
+import {
+  TravelPlan,
+  TravelPoint,
+  TravelPointUpdateRequest,
+} from '../../models/plan.models';
 import { PlansService } from '../../services/plans/plans.service';
 import { PlansSignalRService } from '../../services/plans/plans-signalR.service';
 import { PlanInvitationResponse } from '../../services/plans/plans-signalR-responses.models';
@@ -39,11 +43,10 @@ import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.co
     UserInvitationsModalComponent,
     CreateTravelPointModal,
     EditRequestModalComponent,
-    EditPointModalComponent
+    EditPointModalComponent,
   ],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
-
   @Input() planUpdated = false;
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();
@@ -73,14 +76,17 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.invitationsSubscription = this.plansSignalRService.invitations$
-      .subscribe(invitations => this.onInvitations(invitations));
+    this.invitationsSubscription = this.plansSignalRService.invitations$.subscribe(
+      (invitations) => this.onInvitations(invitations)
+    );
 
-    this.planSubscription = this.plansSignalRService.travelPlan$
-      .subscribe(plan => this.onPlanUpdate(plan));
+    this.planSubscription = this.plansSignalRService.travelPlan$.subscribe(
+      (plan) => this.onPlanUpdate(plan)
+    );
 
-    this.requestsSubscription = this.plansSignalRService.updateRequests$
-      .subscribe(event => this.onRequestsUpdate(event));
+    this.requestsSubscription = this.plansSignalRService.updateRequests$.subscribe(
+      (event) => this.onRequestsUpdate(event)
+    );
   }
 
   ngOnDestroy(): void {
@@ -108,17 +114,18 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     if (!newPoint?.placeName.trim()) {
       return;
     }
-    this.plansService.addPointToPlan(this.travelPlan.id, newPoint.placeName)
-      .subscribe({
-        next: () => this.closeCreatePointModal(),
-        error: err => console.error('Error creating point', err)
-      });
+
+    this.plansService.addPointToPlan(this.travelPlan.id, newPoint.placeName).subscribe({
+      next: () => this.closeCreatePointModal(),
+      error: (err) => console.error('Error creating point', err),
+    });
+
     this.isCreatePointModalOpen = false;
   }
 
   deletePoint(point: TravelPoint): void {
     this.plansService.deletePoint(point.id).subscribe({
-      error: err => console.error('Error deleting point', err)
+      error: (err) => console.error('Error deleting point', err),
     });
   }
 
@@ -156,7 +163,9 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onRequestsUpdate(event: { updateRequests: TravelPointUpdateRequest[] } | null): void {
+  private onRequestsUpdate(
+    event: { updateRequests: TravelPointUpdateRequest[] } | null
+  ): void {
     const requestsGroupedByPoint: Record<string, TravelPointUpdateRequest[]> = {};
 
     for (const request of event?.updateRequests ?? []) {
@@ -165,9 +174,8 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
       requestsGroupedByPoint[pointId].push(request);
     }
 
-    this.travelPlan.travelPlanPoints?.forEach(point => {
-      const pointId = point.id;
-      this.pointUpdateRequestsMap.set(pointId, requestsGroupedByPoint[pointId] ?? []);
-    });
+    for (const [pointId, requests] of Object.entries(requestsGroupedByPoint)) {
+      this.pointUpdateRequestsMap.set(pointId, requests);
+    }
   }
 }

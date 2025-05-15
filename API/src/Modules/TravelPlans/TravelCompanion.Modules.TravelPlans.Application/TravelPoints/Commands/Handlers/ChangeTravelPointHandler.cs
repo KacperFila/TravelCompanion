@@ -7,6 +7,8 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands.Handlers;
@@ -16,6 +18,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly IPlanRepository _planRepository;
     private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
+    private readonly INotificationRealTimeService _notificationService;
     private readonly IContext _context;
     private readonly Guid _userId;
 
@@ -26,7 +29,8 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         IContext context,
         IPlanRepository planRepository,
         ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
-        ITravelPlansRealTimeService travelPlansRealTimeService)
+        ITravelPlansRealTimeService travelPlansRealTimeService,
+        INotificationRealTimeService notificationService)
     {
         _travelPointRepository = travelPointRepository;
         _context = context;
@@ -34,6 +38,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
         _userId = _context.Identity.Id;
         _travelPlansRealTimeService = travelPlansRealTimeService;
+        _notificationService = notificationService;
     }
 
     public async Task HandleAsync(ChangeTravelPoint command)
@@ -48,7 +53,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         var point = await _travelPointRepository.GetAsync(command.pointId);
         var plan = await _planRepository.GetAsync(point.PlanId);
 
-        if (!(plan.OwnerId == _userId || plan.Participants.Select(x => x.ParticipantId).Contains(_userId)))
+        if (!DoesUserParticipateInPlan(plan))
         {
             throw new UserNotAllowedToChangeTravelPointException();
         }
@@ -82,6 +87,14 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
         await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
+
+        await _notificationService.SendToAsync(
+                _context.Identity.Id.ToString(),
+                NotificationMessage.Create(
+                    "Travel point",
+                    "Update request created!",
+                    _context.Identity.Email,
+                    NotificationSeverity.Information));
     }
 
     private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
@@ -119,11 +132,16 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         {
             RequestId = request.RequestId,
             PlanId = request.TravelPlanPointId,
-            TravelPlanPointId = request.TravelPlanPointId,
+            TravelPlanPointId = request.TravelPlanPointId,  
             SuggestedById = request.SuggestedById,
             PlaceName = request.PlaceName,
             CreatedOnUtc = request.CreatedOnUtc,
             ModifiedOnUtc = request.ModifiedOnUtc,
         };
+    }
+
+    private bool DoesUserParticipateInPlan(Plan plan)
+    {
+        return plan.OwnerId == _userId || plan.Participants.Any(x => x.ParticipantId == _userId);
     }
 }

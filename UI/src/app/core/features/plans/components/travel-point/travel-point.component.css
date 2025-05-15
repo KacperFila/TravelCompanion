@@ -95,3 +95,28 @@ button:hover {
 .upper-part {
   padding-bottom: 1rem;
 }
+
+.lower-part {
+  display: flex;
+  flex-direction: row;
+}
+
+.edit-requests-button {
+  display: flex;
+  position: relative;
+}
+
+.circle-indicator {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: solid 1px var(--error-hover-color);
+  background-color: var(--error-color);
+  color: var(--background-color);
+}

@@ -17,7 +17,6 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
 {
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly IPlanRepository _planRepository;
-    private readonly ITravelPointRemoveRequestRepository _travelPointRemoveRequestRepository;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
     private readonly INotificationRealTimeService _notificationService;
     private readonly IContext _context;
@@ -27,7 +26,6 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         ITravelPointRepository travelPointRepository,
         IPlanRepository planRepository,
         IContext context,
-        ITravelPointRemoveRequestRepository travelPointRemoveRequestRepository,
         ITravelPlansRealTimeService travelPlansRealTimeService,
         INotificationRealTimeService notificationRealTimeService)
     {
@@ -35,7 +33,6 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         _planRepository = planRepository;
         _context = context;
         _userId = _context.Identity.Id;
-        _travelPointRemoveRequestRepository = travelPointRemoveRequestRepository;
         _travelPlansRealTimeService = travelPlansRealTimeService;
         _notificationService = notificationRealTimeService;
     }
@@ -66,46 +63,50 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
             throw new UserDoesNotParticipateInPlanException(_userId, plan.Id);
         }
 
-        if (plan.OwnerId == _userId)
+        if (plan.OwnerId != _userId)
         {
-            plan.RemoveTravelPoint(point);
-            await _travelPointRepository.RemoveAsync(point);
+            await _notificationService.SendToAsync(
+                _context.Identity.Id.ToString(),
+                NotificationMessage.Create(
+                    "Travel point",
+                    "You are not allowed to remove this travel point!",
+                    _context.Identity.Email,
+                    NotificationSeverity.Error));
+            throw new UserNotAllowedToChangeTravelPointException();
+        }
 
-            var pointOrderNumber = point.TravelPlanOrderNumber;
-            var pointsToRecalculateOrderNumber = plan
-                .TravelPlanPoints
-                .Where(x => x.TravelPlanOrderNumber > pointOrderNumber)
+        plan.RemoveTravelPoint(point);
+        await _travelPointRepository.RemoveAsync(point);
+
+        var pointOrderNumber = point.TravelPlanOrderNumber;
+        var pointsToRecalculateOrderNumber = plan
+            .TravelPlanPoints
+            .Where(x => x.TravelPlanOrderNumber > pointOrderNumber)
             .ToList();
 
-            foreach (var pointToRecalculate in pointsToRecalculateOrderNumber)
-            {
-                pointToRecalculate.DecreaseTravelPlanOrderNumber();
-            }
-
-            var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
-            
-            var planDto = AsPlanWithPointsDto(plan);
-
-            await _planRepository.UpdateAsync(plan);
-
-            await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
-            await _notificationService.SendToGroup(participants,
-                        NotificationMessage.Create(
-                            "Removed point",
-                            $"Removed travel point: \"{point.PlaceName}\"!",
-                            _context.Identity.Email,
-                        NotificationSeverity.Information));
-        }
-        else
+        foreach (var pointToRecalculate in pointsToRecalculateOrderNumber)
         {
-            var removeRequest = TravelPointRemoveRequest.Create(point.Id, _userId);
-            await _travelPointRemoveRequestRepository.AddAsync(removeRequest);
+            pointToRecalculate.DecreaseTravelPlanOrderNumber();
         }
+
+        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
+        var planDto = AsPlanWithPointsDto(plan);
+
+        await _planRepository.UpdateAsync(plan);
+
+        await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
+        await _notificationService.SendToGroup(
+            participants,
+            NotificationMessage.Create(
+                "Removed point",
+                $"Removed travel point: \"{point.PlaceName}\"!",
+                _context.Identity.Email,
+                NotificationSeverity.Information));
     }
 
     private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDTO
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -117,13 +118,13 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
             AdditionalCostsValue = plan.AdditionalCostsValue.Amount,
             TotalCostValue = plan.TotalCostValue.Amount,
             TravelPlanPoints = plan.TravelPlanPoints.Select(AsPointDto).ToList(),
-            PlanStatus = plan.PlanStatus,
+            PlanStatus = plan.PlanStatus
         };
     }
 
     private static PointDTO AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDTO
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

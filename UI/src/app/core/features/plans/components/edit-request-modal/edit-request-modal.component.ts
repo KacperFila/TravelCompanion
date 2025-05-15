@@ -3,8 +3,8 @@ import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { TravelPointUpdateRequest } from '../../models/plan.models';
 import { ItemListComponent } from "../../../../shared/item-list/item-list.components";
-import {NgIf} from "@angular/common";
-import {PlansService} from "../../services/plans/plans.service";
+import { NgIf } from "@angular/common";
+import { PlansService } from "../../services/plans/plans.service";
 
 @Component({
   selector: 'app-edit-request-modal',

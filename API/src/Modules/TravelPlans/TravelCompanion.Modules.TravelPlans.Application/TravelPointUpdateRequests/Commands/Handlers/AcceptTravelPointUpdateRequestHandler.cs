@@ -1,10 +1,14 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 using TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Enums;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Commands.Handlers;
@@ -17,13 +21,15 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly ITravelPlansRealTimeService _travelPlansRealTimeService;
+    private readonly INotificationRealTimeService _notificationService;
 
     public AcceptTravelPointUpdateRequestHandler(
         ITravelPointRepository travelPointRepository,
         ITravelPointUpdateRequestRepository travelPointUpdateRequestRepository,
         IContext context,
         IPlanRepository planRepository,
-        ITravelPlansRealTimeService travelPlansRealTimeService)
+        ITravelPlansRealTimeService travelPlansRealTimeService,
+        INotificationRealTimeService notificationService)
     {
         _travelPointRepository = travelPointRepository;
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
@@ -31,6 +37,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         _planRepository = planRepository;
         _userId = _context.Identity.Id;
         _travelPlansRealTimeService = travelPlansRealTimeService;
+        _notificationService = notificationService;
     }
 
     public async Task HandleAsync(AcceptTravelPointUpdateRequest command)
@@ -51,8 +58,29 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         var plan = await _planRepository.GetAsync(point.PlanId);
 
+        if (plan.PlanStatus != PlanStatus.DuringPlanning)
+        {
+            await _notificationService.SendToAsync(
+                _context.Identity.Id.ToString(),
+                NotificationMessage.Create(
+                    "Accept request",
+                    "Plan is not during planning.",
+                    NotificationSeverity.Error));
+
+            throw new PlanNotDuringPlanningException(plan.Id);
+        }
+
+
         if (plan.OwnerId != _userId)
         {
+            await _notificationService.SendToAsync(
+                _context.Identity.Id.ToString(),
+                NotificationMessage.Create(
+                    "Accept request",
+                    "You are not the owner of the plan. You cannot accept this request.",
+                    NotificationSeverity.Error)
+            );
+
             throw new UserNotAllowedToChangeTravelPointException();
         }
 
@@ -63,8 +91,8 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         var participants = plan.Participants
             .Select(x => x.ParticipantId)
-        .Select(x => x.ToString())
-        .ToList();
+            .Select(x => x.ToString())
+            .ToList();
 
         var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(point.Id);
 
@@ -78,6 +106,14 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         await _travelPlansRealTimeService.SendPlanUpdate(participants, planDto);
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
+
+        await _notificationService.SendToAsync(
+            _context.Identity.Id.ToString(),
+            NotificationMessage.Create(
+                "Update request",
+                "Travel Point updated!",
+                NotificationSeverity.Information)
+        );
     }
 
     private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)

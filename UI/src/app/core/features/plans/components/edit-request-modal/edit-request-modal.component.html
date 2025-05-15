@@ -16,7 +16,9 @@
   </ng-template>
 
   <ng-template #buttonsTemplate let-item>
-    <button (click)="acceptUpdateRequest(item)">Accept</button>
-    <button (click)="rejectUpdateRequest(item)">Reject</button>
+    <div class="button-group">
+      <button (click)="acceptUpdateRequest(item)">Accept</button>
+      <button class= "reject-button" (click)="rejectUpdateRequest(item)">Reject</button>
+    </div>
   </ng-template>
 </app-modal>
