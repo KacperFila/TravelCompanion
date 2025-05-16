@@ -177,5 +177,11 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     for (const [pointId, requests] of Object.entries(requestsGroupedByPoint)) {
       this.pointUpdateRequestsMap.set(pointId, requests);
     }
+
+    for (const pointId of this.pointUpdateRequestsMap.keys()) {
+      if (!(pointId in requestsGroupedByPoint)) {
+        this.pointUpdateRequestsMap.delete(pointId);
+      }
+    }
   }
 }

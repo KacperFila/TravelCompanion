@@ -3,7 +3,7 @@
   (close)="closeEditRequestModal()"
   title="Travel Point Edit Requests">
 
-  <ng-container *ngIf="(updateRequests && updateRequests.length > 0); else noRequestsTemplate">
+  <ng-container *ngIf="(updateRequests && updateRequests?.length); else noRequestsTemplate">
     <app-item-list
       [items]="updateRequests"
       [displayProperty]="'placeName'"
