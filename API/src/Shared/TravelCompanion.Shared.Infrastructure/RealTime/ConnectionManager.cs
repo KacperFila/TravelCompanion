@@ -1,9 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 
 public class ConnectionManager
 {
     private readonly Dictionary<string, HashSet<string>> _userConnections = new();
+    private readonly ILogger<ConnectionManager> _logger;
+
+    public ConnectionManager(ILogger<ConnectionManager> logger)
+    {
+        _logger = logger;
+    }
 
     public void AddConnection(string userId, string connectionId)
     {
@@ -13,6 +20,11 @@ public class ConnectionManager
                 _userConnections[userId] = new HashSet<string>();
 
             _userConnections[userId].Add(connectionId);
+
+            _logger.LogInformation("User '{UserId}' now has {ConnectionCount} connection(s).", userId, _userConnections[userId].Count);
+
+            var totalConnections = _userConnections.Sum(kvp => kvp.Value.Count);
+            _logger.LogInformation("Total connections across all users: {TotalConnections}.", totalConnections);
         }
     }
 
@@ -24,14 +36,17 @@ public class ConnectionManager
             {
                 _userConnections[userId].Remove(connectionId);
                 if (_userConnections[userId].Count == 0)
+                {
                     _userConnections.Remove(userId);
+                }
             }
         }
     }
 
     public IEnumerable<string> GetConnections(string userId)
     {
-        var temp = _userConnections;
-        return _userConnections.TryGetValue(userId, out var connections) ? connections : Enumerable.Empty<string>();
+        return _userConnections.TryGetValue(userId, out var connections) 
+            ? connections 
+            : Enumerable.Empty<string>();
     }
 }

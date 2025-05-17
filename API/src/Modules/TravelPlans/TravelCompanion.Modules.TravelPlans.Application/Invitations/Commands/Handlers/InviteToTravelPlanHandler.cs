@@ -93,6 +93,19 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
         await _invitationRepository.AddAsync(invitation);
 
+        var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
+
+        var invitationResponse = new InvitationDTO()
+        {
+            InvitationId = invitation.Id,
+            PlanId = plan.Id,
+            PlanTitle = plan.Title,
+            InviterName = planOwnerInfo.Email,
+            InvitationDate = DateTime.UtcNow
+        };
+
+        await _travelPlansRealTimeService.SendPlanInvitation(command.InviteeId.ToString(), invitationResponse);
+
         await _notificationService.SendToAsync(
             command.InviteeId.ToString(),
             NotificationMessage.Create(
@@ -108,18 +121,5 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
                 $"Invitation has been sent!",
                 _context.Identity.Email,
             NotificationSeverity.Information));
-
-        var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
-
-        var invitationResponse = new InvitationDTO()
-        {
-            InvitationId = invitation.Id,
-            PlanId = plan.Id,
-            PlanTitle = plan.Title,
-            InviterName = planOwnerInfo.Email,
-            InvitationDate = DateTime.UtcNow
-        };
-
-        await _travelPlansRealTimeService.SendPlanInvitation(command.InviteeId.ToString(), invitationResponse);
     }
 }

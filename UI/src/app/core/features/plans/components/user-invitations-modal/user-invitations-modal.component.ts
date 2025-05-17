@@ -17,33 +17,33 @@ export class UserInvitationsModalComponent implements OnInit {
   constructor(private plansService: PlansService) {
   }
 
-  invitations: PlanInvitationResponse[] = [];
+  @Input() invitations: PlanInvitationResponse[] = [];
   @Input() isModalOpen: boolean = false;
   @Output() closeModalEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
-    this.fetchInvitations();
+    // this.fetchInvitations();
   }
 
   closeModal() {
-    this.isModalOpen = false;
+    this.closeModalEvent.emit();
   }
 
-  fetchInvitations() {
-    this.plansService.getInvitationsForUser().subscribe((invitations) => {
-      this.invitations = invitations;
-    });
-  }
+  // fetchInvitations() {
+  //   this.plansService.getInvitationsForUser().subscribe((invitations) => {
+  //     this.invitations = invitations;
+  //   });
+  // }
 
   acceptInvitation(invitation: PlanInvitationResponse) {
     this.plansService.acceptPlanInvitation(invitation.invitationId).subscribe(() => {
-      this.fetchInvitations();
+      // this.fetchInvitations();
     });
   }
 
   rejectInvitation(invitation: PlanInvitationResponse) {
     this.plansService.rejectPlanInvitation(invitation.invitationId).subscribe(() => {
-      this.fetchInvitations();
+      // this.fetchInvitations();
     });
   }
 }

@@ -89,6 +89,7 @@
   </app-user-plans-modal>
 
   <app-user-invitations-modal
+    [invitations]="this.invitations"
     [isModalOpen]="isUserInvitationsModalOpen"
     (closeModalEvent)="closeUserInvitationsModal()">
   </app-user-invitations-modal>

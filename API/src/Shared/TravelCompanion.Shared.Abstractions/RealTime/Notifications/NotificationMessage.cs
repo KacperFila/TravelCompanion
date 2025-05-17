@@ -5,6 +5,7 @@ namespace TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 public class NotificationMessage : INotificationMessage
 {
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Message { get; set; }
     public DateTime SentAt { get; set; }
@@ -15,6 +16,7 @@ public class NotificationMessage : INotificationMessage
     {
         return new NotificationMessage()
         {
+            Id = Guid.NewGuid(),
             Message = message,
             SentAt = DateTime.UtcNow,
             Title = title,
@@ -27,6 +29,7 @@ public class NotificationMessage : INotificationMessage
     {
         return new NotificationMessage()
         {
+            Id = Guid.NewGuid(),
             Message = message,
             SentAt = DateTime.UtcNow,
             Title = title,

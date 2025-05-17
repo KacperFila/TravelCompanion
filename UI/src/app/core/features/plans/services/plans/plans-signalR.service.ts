@@ -5,7 +5,7 @@ import { AuthService } from "../../../../auth/auth.service";
 import { PlansService } from "./plans.service";
 import { User } from "../../../../auth/user.model";
 import { PlanInvitationResponse } from "./plans-signalR-responses.models";
-import {TravelPlan, UpdateRequestUpdateResponse} from "../../models/plan.models";
+import { TravelPlan, UpdateRequestUpdateResponse } from "../../models/plan.models";
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,7 @@ export class PlansSignalRService {
   activePlanChanged$ = this.activePlanChangedEvent.asObservable();
 
   constructor(private authService: AuthService, private plansService: PlansService) {
-    this.authService.user.subscribe(
-      (user) => {
+    this.authService.user.subscribe((user) => {
       this.currentUser = user;
       if (user) {
         this.startConnection();
@@ -34,15 +33,14 @@ export class PlansSignalRService {
 
         this.initialFetchInvitations();
         this.initialFetchTravelPlan();
-      }
-      else {
+      } else {
         this.stopConnection();
       }
     });
   }
 
-  startConnection(): void {
-    if (this.hubConnection){
+  startConnection = async (): Promise<void> => {
+    if (this.hubConnection) {
       return;
     }
 
@@ -91,8 +89,7 @@ export class PlansSignalRService {
     });
 
     this.hubConnection.on("ReceivePlanUpdate", (updatedPlan: TravelPlan) => {
-      if(updatedPlan.id === this.currentUser?.activePlanId)
-      {
+      if (updatedPlan.id === this.currentUser?.activePlanId) {
         this.travelPlanSubject.next(updatedPlan);
       }
     });
@@ -105,15 +102,15 @@ export class PlansSignalRService {
   initialFetchInvitations(): void {
     this.plansService.getInvitationsForUser()
       .subscribe((invitations) => {
-       this.invitationsSubject.next(invitations);
-    });
+        this.invitationsSubject.next(invitations);
+      });
   }
 
   initialFetchTravelPlan(): void {
-  this.plansService.getActivePlanWithPoints()
-    .subscribe((activePlan) => {
-      this.travelPlanSubject.next(activePlan);
-    });
+    this.plansService.getActivePlanWithPoints()
+      .subscribe((activePlan) => {
+        this.travelPlanSubject.next(activePlan);
+      });
   }
 
   stopConnection(): void {

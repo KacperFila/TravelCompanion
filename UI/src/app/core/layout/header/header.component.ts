@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { User } from '../../auth/user.model';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NotificationService} from "../../shared/services/notification.service";
 
 @Component({
   selector: 'app-header',
@@ -14,17 +13,12 @@ import {NotificationService} from "../../shared/services/notification.service";
   styleUrls: ['./header.component.css'],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private notificationService: NotificationService)
+    private router: Router)
   {
     this.user$ = this.authService.user;
-  }
-
-  ngOnInit(): void {
-    this.notificationService.startConnection();
   }
 
   user$: Observable<User | null>;

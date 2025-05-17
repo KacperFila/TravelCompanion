@@ -23,7 +23,6 @@ export class EditPointModalComponent {
   }
 
   editedPoint(): void {
-    console.log("EDITED POINT: ", this.pointToEdit)
     this.editedPointEvent.emit(this.pointToEdit)
   }
 }

@@ -183,5 +183,11 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
         this.pointUpdateRequestsMap.delete(pointId);
       }
     }
+
+    console.log("UPDATE REQUESTS: ", event?.updateRequests);
+  }
+
+  trackById(index: number, item: TravelPoint): string {
+    return item.id;
   }
 }

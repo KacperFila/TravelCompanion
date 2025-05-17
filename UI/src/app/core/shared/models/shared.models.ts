@@ -1,4 +1,5 @@
-export interface NotificationMessage{
+export interface NotificationMessage {
+  id: string,
   title: string,
   message: string,
   sentFrom: string | null,
