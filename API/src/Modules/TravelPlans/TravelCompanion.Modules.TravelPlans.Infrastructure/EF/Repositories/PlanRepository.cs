@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 
@@ -83,5 +82,16 @@ public class PlanRepository : IPlanRepository
         var plans = await _travelPlans
             .Where(x => pointIds.Contains(x.Id)).ToListAsync();
         return plans;
+    }
+
+    public async Task<Plan?> GetLastCreatedForUser(Guid userId)
+    {
+        var plans = await _travelPlans
+            .Where(x => x.Participants
+                .Any(p => p.ParticipantId == userId))
+            .OrderByDescending(x => x.CreatedOnUtc)
+            .ToListAsync();
+
+        return plans.FirstOrDefault();
     }
 }

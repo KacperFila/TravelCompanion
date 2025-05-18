@@ -26,6 +26,7 @@ import { UserInvitationsModalComponent } from '../user-invitations-modal/user-in
 import { CreateTravelPointModal } from '../create-travel-point-modal/create-travel-point-modal.component';
 import { EditRequestModalComponent } from '../edit-request-modal/edit-request-modal.component';
 import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.component';
+import {AcceptPlanModalComponent} from "../accept-plan-modal/accept-plan-modal.component";
 
 @Component({
   selector: 'app-points-roadmap',
@@ -44,6 +45,7 @@ import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.co
     CreateTravelPointModal,
     EditRequestModalComponent,
     EditPointModalComponent,
+    AcceptPlanModalComponent
   ],
 })
 export class PointsRoadmapComponent implements OnInit, OnDestroy {
@@ -63,6 +65,7 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
   isChangeActiveModalOpen = false;
   isUserPlansModalOpen = false;
   isUserInvitationsModalOpen = false;
+  isAcceptPlanModalOpen = false;
   isEditRequestsModalOpen = false;
   isEditPointModalOpen = false;
 
@@ -153,6 +156,10 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
     this.isUserInvitationsModalOpen = false;
   }
 
+  closeAcceptPlanModal(): void {
+    this.isAcceptPlanModalOpen = false;
+  }
+
   private onInvitations(invitations: PlanInvitationResponse[]): void {
     this.invitations = invitations;
   }
@@ -183,11 +190,5 @@ export class PointsRoadmapComponent implements OnInit, OnDestroy {
         this.pointUpdateRequestsMap.delete(pointId);
       }
     }
-
-    console.log("UPDATE REQUESTS: ", event?.updateRequests);
-  }
-
-  trackById(index: number, item: TravelPoint): string {
-    return item.id;
   }
 }

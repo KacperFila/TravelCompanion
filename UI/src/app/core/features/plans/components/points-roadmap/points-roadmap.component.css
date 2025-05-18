@@ -80,6 +80,14 @@ button:hover {
   color: var(--secondary-color);
 }
 
+.accept-button {
+  background-color: var(--accept-color);
+}
+
+.accept-button:hover {
+  background-color: var(--accept-color-hover);
+}
+
 .modal-buttons {
   display: flex;
   justify-content: flex-end;

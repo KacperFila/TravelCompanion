@@ -3,14 +3,14 @@
 namespace TravelCompanion.Modules.Travels.Core.Events.External;
 
 public record PlanAccepted(
-    Guid planId,
-    IList<Guid> participants,
-    Guid ownerId,
-    string title,
-    string description,
-    DateOnly from,
-    DateOnly to,
-    IList<Guid> additionalCostIds,
-    decimal additionalCostsValue,
-    IList<Guid> planPointIds,
-    decimal totalCost) : IEvent;
+    Guid PlanId,
+    IList<Guid> Participants,
+    Guid OwnerId,
+    string Title,
+    string Description,
+    DateOnly? From,
+    DateOnly? To,
+    IList<Guid> AdditionalCostIds,
+    decimal AdditionalCostsValue,
+    IList<Guid> PlanPointIds,
+    decimal TotalCost) : IEvent;

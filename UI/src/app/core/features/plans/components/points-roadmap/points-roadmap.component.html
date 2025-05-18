@@ -13,6 +13,7 @@
       <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
       <button (click)="isUserPlansModalOpen = true" >User plans</button>
       <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+      <button class="accept-button" (click)="isAcceptPlanModalOpen = true">Accept Plan</button>
     </div>
   </div>
 
@@ -93,4 +94,11 @@
     [isModalOpen]="isUserInvitationsModalOpen"
     (closeModalEvent)="closeUserInvitationsModal()">
   </app-user-invitations-modal>
+
+  <app-accept-plan-modal
+    [isModalOpen]="isAcceptPlanModalOpen"
+    [planTitle]="this.travelPlan.title"
+    [planId]="this.travelPlan.id"
+    (closeModalEvent)="closeAcceptPlanModal()">
+  </app-accept-plan-modal>
 </div>

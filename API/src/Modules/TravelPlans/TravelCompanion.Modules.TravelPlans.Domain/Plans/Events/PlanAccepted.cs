@@ -3,14 +3,14 @@
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Events;
 
 public record PlanAccepted(
-    Guid planId,
-    IEnumerable<Guid> participants,
-    Guid ownerId,
-    string title,
-    string description,
-    DateOnly? from,
-    DateOnly? to,
-    IEnumerable<Guid> additionalCostIds,
-    decimal additionalCostsValue,
-    IEnumerable<Guid> planPointIds,
-    decimal totalCost) : IEvent;
+    Guid PlanId,
+    IEnumerable<Guid> Participants,
+    Guid OwnerId,
+    string Title,
+    string Description,
+    DateOnly? From,
+    DateOnly? To,
+    IEnumerable<Guid> AdditionalCostIds,
+    decimal AdditionalCostsValue,
+    IEnumerable<Guid> PlanPointIds,
+    decimal TotalCost) : IEvent;

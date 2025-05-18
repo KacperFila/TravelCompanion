@@ -1,0 +1,12 @@
+<app-modal
+  [isModalOpen]="isModalOpen"
+  (close)="closeModal()"
+  title="{{ planTitle }}">
+
+  <p>Are you sure you want to accept this plan?</p>
+
+  <div class="button-group">
+    <button type="submit" (click)="acceptPlan()">Accept</button>
+    <button type="button" (click)="closeModal()">Cancel</button>
+  </div>
+</app-modal>

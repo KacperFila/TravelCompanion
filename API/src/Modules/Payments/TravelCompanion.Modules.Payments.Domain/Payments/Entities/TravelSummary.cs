@@ -8,8 +8,8 @@ namespace TravelCompanion.Modules.Payments.Domain.Payments.Entities;
 public sealed class TravelSummary : AggregateRoot, IAuditable
 {
     public Guid TravelId { get; private set; }
-    public DateOnly From { get; private set; }
-    public DateOnly To { get; private set; }
+    public DateOnly? From { get; private set; }
+    public DateOnly? To { get; private set; }
     public DateOnly GeneratedOn => DateOnly.FromDateTime(CreatedOnUtc);
     public Money TotalCost { get; private set; }
     public Money TravelAdditionalCost { get; private set; }
@@ -24,7 +24,7 @@ public sealed class TravelSummary : AggregateRoot, IAuditable
         TravelId = travelId;
     }
 
-    public static TravelSummary Create(AggregateId id, Guid travelId, DateOnly from, DateOnly to,
+    public static TravelSummary Create(AggregateId id, Guid travelId, DateOnly? from, DateOnly? to,
         Money totalCost, Money travelAdditionalCost, Money pointsAdditionalCost)
     {
         var summary = new TravelSummary(id, travelId);
@@ -38,9 +38,9 @@ public sealed class TravelSummary : AggregateRoot, IAuditable
         return summary;
     }
 
-    public void ChangeFrom(DateOnly from)
+    public void ChangeFrom(DateOnly? from)
     {
-        if (from < DateOnly.FromDateTime(DateTime.UtcNow) || (To != default && from > To))
+        if (from < DateOnly.FromDateTime(DateTime.UtcNow) || (To != null && from > To))
         {
             throw new InvalidSummaryDateException(Id);
         }
@@ -48,7 +48,7 @@ public sealed class TravelSummary : AggregateRoot, IAuditable
         From = from;
         IncrementVersion();
     }
-    public void ChangeTo(DateOnly to)
+    public void ChangeTo(DateOnly? to)
     {
         if (to < DateOnly.FromDateTime(DateTime.UtcNow) || (From != default && to < From))
         {

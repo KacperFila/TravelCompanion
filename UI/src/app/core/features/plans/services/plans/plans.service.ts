@@ -131,4 +131,9 @@ export class PlansService {
       `${environment.apiBaseUrl}/travelplans-module/Invitation`
     );
   }
+
+  acceptTravelPlan(planId: string) {
+    return this.http
+      .post(`${environment.apiBaseUrl}/travelplans-module/Plan/${planId}/Confirmation`, {});
+  }
 }

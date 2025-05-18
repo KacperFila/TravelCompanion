@@ -3,18 +3,21 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TravelCompanion.Modules.Travels.Core.DAL;
 
 #nullable disable
 
-namespace TravelCompanion.Modules.Travels.Core.DAL.Migrations
+namespace TravelCompanion.Modules.Travels.Core.Migrations
 {
     [DbContext(typeof(TravelsDbContext))]
-    partial class TravelsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250518153740_TravelFromAndToMadeNullable")]
+    partial class TravelFromAndToMadeNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

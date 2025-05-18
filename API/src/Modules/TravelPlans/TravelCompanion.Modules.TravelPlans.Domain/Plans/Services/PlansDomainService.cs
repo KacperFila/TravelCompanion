@@ -69,26 +69,27 @@ public sealed class PlansDomainService : IPlansDomainService
             throw new UserNotAllowedToChangePlanException(planId);
         }
 
-        if (!plan.DoesAllParticipantsAccepted)
-        {
-            throw new PlanNotAcceptedException(planId);
-        }
+        //if (!plan.DoesAllParticipantsAccepted)
+        //{
+        //    throw new PlanNotAcceptedException(planId);
+        //}
 
         var planPointIds = plan.TravelPlanPoints.Select(x => x.Id.Value).ToList();
         var planReceiptIds = plan.AdditionalCosts.Select(x => x.Id.Value).ToList();
 
-        await _messageBroker.PublishAsync(
-            new PlanAccepted(
-                plan.Id,
-                plan.Participants.Select(x => x.ParticipantId),
-                plan.OwnerId,
-                plan.Title,
-                plan.Description,
-                plan.From,
-                plan.To,
-                planReceiptIds,
-                plan.AdditionalCostsValue.Amount,
-                planPointIds,
-                plan.TotalCostValue.Amount));
+        var planAcceptedMessage = new PlanAccepted(
+            plan.Id,
+            plan.Participants.Select(x => x.ParticipantId),
+            plan.OwnerId,
+            plan.Title,
+            plan.Description ?? string.Empty,
+            plan.From,
+            plan.To,
+            planReceiptIds,
+            plan.AdditionalCostsValue.Amount,
+            planPointIds,
+            plan.TotalCostValue.Amount);
+        
+        await _messageBroker.PublishAsync(planAcceptedMessage);
     }
 }

@@ -1,4 +1,5 @@
-﻿using TravelCompanion.Modules.TravelPlans.Shared;
+﻿using Microsoft.Extensions.Logging;
+using TravelCompanion.Modules.TravelPlans.Shared;
 using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
@@ -14,29 +15,28 @@ namespace TravelCompanion.Modules.Travels.Core.Events.External.Handlers;
 
 internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
 {
+    private readonly ILogger<PlanAcceptedHandler> _logger;
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPlansModuleApi _travelPlansModuleApi;
     private readonly IMessageBroker _messageBroker;
     private readonly IEmailSender _emailSender;
     private readonly IUsersModuleApi _usersModuleApi;
-    private readonly IContext _context;
-    private readonly Guid _userId;
 
-    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker, IEmailSender emailSender, IUsersModuleApi usersModuleApi, IContext context)
+    public PlanAcceptedHandler(ITravelRepository travelRepository, ITravelPlansModuleApi travelPlansModuleApi, IMessageBroker messageBroker, IEmailSender emailSender, IUsersModuleApi usersModuleApi, ILogger<PlanAcceptedHandler> logger)
     {
         _travelRepository = travelRepository;
         _travelPlansModuleApi = travelPlansModuleApi;
         _messageBroker = messageBroker;
         _emailSender = emailSender;
         _usersModuleApi = usersModuleApi;
-        _context = context;
-        _userId = _context.Identity.Id;
+        _logger = logger;
     }
 
     public async Task HandleAsync(PlanAccepted @event)
     {
-        var travelPlanPoints = await _travelPlansModuleApi.GetPlanTravelPointsAsync(@event.planId);
-        var travelPlanReceipts = await _travelPlansModuleApi.GetPlanReceiptsAsync(@event.planId);
+        _logger.LogInformation("Handling PlanAccepted event: {@event}", @event);
+        var travelPlanPoints = await _travelPlansModuleApi.GetPlanTravelPointsAsync(@event.PlanId);
+        var travelPlanReceipts = await _travelPlansModuleApi.GetPlanReceiptsAsync(@event.PlanId);
 
         var travelId = Guid.NewGuid();
 
@@ -46,26 +46,26 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
         var travel = new Travel
         {
             Id = travelId,
-            OwnerId = @event.ownerId,
-            ParticipantIds = @event.participants,
+            OwnerId = @event.OwnerId,
+            ParticipantIds = @event.Participants,
             AdditionalCosts = travelReceipts,
-            AdditionalCostsValue = Money.Create(@event.additionalCostsValue),
-            Title = @event.title,
-            Description = @event.description,
-            From = @event.from,
-            To = @event.to,
+            AdditionalCostsValue = Money.Create(@event.AdditionalCostsValue),
+            Title = @event.Title,
+            Description = @event.Description,
+            From = @event.From,
+            To = @event.To,
             AllParticipantsPaid = false,
             IsFinished = false,
             Ratings = new List<TravelRating>(),
             RatingValue = null,
             TravelPoints = travelPoints,
-            TotalCostsValue = Money.Create(@event.totalCost)
+            TotalCostsValue = Money.Create(@event.TotalCost)
         };
 
         await _travelRepository.AddAsync(travel);
-        await _messageBroker.PublishAsync(new TravelFromPlanCreated(@event.planId));
+        await _messageBroker.PublishAsync(new TravelFromPlanCreated(@event.PlanId));
 
-        var usersEmails = await _usersModuleApi.GetUsersEmails(@event.participants.ToList());
+        var usersEmails = await _usersModuleApi.GetUsersEmails(@event.Participants.ToList());
         await _emailSender.SendEmailAsync(new AcceptedPlanEmailDTO(), usersEmails);
     }
 

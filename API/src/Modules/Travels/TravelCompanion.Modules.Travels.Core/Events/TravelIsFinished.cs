@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.Travels.Core.Events;
 
-public record TravelIsFinished(Guid travelId) : IEvent;
+public record TravelIsFinished(Guid TravelId) : IEvent;
