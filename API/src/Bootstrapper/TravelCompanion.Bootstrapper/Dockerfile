@@ -1,18 +1,22 @@
 # Base image for running the application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 5001
 EXPOSE 5005
 
-# Build image with SDK
+# Set non-root user in production only
+ARG APP_UID=1000
+ENV ASPNETCORE_URLS=http://+:5000
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+
+# Image for building the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Environment variables for PostgreSQL
+# Environment variables (Postgres, Hangfire)
 ENV POSTGRES_HOST=travelcompanion-postgres
 ENV POSTGRES_DB=travelCompanion
 ENV POSTGRES_USER=postgres
@@ -44,39 +48,38 @@ COPY ["src/Modules/Travels/TravelCompanion.Modules.Travels.Api/TravelCompanion.M
 COPY ["src/Modules/Users/TravelCompanion.Modules.Users.Api/TravelCompanion.Modules.Users.Api.csproj", "src/Modules/Users/TravelCompanion.Modules.Users.Api/"]
 COPY ["src/Modules/Users/TravelCompanion.Modules.Users.Core/TravelCompanion.Modules.Users.Core.csproj", "src/Modules/Users/TravelCompanion.Modules.Users.Core/"]
 
-# Restore dependencies
+# Restore
 RUN dotnet restore "./src/Bootstrapper/TravelCompanion.Bootstrapper/TravelCompanion.Bootstrapper.csproj"
 
 # Copy everything else
 COPY . .
 
-# Build application
+# Build
 WORKDIR "/src/src/Bootstrapper/TravelCompanion.Bootstrapper"
-RUN dotnet build "./TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publish application
+# Publish
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "TravelCompanion.Bootstrapper.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final image for production
 FROM base AS final
+ARG APP_UID=1000
+USER $APP_UID
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TravelCompanion.Bootstrapper.dll"]
 
 # Debug image for development
-FROM build AS debug
+FROM base AS debug
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Enable hot reload and debugging
+# Enable hot reload and Rider/Vs debugging
 ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
-ENV ASPNETCORE_ENVIRONMENT=Debug
+ENV ASPNETCORE_ENVIRONMENT=Development
 
-# Expose debugger port
-EXPOSE 5005
-
-# Debug entrypoint with remote debugging enabled
-CMD ["dotnet", "TravelCompanion.Bootstrapper.dll", "--server.urls", "http://+:5000", "--inspect-brk=0.0.0.0:5005"]
+# Debug entrypoint
+CMD ["dotnet", "TravelCompanion.Bootstrapper.dll", "--urls", "http://+:5000"]

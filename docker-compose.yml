@@ -4,13 +4,15 @@ services:
       context: ./API
       dockerfile: ./src/Bootstrapper/TravelCompanion.Bootstrapper/Dockerfile
       target: debug
+      args:
+        BUILD_CONFIGURATION: Debug
     depends_on:
       travelcompanion-postgres:
         condition: service_healthy
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
-      - ASPNETCORE_ENVIRONMENT=debug
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000
       - postgres__connectionString=Host=travelcompanion-postgres;Database=travelCompanion;Username=postgres;Password=postgres
       - postgres__hangfireConnectionString=Host=travelcompanion-postgres;Database=travelCompanionHangfire;Username=postgres;Password=postgres
