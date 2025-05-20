@@ -53,6 +53,15 @@ public class PlanRepository : IPlanRepository
         return await query.ToListAsync();
     }
 
+    public async Task<List<Plan?>> GetPlansForParticipantsExcludingPlan(IEnumerable<Guid> userIds, Guid excludedPlanId)
+    {
+        return await _travelPlans
+            .AsNoTracking()
+            .Include(p => p.Participants)
+            .Where(p => p.Id != excludedPlanId && p.Participants.Any(pp => userIds.Contains(pp.ParticipantId)))
+            .ToListAsync();
+    }
+    
     public async Task AddAsync(Plan plan)
     {
         await _travelPlans.AddAsync(plan);
@@ -83,15 +92,6 @@ public class PlanRepository : IPlanRepository
             .Where(x => pointIds.Contains(x.Id)).ToListAsync();
         return plans;
     }
+    
 
-    public async Task<Plan?> GetLastCreatedForUser(Guid userId)
-    {
-        var plans = await _travelPlans
-            .Where(x => x.Participants
-                .Any(p => p.ParticipantId == userId))
-            .OrderByDescending(x => x.CreatedOnUtc)
-            .ToListAsync();
-
-        return plans.FirstOrDefault();
-    }
 }

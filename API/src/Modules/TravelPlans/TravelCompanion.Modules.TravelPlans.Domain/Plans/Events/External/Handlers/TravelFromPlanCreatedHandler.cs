@@ -14,6 +14,6 @@ public class TravelFromPlanCreatedHandler : IEventHandler<TravelFromPlanCreated>
 
     public async Task HandleAsync(TravelFromPlanCreated @event)
     {
-        await _planRepository.DeleteAsync(@event.planId);
+        await _planRepository.DeleteAsync(@event.PlanId);
     }
 }

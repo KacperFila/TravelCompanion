@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Events.External;
 
-public record TravelFromPlanCreated(Guid planId) : IEvent;
+public record TravelFromPlanCreated(Guid PlanId) : IEvent;
