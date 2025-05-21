@@ -38,10 +38,17 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("PlanId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("TravelPlanId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("TravelPlanId");
 
                     b.ToTable("Invitations", "travelPlans");
                 });
@@ -274,6 +281,19 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
                     b.ToTable("TravelPointUpdateRequests", "travelPlans");
                 });
 
+            modelBuilder.Entity("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Invitation", b =>
+                {
+                    b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", null)
+                        .WithMany("Invitations")
+                        .HasForeignKey("PlanId");
+
+                    b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", null)
+                        .WithMany()
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.PlanParticipantRecord", b =>
                 {
                     b.HasOne("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", null)
@@ -332,6 +352,8 @@ namespace TravelCompanion.Modules.TravelPlans.Infrastructure.EF.Migrations
             modelBuilder.Entity("TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities.Plan", b =>
                 {
                     b.Navigation("AdditionalCosts");
+
+                    b.Navigation("Invitations");
 
                     b.Navigation("Participants");
 

@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.TravelPlans.Application.Plans.Events;
+using TravelCompanion.Modules.TravelPlans.Domain.Plans.Entities;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Services;
 using TravelCompanion.Shared.Abstractions.Commands;
@@ -31,16 +32,24 @@ public sealed class ConfirmPlanHandler : ICommandHandler<ConfirmPlan>
 
         var eligiblePlans = await _planRepository.GetPlansForParticipantsExcludingPlan(participantIds, command.planId);
 
-        var tasks = participantIds.Select(userId =>
+        if (participantIds.Any() && eligiblePlans.Any())
         {
-            var randomPlan = eligiblePlans
+            await AssignNewActivePlansForUsers(participantIds, eligiblePlans);
+        }
+    }
+
+    private async Task AssignNewActivePlansForUsers(List<Guid> usersIds, List<Plan> plans)
+    {
+        var tasks = usersIds.Select(userId =>
+        {
+            var randomPlan = plans
                 .Where(p => p.Participants.Any(pp => pp.ParticipantId == userId))
                 .OrderByDescending(x => x.CreatedOnUtc)
                 .FirstOrDefault();
 
             return _messageBroker.PublishAsync(new ActivePlanChanged(userId, randomPlan?.Id));
         });
-
+        
         await Task.WhenAll(tasks);
     }
 }

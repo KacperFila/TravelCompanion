@@ -20,6 +20,7 @@ public sealed class Plan : AggregateRoot, IAuditable
     public Money AdditionalCostsValue { get; private set; }
     public Money TotalCostValue { get; private set; }
     public IList<TravelPoint> TravelPlanPoints { get; private set; } = new List<TravelPoint>();
+    public IList<Invitation> Invitations { get; private set; } = new List<Invitation>();
     public bool DoesAllParticipantsPaid { get; private set; }
     public bool DoesAllParticipantsAccepted { get; private set; }
     public string PlanStatus { get; private set; }
@@ -41,6 +42,7 @@ public sealed class Plan : AggregateRoot, IAuditable
         AdditionalCosts = new List<Receipt>();
         ParticipantPaidIds = new List<EntityId>();
         TravelPlanPoints = new List<TravelPoint>();
+        Invitations = new List<Invitation>();
         PlanStatus = planStatus;
         Version = version;
     }
@@ -53,6 +55,7 @@ public sealed class Plan : AggregateRoot, IAuditable
         TotalCostValue = Money.Create(0);
         DoesAllParticipantsAccepted = false;
         DoesAllParticipantsPaid = false;
+        Invitations = new List<Invitation>();
         PlanStatus = Enums.PlanStatus.DuringPlanning;
     }
 
@@ -74,7 +77,9 @@ public sealed class Plan : AggregateRoot, IAuditable
 
     public void ReorderTravelPoints()
     {
-        TravelPlanPoints = TravelPlanPoints.OrderBy(x => x.TravelPlanOrderNumber).ToList();
+        TravelPlanPoints = TravelPlanPoints
+            .OrderBy(x => x.TravelPlanOrderNumber)
+            .ToList();
     }
 
     public void AddAdditionalCost(Receipt receipt)

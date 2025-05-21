@@ -13,7 +13,7 @@ import {PlansService} from "../../services/plans/plans.service";
   standalone: true,
   imports: [ModalComponent, FormsModule, ItemListComponent, CommonModule],
 })
-export class UserInvitationsModalComponent implements OnInit {
+export class UserInvitationsModalComponent {
   constructor(private plansService: PlansService) {
   }
 
@@ -21,29 +21,21 @@ export class UserInvitationsModalComponent implements OnInit {
   @Input() isModalOpen: boolean = false;
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    // this.fetchInvitations();
-  }
-
   closeModal() {
     this.closeModalEvent.emit();
   }
 
-  // fetchInvitations() {
-  //   this.plansService.getInvitationsForUser().subscribe((invitations) => {
-  //     this.invitations = invitations;
-  //   });
-  // }
-
   acceptInvitation(invitation: PlanInvitationResponse) {
-    this.plansService.acceptPlanInvitation(invitation.invitationId).subscribe(() => {
-      // this.fetchInvitations();
+    this.plansService
+      .acceptPlanInvitation(invitation.invitationId)
+      .subscribe(() => {
     });
   }
 
   rejectInvitation(invitation: PlanInvitationResponse) {
-    this.plansService.rejectPlanInvitation(invitation.invitationId).subscribe(() => {
-      // this.fetchInvitations();
+    this.plansService
+      .rejectPlanInvitation(invitation.invitationId)
+      .subscribe(() => {
     });
   }
 }

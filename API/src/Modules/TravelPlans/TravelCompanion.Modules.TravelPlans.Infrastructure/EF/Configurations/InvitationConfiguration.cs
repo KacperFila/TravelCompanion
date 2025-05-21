@@ -17,5 +17,11 @@ internal sealed class InvitationConfiguration : IEntityTypeConfiguration<Invitat
 
         builder.Property(x => x.TravelPlanId)
             .HasConversion(x => x.Value, x => new AggregateId(x));
+        
+        builder
+            .HasOne<Plan>()
+            .WithMany()
+            .HasForeignKey(x => x.TravelPlanId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
