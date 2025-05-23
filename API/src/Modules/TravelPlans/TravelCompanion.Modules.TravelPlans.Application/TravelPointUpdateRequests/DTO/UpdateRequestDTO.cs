@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.DTO;
 
-public sealed class UpdateRequestDTO
+public sealed class UpdateRequestDto
 {
     public Guid RequestId { get; set; }
     public Guid PlanId { get; set; }

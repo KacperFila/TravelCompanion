@@ -31,9 +31,9 @@ public class BackgroundJobScheduler : IBackgroundJobScheduler
         manager.AddOrUpdate(jobId, Job.FromExpression(method), Cron.Monthly());
     }
 
-    public void RemoveIfExists(string JobId)
+    public void RemoveIfExists(string jobId)
     {
         var manager = new RecurringJobManager();
-        manager.RemoveIfExists(JobId);
+        manager.RemoveIfExists(jobId);
     }
 }

@@ -32,51 +32,70 @@ internal class TravelService : ITravelService
     }
 
 
-    public async Task<TravelDetailsDTO> GetAsync(Guid TravelId)
+    public async Task<TravelDetailsDto?> GetAsync(Guid travelId)
     {
-        var travel = await _travelRepository.GetAsync(TravelId);
+        var travel = await _travelRepository.GetAsync(travelId);
 
-        if (travel is null)
-        {
-            return null;
-        }
-
-        return AsTravelDetailsDto(travel);
+        return travel is not null 
+            ? AsTravelDetailsDto(travel)
+            : null;
     }
 
-    public async Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder)
+    public async Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder)
     {
         var travels = await _travelRepository.GetAllAsync(searchTerm, sortColumn, sortOrder);
 
-        var dtos = travels.Select(AsTravelDetailsDto).ToList();
+        var travelsDtos = travels
+            .Select(AsTravelDetailsDto)
+            .ToList();
 
-        return dtos;
+        return travelsDtos;
     }
 
-    public async Task RateAsync(Guid TravelId, int Rating)
+    public async Task ChangeActiveTravelAsync(Guid travelId)
     {
-        if (Rating is < 1 or > 5)
+        var travelExists = await _travelRepository.ExistAsync(travelId);
+
+        if (!travelExists)
+        {
+            throw new TravelNotFoundException(travelId);
+        }
+
+        var travel = await _travelRepository.GetAsync(travelId);
+
+        if (!travel!.ParticipantIds!.Any(x => x == _userId))
+        {
+            throw new UserDoesNotParticipateInTravelException(travelId);
+        }
+
+        await _messageBroker.PublishAsync(new ActiveTravelChanged(_userId, travelId));
+    }
+
+    public async Task RateAsync(Guid travelId, int ratingValue)
+    {
+        if (ratingValue is < 1 or > 5)
         {
             throw new RatingOutOfRangeException();
         }
 
-        var travel = await _travelRepository.GetAsync(TravelId);
+        var travel = await _travelRepository.GetAsync(travelId);
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(TravelId);
+            throw new TravelNotFoundException(travelId);
         }
 
         if (!_travelPolicy.DoesUserParticipate(travel, _userId))
         {
-            throw new UserDoesNotParticipateInTravelException(TravelId);
+            throw new UserDoesNotParticipateInTravelException(travelId);
         }
 
-        var currentRating = travel.Ratings.FirstOrDefault(x => x.AddedBy == _userId);
+        var currentRating = travel.Ratings
+            .FirstOrDefault(x => x.AddedBy == _userId);
 
         if (currentRating is not null)
         {
-            currentRating.Value = Rating;
+            currentRating.Value = ratingValue;
             await _travelRepository.UpdateTravelRatingAsync(currentRating);
         }
         else
@@ -85,14 +104,14 @@ internal class TravelService : ITravelService
             {
                 Id = Guid.NewGuid(),
                 AddedBy = _userId,
-                TravelId = TravelId,
-                Value = Rating
+                TravelId = travelId,
+                Value = ratingValue
             };
             await _travelRepository.AddTravelRatingAsync(travelRating);
         }
 
-        var ratingValue = travel.Ratings.Average(x => x.Value);
-        travel.RatingValue = ratingValue;
+        var averageRating = travel.Ratings.Average(x => x.Value);
+        travel.RatingValue = averageRating;
         await _travelRepository.UpdateAsync(travel);
     }
 
@@ -112,6 +131,11 @@ internal class TravelService : ITravelService
 
         var travel = await _travelRepository.GetAsync(point.TravelId);
 
+        if (travel is null)
+        {
+            throw new TravelNotFoundException(point.TravelId);
+        }
+        
         if (travel.OwnerId != _userId)
         {
             throw new UserNotAllowedToChangeTravelPointException();
@@ -127,71 +151,75 @@ internal class TravelService : ITravelService
         }
     }
 
-    public async Task RemoveRatingAsync(Guid TravelId)
+    public async Task RemoveRatingAsync(Guid travelId)
     {
-        var travel = await _travelRepository.GetAsync(TravelId);
+        var travel = await _travelRepository.GetAsync(travelId);
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(TravelId);
+            throw new TravelNotFoundException(travelId);
         }
 
         if (travel.OwnerId != _userId)
         {
-            throw new TravelDoesNotBelongToUserException(TravelId);
+            throw new TravelDoesNotBelongToUserException(travelId);
         }
 
-        var travelRating = travel.Ratings.SingleOrDefault(x => x.AddedBy == _userId);
+        var travelRating = travel.Ratings
+            .SingleOrDefault(x => x.AddedBy == _userId);
 
         if (travelRating is not null)
         {
             await _travelRepository.RemoveTravelRatingAsync(travelRating);
         }
 
-        travel.RatingValue = !travel.Ratings.Any() ? null : travel.Ratings.Average(x => x.Value);
+        travel.RatingValue = travel.Ratings.Any() 
+            ? travel.Ratings.Average(x => x.Value) 
+            : null;
 
         await _travelRepository.UpdateAsync(travel);
     }
 
-    public async Task DeleteAsync(Guid TravelId)
+    public async Task DeleteAsync(Guid travelId)
     {
-        var travel = await _travelRepository.GetAsync(TravelId);
-
-        if (travel.OwnerId != _userId)
-        {
-            throw new TravelDoesNotBelongToUserException(TravelId);
-        }
+        var travel = await _travelRepository.GetAsync(travelId);
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(TravelId);
+            throw new TravelNotFoundException(travelId);
+        }
+        
+        if (travel.OwnerId != _userId)
+        {
+            throw new TravelDoesNotBelongToUserException(travelId);
         }
 
         if (!_travelPolicy.CanDelete(travel))
         {
-            throw new TravelCannotBeDeletedException(TravelId);
+            throw new TravelCannotBeDeletedException(travelId);
         }
     }
 
-    private static TravelDetailsDTO AsTravelDetailsDto(Travel travel)
+    private static TravelDetailsDto AsTravelDetailsDto(Travel travel)
     {
-        return new TravelDetailsDTO()
+        return new TravelDetailsDto
         {
+            Id = travel.Id,
             Description = travel.Description,
             From = travel.From,
             To = travel.To,
             IsFinished = travel.IsFinished,
             Title = travel.Title,
             Rating = travel.RatingValue,
-            AdditionalCosts = travel.AdditionalCostsValue.Amount,
-            TotalCosts = travel.TotalCostsValue.Amount,
+            AdditionalCostsValue = travel.AdditionalCostsValue.Amount,
+            TotalCostsValue = travel.TotalCostsValue.Amount,
             TravelPoints = travel.TravelPoints.Select(AsTravelPointDto).ToList(),
         };
     }
 
-    private static TravelPointDTO AsTravelPointDto(TravelPoint point)
+    private static TravelPointDto AsTravelPointDto(TravelPoint point)
     {
-        return new TravelPointDTO()
+        return new TravelPointDto
         {
             Id = point.TravelPointId,
             PlaceName = point.PlaceName,

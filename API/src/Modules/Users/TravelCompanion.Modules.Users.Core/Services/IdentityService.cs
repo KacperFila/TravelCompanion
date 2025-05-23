@@ -18,7 +18,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
     internal class IdentityService : IIdentityService
     {
         private const string Alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        private static readonly Random Random = new Random();
+        private static readonly Random Random = new();
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAuthManager _authManager;
@@ -37,25 +37,26 @@ namespace TravelCompanion.Modules.Users.Core.Services
             _contextAccessor = contextAccessor;
         }
 
-        public async Task<AccountDTO> GetAsync(Guid id)
+        public async Task<AccountDto> GetAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
 
             return user is null
                 ? null
-                : new AccountDTO
+                : new AccountDto
                 {
                     Id = user.Id,
                     Email = user.Email,
                     Role = user.Role,
                     Claims = user.Claims,
                     ActivePlanId = user.ActivePlanId,
+                    ActiveTravelId = user.ActiveTravelId,
                     CreatedOnUtc = user.CreatedOnUtc,
                     ModifiedOnUtc = user.ModifiedOnUtc
                 };
         }
 
-        public async Task<JsonWebToken> SignInAsync(SignInDTO dto)
+        public async Task<JsonWebToken> SignInAsync(SignInDto dto)
         {
             if (dto.Email is null || dto.Password is null)
             {
@@ -85,7 +86,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
             return jwt;
         }
 
-        public async Task SignUpAsync(SignUpDTO dto)
+        public async Task SignUpAsync(SignUpDto dto)
         {
             dto.Id = Guid.NewGuid();
             var email = dto.Email.ToLowerInvariant();
@@ -109,7 +110,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
             await _userRepository.AddAsync(user);
 
             var activationLink = CreateActivationLink(user.VerificationToken);
-            await _emailSender.SendEmailAsync(new AccountVerificationEmailDTO(activationLink), user.Email);
+            await _emailSender.SendEmailAsync(new AccountVerificationEmailDto(activationLink), user.Email);
         }
 
         public async Task ActivateAccountAsync(string token)
@@ -146,6 +147,7 @@ namespace TravelCompanion.Modules.Users.Core.Services
                 Email = x.Email,
                 UserName = x.Email.Split("@")[0],
                 ActivePlanId = x.ActivePlanId,
+                ActiveTravelId = x.ActiveTravelId
             });
             return userInfoDto.ToList();
         }

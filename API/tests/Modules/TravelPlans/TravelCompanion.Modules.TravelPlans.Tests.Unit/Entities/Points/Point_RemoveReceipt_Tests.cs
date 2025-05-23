@@ -6,13 +6,13 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Points;
 
-public class Point_RemoveReceipt_Tests
+public class PointRemoveReceiptTests
 {
     private void Act(Receipt receipt) => _point.RemoveReceipt(receipt);
 
-    private readonly Guid planId = Guid.NewGuid();
-    private readonly Guid ownerId = Guid.NewGuid();
-    private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly Guid _planId = Guid.NewGuid();
+    private readonly Guid _ownerId = Guid.NewGuid();
+    private readonly List<Guid> _receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
     private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
     {
@@ -41,7 +41,7 @@ public class Point_RemoveReceipt_Tests
 
     private readonly TravelPoint _point;
     private readonly Receipt _receipt;
-    public Point_RemoveReceipt_Tests()
+    public PointRemoveReceiptTests()
     {
         _point = TravelPoint.Create(
             Guid.NewGuid(),
@@ -50,6 +50,6 @@ public class Point_RemoveReceipt_Tests
             false,
             0);
 
-        _receipt = GetReceipt(ownerId, planId, receiptParticipants);
+        _receipt = GetReceipt(_ownerId, _planId, _receiptParticipants);
     }
 }

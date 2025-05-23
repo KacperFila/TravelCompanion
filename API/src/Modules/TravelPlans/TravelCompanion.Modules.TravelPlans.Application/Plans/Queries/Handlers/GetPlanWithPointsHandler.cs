@@ -8,7 +8,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, PlanWithPointsDTO>
+public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, PlanWithPointsDto>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
@@ -21,7 +21,7 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
         _userId = _context.Identity.Id;
     }
 
-    public async Task<PlanWithPointsDTO> HandleAsync(GetPlanWithPoints query)
+    public async Task<PlanWithPointsDto> HandleAsync(GetPlanWithPoints query)
     {
         var plan = await _planRepository.GetAsync(query.PlanId);
 
@@ -38,9 +38,9 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
         return AsPlanWithPointsDto(plan);
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -56,9 +56,9 @@ public sealed class GetPlanWithPointsHandler : IQueryHandler<GetPlanWithPoints, 
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

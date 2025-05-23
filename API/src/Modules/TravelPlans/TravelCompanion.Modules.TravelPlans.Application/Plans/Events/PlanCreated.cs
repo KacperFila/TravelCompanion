@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Events;
 
-public record PlanCreated(Guid ownerId, Guid planId) : IEvent;
+public record PlanCreated(Guid OwnerId, Guid PlanId) : IEvent;

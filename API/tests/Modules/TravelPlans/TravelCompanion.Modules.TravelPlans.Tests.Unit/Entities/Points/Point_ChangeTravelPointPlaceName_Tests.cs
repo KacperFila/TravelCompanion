@@ -4,7 +4,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Points;
 
-public class Point_ChangeTravelPointPlaceName_Tests
+public class PointChangeTravelPointPlaceNameTests
 {
     private void Act(string placeName) => _point.ChangeTravelPointPlaceName(placeName);
 
@@ -31,7 +31,7 @@ public class Point_ChangeTravelPointPlaceName_Tests
     }
 
     private readonly TravelPoint _point;
-    public Point_ChangeTravelPointPlaceName_Tests()
+    public PointChangeTravelPointPlaceNameTests()
     {
         _point = TravelPoint.Create(
             Guid.NewGuid(),

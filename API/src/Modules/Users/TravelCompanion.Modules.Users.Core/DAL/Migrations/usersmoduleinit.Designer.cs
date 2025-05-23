@@ -11,7 +11,7 @@ namespace TravelCompanion.Modules.Users.Core.DAL.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
     [Migration("20240129163821_users module init")]
-    partial class usersmoduleinit
+    partial class Usersmoduleinit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -2,9 +2,9 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 
-public class ParticipantAddedToPlanEmailDTO : Email
+public class ParticipantAddedToPlanEmailDto : Email
 {
-    public ParticipantAddedToPlanEmailDTO(string planTitle)
+    public ParticipantAddedToPlanEmailDto(string planTitle)
     {
         Subject = "You've been added to plan!";
         Body = $"You've been added to plan: {planTitle}";

@@ -5,7 +5,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointUpdateRequests.Queries.Handlers;
 
-public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointUpdateRequest, List<UpdateRequestDTO>>
+public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointUpdateRequest, List<UpdateRequestDto>>
 {
     private readonly ITravelPointUpdateRequestRepository _travelPointUpdateRequestRepository;
 
@@ -14,7 +14,7 @@ public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointU
         _travelPointUpdateRequestRepository = travelPointUpdateRequestRepository;
     }
 
-    public async Task<List<UpdateRequestDTO>> HandleAsync(GetTravelPointUpdateRequest request)
+    public async Task<List<UpdateRequestDto>> HandleAsync(GetTravelPointUpdateRequest request)
     {
         var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(request.PointId);
 
@@ -22,9 +22,9 @@ public class GetTravelPointUpdateRequestsHandler : IQueryHandler<GetTravelPointU
             .Select(AsUpdateRequestDto)
             .ToList();
     }
-    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    private static UpdateRequestDto AsUpdateRequestDto(TravelPointUpdateRequest request)
     {
-        return new UpdateRequestDTO()
+        return new UpdateRequestDto()
         {
             RequestId = request.RequestId,
             PlanId = request.TravelPlanPointId,

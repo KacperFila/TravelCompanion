@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Events.External;
 
-public record PointReceiptAdded(Guid planId, decimal amount) : IEvent;
+public record PointReceiptAdded(Guid PlanId, decimal Amount) : IEvent;

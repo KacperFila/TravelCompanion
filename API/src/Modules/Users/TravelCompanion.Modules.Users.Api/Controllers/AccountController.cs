@@ -21,18 +21,18 @@ internal sealed class AccountController : BaseController
 
     [HttpGet("info")]
     [Authorize]
-    public async Task<ActionResult<AccountDTO>> GetAsync()
+    public async Task<ActionResult<AccountDto>> GetAsync()
         => OkOrNotFound(await _identityService.GetAsync(_context.Identity.Id));
 
     [HttpPost("sign-up")]
-    public async Task<ActionResult> SignUpAsync(SignUpDTO dto)
+    public async Task<ActionResult> SignUpAsync(SignUpDto dto)
     {
         await _identityService.SignUpAsync(dto);
         return NoContent();
     }
 
     [HttpPost("sign-in")]
-    public async Task<ActionResult<JsonWebToken>> SignInAsync(SignInDTO dto)
+    public async Task<ActionResult<JsonWebToken>> SignInAsync(SignInDto dto)
         => Ok(await _identityService.SignInAsync(dto));
 
     [HttpGet("activate/{token}")]

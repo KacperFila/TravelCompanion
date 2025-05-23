@@ -11,7 +11,7 @@ namespace TravelCompanion.Modules.Travels.Api.Endpoints.Postcards.GetPostcardsBy
 [Route(TravelsEndpoint.BasePath)]
 internal sealed class GetPostcardsByTravelEndpoint : EndpointBaseAsync
     .WithRequest<Guid>
-    .WithActionResult<IReadOnlyList<PostcardDetailsDTO>>
+    .WithActionResult<IReadOnlyList<PostcardDetailsDto>>
 {
     private readonly IPostcardService _postcardService;
 
@@ -28,7 +28,7 @@ internal sealed class GetPostcardsByTravelEndpoint : EndpointBaseAsync
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<IReadOnlyList<PostcardDetailsDTO>>> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<IReadOnlyList<PostcardDetailsDto>>> HandleAsync(Guid travelId, CancellationToken cancellationToken = default)
     {
         var postcards = await _postcardService.GetAllByTravelIdAsync(travelId);
         return Ok(postcards);

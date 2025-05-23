@@ -9,5 +9,5 @@ public interface IBackgroundJobScheduler
     public string Enqueue(Expression<Action> method);
     public void ScheduleDaily(Expression<Action> method, string jobId);
     public void ScheduleMonthly(Expression<Action> method, string jobId);
-    public void RemoveIfExists(string JobId);
+    public void RemoveIfExists(string jobId);
 }

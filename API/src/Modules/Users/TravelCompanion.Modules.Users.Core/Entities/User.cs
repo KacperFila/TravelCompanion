@@ -15,11 +15,17 @@ public sealed class User : IAuditable
     public string? VerificationToken { get; set; }
     public DateTime? VerifiedAt { get; set; }
     public Guid? ActivePlanId { get; private set; }
+    public Guid? ActiveTravelId { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
     public void SetActivePlan(Guid planId)
     {
         ActivePlanId = planId;
+    }
+    
+    public void SetActiveTravel(Guid travelId)
+    {
+        ActiveTravelId = travelId;
     }
 }

@@ -15,6 +15,6 @@ public class TravelIsFinishedHandler : IEventHandler<TravelFinished>
 
     public async Task HandleAsync(TravelFinished @event)
     {
-        await _commandDispatcher.SendAsync(new GenerateTravelSummary(@event.travelId));
+        await _commandDispatcher.SendAsync(new GenerateTravelSummary(@event.TravelId));
     }
 }

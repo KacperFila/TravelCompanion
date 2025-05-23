@@ -13,6 +13,6 @@ public class RemovePointReceiptHandler : ICommandHandler<RemovePointReceipt>
     }
     public async Task HandleAsync(RemovePointReceipt command)
     {
-        await _travelPointDomainService.RemoveReceiptAsync(command.receiptId);
+        await _travelPointDomainService.RemoveReceiptAsync(command.ReceiptId);
     }
 }

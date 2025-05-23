@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPointRemoveRequests.Commands;
 
-public record AcceptTravelPointRemoveRequest(Guid requestId) : ICommand;
+public record AcceptTravelPointRemoveRequest(Guid RequestId) : ICommand;

@@ -2,7 +2,6 @@
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
-using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Messaging;
@@ -28,18 +27,18 @@ internal class ChangeActivePlanHandler : ICommandHandler<ChangeActivePlan>
 
     public async Task HandleAsync(ChangeActivePlan command)
     {
-        var planExists = await _planRepository.ExistAsync(command.planId);
+        var planExists = await _planRepository.ExistAsync(command.PlanId);
 
         if (!planExists)
         {
-            throw new PlanNotFoundException(command.planId);
+            throw new PlanNotFoundException(command.PlanId);
         }
 
-        var plan = await _planRepository.GetAsync(command.planId);
+        var plan = await _planRepository.GetAsync(command.PlanId);
 
         if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, command.planId);
+            throw new UserDoesNotParticipateInPlanException(_userId, command.PlanId);
         }
 
         await _messageBroker.PublishAsync(new ActivePlanChanged(_userId, plan.Id));

@@ -5,7 +5,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -34,11 +33,11 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
 
     public async Task HandleAsync(CreateTravelPoint command)
     {
-        var plan = await _planRepository.GetAsync(command.travelPlanId);
+        var plan = await _planRepository.GetAsync(command.TravelPlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(command.travelPlanId);
+            throw new PlanNotFoundException(command.TravelPlanId);
         }
 
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
@@ -49,7 +48,7 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         var isPointAccepted = _userId == plan.OwnerId;
         var newPointNumber = GetNewTravelPointNumber(plan);
 
-        var point = TravelPoint.Create(Guid.NewGuid(), command.placeName, command.travelPlanId, isPointAccepted, newPointNumber);
+        var point = TravelPoint.Create(Guid.NewGuid(), command.PlaceName, command.TravelPlanId, isPointAccepted, newPointNumber);
 
         plan.AddTravelPoint(point);
         await _planRepository.UpdateAsync(plan);
@@ -78,9 +77,9 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         return plan.TravelPlanPoints.Count + 1;
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -96,9 +95,9 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

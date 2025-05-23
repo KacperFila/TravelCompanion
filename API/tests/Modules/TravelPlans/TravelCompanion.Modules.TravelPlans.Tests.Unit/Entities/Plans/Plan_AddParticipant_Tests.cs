@@ -5,7 +5,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
-public class Plan_AddParticipant_Tests
+public class PlanAddParticipantTests
 {
     private void Act(Guid participantId)
     {
@@ -39,7 +39,7 @@ public class Plan_AddParticipant_Tests
     }
 
     private readonly Plan _plan;
-    public Plan_AddParticipant_Tests()
+    public PlanAddParticipantTests()
     {
         _plan = new Plan(
             Guid.NewGuid(),

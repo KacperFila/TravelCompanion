@@ -5,5 +5,5 @@ namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries;
 
 public class GetUserPlanTotalCost : IQuery<Money>
 {
-    public Guid planId { get; set; }
+    public Guid PlanId { get; set; }
 }

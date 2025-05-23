@@ -14,7 +14,7 @@ internal class TravelRepository : ITravelRepository
         _travels = _dbContext.Travels;
     }
 
-    public async Task<Travel> GetAsync(Guid id)
+    public async Task<Travel?> GetAsync(Guid id)
     {
         return await _travels
             .Include(x => x.Ratings)

@@ -6,13 +6,13 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Receipts;
 
-public class Receipts_AddReceiptParticipant_Tests
+public class ReceiptsAddReceiptParticipantTests
 {
     public void Act(Guid participantId) => _receipt.AddReceiptParticipant(participantId);
 
-    private readonly Guid planId = Guid.NewGuid();
-    private readonly Guid ownerId = Guid.NewGuid();
-    private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly Guid _planId = Guid.NewGuid();
+    private readonly Guid _ownerId = Guid.NewGuid();
+    private readonly List<Guid> _receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
     private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
     {
@@ -44,10 +44,10 @@ public class Receipts_AddReceiptParticipant_Tests
     }
 
     private readonly Receipt _receipt;
-    public Receipts_AddReceiptParticipant_Tests()
+    public ReceiptsAddReceiptParticipantTests()
     {
         var currentParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
-        _receipt = GetReceipt(ownerId, planId, receiptParticipants);
+        _receipt = GetReceipt(_ownerId, _planId, _receiptParticipants);
     }
 }

@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.AcceptPlanRequests.Commands;
 
-public record DenyPlanAcceptRequest(Guid travelPlanId) : ICommand;
+public record DenyPlanAcceptRequest(Guid TravelPlanId) : ICommand;

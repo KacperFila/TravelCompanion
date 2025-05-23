@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 
-public class PlanWithPointsDTO
+public class PlanWithPointsDto
 {
     public Guid Id { get; set; }
     public Guid OwnerId { get; set; }
@@ -12,5 +12,5 @@ public class PlanWithPointsDTO
     public decimal AdditionalCostsValue { get; set; }
     public decimal TotalCostValue { get; set; }
     public string PlanStatus { get; set; }
-    public IList<PointDTO> TravelPlanPoints { get; set; }
+    public IList<PointDto> TravelPlanPoints { get; set; }
 }

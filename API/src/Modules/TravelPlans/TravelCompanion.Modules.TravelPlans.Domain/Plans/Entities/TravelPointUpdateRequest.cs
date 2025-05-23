@@ -22,10 +22,10 @@ public sealed class TravelPointUpdateRequest : IAuditable
         SuggestedById = suggestedById;
     }
 
-    public static TravelPointUpdateRequest Create(AggregateId travelPlanPointId, AggregateId planId, EntityId suggestedById, string PlaceName)
+    public static TravelPointUpdateRequest Create(AggregateId travelPlanPointId, AggregateId planId, EntityId suggestedById, string placeName)
     {
         var request = new TravelPointUpdateRequest(travelPlanPointId, planId, suggestedById);
-        request.PlaceName = PlaceName;
+        request.PlaceName = placeName;
 
         return request;
     }

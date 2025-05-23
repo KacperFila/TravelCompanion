@@ -7,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -115,9 +114,9 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         );
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -133,9 +132,9 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,
@@ -144,9 +143,9 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         };
     }
 
-    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    private static UpdateRequestDto AsUpdateRequestDto(TravelPointUpdateRequest request)
     {
-        return new UpdateRequestDTO()
+        return new UpdateRequestDto()
         {
             RequestId = request.RequestId,
             PlanId = request.TravelPlanPointId,

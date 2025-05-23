@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.AcceptPlanRequests.Commands;
 
-public record AcceptPlanAcceptRequest(Guid travelPlanId) : ICommand;
+public record AcceptPlanAcceptRequest(Guid TravelPlanId) : ICommand;

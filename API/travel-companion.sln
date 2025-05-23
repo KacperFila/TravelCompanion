@@ -65,8 +65,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Pay
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Payments.Infrastructure", "src\Modules\Payments\TravelCompanion.Modules.Payments.Infrastructure\TravelCompanion.Modules.Payments.Infrastructure.csproj", "{8DF87F0C-00E7-445B-B48B-A40C519BB347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelCompanion.Modules.Users.Tests.Unit", "TravelCompanion.Modules.Users.Tests.Unit\TravelCompanion.Modules.Users.Tests.Unit.csproj", "{E9C82694-FF06-4B67-B2F4-9B90F0D8E697}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,10 +155,6 @@ Global
 		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF87F0C-00E7-445B-B48B-A40C519BB347}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9C82694-FF06-4B67-B2F4-9B90F0D8E697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9C82694-FF06-4B67-B2F4-9B90F0D8E697}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9C82694-FF06-4B67-B2F4-9B90F0D8E697}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9C82694-FF06-4B67-B2F4-9B90F0D8E697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,7 +190,6 @@ Global
 		{A107EC8D-22DD-4090-8894-E57241D2ADFE} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
 		{F769364E-0827-465A-9D4A-A9B5CDF808F2} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
 		{8DF87F0C-00E7-445B-B48B-A40C519BB347} = {5B72FF08-AD8F-4485-8B47-3417051E4040}
-		{E9C82694-FF06-4B67-B2F4-9B90F0D8E697} = {62E9A5D8-448F-490B-B965-C3E4B068D6EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0FD0CE3-637A-407C-8724-2F97930B3943}

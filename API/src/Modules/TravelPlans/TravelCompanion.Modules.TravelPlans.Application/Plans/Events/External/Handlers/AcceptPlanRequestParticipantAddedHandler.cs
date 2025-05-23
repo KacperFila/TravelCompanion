@@ -17,11 +17,11 @@ public class AcceptPlanRequestParticipantAddedHandler : IEventHandler<AcceptPlan
 
     public async Task HandleAsync(AcceptPlanRequestParticipantAdded @event)
     {
-        var plan = await _planRepository.GetAsync(@event.planId);
+        var plan = await _planRepository.GetAsync(@event.PlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(@event.planId);
+            throw new PlanNotFoundException(@event.PlanId);
         }
 
         var request = await _planAcceptRequestRepository.GetByPlanAsync(plan.Id);

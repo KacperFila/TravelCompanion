@@ -4,10 +4,11 @@ namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 internal interface ITravelService
 {
-    Task<TravelDetailsDTO> GetAsync(Guid TravelId);
-    Task<IReadOnlyList<TravelDetailsDTO>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
-    Task RateAsync(Guid TravelId, int Rating);
+    Task<TravelDetailsDto?> GetAsync(Guid travelId);
+    Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
+    Task ChangeActiveTravelAsync(Guid travelId);
+    Task RateAsync(Guid travelId, int rating);
     Task VisitTravelPointAsync(Guid pointId);
-    Task RemoveRatingAsync(Guid TravelId);
-    Task DeleteAsync(Guid TravelId);
+    Task RemoveRatingAsync(Guid travelId);
+    Task DeleteAsync(Guid travelId);
 }

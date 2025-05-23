@@ -26,19 +26,19 @@ internal sealed class GetUserPlanTotalCostHandler : IQueryHandler<GetUserPlanTot
 
     public async Task<Money> HandleAsync(GetUserPlanTotalCost query)
     {
-        var plan = await _planRepository.GetAsync(query.planId);
+        var plan = await _planRepository.GetAsync(query.PlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(query.planId);
+            throw new PlanNotFoundException(query.PlanId);
         }
 
         if (!plan.Participants.Any(x => x.ParticipantId == _userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, query.planId);
+            throw new UserDoesNotParticipateInPlanException(_userId, query.PlanId);
         }
 
-        var planReceipts = await _receiptRepository.BrowseForPlanAsync(query.planId);
+        var planReceipts = await _receiptRepository.BrowseForPlanAsync(query.PlanId);
         var pointIds = plan.TravelPlanPoints.Select(x => x.Id).ToList();
         var userPointReceipts = new List<Receipt>();
 

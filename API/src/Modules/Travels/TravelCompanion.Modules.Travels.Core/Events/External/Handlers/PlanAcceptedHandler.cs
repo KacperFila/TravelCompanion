@@ -4,7 +4,6 @@ using TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Entities;
 using TravelCompanion.Modules.Users.Shared;
-using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Emails;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
@@ -66,7 +65,7 @@ internal sealed class PlanAcceptedHandler : IEventHandler<PlanAccepted>
         await _messageBroker.PublishAsync(new TravelFromPlanCreated(@event.PlanId));
 
         var usersEmails = await _usersModuleApi.GetUsersEmails(@event.Participants.ToList());
-        await _emailSender.SendEmailAsync(new AcceptedPlanEmailDTO(), usersEmails);
+        await _emailSender.SendEmailAsync(new AcceptedPlanEmailDto(), usersEmails);
     }
 
     private static TravelPoint AsTravelPoint(Guid travelId, TravelPlans.Domain.Plans.Entities.TravelPoint travelPoint)

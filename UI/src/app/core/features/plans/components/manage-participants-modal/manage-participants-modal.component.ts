@@ -5,7 +5,7 @@ import { ItemListComponent } from '../../../../shared/item-list/item-list.compon
 import { PlanParticipant } from '../../models/plan.models';
 import { CommonModule } from '@angular/common';
 import {PlansService} from "../../services/plans/plans.service";
-import {UsersService} from "../../services/users/users.service";
+import {UsersService} from "../../../../shared/services/users.service";
 import {filter, map} from "rxjs";
 import {AuthService} from "../../../../auth/auth.service";
 

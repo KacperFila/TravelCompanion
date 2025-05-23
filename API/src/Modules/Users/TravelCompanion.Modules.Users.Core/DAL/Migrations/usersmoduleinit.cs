@@ -3,7 +3,7 @@ using System;
 
 namespace TravelCompanion.Modules.Users.Core.DAL.Migrations
 {
-    public partial class usersmoduleinit : Migration
+    public partial class Usersmoduleinit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

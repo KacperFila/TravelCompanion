@@ -9,7 +9,6 @@ using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Messaging;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -47,7 +46,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 
     public async Task HandleAsync(AcceptInvitation command)
     {
-        var invitation = await _invitationRepository.GetAsync(command.invitationId);
+        var invitation = await _invitationRepository.GetAsync(command.InvitationId);
 
         if (invitation is null)
         {
@@ -58,7 +57,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
                     "Plan has been already accepted or not found!",
                     NotificationSeverity.Error));
             
-            throw new InvitationNotFoundException(command.invitationId);
+            throw new InvitationNotFoundException(command.InvitationId);
         }
         
         var inviteeId = invitation.InviteeId;
@@ -86,7 +85,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 
         await _messageBroker.PublishAsync(new ParticipantAddedToPlan(inviteeId, plan.Id));
 
-        await _invitationRepository.RemoveAsync(command.invitationId);
+        await _invitationRepository.RemoveAsync(command.InvitationId);
 
         var invitee = await _usersModuleApi.GetUserInfo(inviteeId);
 
@@ -99,7 +98,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 
         var invitationRemovedResponse = new PlanInvitationRemovedResponse()
         {
-            InvitationId = command.invitationId,
+            InvitationId = command.InvitationId,
         };
 
         await _travelPlansRealTimeService.SendPlanInvitationRemoved(inviteeId, invitationRemovedResponse);

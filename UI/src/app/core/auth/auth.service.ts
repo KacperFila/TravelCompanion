@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { User } from './user.model';
 
 interface AccountDTO {
@@ -12,6 +12,7 @@ interface AccountDTO {
   id: string;
   role: string;
   activePlanId: string;
+  activeTravelId: string;
   claims: {
     permissions: string[];
   };
@@ -90,6 +91,7 @@ export class AuthService {
       parsedUser.id,
       parsedUser.role,
       parsedUser.activePlanId,
+      parsedUser.activeTravelId,
       parsedUser._token,
       parsedUser.claims,
       new Date(parsedUser.expires)
@@ -113,6 +115,7 @@ export class AuthService {
             response.id,
             response.role,
             response.activePlanId,
+            response.activeTravelId,
             token,
             response.claims,
             expiresAt
@@ -120,7 +123,8 @@ export class AuthService {
 
           localStorage.setItem('user', JSON.stringify(user));
           this.user.next(user);
-        })
-      );
+        }
+      )
+    );
   }
 }

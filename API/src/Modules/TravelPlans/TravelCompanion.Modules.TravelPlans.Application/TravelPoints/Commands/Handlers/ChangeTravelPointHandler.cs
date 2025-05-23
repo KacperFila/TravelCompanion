@@ -42,14 +42,14 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
 
     public async Task HandleAsync(ChangeTravelPoint command)
     {
-        var doesPointExist = await _travelPointRepository.ExistAsync(command.pointId);
+        var doesPointExist = await _travelPointRepository.ExistAsync(command.PointId);
 
         if (!doesPointExist)
         {
-            throw new TravelPointNotFoundException(command.pointId);
+            throw new TravelPointNotFoundException(command.PointId);
         }
 
-        var point = await _travelPointRepository.GetAsync(command.pointId);
+        var point = await _travelPointRepository.GetAsync(command.PointId);
         var plan = await _planRepository.GetAsync(point.PlanId);
 
         if (!DoesUserParticipateInPlan(plan))
@@ -62,13 +62,13 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             throw new PlanNotDuringPlanningException(plan.Id);
         }
         
-        var request = TravelPointUpdateRequest.Create(command.pointId, plan.Id, _userId, command.placeName);
+        var request = TravelPointUpdateRequest.Create(command.PointId, plan.Id, _userId, command.PlaceName);
 
         await _travelPointUpdateRequestRepository.AddAsync(request);
 
         var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(point.Id);
         updateRequests = updateRequests
-            .Where(x => x.TravelPlanPointId == command.pointId)
+            .Where(x => x.TravelPlanPointId == command.PointId)
             .ToList();
 
         var participants = plan.Participants
@@ -95,9 +95,9 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
                     NotificationSeverity.Information));
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -113,9 +113,9 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,
@@ -124,9 +124,9 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         };
     }
 
-    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    private static UpdateRequestDto AsUpdateRequestDto(TravelPointUpdateRequest request)
     {
-        return new UpdateRequestDTO()
+        return new UpdateRequestDto()
         {
             RequestId = request.RequestId,
             PlanId = request.TravelPlanPointId,

@@ -18,10 +18,10 @@ internal sealed class ActivePlanChangedHandler : IEventHandler<ActivePlanChanged
 
     public async Task HandleAsync(ActivePlanChanged @event)
     {
-        var user = await _userRepository.GetAsync(@event.userId);
-        user.SetActivePlan(@event.planId);
+        var user = await _userRepository.GetAsync(@event.UserId);
+        user.SetActivePlan(@event.PlanId);
         await _userRepository.UpdateAsync(user);
 
-        await _travelPlansRealTimeService.SendActivePlanChanged(@event.userId, @event.planId);
+        await _travelPlansRealTimeService.SendActivePlanChanged(@event.UserId, @event.PlanId);
     }
 }

@@ -12,7 +12,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.Plans.GetUse
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetUserActivePlan : EndpointBaseAsync
     .WithRequest<Application.Plans.Queries.GetUserPlans>
-    .WithActionResult<List<PlanWithPointsDTO>>
+    .WithActionResult<List<PlanWithPointsDto>>
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -30,7 +30,7 @@ internal sealed class GetUserActivePlan : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<List<PlanWithPointsDTO>>> HandleAsync([FromQuery] Application.Plans.Queries.GetUserPlans query, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<List<PlanWithPointsDto>>> HandleAsync([FromQuery] Application.Plans.Queries.GetUserPlans query, CancellationToken cancellationToken = default)
     {
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

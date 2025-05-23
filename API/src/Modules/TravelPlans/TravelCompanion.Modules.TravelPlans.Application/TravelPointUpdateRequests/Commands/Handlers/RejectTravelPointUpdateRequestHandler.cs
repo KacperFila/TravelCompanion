@@ -7,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -111,9 +110,9 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         );
     }
 
-    private static UpdateRequestDTO AsUpdateRequestDto(TravelPointUpdateRequest request)
+    private static UpdateRequestDto AsUpdateRequestDto(TravelPointUpdateRequest request)
     {
-        return new UpdateRequestDTO()
+        return new UpdateRequestDto()
         {
             RequestId = request.RequestId,
             PlanId = request.TravelPlanPointId,

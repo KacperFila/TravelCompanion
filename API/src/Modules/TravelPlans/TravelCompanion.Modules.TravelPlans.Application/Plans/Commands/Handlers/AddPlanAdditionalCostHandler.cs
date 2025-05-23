@@ -23,11 +23,11 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
 
     public async Task HandleAsync(AddPlanAdditionalCost command)
     {
-        var plan = await _planRepository.GetAsync(command.planId);
+        var plan = await _planRepository.GetAsync(command.PlanId);
 
         if (plan == null)
         {
-            throw new PlanNotFoundException(command.planId);
+            throw new PlanNotFoundException(command.PlanId);
         }
 
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
@@ -43,10 +43,10 @@ public sealed class AddPlanAdditionalCostHandler : ICommandHandler<AddPlanAdditi
         var receipt = Receipt.Create(
             _userId,
             plan.Participants.Select(x => x.ParticipantId).ToList(),
-            Money.Create(command.amount),
-            command.planId,
+            Money.Create(command.Amount),
+            command.PlanId,
             null,
-            command.description);
+            command.Description);
 
         plan.AddAdditionalCost(receipt);
         await _planRepository.UpdateAsync(plan);

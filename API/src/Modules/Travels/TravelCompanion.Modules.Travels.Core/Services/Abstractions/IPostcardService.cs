@@ -4,10 +4,10 @@ namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
 internal interface IPostcardService
 {
-    Task AddToTravelAsync(PostcardUpsertDTO postcard, Guid travelId);
-    Task<PostcardDetailsDTO> GetAsync(Guid postcardId);
-    Task<IReadOnlyList<PostcardDetailsDTO>> GetAllByTravelIdAsync(Guid travelId);
+    Task AddToTravelAsync(PostcardUpsertDto postcard, Guid travelId);
+    Task<PostcardDetailsDto> GetAsync(Guid postcardId);
+    Task<IReadOnlyList<PostcardDetailsDto>> GetAllByTravelIdAsync(Guid travelId);
     Task ChangeStatus(Guid postcardId, string postcardStatus);
-    Task UpdateAsync(PostcardUpsertDTO postcard, Guid postcardId);
+    Task UpdateAsync(PostcardUpsertDto postcard, Guid postcardId);
     Task DeleteAsync(Guid postcardId);
 }

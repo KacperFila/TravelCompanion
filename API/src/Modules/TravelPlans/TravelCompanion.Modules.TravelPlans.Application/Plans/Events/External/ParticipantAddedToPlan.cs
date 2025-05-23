@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Events.External;
 
-public record ParticipantAddedToPlan(Guid participantId, Guid planId) : IEvent;
+public record ParticipantAddedToPlan(Guid ParticipantId, Guid PlanId) : IEvent;

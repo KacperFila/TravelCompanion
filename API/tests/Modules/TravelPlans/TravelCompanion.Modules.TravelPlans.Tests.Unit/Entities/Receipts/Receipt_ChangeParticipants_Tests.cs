@@ -6,13 +6,13 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Receipts;
 
-public class Receipt_ChangeParticipants_Tests
+public class ReceiptChangeParticipantsTests
 {
     private void Act(List<Guid> participants) => _receipt.ChangeReceiptParticipants(participants);
 
-    private readonly Guid planId = Guid.NewGuid();
-    private readonly Guid ownerId = Guid.NewGuid();
-    private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly Guid _planId = Guid.NewGuid();
+    private readonly Guid _ownerId = Guid.NewGuid();
+    private readonly List<Guid> _receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
     private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
     {
@@ -43,10 +43,10 @@ public class Receipt_ChangeParticipants_Tests
     }
 
     private readonly Receipt _receipt;
-    public Receipt_ChangeParticipants_Tests()
+    public ReceiptChangeParticipantsTests()
     {
         var currentParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
-        _receipt = GetReceipt(ownerId, planId, receiptParticipants);
+        _receipt = GetReceipt(_ownerId, _planId, _receiptParticipants);
     }
 }

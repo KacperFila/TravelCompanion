@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TravelCompanion.Modules.Users.Core.DTO
 {
-    public class SignUpDTO
+    public class SignUpDto
     {
         public Guid Id { get; set; }
 

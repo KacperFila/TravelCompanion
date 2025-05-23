@@ -26,21 +26,21 @@ public sealed class ParticipantAddedToPlanHandler : IEventHandler<ParticipantAdd
 
     public async Task HandleAsync(ParticipantAddedToPlan @event)
     {
-        var plan = await _planRepository.GetAsync(@event.planId);
+        var plan = await _planRepository.GetAsync(@event.PlanId);
 
         if (plan == null)
         {
-            throw new PlanNotFoundException(@event.planId);
+            throw new PlanNotFoundException(@event.PlanId);
         }
 
         foreach (var planAdditionalCost in plan.AdditionalCosts)
         {
-            planAdditionalCost.AddReceiptParticipant(@event.participantId);
+            planAdditionalCost.AddReceiptParticipant(@event.ParticipantId);
         }
 
         await _planRepository.UpdateAsync(plan);
 
-        var userEmail = await _usersModuleApi.GetUserEmail(@event.participantId);
+        var userEmail = await _usersModuleApi.GetUserEmail(@event.ParticipantId);
 
         //_backgroundJobScheduler.Enqueue(() =>
         //    _emailSender.SendEmailAsync(new ParticipantAddedToPlanEmailDTO(plan.Title), userEmail));

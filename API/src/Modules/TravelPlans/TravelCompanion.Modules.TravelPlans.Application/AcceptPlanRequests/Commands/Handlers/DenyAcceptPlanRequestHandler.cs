@@ -29,22 +29,22 @@ public class DenyAcceptPlanRequestHandler : ICommandHandler<DenyPlanAcceptReques
 
     public async Task HandleAsync(DenyPlanAcceptRequest command)
     {
-        var request = await _planAcceptRequestRepository.GetByPlanAsync(command.travelPlanId);
+        var request = await _planAcceptRequestRepository.GetByPlanAsync(command.TravelPlanId);
 
         if (request is null)
         {
-            throw new AcceptPlanRequestForPlanNotFoundException(command.travelPlanId);
+            throw new AcceptPlanRequestForPlanNotFoundException(command.TravelPlanId);
         }
 
-        var planParticipants = await _planDomainService.CheckPlanParticipantsAsync(command.travelPlanId);
+        var planParticipants = await _planDomainService.CheckPlanParticipantsAsync(command.TravelPlanId);
 
         if (!planParticipants.Contains(_userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, command.travelPlanId);
+            throw new UserDoesNotParticipateInPlanException(_userId, command.TravelPlanId);
         }
 
         request.RemoveParticipantAcceptation(_userId);
         await _planAcceptRequestRepository.UpdateAsync(request);
-        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantRemoved(_userId, command.travelPlanId));
+        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantRemoved(_userId, command.TravelPlanId));
     }
 }

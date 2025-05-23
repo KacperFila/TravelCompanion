@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PointsRoadmapComponent } from '../../features/plans/components/points-roadmap/points-roadmap.component';
+import { PlanRoadmapComponent } from '../../features/plans/components/points-roadmap/plan-roadmap.component';
 
 @Component({
   selector: 'app-plans-dashboard',
@@ -9,7 +9,7 @@ import { PointsRoadmapComponent } from '../../features/plans/components/points-r
   imports: [
     CommonModule,
     FormsModule,
-    PointsRoadmapComponent
+    PlanRoadmapComponent
   ],
   templateUrl: './plans-dashboard.component.html',
   styleUrls: ['./plans-dashboard.component.css'],

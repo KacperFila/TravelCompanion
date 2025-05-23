@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.DTO;
 
-public sealed class InvitationDTO
+public sealed class InvitationDto
 {
     public Guid InvitationId { get; set; }
     public Guid PlanId { get; set; }

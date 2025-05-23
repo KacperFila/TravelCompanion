@@ -4,7 +4,7 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories.Abstractions;
 
 public interface ITravelRepository
 {
-    Task<Travel> GetAsync(Guid id);
+    Task<Travel?> GetAsync(Guid id);
     Task<bool> ExistAsync(Guid id);
     Task<List<Travel>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
     Task AddAsync(Travel travel);

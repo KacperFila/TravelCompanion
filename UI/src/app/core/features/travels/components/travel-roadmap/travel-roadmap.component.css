@@ -1,0 +1,130 @@
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5vh 0;
+  gap: 0;
+}
+
+.node-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.node-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.circle {
+  width: 7vh;
+  height: 7vh;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  margin-left: 10px;
+}
+
+.line {
+  width: 2px;
+  height: 10vh;
+  background-color: var(--header-background-color);
+  margin: 0 auto;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7vh;
+  height: 7vh;
+  border-radius: 50%;
+  font-family: var(--font-family), serif;
+  font-size: 1.5rem;
+  background-color: #67AE6E;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #328E6E;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color);
+  color: var(--secondary-color);
+}
+
+.accept-button {
+  background-color: var(--accept-color);
+}
+
+.accept-button:hover {
+  background-color: var(--accept-color-hover);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.active-plan-title {
+  color: var(--header-background-color);
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.active-plan-date {
+  color: var(--header-background-color);
+  font-size: 15px;
+}
+
+.active-plan-description {
+  display: flex;
+  flex-direction: column;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buttons-container {
+  display: flex;
+}
+
+.no-points-message{
+  padding: 5vh 0;
+}
+
+.roadmap-container {
+  display: flex;
+}

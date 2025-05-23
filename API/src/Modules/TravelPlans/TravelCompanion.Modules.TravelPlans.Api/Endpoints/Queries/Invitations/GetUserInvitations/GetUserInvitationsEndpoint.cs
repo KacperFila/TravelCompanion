@@ -13,7 +13,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.Plans.GetPla
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetUserInvitationsEndpoint : EndpointBaseAsync
     .WithRequest<GetUserInvitations>
-    .WithActionResult<InvitationDTO>
+    .WithActionResult<InvitationDto>
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -31,7 +31,7 @@ internal sealed class GetUserInvitationsEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public async override Task<ActionResult<InvitationDTO>> HandleAsync([FromRoute] GetUserInvitations query, CancellationToken cancellationToken = default)
+    public async override Task<ActionResult<InvitationDto>> HandleAsync([FromRoute] GetUserInvitations query, CancellationToken cancellationToken = default)
     {
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

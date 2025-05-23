@@ -7,7 +7,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Queries.Handlers;
 
-internal sealed class GetUserInvitationsHandler : IQueryHandler<GetUserInvitations, List<InvitationDTO>>
+internal sealed class GetUserInvitationsHandler : IQueryHandler<GetUserInvitations, List<InvitationDto>>
 {
     private readonly IInvitationRepository _invitationRepository;
     private readonly IPlanRepository _planRepository;
@@ -24,7 +24,7 @@ internal sealed class GetUserInvitationsHandler : IQueryHandler<GetUserInvitatio
         _userModuleApi = userModuleApi;
     }
 
-    public async Task<List<InvitationDTO>> HandleAsync(GetUserInvitations query)
+    public async Task<List<InvitationDto>> HandleAsync(GetUserInvitations query)
     {
         var invitations = await _invitationRepository.GetInvitationsForUser(_userId);
         var invitationsDto = invitations.Select(AsInvitationDto).ToList();
@@ -50,9 +50,9 @@ internal sealed class GetUserInvitationsHandler : IQueryHandler<GetUserInvitatio
         return invitationsDto;
     }
 
-    private static InvitationDTO AsInvitationDto(Invitation invitation)
+    private static InvitationDto AsInvitationDto(Invitation invitation)
     {
-        return new InvitationDTO()
+        return new InvitationDto()
         {
             InvitationId = invitation.Id,
             PlanId = invitation.TravelPlanId,

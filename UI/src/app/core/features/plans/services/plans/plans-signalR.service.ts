@@ -76,6 +76,7 @@ export class PlansSignalRService {
           this.currentUser.id,
           this.currentUser.role,
           activePlanId,
+          this.currentUser.activeTravelId,
           this.currentUser.token!,
           this.currentUser['_claims'],
           this.currentUser['expirationDate']

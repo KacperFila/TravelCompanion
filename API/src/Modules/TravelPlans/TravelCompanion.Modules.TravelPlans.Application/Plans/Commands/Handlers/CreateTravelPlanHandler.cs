@@ -27,12 +27,12 @@ public sealed class CreateTravelPlanHandler : ICommandHandler<CreateTravelPlan>
     {
         var travelPlan = Plan.Create(
             _userId,
-            command.title,
-            command.description,
-            command.from,
-            command.to);
+            command.Title,
+            command.Description,
+            command.From,
+            command.To);
 
-        if(command.title is null || command.title.Length < 3)
+        if(command.Title is null || command.Title.Length < 3)
         {
             throw new InvalidPlanTitleException();
         }

@@ -14,7 +14,7 @@ public class AcceptPlanRequestParticipantRemovedHandler : IEventHandler<AcceptPl
 
     public async Task HandleAsync(AcceptPlanRequestParticipantRemoved @event)
     {
-        var plan = await _planRepository.GetAsync(@event.planId);
+        var plan = await _planRepository.GetAsync(@event.PlanId);
 
         plan.ChangeStatusToDuringAcceptance();
         await _planRepository.UpdateAsync(plan);

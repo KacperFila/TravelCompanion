@@ -15,11 +15,11 @@ public class PointReceiptAddedHandler : IEventHandler<PointReceiptAdded>
 
     public async Task HandleAsync(PointReceiptAdded @event)
     {
-        var plan = await _planRepository.GetAsync(@event.planId);
+        var plan = await _planRepository.GetAsync(@event.PlanId);
 
         if (plan == null)
         {
-            throw new PlanNotFoundException(@event.planId);
+            throw new PlanNotFoundException(@event.PlanId);
         }
 
         plan.CalculateTotalCost();

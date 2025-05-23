@@ -3,7 +3,7 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.DTO;
 
-internal class TravelUpsertDTO
+internal class TravelUpsertDto
 {
     public Guid OwnerId { get; set; }
     public string Title { get; set; }

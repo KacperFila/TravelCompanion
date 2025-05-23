@@ -28,22 +28,22 @@ public sealed class AcceptPlanAcceptRequestHandler : ICommandHandler<AcceptPlanA
 
     public async Task HandleAsync(AcceptPlanAcceptRequest command)
     {
-        var request = await _planAcceptRequestRepository.GetByPlanAsync(command.travelPlanId);
+        var request = await _planAcceptRequestRepository.GetByPlanAsync(command.TravelPlanId);
 
         if (request is null)
         {
-            throw new AcceptPlanRequestForPlanNotFoundException(command.travelPlanId);
+            throw new AcceptPlanRequestForPlanNotFoundException(command.TravelPlanId);
         }
 
-        var planParticipants = await _planDomainService.CheckPlanParticipantsAsync(command.travelPlanId);
+        var planParticipants = await _planDomainService.CheckPlanParticipantsAsync(command.TravelPlanId);
 
         if (!planParticipants.Contains(_userId))
         {
-            throw new UserDoesNotParticipateInPlanException(_userId, command.travelPlanId);
+            throw new UserDoesNotParticipateInPlanException(_userId, command.TravelPlanId);
         }
 
         request.AddParticipantAcceptation(_userId);
         await _planAcceptRequestRepository.UpdateAsync(request);
-        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantAdded(_userId, command.travelPlanId));
+        await _messageBroker.PublishAsync(new AcceptPlanRequestParticipantAdded(_userId, command.TravelPlanId));
     }
 }

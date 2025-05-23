@@ -22,11 +22,11 @@ internal class AcceptTravelPointRemoveRequestHandler : ICommandHandler<AcceptTra
 
     public async Task HandleAsync(AcceptTravelPointRemoveRequest command)
     {
-        var request = await _travelPointRemoveRequestRepository.GetAsync(command.requestId);
+        var request = await _travelPointRemoveRequestRepository.GetAsync(command.RequestId);
 
         if (request is null)
         {
-            throw new TravelPointRemoveRequestNotFoundException(command.requestId);
+            throw new TravelPointRemoveRequestNotFoundException(command.RequestId);
         }
 
         var point = await _travelPointRepository.GetAsync(request.TravelPointId);

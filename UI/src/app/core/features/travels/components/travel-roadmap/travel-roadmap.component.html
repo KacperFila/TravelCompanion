@@ -1,0 +1,104 @@
+<div class="component-container">
+
+  <div class="roadmap-header">
+    <div class="active-plan-description">
+      <p class="active-plan-title">{{ this.travelPlan.title }}</p>
+      <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
+      <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
+    </div>
+
+    <div class="buttons-container">
+      <button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
+      <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
+      <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
+      <button (click)="isUserPlansModalOpen = true" >User plans</button>
+      <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
+      <button class="accept-button" (click)="isAcceptPlanModalOpen = true">Accept Plan</button>
+    </div>
+  </div>
+
+  <span class="roadmap">
+    <ng-container *ngIf="travelPlan?.travelPlanPoints?.length && travelPlan.travelPlanPoints.length > 0; else noPoints">
+      <ng-container *ngFor="let point of travelPlan.travelPlanPoints; let i = index; let last = last">
+        <div class="node-container">
+          <div class="node">
+            <app-travel-point
+              [travelPoint]="point"
+              [nodeNumber]="point.travelPlanOrderNumber"
+              [showLineAfter]="!last || travelPlan.travelPlanPoints.length === 1"
+              [showLineBefore]="i !== 0"
+              [updateRequests]="pointUpdateRequestsMap.get(point.id) || []"
+              (pointDeletedEvent)="deletePoint($event)"
+              (openEditRequestsModalEvent)="onShowEditRequests($event)"
+              (openEditPointModalEvent)="onShowEditPoint($event)"
+            ></app-travel-point>
+          </div>
+        </div>
+        <div class="line"></div>
+      </ng-container>
+    </ng-container>
+
+    <div class="node" (click)="isCreatePointModalOpen = true">
+      <span class="add-button">+</span>
+    </div>
+
+    <ng-template #noPoints>
+      <div class="no-points-message">
+        No travel points yet. Click button below to add the first one!
+      </div>
+    </ng-template>
+  </span>
+
+  <app-edit-request-modal
+    [updateRequests]="selectedUpdateRequests"
+    [isModalOpen]="isEditRequestsModalOpen"
+    (closeModalEvent)="isEditRequestsModalOpen = false">
+  </app-edit-request-modal>
+
+  <app-edit-point-modal
+    [pointToEdit]="pointToEdit"
+    [isModalOpen]="isEditPointModalOpen"
+    (closeModalEvent)="isEditPointModalOpen = false"
+    (editedPointEvent)="onEditedPoint($event)">
+  </app-edit-point-modal>
+
+  <app-create-travel-point-modal
+    [isModalOpen]="isCreatePointModalOpen"
+    (closeModalEvent)="isCreatePointModalOpen = false"
+    (createdPointEvent)="onTravelPointCreated($event)">
+  </app-create-travel-point-modal>
+
+  <app-manage-participants-modal
+    [isModalOpen]="isManageParticipantsModalOpen"
+    [planId]="this.travelPlan.id"
+    (closeModalEvent)="closeManageParticipantsModal()">
+  </app-manage-participants-modal>
+
+  <app-create-plan-modal
+    [isModalOpen]="isCreatePlanModalOpen"
+    (closeModalEvent)="closeCreatePlanModal()">
+  </app-create-plan-modal>
+
+  <app-change-active-plan-modal
+    [isModalOpen]="isChangeActiveModalOpen"
+    (closeModalEvent)="closeChangeActiveModal()">
+  </app-change-active-plan-modal>
+
+  <app-user-plans-modal
+    [isModalOpen]="isUserPlansModalOpen"
+    (closeModalEvent)="closeUserPlansModal()">
+  </app-user-plans-modal>
+
+  <app-user-invitations-modal
+    [invitations]="this.invitations"
+    [isModalOpen]="isUserInvitationsModalOpen"
+    (closeModalEvent)="closeUserInvitationsModal()">
+  </app-user-invitations-modal>
+
+  <app-accept-plan-modal
+    [isModalOpen]="isAcceptPlanModalOpen"
+    [planTitle]="this.travelPlan.title"
+    [planId]="this.travelPlan.id"
+    (closeModalEvent)="closeAcceptPlanModal()">
+  </app-accept-plan-modal>
+</div>

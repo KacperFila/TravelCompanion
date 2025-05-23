@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
-public record RemovePointReceipt(Guid receiptId) : ICommand;
+public record RemovePointReceipt(Guid ReceiptId) : ICommand;

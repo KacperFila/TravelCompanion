@@ -32,6 +32,9 @@ namespace TravelCompanion.Modules.Users.Core.DAL.Migrations
                     b.Property<Guid?>("ActivePlanId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ActiveTravelId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Claims")
                         .HasColumnType("text");
 

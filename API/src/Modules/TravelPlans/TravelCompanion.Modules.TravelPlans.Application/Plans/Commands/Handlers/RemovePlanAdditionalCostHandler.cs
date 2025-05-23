@@ -24,16 +24,16 @@ public sealed class RemovePlanAdditionalCostHandler : ICommandHandler<RemovePlan
 
     public async Task HandleAsync(RemovePlanAdditionalCost command)
     {
-        var receipt = await _receiptRepository.GetAsync(command.receiptId);
+        var receipt = await _receiptRepository.GetAsync(command.ReceiptId);
 
         if (receipt is null)
         {
-            throw new ReceiptNotFoundException(command.receiptId);
+            throw new ReceiptNotFoundException(command.ReceiptId);
         }
 
         if (receipt.PlanId is null)
         {
-            throw new ReceiptNotAssignedToPlanException(command.receiptId);
+            throw new ReceiptNotAssignedToPlanException(command.ReceiptId);
         }
 
         var plan = await _planRepository.GetAsync(receipt.PlanId);
@@ -53,7 +53,7 @@ public sealed class RemovePlanAdditionalCostHandler : ICommandHandler<RemovePlan
             throw new UserNotAllowedToChangePlanException(plan.Id);
         }
 
-        plan.RemoveAdditionalCost(command.receiptId);
+        plan.RemoveAdditionalCost(command.ReceiptId);
         await _planRepository.UpdateAsync(plan);
         await _receiptRepository.RemoveAsync(receipt);
     }

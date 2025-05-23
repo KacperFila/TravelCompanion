@@ -5,13 +5,13 @@ using TravelCompanion.Shared.Abstractions.Kernel.Types;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
-public class Plan_AddAdditionalCost_Tests
+public class PlanAddAdditionalCostTests
 {
     private void Act(Receipt receipt) => _plan.AddAdditionalCost(receipt);
 
-    private readonly AggregateId planId = new(Guid.NewGuid());
-    private readonly OwnerId ownerId = (Guid.NewGuid());
-    private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly AggregateId _planId = new(Guid.NewGuid());
+    private readonly OwnerId _ownerId = (Guid.NewGuid());
+    private readonly List<Guid> _receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
     private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
     {
@@ -22,7 +22,7 @@ public class Plan_AddAdditionalCost_Tests
     [Fact]
     public void given_receipt_addition_should_succeed()
     {
-        var receipt = GetReceipt(ownerId, planId, receiptParticipants);
+        var receipt = GetReceipt(_ownerId, _planId, _receiptParticipants);
 
         var exception = Record.Exception(() => Act(receipt));
 
@@ -33,7 +33,7 @@ public class Plan_AddAdditionalCost_Tests
     [Fact]
     public void given_receipt_planId_is_incorrect_addition_should_fail()
     {
-        var receipt = GetReceipt(ownerId, Guid.NewGuid(), receiptParticipants);
+        var receipt = GetReceipt(_ownerId, Guid.NewGuid(), _receiptParticipants);
 
         var exception = Record.Exception(() => Act(receipt));
 
@@ -42,11 +42,11 @@ public class Plan_AddAdditionalCost_Tests
     }
 
     private readonly Plan _plan;
-    public Plan_AddAdditionalCost_Tests()
+    public PlanAddAdditionalCostTests()
     {
         _plan = new Plan(
-            planId,
-            ownerId,
+            _planId,
+            _ownerId,
             "title",
             "desc",
             new DateOnly(2030, 3, 10),

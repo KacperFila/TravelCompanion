@@ -51,6 +51,7 @@ internal class UsersModuleApi : IUsersModuleApi
             Email = user.Email,
             UserName = user.Email.Split("@")[0],
             ActivePlanId = user.ActivePlanId,
+            ActiveTravelId = user.ActiveTravelId
         };
     }
 
@@ -63,6 +64,7 @@ internal class UsersModuleApi : IUsersModuleApi
             Email = x.Email,
             UserName = x.Email.Split("@")[0],
             ActivePlanId = x.ActivePlanId,
+            ActiveTravelId = x.ActiveTravelId
         });
 
         return userInfoDto.ToList();

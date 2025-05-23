@@ -20,11 +20,11 @@ internal sealed class RejectInvitationToTravelPlanHandler : ICommandHandler<Reje
 
     public async Task HandleAsync(RejectInvitation command)
     {
-        var invitation = await _invitationRepository.GetAsync(command.invitationId);
+        var invitation = await _invitationRepository.GetAsync(command.InvitationId);
 
         if (invitation is null)
         {
-            throw new InvitationNotFoundException(command.invitationId);
+            throw new InvitationNotFoundException(command.InvitationId);
         }
 
         if (_userId != invitation.InviteeId)
@@ -32,6 +32,6 @@ internal sealed class RejectInvitationToTravelPlanHandler : ICommandHandler<Reje
             throw new UserNotAllowedToManageInvitationException(_userId);
         }
 
-        await _invitationRepository.RemoveAsync(command.invitationId);
+        await _invitationRepository.RemoveAsync(command.InvitationId);
     }
 }

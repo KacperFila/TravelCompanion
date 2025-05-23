@@ -1,6 +1,6 @@
 ﻿namespace TravelCompanion.Modules.TravelPlans.Application.Plans.DTO;
 
-public class PlanDetailsDTO
+public class PlanDetailsDto
 {
     public Guid Id { get; set; }
     public Guid OwnerId { get; set; }

@@ -7,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -95,7 +94,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
 
         var planOwnerInfo =  await _usersModuleApi.GetUserInfo(plan.OwnerId);
 
-        var invitationResponse = new InvitationDTO()
+        var invitationResponse = new InvitationDto()
         {
             InvitationId = invitation.Id,
             PlanId = plan.Id,

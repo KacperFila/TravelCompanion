@@ -7,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Receipts;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -39,18 +38,18 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
 
     public async Task HandleAsync(RemoveTravelPoint command)
     {
-        var point = await _travelPointRepository.GetAsync(command.travelPointId);
+        var point = await _travelPointRepository.GetAsync(command.TravelPointId);
 
         if (point is null)
         {
-            throw new TravelPointNotFoundException(command.travelPointId);
+            throw new TravelPointNotFoundException(command.TravelPointId);
         }
 
         var plan = await _planRepository.GetAsync(point.PlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(command.travelPointId);
+            throw new PlanNotFoundException(command.TravelPointId);
         }
 
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
@@ -107,9 +106,9 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
                 NotificationSeverity.Information));
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO
+        return new PlanWithPointsDto
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -125,9 +124,9 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO
+        return new PointDto
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

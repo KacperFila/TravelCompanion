@@ -5,7 +5,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
-public class Plan_ChangeStatusToAccepted_Tests
+public class PlanChangeStatusToAcceptedTests
 {
     private void Act() => _plan.ChangeStatusToAccepted();
 
@@ -44,7 +44,7 @@ public class Plan_ChangeStatusToAccepted_Tests
 
 
     private readonly Plan _plan;
-    public Plan_ChangeStatusToAccepted_Tests()
+    public PlanChangeStatusToAcceptedTests()
     {
         _plan = new Plan(
             Guid.NewGuid(),

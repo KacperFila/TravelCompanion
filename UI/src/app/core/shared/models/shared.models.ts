@@ -17,3 +17,12 @@ export interface APIError {
   code: string;
   message: string;
 }
+
+export interface UserInfoDto
+{
+  userId: string,
+  userName: string,
+  email: string,
+  activePlanId: string
+}
+

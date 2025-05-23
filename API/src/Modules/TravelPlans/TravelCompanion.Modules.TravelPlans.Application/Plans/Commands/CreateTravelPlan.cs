@@ -2,6 +2,6 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Commands;
 
-public record CreateTravelPlan(string title, string? description,
-    DateOnly? from, DateOnly? to) : ICommand
+public record CreateTravelPlan(string Title, string? Description,
+    DateOnly? From, DateOnly? To) : ICommand
 { }

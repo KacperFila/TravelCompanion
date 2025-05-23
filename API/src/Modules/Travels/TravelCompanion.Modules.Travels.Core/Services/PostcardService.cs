@@ -6,7 +6,6 @@ using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -35,7 +34,7 @@ internal sealed class PostcardService : IPostcardService
         _userId = _context.Identity.Id;
     }
 
-    public async Task AddToTravelAsync(PostcardUpsertDTO postcard, Guid travelId)
+    public async Task AddToTravelAsync(PostcardUpsertDto postcard, Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
 
@@ -67,7 +66,7 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.AddAsync(item);
     }
 
-    public async Task<PostcardDetailsDTO> GetAsync(Guid postcardId)
+    public async Task<PostcardDetailsDto> GetAsync(Guid postcardId)
     {
         var postcard = await _postcardRepository.GetAsync(postcardId);
 
@@ -79,7 +78,7 @@ internal sealed class PostcardService : IPostcardService
         return AsPostcardDetailsDto(postcard);
     }
 
-    public async Task<IReadOnlyList<PostcardDetailsDTO>> GetAllByTravelIdAsync(Guid travelId)
+    public async Task<IReadOnlyList<PostcardDetailsDto>> GetAllByTravelIdAsync(Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
         if (travel is null)
@@ -127,7 +126,7 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.UpdateAsync(postcard);
     }
 
-    public async Task UpdateAsync(PostcardUpsertDTO postcard, Guid postcardId)
+    public async Task UpdateAsync(PostcardUpsertDto postcard, Guid postcardId)
     {
         var item = await _postcardRepository.GetAsync(postcardId);
 
@@ -174,9 +173,9 @@ internal sealed class PostcardService : IPostcardService
         await _postcardRepository.DeleteAsync(postcardId);
     }
 
-    private static PostcardDetailsDTO AsPostcardDetailsDto(Postcard postcard)
+    private static PostcardDetailsDto AsPostcardDetailsDto(Postcard postcard)
     {
-        return new PostcardDetailsDTO()
+        return new PostcardDetailsDto()
         {
             AddedById = postcard.AddedById,
             PostcardId = postcard.Id,

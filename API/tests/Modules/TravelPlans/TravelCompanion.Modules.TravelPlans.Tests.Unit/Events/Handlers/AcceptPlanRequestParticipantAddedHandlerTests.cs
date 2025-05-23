@@ -31,7 +31,7 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
     {
         var plan = GetPlan(_participantId);
         var @event = new AcceptPlanRequestParticipantAdded(_participantId, plan.Id);
-        _planRepository.GetAsync(@event.planId).Returns(plan);
+        _planRepository.GetAsync(@event.PlanId).Returns(plan);
 
         var exception = await Record.ExceptionAsync(() => Act(@event));
 
@@ -46,7 +46,7 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
         var @event = new AcceptPlanRequestParticipantAdded(_participantId, plan.Id);
         var request = GetPlanAcceptRequest(plan.Id, _participantId);
 
-        _planRepository.GetAsync(@event.planId).Returns(plan);
+        _planRepository.GetAsync(@event.PlanId).Returns(plan);
         _planAcceptRequestRepository.GetByPlanAsync(plan.Id).Returns(request);
 
         var exception = await Record.ExceptionAsync(() => Act(@event));
@@ -61,7 +61,7 @@ public class AcceptPlanRequestParticipantAddedHandlerTests
         var @event = new AcceptPlanRequestParticipantAdded(_participantId, plan.Id);
         var request = GetPlanAcceptRequest(plan.Id, _participantId);
 
-        _planRepository.GetAsync(@event.planId).Returns(plan);
+        _planRepository.GetAsync(@event.PlanId).Returns(plan);
         _planAcceptRequestRepository.GetByPlanAsync(plan.Id).Returns(request);
 
         var exception = await Record.ExceptionAsync(() => Act(@event));

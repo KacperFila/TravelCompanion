@@ -4,7 +4,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Plans;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
-public class Plan_ChangeTo_Tests
+public class PlanChangeToTests
 {
     private void Act(DateOnly to) => _plan.ChangeTo(to);
 
@@ -42,7 +42,7 @@ public class Plan_ChangeTo_Tests
     }
 
     private readonly Plan _plan;
-    public Plan_ChangeTo_Tests()
+    public PlanChangeToTests()
     {
         _plan = new Plan(
             Guid.NewGuid(),

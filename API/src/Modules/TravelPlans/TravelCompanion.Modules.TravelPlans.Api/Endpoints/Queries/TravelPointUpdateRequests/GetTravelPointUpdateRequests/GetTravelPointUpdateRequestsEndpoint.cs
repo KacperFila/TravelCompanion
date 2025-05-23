@@ -13,7 +13,7 @@ namespace TravelCompanion.Modules.TravelPlans.Api.Endpoints.Queries.TravelPointU
 [Route(TravelPlansEndpoint.BasePath)]
 internal sealed class GetTravelPointUpdateRequestsEndpoint : EndpointBaseAsync
     .WithRequest<GetTravelPointUpdateRequest>
-    .WithActionResult<List<UpdateRequestDTO>>
+    .WithActionResult<List<UpdateRequestDto>>
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -31,7 +31,7 @@ internal sealed class GetTravelPointUpdateRequestsEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ErrorsResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public override async Task<ActionResult<List<UpdateRequestDTO>>> HandleAsync([FromRoute] GetTravelPointUpdateRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<List<UpdateRequestDto>>> HandleAsync([FromRoute] GetTravelPointUpdateRequest request, CancellationToken cancellationToken = default)
     {
         var result = await _queryDispatcher.QueryAsync(request);
         return Ok(result);

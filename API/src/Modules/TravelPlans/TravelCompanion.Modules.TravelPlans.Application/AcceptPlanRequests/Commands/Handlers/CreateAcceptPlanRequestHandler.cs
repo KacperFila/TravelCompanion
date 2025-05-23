@@ -23,23 +23,23 @@ public class CreateAcceptPlanRequestHandler : ICommandHandler<CreateAcceptPlanRe
 
     public async Task HandleAsync(CreateAcceptPlanRequest command)
     {
-        var doesRequestExist = await _planAcceptRequestRepository.ExistsByPlanAsync(command.planId);
+        var doesRequestExist = await _planAcceptRequestRepository.ExistsByPlanAsync(command.PlanId);
 
         if (doesRequestExist)
         {
-            throw new CreateAcceptPlanRequestAlreadyExistsException(command.planId);
+            throw new CreateAcceptPlanRequestAlreadyExistsException(command.PlanId);
         }
 
-        var plan = await _planRepository.GetAsync(command.planId);
+        var plan = await _planRepository.GetAsync(command.PlanId);
 
         if (plan is null)
         {
-            throw new PlanNotFoundException(command.planId);
+            throw new PlanNotFoundException(command.PlanId);
         }
 
         if (plan.OwnerId != _userId)
         {
-            throw new UserNotAllowedToChangePlanException(command.planId);
+            throw new UserNotAllowedToChangePlanException(command.PlanId);
         }
 
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
@@ -47,7 +47,7 @@ public class CreateAcceptPlanRequestHandler : ICommandHandler<CreateAcceptPlanRe
             throw new PlanNotDuringPlanningException(plan.Id);
         }
 
-        var request = PlanAcceptRequest.Create(command.planId);
+        var request = PlanAcceptRequest.Create(command.PlanId);
         plan.ChangeStatusToDuringAcceptance();
         await _planAcceptRequestRepository.AddAsync(request);
     }

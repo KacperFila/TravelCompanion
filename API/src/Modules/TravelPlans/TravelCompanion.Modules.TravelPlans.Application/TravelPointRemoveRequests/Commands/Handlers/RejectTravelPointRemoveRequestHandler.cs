@@ -14,6 +14,6 @@ internal class RejectTravelPointRemoveRequestHandler : ICommandHandler<RejectTra
 
     public async Task HandleAsync(RejectTravelPointRemoveRequest command)
     {
-        await _travelPointDomainService.RemoveTravelPointRemoveRequest(command.requestId);
+        await _travelPointDomainService.RemoveTravelPointRemoveRequest(command.RequestId);
     }
 }

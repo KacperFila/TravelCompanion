@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.Payments.Application.TravelUserSummaries.Commands;
 
-public record GenerateTravelUserSummary(Guid userId, Guid travelId) : ICommand;
+public record GenerateTravelUserSummary(Guid UserId, Guid TravelId) : ICommand;

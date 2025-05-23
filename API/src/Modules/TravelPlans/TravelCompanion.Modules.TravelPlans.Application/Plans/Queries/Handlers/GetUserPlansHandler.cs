@@ -6,7 +6,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanWithPointsDTO>>
+public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanWithPointsDto>>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IContext _context;
@@ -19,7 +19,7 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanW
         _userId = _context.Identity.Id;
     }
 
-    public async Task<List<PlanWithPointsDTO>> HandleAsync(GetUserPlans query)
+    public async Task<List<PlanWithPointsDto>> HandleAsync(GetUserPlans query)
     {
         var plans = await _planRepository.BrowseForUserAsync(_userId);
         var dtos = plans.Select(AsPlanWithPointsDto).ToList();
@@ -27,9 +27,9 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanW
         return dtos;
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -45,9 +45,9 @@ public sealed class GetUserPlansHandler : IQueryHandler<GetUserPlans, List<PlanW
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

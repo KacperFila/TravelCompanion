@@ -19,11 +19,11 @@ public class GenerateTravelUserSummaryHandler : ICommandHandler<GenerateTravelUs
 
     public async Task HandleAsync(GenerateTravelUserSummary command)
     {
-        var travel = await _travelModuleApi.GetTravelInfo(command.travelId);
+        var travel = await _travelModuleApi.GetTravelInfo(command.TravelId);
 
         if (travel is null)
         {
-            throw new TravelNotFoundException(command.travelId);
+            throw new TravelNotFoundException(command.TravelId);
         }
 
         var userReceipts = travel.ParticipantsCosts

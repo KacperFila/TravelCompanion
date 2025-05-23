@@ -4,7 +4,7 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Plans;
 
-public class Plan_RemoveTravelPoint_Tests
+public class PlanRemoveTravelPointTests
 {
     private void Act(TravelPoint point) => _plan.RemoveTravelPoint(point);
 
@@ -43,7 +43,7 @@ public class Plan_RemoveTravelPoint_Tests
     }
 
     private readonly Plan _plan;
-    public Plan_RemoveTravelPoint_Tests()
+    public PlanRemoveTravelPointTests()
     {
         _plan = new Plan(
             Guid.NewGuid(),

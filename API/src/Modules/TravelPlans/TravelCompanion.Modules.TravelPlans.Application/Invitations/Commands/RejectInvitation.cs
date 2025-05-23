@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Invitations.Commands;
 
-public record RejectInvitation(Guid invitationId) : ICommand;
+public record RejectInvitation(Guid InvitationId) : ICommand;

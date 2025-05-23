@@ -19,20 +19,41 @@ internal class UserRepository : IUserRepository
         _users = dbContext.Users;
     }
 
-    public Task<User> GetAsync(Guid id) => _users.SingleOrDefaultAsync(x => x.Id == id);
+    public async Task<User> GetAsync(Guid id)
+    {
+        return await _users.SingleOrDefaultAsync(x => x.Id == id);
+    }
 
-    public Task<User> GetAsync(string email) => _users.SingleOrDefaultAsync(x => x.Email == email);
-    public async Task<User> GetByTokenAsync(string token) => await _users.SingleOrDefaultAsync(x => x.VerificationToken == token);
+    public async Task<User> GetAsync(string email)
+    {
+        return await _users.SingleOrDefaultAsync(x => x.Email == email);
+    } 
+
+    public async Task<User> GetByTokenAsync(string token)
+    {
+        return await _users.SingleOrDefaultAsync(x => x.VerificationToken == token);
+    }
+
     public async Task<List<Guid>> BrowseActiveIdsAsync()
-        => await _users
+    {
+        return await _users
             .Where(x => x.IsActive)
             .Select(x => x.Id)
             .ToListAsync();
+    }
 
-    public async Task<bool> ExistAsync(Guid id) => await _users.AnyAsync(x => x.Id == id);
+    public async Task<bool> ExistAsync(Guid id)
+    {
+        return await _users.AnyAsync(x => x.Id == id);
+    }
 
-    public async Task<List<string>> GetEmails(List<Guid> usersIds) =>
-        await _users.Where(x => usersIds.Contains(x.Id)).Select(x => x.Email).ToListAsync();
+    public async Task<List<string>> GetEmails(List<Guid> usersIds)
+    {
+        return await _users
+            .Where(x => usersIds.Contains(x.Id))
+            .Select(x => x.Email)
+            .ToListAsync();
+    }
 
     public async Task<string> GetEmail(Guid userId)
     {

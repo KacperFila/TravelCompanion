@@ -4,6 +4,7 @@ export class User {
     public id: string,
     public role: string,
     public activePlanId: string,
+    public activeTravelId: string,
     private _token: string,
     private _claims: { permissions: string[] },
     private expirationDate: Date

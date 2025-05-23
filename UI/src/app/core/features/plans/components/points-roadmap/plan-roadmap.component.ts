@@ -29,9 +29,9 @@ import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.co
 import {AcceptPlanModalComponent} from "../accept-plan-modal/accept-plan-modal.component";
 
 @Component({
-  selector: 'app-points-roadmap',
-  templateUrl: './points-roadmap.component.html',
-  styleUrls: ['./points-roadmap.component.css'],
+  selector: 'app-plan-roadmap',
+  templateUrl: './plan-roadmap.component.html',
+  styleUrls: ['./plan-roadmap.component.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -48,7 +48,7 @@ import {AcceptPlanModalComponent} from "../accept-plan-modal/accept-plan-modal.c
     AcceptPlanModalComponent
   ],
 })
-export class PointsRoadmapComponent implements OnInit, OnDestroy {
+export class PlanRoadmapComponent implements OnInit, OnDestroy {
   @Input() planUpdated = false;
   @Output() addNewPointEvent = new EventEmitter<void>();
   @Output() closeCreatePointModalEvent = new EventEmitter<void>();

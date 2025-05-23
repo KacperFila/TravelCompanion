@@ -9,7 +9,7 @@ using TravelCompanion.Shared.Abstractions.Queries;
 
 namespace TravelCompanion.Modules.TravelPlans.Application.Plans.Queries.Handlers;
 
-internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan, PlanWithPointsDTO>
+internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan, PlanWithPointsDto>
 {
     private readonly IPlanRepository _planRepository;
     private readonly IUsersModuleApi _usersModuleApi;
@@ -27,7 +27,7 @@ internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan
         _usersModuleApi = usersModuleApi;
     }
 
-    public async Task<PlanWithPointsDTO> HandleAsync(GetUserActivePlan query)
+    public async Task<PlanWithPointsDto> HandleAsync(GetUserActivePlan query)
     {
         var userInfo = await _usersModuleApi.GetUserInfo(_userId);
 
@@ -51,9 +51,9 @@ internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan
         return AsPlanWithPointsDto(plan);
     }
 
-    private static PlanWithPointsDTO AsPlanWithPointsDto(Plan plan)
+    private static PlanWithPointsDto AsPlanWithPointsDto(Plan plan)
     {
-        return new PlanWithPointsDTO()
+        return new PlanWithPointsDto()
         {
             Id = plan.Id,
             OwnerId = plan.OwnerId,
@@ -69,9 +69,9 @@ internal sealed class GetUserActivePlanHandler : IQueryHandler<GetUserActivePlan
         };
     }
 
-    private static PointDTO AsPointDto(TravelPoint point)
+    private static PointDto AsPointDto(TravelPoint point)
     {
-        return new PointDTO()
+        return new PointDto()
         {
             Id = point.Id,
             PlaceName = point.PlaceName,

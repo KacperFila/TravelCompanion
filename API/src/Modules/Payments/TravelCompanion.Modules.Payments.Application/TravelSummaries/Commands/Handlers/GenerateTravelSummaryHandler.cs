@@ -20,7 +20,7 @@ public class GenerateTravelSummaryHandler : ICommandHandler<GenerateTravelSummar
 
     public async Task HandleAsync(GenerateTravelSummary command)
     {
-        var travelDto = await _travelsModuleApi.GetTravelInfo(command.travelId);
+        var travelDto = await _travelsModuleApi.GetTravelInfo(command.TravelId);
         var summary = GenerateTravelSummary(travelDto);
 
         await _travelSummaryRepository.AddTravelSummary(summary);

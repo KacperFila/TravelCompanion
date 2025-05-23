@@ -2,4 +2,4 @@
 
 namespace TravelCompanion.Modules.TravelPlans.Application.TravelPoints.Commands;
 
-public record AddPointReceipt(Guid pointId, decimal amount, List<Guid> receiptParticipants, string description) : ICommand;
+public record AddPointReceipt(Guid PointId, decimal Amount, List<Guid> ReceiptParticipants, string Description) : ICommand;

@@ -3,7 +3,7 @@ using TravelCompanion.Modules.Travels.Core.DTO;
 
 namespace TravelCompanion.Modules.Travels.Core.Validators;
 
-internal sealed class TravelDtoValidator : AbstractValidator<TravelUpsertDTO>
+internal sealed class TravelDtoValidator : AbstractValidator<TravelUpsertDto>
 {
     public TravelDtoValidator()
     {

@@ -5,13 +5,13 @@ using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.TravelPlans.Tests.Unit.Entities.Points;
 
-public class Point_AddReceipt_Tests
+public class PointAddReceiptTests
 {
     private void Act(Receipt receipt) => _point.AddReceipt(receipt);
 
-    private readonly Guid planId = Guid.NewGuid();
-    private readonly Guid ownerId = Guid.NewGuid();
-    private readonly List<Guid> receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
+    private readonly Guid _planId = Guid.NewGuid();
+    private readonly Guid _ownerId = Guid.NewGuid();
+    private readonly List<Guid> _receiptParticipants = Enumerable.Range(0, 5).Select(_ => Guid.NewGuid()).ToList();
 
     private static Receipt GetReceipt(OwnerId ownerId, AggregateId planId, List<Guid> receiptParticipants)
     {
@@ -22,7 +22,7 @@ public class Point_AddReceipt_Tests
     [Fact]
     public void given_receipt_is_valid_addition_should_succeed()
     {
-        var receipt = GetReceipt(ownerId, planId, receiptParticipants);
+        var receipt = GetReceipt(_ownerId, _planId, _receiptParticipants);
         var exception = Record.Exception(() => Act(receipt));
 
         exception.ShouldBeNull();
@@ -30,7 +30,7 @@ public class Point_AddReceipt_Tests
     }
 
     private readonly TravelPoint _point;
-    public Point_AddReceipt_Tests()
+    public PointAddReceiptTests()
     {
         _point = TravelPoint.Create(
             Guid.NewGuid(),
