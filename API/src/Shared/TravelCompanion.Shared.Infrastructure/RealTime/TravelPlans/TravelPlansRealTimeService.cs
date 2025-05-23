@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
@@ -19,38 +20,38 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
         _connectionManager = connectionManager;
     }
 
-    public async Task SendActivePlanChanged(string userId, string planId)
+    public async Task SendActivePlanChanged(Guid userId, Guid planId)
     {
-        var connections = _connectionManager.GetConnections(userId);
+        var connections = _connectionManager.GetConnections(userId.ToString());
         foreach (var connectionId in connections)
         {
-            await _hubContext.Clients.Client(connectionId).ReceiveActivePlanChanged(planId);
+            await _hubContext.Clients.Client(connectionId).ReceiveActivePlanChanged(planId.ToString());
         }
     }
 
-    public async Task SendPlanInvitation(string inviteeId, object invitation)
+    public async Task SendPlanInvitation(Guid inviteeId, object invitation)
     {
-        var connections = _connectionManager.GetConnections(inviteeId);
+        var connections = _connectionManager.GetConnections(inviteeId.ToString());
         foreach (var connectionId in connections)
         {
             await _hubContext.Clients.Client(connectionId).ReceivePlanInvitation(invitation);
         }
     }
 
-    public async Task SendPlanInvitationRemoved(string inviteeId, object payload)
+    public async Task SendPlanInvitationRemoved(Guid inviteeId, object payload)
     {
-        var connections = _connectionManager.GetConnections(inviteeId);
+        var connections = _connectionManager.GetConnections(inviteeId.ToString());
         foreach (var connectionId in connections)
         {
             await _hubContext.Clients.Client(connectionId).ReceivePlanInvitationRemoved(payload);
         }
     }
 
-    public async Task SendPlanUpdate(List<string> participantUserIds, object plan)
+    public async Task SendPlanUpdate(List<Guid> participantUserIds, object plan)
     {
         foreach (var userId in participantUserIds)
         {
-            var connections = _connectionManager.GetConnections(userId);
+            var connections = _connectionManager.GetConnections(userId.ToString());
             foreach (var connectionId in connections)
             {
                 await _hubContext.Clients.Client(connectionId).ReceivePlanUpdate(plan);
@@ -58,11 +59,11 @@ internal class TravelPlansRealTimeService : ITravelPlansRealTimeService
         }
     }
 
-    public async Task SendPointUpdateRequestUpdate(List<string> participantUserIds, object payload)
+    public async Task SendPointUpdateRequestUpdate(List<Guid> participantUserIds, object payload)
     {
         foreach (var userId in participantUserIds)
         {
-            var connections = _connectionManager.GetConnections(userId);
+            var connections = _connectionManager.GetConnections(userId.ToString());
             foreach (var connectionId in connections)
             {
                 await _hubContext.Clients.Client(connectionId).ReceiveTravelPointUpdateRequestUpdate(payload);

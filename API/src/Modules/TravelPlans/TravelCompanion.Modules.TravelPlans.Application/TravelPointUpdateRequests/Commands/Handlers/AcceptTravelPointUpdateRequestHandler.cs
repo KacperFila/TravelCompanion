@@ -61,7 +61,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
         {
             await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Accept request",
                     "Plan is not during planning.",
@@ -74,7 +74,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         if (plan.OwnerId != _userId)
         {
             await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Accept request",
                     "You are not the owner of the plan. You cannot accept this request.",
@@ -91,7 +91,6 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
 
         var participants = plan.Participants
             .Select(x => x.ParticipantId)
-            .Select(x => x.ToString())
             .ToList();
 
         var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(point.Id);
@@ -108,7 +107,7 @@ internal class AcceptTravelPointUpdateRequestHandler : ICommandHandler<AcceptTra
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
 
         await _notificationService.SendToAsync(
-            _context.Identity.Id.ToString(),
+            _context.Identity.Id,
             NotificationMessage.Create(
                 "Update request",
                 "Travel Point updated!",

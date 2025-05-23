@@ -15,7 +15,7 @@
     </div>
     <div class="notification-body">{{ notification.message }}</div>
     <div class="notification-footer">
-      <small>From: {{ notification.sentFrom || 'Unknown' }}</small>
+      <small *ngIf="notification.sentFrom">From: {{ notification.sentFrom }}</small>
       <small>Sent at: {{ notification.sentAt | date: 'dd-MM-yyyy HH:mm' }}</small>
     </div>
   </div>

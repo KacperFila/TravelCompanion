@@ -56,7 +56,6 @@ public sealed class CreateTravelPointHandler : ICommandHandler<CreateTravelPoint
 
         var participants = plan.Participants
                     .Select(x => x.ParticipantId)
-                    .Select(x => x.ToString())
                     .ToList();
 
         var planDto = AsPlanWithPointsDto(plan);

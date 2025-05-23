@@ -61,7 +61,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         if (doesInvitationAlreadyExist)
         {
             await _notificationService.SendToAsync(
-            _userId.ToString(),
+            _userId,
             NotificationMessage.Create(
                 "Invitation",
                 $"You have already invited given user!",
@@ -75,7 +75,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
         if (plan.Participants.Select(x => x.ParticipantId).Contains(command.InviteeId))
         {
             await _notificationService.SendToAsync(
-            _userId.ToString(),
+            _userId,
             NotificationMessage.Create(
                 "Invitation",
                 $"User already participates in this plan!",
@@ -104,10 +104,10 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             InvitationDate = DateTime.UtcNow
         };
 
-        await _travelPlansRealTimeService.SendPlanInvitation(command.InviteeId.ToString(), invitationResponse);
+        await _travelPlansRealTimeService.SendPlanInvitation(command.InviteeId, invitationResponse);
 
         await _notificationService.SendToAsync(
-            command.InviteeId.ToString(),
+            command.InviteeId,
             NotificationMessage.Create(
                 "Invitation",
                 $"You have been invited to plan: \"{plan.Title}\"",
@@ -115,7 +115,7 @@ internal sealed class InviteToTravelPlanHandler : ICommandHandler<InviteToTravel
             NotificationSeverity.Alert));
 
         await _notificationService.SendToAsync(
-            _userId.ToString(),
+            _userId,
             NotificationMessage.Create(
                 "Invitation",
                 $"Invitation has been sent!",

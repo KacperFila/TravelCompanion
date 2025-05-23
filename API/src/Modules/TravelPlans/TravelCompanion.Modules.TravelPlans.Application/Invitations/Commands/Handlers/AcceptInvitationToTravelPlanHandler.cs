@@ -49,12 +49,19 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
     {
         var invitation = await _invitationRepository.GetAsync(command.invitationId);
 
-        var inviteeId = invitation.InviteeId;
-
         if (invitation is null)
         {
+            await _notificationService.SendToAsync(
+                _userId,
+                NotificationMessage.Create(
+                    "Plan not found",
+                    "Plan has been already accepted or not found!",
+                    NotificationSeverity.Error));
+            
             throw new InvitationNotFoundException(command.invitationId);
         }
+        
+        var inviteeId = invitation.InviteeId;
 
         if (_userId != inviteeId)
         {
@@ -83,7 +90,7 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
 
         var invitee = await _usersModuleApi.GetUserInfo(inviteeId);
 
-        await _notificationService.SendToAsync(plan.OwnerId.ToString(),
+        await _notificationService.SendToAsync(plan.OwnerId,
             NotificationMessage.Create(
                 "Invitation accepted",
                 $"\"{invitee.UserName}\" accepted your invitation!",
@@ -95,6 +102,6 @@ internal sealed class AcceptInvitationToTravelPlanHandler : ICommandHandler<Acce
             InvitationId = command.invitationId,
         };
 
-        await _travelPlansRealTimeService.SendPlanInvitationRemoved(inviteeId.ToString(), invitationRemovedResponse);
+        await _travelPlansRealTimeService.SendPlanInvitationRemoved(inviteeId, invitationRemovedResponse);
     }
 }

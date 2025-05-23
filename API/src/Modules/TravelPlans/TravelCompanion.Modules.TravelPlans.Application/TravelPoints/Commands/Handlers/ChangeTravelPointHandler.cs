@@ -7,7 +7,6 @@ using TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.Points;
 using TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 using TravelCompanion.Shared.Abstractions.Commands;
 using TravelCompanion.Shared.Abstractions.Contexts;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 
@@ -62,7 +61,6 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         {
             throw new PlanNotDuringPlanningException(plan.Id);
         }
-
         
         var request = TravelPointUpdateRequest.Create(command.pointId, plan.Id, _userId, command.placeName);
 
@@ -74,7 +72,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
             .ToList();
 
         var participants = plan.Participants
-            .Select(x => x.ParticipantId.ToString())
+            .Select(x => x.ParticipantId)
             .ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
@@ -89,7 +87,7 @@ public class ChangeTravelPointHandler : ICommandHandler<ChangeTravelPoint>
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
 
         await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Travel point",
                     "Update request created!",

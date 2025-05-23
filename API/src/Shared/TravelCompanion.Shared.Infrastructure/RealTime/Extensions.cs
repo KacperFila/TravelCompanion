@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
 using TravelCompanion.Shared.Infrastructure.RealTime.Notifications;
 using TravelCompanion.Shared.Infrastructure.RealTime.Notifications.Hubs;

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NotificationMessage } from "../models/shared.models";
 import { NotificationService } from "../services/notification.service";
-import { DatePipe, NgClass, NgForOf } from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-notification',
@@ -11,7 +11,8 @@ import { DatePipe, NgClass, NgForOf } from "@angular/common";
   imports: [
     NgClass,
     DatePipe,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   standalone: true,
 })

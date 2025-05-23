@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { ItemListComponent } from '../../../../shared/item-list/item-list.components';
 import { CommonModule } from '@angular/common';
-import {PlanInvitationResponse} from "../../services/plans/plans-signalR-responses.models";
-import {PlansService} from "../../services/plans/plans.service";
+import { PlanInvitationResponse } from "../../services/plans/plans-signalR-responses.models";
+import { PlansService } from "../../services/plans/plans.service";
 
 @Component({
   selector: 'app-user-invitations-modal',
@@ -30,6 +30,7 @@ export class UserInvitationsModalComponent {
       .acceptPlanInvitation(invitation.invitationId)
       .subscribe(() => {
     });
+    this.closeModal();
   }
 
   rejectInvitation(invitation: PlanInvitationResponse) {
@@ -37,5 +38,6 @@ export class UserInvitationsModalComponent {
       .rejectPlanInvitation(invitation.invitationId)
       .subscribe(() => {
     });
+    this.closeModal();
   }
 }

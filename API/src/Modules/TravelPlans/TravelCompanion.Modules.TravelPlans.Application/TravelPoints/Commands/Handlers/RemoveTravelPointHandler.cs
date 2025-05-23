@@ -66,7 +66,7 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
         if (plan.OwnerId != _userId)
         {
             await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Travel point",
                     "You are not allowed to remove this travel point!",
@@ -89,7 +89,10 @@ public class RemoveTravelPointHandler : ICommandHandler<RemoveTravelPoint>
             pointToRecalculate.DecreaseTravelPlanOrderNumber();
         }
 
-        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
+        var participants = plan.Participants
+            .Select(x => x.ParticipantId)
+            .ToList();
+        
         var planDto = AsPlanWithPointsDto(plan);
 
         await _planRepository.UpdateAsync(plan);

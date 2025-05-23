@@ -4,9 +4,9 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Exceptions.External;
 
 public class UserNotOwnerOfPlanException : TravelCompanionException
 {
-    public Guid Id { get; set; }
-    public UserNotOwnerOfPlanException(Guid id) : base($"User with Id: {id} is not owner of given plan.")
+    public Guid UserId { get; set; }
+    public UserNotOwnerOfPlanException(Guid userId) : base($"User with Id: {userId} is not owner of given plan.")
     {
-        Id = id;
+        this.UserId = userId;
     }
 }

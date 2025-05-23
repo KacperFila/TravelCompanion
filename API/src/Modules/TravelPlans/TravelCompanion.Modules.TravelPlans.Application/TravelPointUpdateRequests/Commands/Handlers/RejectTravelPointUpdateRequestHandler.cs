@@ -67,7 +67,7 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         if (plan.OwnerId != _userId)
         {
             await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Reject request",
                     "You are not the owner of the plan. You cannot reject this request.",
@@ -79,7 +79,7 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         if (plan.PlanStatus != PlanStatus.DuringPlanning)
         {
             await _notificationService.SendToAsync(
-                _context.Identity.Id.ToString(),
+                _context.Identity.Id,
                 NotificationMessage.Create(
                     "Reject request",
                     "Plan is not during planning.",
@@ -91,7 +91,9 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
         await _travelPointUpdateRequestRepository.RemoveAsync(request);
 
         var updateRequests = await _travelPointUpdateRequestRepository.GetUpdateRequestsForPointAsync(pointId);
-        var participants = plan.Participants.Select(x => x.ParticipantId.ToString()).ToList();
+        var participants = plan.Participants
+            .Select(x => x.ParticipantId)
+            .ToList();
 
         var updateRequestResponse = new UpdateRequestUpdateResponse
         {
@@ -101,7 +103,7 @@ public class RejectTravelPointUpdateRequestHandler : ICommandHandler<RejectTrave
 
         await _travelPlansRealTimeService.SendPointUpdateRequestUpdate(participants, updateRequestResponse);
         await _notificationService.SendToAsync(
-            _context.Identity.Id.ToString(),
+            _context.Identity.Id,
             NotificationMessage.Create(
                 "Update request",
                 "Update request removed!",

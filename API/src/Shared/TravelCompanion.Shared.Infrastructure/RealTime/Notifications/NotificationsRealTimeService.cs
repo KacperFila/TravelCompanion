@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelCompanion.Shared.Infrastructure.RealTime.Notifications.Hubs;
 
 namespace TravelCompanion.Shared.Infrastructure.RealTime.Notifications;
@@ -18,10 +20,10 @@ internal class NotificationsRealTimeService : INotificationRealTimeService
         _connectionManager = connectionManager;
     }
 
-    public async Task SendToAsync(string userId, INotificationMessage notification)
+    public async Task SendToAsync(Guid userId, INotificationMessage notification)
     {
         var connections = _connectionManager
-            .GetConnections(userId)
+            .GetConnections(userId.ToString())
             .Distinct();
 
         foreach (var connectionId in connections)
@@ -31,13 +33,13 @@ internal class NotificationsRealTimeService : INotificationRealTimeService
         }
     }
 
-    public async Task SendToGroup(List<string> usersIds, INotificationMessage notification)
+    public async Task SendToGroup(List<Guid> usersIds, INotificationMessage notification)
     {
         var sentConnections = new HashSet<string>();
 
         foreach (var userId in usersIds)
         {
-            var connections = _connectionManager.GetConnections(userId);
+            var connections = _connectionManager.GetConnections(userId.ToString());
 
             foreach (var connectionId in connections)
             {

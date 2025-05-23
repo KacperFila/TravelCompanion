@@ -22,6 +22,6 @@ internal sealed class PlanCreatedHandler : IEventHandler<PlanCreated>
         user.SetActivePlan(@event.planId);
         await _userRepository.UpdateAsync(user);
 
-        await _travelPlansRealTimeService.SendActivePlanChanged(@event.ownerId.ToString(), @event.planId.ToString());
+        await _travelPlansRealTimeService.SendActivePlanChanged(@event.ownerId, @event.planId);
     }
 }

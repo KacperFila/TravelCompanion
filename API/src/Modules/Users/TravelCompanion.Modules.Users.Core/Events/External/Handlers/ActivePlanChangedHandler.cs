@@ -1,5 +1,4 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TravelCompanion.Modules.Users.Core.Repositories;
 using TravelCompanion.Shared.Abstractions.Events;
 using TravelCompanion.Shared.Abstractions.RealTime.TravelPlans;
@@ -23,6 +22,6 @@ internal sealed class ActivePlanChangedHandler : IEventHandler<ActivePlanChanged
         user.SetActivePlan(@event.planId);
         await _userRepository.UpdateAsync(user);
 
-        await _travelPlansRealTimeService.SendActivePlanChanged(@event.userId.ToString(), @event.planId.ToString());
+        await _travelPlansRealTimeService.SendActivePlanChanged(@event.userId, @event.planId);
     }
 }
