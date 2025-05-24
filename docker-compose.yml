@@ -41,6 +41,27 @@ services:
     networks:
       - travelcompanion-network
 
+  travelcompanion-pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      PGADMIN_LOG_LEVEL: ERROR
+    volumes:
+      - ./API/configurations/pgadmin/servers.json:/var/lib/pgadmin/servers.json:ro
+      - ./API/configurations/pgadmin/pgpass:/pgpass:ro
+      - ./API/configurations/pgadmin/config_local.py:/pgadmin4/config_local.py:ro
+    entrypoint: /entrypoint.sh
+    ports:
+      - "5050:80"
+    depends_on:
+      - travelcompanion-postgres
+    networks:
+      - travelcompanion-network
+
   travelcompanion-ui:
     build:
       context: ./UI
