@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using TravelCompanion.Modules.Users.Core.DTO;
 using TravelCompanion.Modules.Users.Core.Entities;
 using TravelCompanion.Modules.Users.Core.Exceptions;
@@ -25,9 +26,10 @@ namespace TravelCompanion.Modules.Users.Core.Services
         private readonly IClock _clock;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher,
-            IAuthManager authManager, IClock clock, IEmailSender emailSender, IHttpContextAccessor contextAccessor)
+            IAuthManager authManager, IClock clock, IEmailSender emailSender, IHttpContextAccessor contextAccessor, ILogger<IdentityService> logger)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
@@ -35,12 +37,12 @@ namespace TravelCompanion.Modules.Users.Core.Services
             _clock = clock;
             _emailSender = emailSender;
             _contextAccessor = contextAccessor;
+            _logger = logger;
         }
 
         public async Task<AccountDto> GetAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
-
             return user is null
                 ? null
                 : new AccountDto
@@ -58,6 +60,8 @@ namespace TravelCompanion.Modules.Users.Core.Services
 
         public async Task<JsonWebToken> SignInAsync(SignInDto dto)
         {
+            _logger.LogInformation("Signing in...");
+            
             if (dto.Email is null || dto.Password is null)
             {
                 throw new InvalidCredentialsException();

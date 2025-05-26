@@ -1,3 +1,5 @@
+using Serilog;
+
 namespace TravelCompanion.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,7 +53,7 @@ public class Startup
             module.Use(app);
         }
 
-        logger.LogInformation($"Modules: {string.Join(", ", _modules.Select(x => x.Name))}");
+        Log.Information($"Modules: {string.Join(", ", _modules.Select(x => x.Name))}");
 
         _assemblies.Clear();
         _modules.Clear();

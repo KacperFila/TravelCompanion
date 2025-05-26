@@ -16,6 +16,7 @@ services:
       - ASPNETCORE_URLS=http://+:5000
       - postgres__connectionString=Host=travelcompanion-postgres;Database=travelCompanion;Username=postgres;Password=postgres
       - postgres__hangfireConnectionString=Host=travelcompanion-postgres;Database=travelCompanionHangfire;Username=postgres;Password=postgres
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
     ports:
       - "5000:5000"
       - "5005:5005"
@@ -53,7 +54,6 @@ services:
     volumes:
       - ./API/configurations/pgadmin/servers.json:/var/lib/pgadmin/servers.json:ro
       - ./API/configurations/pgadmin/pgpass:/pgpass:ro
-      - ./API/configurations/pgadmin/config_local.py:/pgadmin4/config_local.py:ro
     entrypoint: /entrypoint.sh
     ports:
       - "5050:80"
@@ -75,6 +75,44 @@ services:
       - NODE_ENV=development
     depends_on:
       - travelcompanion.bootstrapper
+    networks:
+      - travelcompanion-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    networks:
+      - travelcompanion-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.13.4
+    container_name: logstash
+    ports:
+      - "5010:5000"
+    volumes:
+      - ./API/configurations/logging/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+    networks:
+      - travelcompanion-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.4
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
     networks:
       - travelcompanion-network
 
