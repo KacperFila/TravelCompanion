@@ -17,13 +17,13 @@ import {
 import { PlansService } from '../../services/plans/plans.service';
 import { PlansSignalRService } from '../../services/plans/plans-signalR.service';
 import { PlanInvitationResponse } from '../../services/plans/plans-signalR-responses.models';
-import { TravelPointComponent } from '../travel-point/travel-point.component';
+import { PlanPointComponent } from '../plan-point/plan-point.component';
 import { ManageParticipantsModal } from '../manage-participants-modal/manage-participants-modal.component';
 import { ChangeActivePlanModal } from '../change-active-plan-modal/change-active-plan-modal.component';
 import { PlanCreationModal } from '../plan-creation-modal/plan-creation-modal.component';
 import { UserPlansModal } from '../user-plans-modal/user-plans-modal.component';
 import { UserInvitationsModalComponent } from '../user-invitations-modal/user-invitations-modal.component';
-import { CreateTravelPointModal } from '../create-travel-point-modal/create-travel-point-modal.component';
+import { CreatePlanPointModal } from '../create-plan-point-modal/create-plan-point-modal.component';
 import { EditRequestModalComponent } from '../edit-request-modal/edit-request-modal.component';
 import { EditPointModalComponent } from '../edit-point-modal/edit-point-modal.component';
 import {AcceptPlanModalComponent} from "../accept-plan-modal/accept-plan-modal.component";
@@ -36,13 +36,13 @@ import {AcceptPlanModalComponent} from "../accept-plan-modal/accept-plan-modal.c
   imports: [
     CommonModule,
     FormsModule,
-    TravelPointComponent,
+    PlanPointComponent,
     ManageParticipantsModal,
     ChangeActivePlanModal,
     PlanCreationModal,
     UserPlansModal,
     UserInvitationsModalComponent,
-    CreateTravelPointModal,
+    CreatePlanPointModal,
     EditRequestModalComponent,
     EditPointModalComponent,
     AcceptPlanModalComponent

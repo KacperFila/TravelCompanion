@@ -6,6 +6,7 @@ using TravelCompanion.Modules.Travels.Core.Events;
 using TravelCompanion.Modules.Travels.Core.Exceptions;
 using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
+using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
@@ -20,14 +21,16 @@ internal class TravelService : ITravelService
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly IMessageBroker _messageBroker;
+    private readonly IUsersModuleApi _usersModuleApi;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
         _context = context;
         _travelPointRepository = travelPointRepository;
         _messageBroker = messageBroker;
+        _usersModuleApi = usersModuleApi;
         _userId = _context.Identity.Id;
     }
 
@@ -35,6 +38,22 @@ internal class TravelService : ITravelService
     public async Task<TravelDetailsDto?> GetAsync(Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
+
+        return travel is not null 
+            ? AsTravelDetailsDto(travel)
+            : null;
+    }
+
+    public async Task<TravelDetailsDto?> GetActiveAsync()
+    {
+        var userInfo = await _usersModuleApi.GetUserInfo(_userId);
+
+        if (userInfo.ActiveTravelId is null)
+        {
+            throw new NoActiveTravelForUserException(_userId);
+        }
+        
+        var travel = await _travelRepository.GetAsync((Guid)userInfo.ActiveTravelId);
 
         return travel is not null 
             ? AsTravelDetailsDto(travel)
@@ -63,7 +82,7 @@ internal class TravelService : ITravelService
 
         var travel = await _travelRepository.GetAsync(travelId);
 
-        if (!travel!.ParticipantIds!.Any(x => x == _userId))
+        if (travel!.ParticipantIds!.All(x => x != _userId))
         {
             throw new UserDoesNotParticipateInTravelException(travelId);
         }

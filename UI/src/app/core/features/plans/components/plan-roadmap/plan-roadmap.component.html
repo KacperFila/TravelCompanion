@@ -22,7 +22,7 @@
       <ng-container *ngFor="let point of travelPlan.travelPlanPoints; let i = index; let last = last">
         <div class="node-container">
           <div class="node">
-            <app-travel-point
+            <app-plan-point
               [travelPoint]="point"
               [nodeNumber]="point.travelPlanOrderNumber"
               [showLineAfter]="!last || travelPlan.travelPlanPoints.length === 1"
@@ -31,7 +31,7 @@
               (pointDeletedEvent)="deletePoint($event)"
               (openEditRequestsModalEvent)="onShowEditRequests($event)"
               (openEditPointModalEvent)="onShowEditPoint($event)"
-            ></app-travel-point>
+            ></app-plan-point>
           </div>
         </div>
         <div class="line"></div>
@@ -62,11 +62,11 @@
     (editedPointEvent)="onEditedPoint($event)">
   </app-edit-point-modal>
 
-  <app-create-travel-point-modal
+  <app-create-plan-point-modal
     [isModalOpen]="isCreatePointModalOpen"
     (closeModalEvent)="isCreatePointModalOpen = false"
     (createdPointEvent)="onTravelPointCreated($event)">
-  </app-create-travel-point-modal>
+  </app-create-plan-point-modal>
 
   <app-manage-participants-modal
     [isModalOpen]="isManageParticipantsModalOpen"

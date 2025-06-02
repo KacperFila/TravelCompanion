@@ -8,12 +8,12 @@ export interface TravelDetailsDto {
   rating: number | null;
   additionalCostsValue: number | null;
   totalCostValue: number | null;
-  travelPlanPoints: TravelPointDto[];
+  travelPoints: TravelPointDto[];
 }
 
 export interface TravelPointDto {
   id: string;
   placeName: string;
   totalCost: number;
-  travelPlanOrderNumber: number;
+  travelOrderNumber: number;
 }

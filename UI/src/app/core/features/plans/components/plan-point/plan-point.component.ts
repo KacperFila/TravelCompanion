@@ -15,13 +15,13 @@ import {FormsModule} from '@angular/forms';
 import {PlansSignalRService} from "../../services/plans/plans-signalR.service";
 
 @Component({
-  selector: 'app-travel-point',
-  templateUrl: './travel-point.component.html',
-  styleUrls: ['./travel-point.component.css'],
+  selector: 'app-plan-point',
+  templateUrl: './plan-point.component.html',
+  styleUrls: ['./plan-point.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class TravelPointComponent implements OnInit,AfterViewInit, OnDestroy {
+export class PlanPointComponent implements OnInit,AfterViewInit, OnDestroy {
   constructor(private plansService: PlansService, private plansSignalRService: PlansSignalRService) { }
 
   @ViewChild('circle') circleElement!: ElementRef;

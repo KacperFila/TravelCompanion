@@ -5,6 +5,7 @@ namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 internal interface ITravelService
 {
     Task<TravelDetailsDto?> GetAsync(Guid travelId);
+    Task<TravelDetailsDto?> GetActiveAsync();
     Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
     Task ChangeActiveTravelAsync(Guid travelId);
     Task RateAsync(Guid travelId, int rating);

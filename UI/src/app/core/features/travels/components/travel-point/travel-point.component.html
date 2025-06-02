@@ -1,0 +1,24 @@
+<div class="point-container" [ngClass]="{ 'reversed': nodeNumber % 2 === 0 }">
+  <div class="placeholder-container"></div>
+
+  <div class="central-container">
+    <div *ngIf="showLineBefore" class="line"></div>
+    <div class="circle" #circle>{{ nodeNumber }}</div>
+    <div *ngIf="showLineAfter" class="line"></div>
+  </div>
+
+  <div class="content-container" [ngClass]="{ 'content-reversed': nodeNumber % 2 === 0 }">
+    <div class="point-background">
+      <div class="upper-part">
+        <span class="point-title">{{ travelPoint.placeName }}</span>
+        <span class="point-total-cost">Total cost: {{ travelPoint.totalCost }}</span>
+        <div class="lower-part">
+          <button>Edit</button>
+          <span class="edit-requests-button">
+          <button>Requests</button>
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,13 +5,13 @@ import { CommonModule } from '@angular/common';
 import {ModalComponent} from "../../../../shared/modal/modal.component";
 
 @Component({
-  selector: 'app-create-travel-point-modal',
-  templateUrl: './create-travel-point-modal.component.html',
-  styleUrls: ['./create-travel-point-modal.component.css'],
+  selector: 'app-create-plan-point-modal',
+  templateUrl: './create-plan-point-modal.component.html',
+  styleUrls: ['./create-plan-point-modal.component.css'],
   standalone: true,
   imports: [FormsModule, CommonModule, ModalComponent],
 })
-export class CreateTravelPointModal {
+export class CreatePlanPointModal {
 
   newTravelPoint: TravelPoint = {placeName: '', id: '', totalCost: 0, travelPlanOrderNumber: 0};
 

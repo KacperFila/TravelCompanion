@@ -1,0 +1,14 @@
+<div class="star-rating">
+  <div class="stars">
+  <ng-container *ngFor="let star of stars; let i = index">
+    <span
+      class="star"
+      [ngClass]="star"
+      (click)="rate(i)"
+    >
+      ★
+    </span>
+  </ng-container>
+</div>
+  <span>{{this.rating}} / {{this.max}}</span>
+</div>

@@ -13,8 +13,7 @@ export class PlansService {
     title: string,
     description: string | null,
     from: string | null,
-    to: string | null) : Observable<void>
-  {
+    to: string | null) : Observable<void> {
     const requestBody = { title, description, from, to };
 
     return this.http
@@ -79,8 +78,7 @@ export class PlansService {
       )
   }
 
-  getTravelPointEditRequests(pointId: string): Observable<TravelPointUpdateRequest[]>
-  {
+  getTravelPointEditRequests(pointId: string): Observable<TravelPointUpdateRequest[]> {
     return this.http
       .get<TravelPointUpdateRequest[]>(
         `${environment.apiBaseUrl}/travelplans-module/Point/${pointId}/UpdateRequests`)
@@ -109,24 +107,21 @@ export class PlansService {
     );
   }
 
-  acceptPlanInvitation(invitationId: string)
-  {
+  acceptPlanInvitation(invitationId: string) {
     return this.http
       .put(
         `${environment.apiBaseUrl}/travelplans-module/Invitation/${invitationId}/Acceptance`, null
       );
   }
 
-  rejectPlanInvitation(invitationId: string)
-  {
+  rejectPlanInvitation(invitationId: string) {
     return this.http
       .delete(
         `${environment.apiBaseUrl}/travelplans-module/Invitation/${invitationId}/Rejection`
       );
   }
 
-  getInvitationsForUser()
-  {
+  getInvitationsForUser() {
     return this.http.get<PlanInvitationResponse[]>(
       `${environment.apiBaseUrl}/travelplans-module/Invitation`
     );

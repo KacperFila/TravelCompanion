@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AuthService } from "../../../../auth/auth.service";
 import { User } from "../../../../auth/user.model";
 import {TravelDetailsDto} from "../../models/travel.models";
+import {TravelsService} from "./travels.service";
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,9 @@ export class TravelsSignalRService {
   travel$ = this.travelSubject.asObservable();
 
   private activeTravelChangedEvent = new Subject<void>();
-  activeTravelPlanChanged$ = this.activeTravelChangedEvent.asObservable();
+  activeTravelChanged$ = this.activeTravelChangedEvent.asObservable();
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private travelsService: TravelsService) {
     this.authService.user.subscribe((user) => {
       this.currentUser = user;
       if (user) {
@@ -91,10 +92,11 @@ export class TravelsSignalRService {
 
 
   initialFetchTravel(): void {
-    // this.plansService.getActivePlanWithPoints()
-    //   .subscribe((activeTravel) => {
-    //     this.travelSubject.next(activePlan);
-    //   });
+    this.travelsService.getActiveTravel()
+      .subscribe((activeTravel) => {
+        console.log("RECEIVED TRAVEL: ", activeTravel);
+        this.travelSubject.next(activeTravel);
+      });
   }
 
   stopConnection(): void {
