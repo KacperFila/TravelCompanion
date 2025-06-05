@@ -19,6 +19,7 @@ export class TravelRatingComponent implements OnInit, OnChanges {
   @Input() readonly: boolean = false;
   @Output() rated = new EventEmitter<number>();
 
+  hoverIndex: number = 0;
   stars: StarType[] = [];
   private rounded : number  = Math.round(this.rating * 2) / 2;
 
@@ -31,19 +32,20 @@ export class TravelRatingComponent implements OnInit, OnChanges {
   }
 
   generateStars() {
-    const rounded = Math.round(this.rating * 2) / 2;
+    this.rounded = Math.round(this.rating * 2) / 2;
     this.stars = [];
 
     for (let i = 1; i <= this.max; i++) {
-      if (rounded >= i) {
+      if (this.rounded >= i) {
         this.stars.push('full');
-      } else if (rounded >= i - 0.5) {
+      } else if (this.rounded >= i - 0.5) {
         this.stars.push('half');
       } else {
         this.stars.push('empty');
       }
     }
   }
+
 
   rate(index: number) {
     if (!this.readonly) {
@@ -63,5 +65,14 @@ export class TravelRatingComponent implements OnInit, OnChanges {
 
   isEmpty(index: number): boolean {
     return !this.isFull(index) && !this.isHalf(index);
+  }
+
+  setHover(index: number) {
+    this.hoverIndex = index;
+    console.log("Hovering: ", this.hoverIndex);
+  }
+
+  clearHover() {
+    this.hoverIndex = 0;
   }
 }

@@ -109,6 +109,27 @@ button:hover {
 .active-plan-description {
   display: flex;
   flex-direction: column;
+  flex: 1 1 300px;
+}
+
+.description-item {
+  margin: 0.25rem 0;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.description-item:first-child {
+  font-weight: 600;
+}
+
+.travel-rating {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0;
 }
 
 .component-container {
@@ -121,7 +142,7 @@ button:hover {
   display: flex;
 }
 
-.no-points-message{
+.no-points-message {
   padding: 5vh 0;
 }
 
@@ -131,4 +152,14 @@ button:hover {
 
 .roadmap-header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }

@@ -6,11 +6,20 @@
   user-select: none;
 }
 
+.stars-container {
+  display: flex;
+  gap: 4px;
+}
+
+.rating-value-container {
+  display: flex;
+  gap: 4px;
+}
+
 .star {
-  font-size: 24px;
-  color: #ccc;
-  display: inline-block;
-  position: relative;
+  font-size: 2rem;
+  color: lightgray;
+  cursor: pointer;
   transition: color 0.2s;
 }
 
@@ -19,12 +28,11 @@
 }
 
 .star.half {
-  background: linear-gradient(to right, gold 50%, #ccc 50%);
+  background: linear-gradient(to right, gold 50%, lightgray 50%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: gold;
 }
 
 .star.empty {
-  color: #ccc;
+  color: lightgray;
 }
