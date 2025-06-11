@@ -24,6 +24,7 @@ public sealed class Receipt : IAuditable
         Description = description;
         TravelId = travelId;
         TravelPointId = travelPointId;
+        ReceiptParticipants = new();
     }
 
     public static Receipt Create(Guid receiptOwnerId, Guid? travelId, Guid? travelPointId, Money amount, string description, List<Guid> receiptParticipants)
@@ -43,11 +44,6 @@ public sealed class Receipt : IAuditable
 
     public void AddReceiptOwner(Guid receiptOwnerId)
     {
-        if (!ReceiptParticipants.Contains(receiptOwnerId))
-        {
-            throw new ReceiptNotFoundException(Id);
-        }
-
         ReceiptOwnerId = receiptOwnerId;
     }
 

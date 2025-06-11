@@ -8,6 +8,7 @@ using TravelCompanion.Modules.Travels.Core.Policies.Abstractions;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Contexts;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
@@ -17,13 +18,14 @@ internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPointRepository _travelPointRepository;
+    private readonly IReceiptRepository _receiptRepository;
     private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
     private readonly Guid _userId;
     private readonly IMessageBroker _messageBroker;
     private readonly IUsersModuleApi _usersModuleApi;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi, IReceiptRepository receiptRepository)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
@@ -31,6 +33,7 @@ internal class TravelService : ITravelService
         _travelPointRepository = travelPointRepository;
         _messageBroker = messageBroker;
         _usersModuleApi = usersModuleApi;
+        _receiptRepository = receiptRepository;
         _userId = _context.Identity.Id;
     }
 
@@ -71,6 +74,27 @@ internal class TravelService : ITravelService
         return travelsDtos;
     }
 
+    public async Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description)
+    {
+        var travelPoint = await _travelPointRepository.GetAsync(travelPointId);
+        
+        if (travelPoint is null)
+        {
+            throw new TravelPointNotFoundException(travelPointId);
+        }
+
+        var receipt = Receipt.Create(
+            _userId,
+            travelId: null,
+            travelPoint.TravelPointId,
+            amount,
+            description ?? string.Empty,
+            participantsIds.ToList()
+        );
+
+        await _receiptRepository.AddAsync(receipt);
+    }
+    
     public async Task ChangeActiveTravelAsync(Guid travelId)
     {
         var travelExists = await _travelRepository.ExistAsync(travelId);

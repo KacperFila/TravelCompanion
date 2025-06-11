@@ -1,4 +1,5 @@
 ﻿using TravelCompanion.Modules.Travels.Core.DTO;
+using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 
 namespace TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
@@ -12,4 +13,5 @@ internal interface ITravelService
     Task VisitTravelPointAsync(Guid pointId);
     Task RemoveRatingAsync(Guid travelId);
     Task DeleteAsync(Guid travelId);
+    Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description);
 }

@@ -29,6 +29,7 @@ internal static class Extensions
         services.AddScoped<ITravelRepository, TravelRepository>();
         services.AddScoped<ITravelPointRepository, TravelPointRepository>();
         services.AddScoped<IPostcardRepository, PostcardRepository>();
+        services.AddScoped<IReceiptRepository, ReceiptRepository>();
 
         services.AddSingleton<ITravelPolicy, TravelPolicy>();
         services.AddSingleton<IPostcardPolicy, PostcardPolicy>();
