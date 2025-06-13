@@ -1,8 +1,8 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
-  Input, OnDestroy, OnInit,
+  ElementRef, EventEmitter,
+  Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -25,6 +25,8 @@ export class TravelPointComponent implements OnInit,AfterViewInit, OnDestroy {
   @Input() showLineBefore: boolean = false;
   @Input() showLineAfter: boolean = false;
 
+  @Output() openReceiptsModalEvent = new EventEmitter<string>();
+
   ngOnInit() {
   }
 
@@ -35,6 +37,10 @@ export class TravelPointComponent implements OnInit,AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.setCircleDimensions.bind(this));
+  }
+
+  protected openReceiptsModal($event: Event) {
+    this.openReceiptsModalEvent.emit(this.travelPoint.id);
   }
 
   private setCircleDimensions() {

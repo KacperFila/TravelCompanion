@@ -17,3 +17,12 @@ export interface TravelPointDto {
   totalCost: number;
   travelOrderNumber: number;
 }
+
+export interface Receipt {
+  id: string;
+  description: string;
+  amount: {
+    amount: number;
+    currency: string;
+  }
+}

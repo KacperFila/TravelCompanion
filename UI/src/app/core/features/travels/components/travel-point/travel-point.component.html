@@ -13,10 +13,9 @@
         <span class="point-title">{{ travelPoint.placeName }}</span>
         <span class="point-total-cost">Total cost: {{ travelPoint.totalCost }}</span>
         <div class="lower-part">
-          <button>Edit</button>
-          <span class="edit-requests-button">
-          <button>Requests</button>
-        </span>
+            <span class="edit-requests-button">
+              <button (click)="openReceiptsModal($event)">Receipts</button>
+            </span>
         </div>
       </div>
     </div>

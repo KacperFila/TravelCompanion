@@ -35,6 +35,7 @@
               [nodeNumber]=i+1
               [showLineAfter]="!last"
               [showLineBefore]="i !== 0"
+              (openReceiptsModalEvent)="openReceiptsModal($event)"
             ></app-travel-point>
           </div>
         </div>
@@ -48,4 +49,9 @@
       </div>
     </ng-template>
   </span>
+
+  <app-receipts-modal
+    [isModalOpen]="isReceiptsModalOpen"
+    (closeReceiptModal)="closeReceiptModal()">
+  </app-receipts-modal>
 </div>
