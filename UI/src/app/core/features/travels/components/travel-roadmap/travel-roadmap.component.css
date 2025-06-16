@@ -1,9 +1,89 @@
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.roadmap-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.left-container,
+.right-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.right-container {
+  align-items: flex-end;
+}
+
+.description-item {
+  margin: 0.25rem 0;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.description-item:first-child {
+  font-weight: 600;
+}
+
+.travel-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0;
+  width: 200px;
+}
+
+.travel-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.action-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 10px 15px;
+  width: 200px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover:not(:disabled) {
+  background-color: var(--primary-hover-color);
+}
+
+.action-button:disabled {
+  background-color: grey;
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .roadmap {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5vh 0;
-  gap: 0;
 }
 
 .node-container {
@@ -24,20 +104,6 @@
   cursor: pointer;
 }
 
-.circle {
-  width: 7vh;
-  height: 7vh;
-  border-radius: 50%;
-  background: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.info {
-  margin-left: 10px;
-}
-
 .line {
   width: 2px;
   height: 10vh;
@@ -54,37 +120,26 @@
   border-radius: 50%;
   font-family: var(--font-family), serif;
   font-size: 1.5rem;
-  background-color: #67AE6E;
+  background-color: #67ae6e;
   color: white;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.add-button:hover {
-  background-color: #328E6E;
+.add-button:hover:not(:disabled) {
+  background-color: #328e6e;
 }
 
-button {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: var(--primary-hover-color);
-  color: var(--secondary-color);
+.add-button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .accept-button {
   background-color: var(--accept-color);
 }
 
-.accept-button:hover {
+.accept-button:hover:not(:disabled) {
   background-color: var(--accept-color-hover);
 }
 
@@ -94,72 +149,12 @@ button:hover {
   gap: 10px;
 }
 
-.active-plan-title {
-  color: var(--header-background-color);
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-.active-plan-date {
-  color: var(--header-background-color);
-  font-size: 15px;
-}
-
-.active-plan-description {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 300px;
-}
-
-.description-item {
-  margin: 0.25rem 0;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
-.description-item:first-child {
-  font-weight: 600;
-}
-
-.travel-rating {
-  flex: 0 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 0;
-}
-
-.component-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.buttons-container {
-  display: flex;
-}
-
 .no-points-message {
   padding: 5vh 0;
+  text-align: center;
+  color: #999;
 }
 
 .roadmap-container {
   display: flex;
-}
-
-.roadmap-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 0.75rem;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }

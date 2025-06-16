@@ -10,6 +10,8 @@ using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
+using TravelCompanion.Shared.Abstractions.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -18,6 +20,7 @@ internal class TravelService : ITravelService
 {
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPointRepository _travelPointRepository;
+    private readonly INotificationRealTimeService  _notificationRealTimeService;
     private readonly IReceiptRepository _receiptRepository;
     private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
@@ -25,7 +28,7 @@ internal class TravelService : ITravelService
     private readonly IMessageBroker _messageBroker;
     private readonly IUsersModuleApi _usersModuleApi;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi, IReceiptRepository receiptRepository)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi, IReceiptRepository receiptRepository, INotificationRealTimeService notificationRealTimeService)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
@@ -34,6 +37,7 @@ internal class TravelService : ITravelService
         _messageBroker = messageBroker;
         _usersModuleApi = usersModuleApi;
         _receiptRepository = receiptRepository;
+        _notificationRealTimeService = notificationRealTimeService;
         _userId = _context.Identity.Id;
     }
 
@@ -94,7 +98,35 @@ internal class TravelService : ITravelService
 
         await _receiptRepository.AddAsync(receipt);
     }
-    
+
+    public async Task CompleteTravel(Guid travelId)
+    {
+        var travelExists = await _travelRepository.ExistAsync(travelId);
+
+        if (!travelExists)
+        {
+            throw new TravelNotFoundException(travelId);
+        }
+
+        var travel = await _travelRepository.GetAsync(travelId);
+
+        if (travel!.TravelPoints.Any(x => !x.IsVisited))
+        {
+            await _notificationRealTimeService.SendToAsync(_userId,
+                NotificationMessage.Create("Complete Travel", "Not all travel points has been accepted!",
+                    NotificationSeverity.Alert));
+            
+            throw new NotAllPointsAcceptedException(travel.Id);
+        }
+        
+        travel.IsFinished = true;
+        await _travelRepository.UpdateAsync(travel);
+        
+        await _messageBroker.PublishAsync(new TravelIsFinished(travel.Id));
+        await _notificationRealTimeService.SendToAsync(_userId,
+            NotificationMessage.Create("Complete Travel", "Travel has been completed!", NotificationSeverity.Information));
+    }
+
     public async Task ChangeActiveTravelAsync(Guid travelId)
     {
         var travelExists = await _travelRepository.ExistAsync(travelId);
@@ -179,6 +211,11 @@ internal class TravelService : ITravelService
             throw new TravelNotFoundException(point.TravelId);
         }
         
+        if (travel.IsFinished)
+        {
+            throw new TravelFinishedException(travel.Id);
+        }
+        
         if (travel.OwnerId != _userId)
         {
             throw new UserNotAllowedToChangeTravelPointException();
@@ -187,13 +224,44 @@ internal class TravelService : ITravelService
         point.VisitTravelPoint();
 
         await _travelPointRepository.UpdateAsync(point);
-
-        if (travel.TravelPoints.All(x => x.IsVisited))
-        {
-            await _messageBroker.PublishAsync(new TravelIsFinished(travel.Id));
-        }
     }
 
+    public async Task UnvisitTravelPointAsync(Guid pointId)
+    {
+        var point = await _travelPointRepository.GetAsync(pointId);
+
+        if (point is null)
+        {
+            throw new TravelPointNotFoundException(pointId);
+        }
+
+        if (!point.IsVisited)
+        {
+            throw new TravelPointNotVisitedException(pointId);
+        }
+
+        var travel = await _travelRepository.GetAsync(point.TravelId);
+
+        if (travel is null)
+        {
+            throw new TravelNotFoundException(point.TravelId);
+        }
+
+        if (travel.IsFinished)
+        {
+            throw new TravelFinishedException(travel.Id);
+        }
+        
+        if (travel.OwnerId != _userId)
+        {
+            throw new UserNotAllowedToChangeTravelPointException();
+        }
+
+        point.UnvisitTravelPoint();
+
+        await _travelPointRepository.UpdateAsync(point);
+    }
+    
     public async Task RemoveRatingAsync(Guid travelId)
     {
         var travel = await _travelRepository.GetAsync(travelId);
@@ -266,7 +334,8 @@ internal class TravelService : ITravelService
         {
             Id = point.TravelPointId,
             PlaceName = point.PlaceName,
-            TotalCost = point.TotalCost.Amount
+            TotalCost = point.TotalCost.Amount,
+            IsVisited = point.IsVisited
         };
     }
 }

@@ -4,16 +4,15 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TravelDetailsDto } from "../../models/travel.models";
-import {PlanPointComponent} from "../../../plans/components/plan-point/plan-point.component";
-import {Subscription} from "rxjs";
-import {TravelsSignalRService} from "../../services/plans/travels-signalR.service";
-import {TravelPointComponent} from "../travel-point/travel-point.component";
-import {TravelRatingComponent} from "../travel-rating/travel-rating/travel-rating.component";
-import {TravelsService} from "../../services/plans/travels.service";
+import { Subscription } from "rxjs";
+import { TravelsSignalRService } from "../../services/plans/travels-signalR.service";
+import { TravelPointComponent } from "../travel-point/travel-point.component";
+import { TravelRatingComponent } from "../travel-rating/travel-rating/travel-rating.component";
+import { TravelsService } from "../../services/plans/travels.service";
 import {
-    UserInvitationsModalComponent
-} from "../../../plans/components/user-invitations-modal/user-invitations-modal.component";
-import {ReceiptsModal} from "../receipts-modal/receipts-modal.component";
+  ChangeActivePlanModal
+} from "../../../plans/components/change-active-plan-modal/change-active-plan-modal.component";
+import {ChangeActiveTravelModal} from "../change-active-travel-modal/change-active-travel-modal.component";
 
 @Component({
   selector: 'app-travel-roadmap',
@@ -23,11 +22,10 @@ import {ReceiptsModal} from "../receipts-modal/receipts-modal.component";
   imports: [
     CommonModule,
     FormsModule,
-    PlanPointComponent,
     TravelPointComponent,
     TravelRatingComponent,
-    UserInvitationsModalComponent,
-    ReceiptsModal
+    ChangeActivePlanModal,
+    ChangeActiveTravelModal,
   ],
 })
 export class TravelRoadmapComponent implements OnInit, OnDestroy {
@@ -35,13 +33,12 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
 
   travel: TravelDetailsDto = {} as TravelDetailsDto;
   private travelSubscription!: Subscription;
-  isReceiptsModalOpen: boolean = false;
+  protected isChangeActiveTravelModalOpen: boolean = false;
 
   ngOnInit(): void {
     this.travelSubscription = this.travelsSignalRService.travel$.subscribe(
       (travel) =>
       {
-        console.log("Received travel: ", travel)
           this.onTravel(travel)
       }
     );
@@ -53,7 +50,6 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
 
   private onTravel(travel: TravelDetailsDto | null): void {
     if (travel) {
-      console.log("Currently active travel: ", travel);
       this.travel = travel;
     }
   }
@@ -62,11 +58,15 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
     this.travelsService.rateTravel(this.travel.id, rating).subscribe();
   }
 
-  protected openReceiptsModal(travelPointId: string) {
-    this.isReceiptsModalOpen = true;
+  protected completeTravel() {
+    this.travelsService.completeTravel(this.travel.id).subscribe();
   }
 
-  protected closeReceiptModal() {
-    this.isReceiptsModalOpen = false;
+  protected changeActiveTravel() {
+    this.isChangeActiveTravelModalOpen = true;
+  }
+
+  protected closeChangeActiveModal() {
+    this.isChangeActiveTravelModalOpen = false;
   }
 }

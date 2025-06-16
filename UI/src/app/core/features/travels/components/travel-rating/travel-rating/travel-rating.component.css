@@ -1,6 +1,7 @@
 .star-rating {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
   cursor: pointer;
   user-select: none;

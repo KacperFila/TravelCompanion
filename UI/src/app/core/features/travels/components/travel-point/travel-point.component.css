@@ -14,6 +14,14 @@ button:hover {
   background-color: var(--primary-hover-color);
 }
 
+button:disabled {
+  background-color: grey !important;
+  color: #ccc !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 .central-container {
   width: 10vh;
   display: flex;
@@ -75,6 +83,14 @@ button:hover {
   justify-content: space-between;
 }
 
+.visited {
+  background-color: var(--error-color);
+}
+
+.visited:hover {
+  background-color: var(--error-hover-color);
+}
+
 .point-container {
   display: flex;
   align-items: stretch;
@@ -96,7 +112,6 @@ button:hover {
   font-size: 1rem;
 }
 
-
 .upper-part {
   display: flex;
   flex-direction: column;
@@ -109,8 +124,14 @@ button:hover {
 }
 
 .edit-requests-button {
+  flex: 1;
   display: flex;
-  position: relative;
+}
+
+.edit-requests-button button {
+  padding: 0.5em;
+  box-sizing: border-box;
+  width: 100px;
 }
 
 .circle-indicator {

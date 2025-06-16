@@ -14,6 +14,19 @@ export class TravelsService {
     );
   }
 
+  getTravelsForUser(): Observable<TravelDetailsDto[]> {
+    return this.http.get<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/ForUser`
+    );
+  }
+
+  setActiveTravel(travelId: string): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/${travelId}/Active`,
+      null
+    )
+  }
+
   rateTravel(travelId: string, rating: number): Observable<any> {
     return this.http.put<any>(
       `${environment.apiBaseUrl}/travels-module/Travel/${travelId}/Rating`,
@@ -21,10 +34,24 @@ export class TravelsService {
     );
   }
 
-  getReceiptsForPoint(travelPointId: string): Observable<Receipt[]> {
+  markPointAsVisited(pointId: string): Observable<any> {
     return this.http.put<any>(
-      `${environment.apiBaseUrl}/travels-module/Travel/${travelId}/Rating`,
-      rating
-    );
+      `${environment.apiBaseUrl}/travels-module/Travel/Point/${pointId}/Visitation`,
+      null
+    )
+  }
+
+  markPointAsUnvisited(pointId: string): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/Point/${pointId}/Unvisitation`,
+      null
+    )
+  }
+
+  completeTravel(travelId: string): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/${travelId}/Complete`,
+      null
+    )
   }
 }

@@ -31,4 +31,9 @@ public class TravelPoint : IAuditable
     {
         IsVisited = true;
     }
+    
+    public void UnvisitTravelPoint()
+    {
+        IsVisited = false;
+    }
 }

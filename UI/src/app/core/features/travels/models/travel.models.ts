@@ -16,6 +16,7 @@ export interface TravelPointDto {
   placeName: string;
   totalCost: number;
   travelOrderNumber: number;
+  isVisited: boolean;
 }
 
 export interface Receipt {

@@ -1,41 +1,53 @@
 <div class="component-container">
   <div class="roadmap-header">
-    <div class="active-plan-description">
-      <p class="description-item">
-        Title: {{ travel?.title ? travel.title : "-" }}
-      </p>
-      <p class="description-item">
-        Description: {{ travel?.description ? travel.description : "-" }}
-      </p>
-      <p class="description-item">
-        From: {{ this.travel?.from ? travel.from : "-" }}
-      </p>
-      <p class="description-item">
-        To: {{ this.travel?.to ? travel.to : "-" }}
-      </p>
-      <p class="description-item">
-        Total cost value: {{ this.travel?.totalCostValue ? travel.totalCostValue : "-" }}
-      </p>
-      <p class="description-item">
-        Rating: {{ this.travel?.rating ? travel.rating : "-" }}
-      </p>
+    <div class="left-container">
+      <p class="description-item">Title: {{ travel?.title || '-' }}</p>
+      <p class="description-item">Description: {{ travel?.description || '-' }}</p>
+      <p class="description-item">From: {{ travel?.from || '-' }}</p>
+      <p class="description-item">To: {{ travel?.to || '-' }}</p>
+      <p class="description-item">Total cost value: {{ travel?.totalCostValue || '-' }}</p>
+      <p class="description-item">Rating: {{ travel?.rating || '-' }}</p>
     </div>
-    <div class="travel-rating">
-      <app-travel-rating [rating]="travel.rating ?? 0" (rated)="onRated($event)"></app-travel-rating>
+
+    <div class="right-container">
+      <div class="travel-rating">
+        <app-travel-rating
+          [rating]="travel?.rating ?? 0"
+          (rated)="onRated($event)"
+        ></app-travel-rating>
+      </div>
+
+      <div class="travel-actions">
+        <button
+          class="action-button"
+          [disabled]="travel?.isFinished"
+          (click)="completeTravel()"
+        >
+          Complete travel
+        </button>
+
+        <button
+          class="action-button"
+          (click)="changeActiveTravel()"
+        >
+          Change active travel
+        </button>
+      </div>
     </div>
+
   </div>
 
-  <span class="roadmap">
-    <ng-container *ngIf="travel?.travelPoints?.length && travel.travelPoints.length > 0; else noPoints">
+  <div class="roadmap">
+    <ng-container *ngIf="travel?.travelPoints && travel.travelPoints.length > 0; else noPoints">
       <ng-container *ngFor="let point of travel.travelPoints; let i = index; let last = last">
         <div class="node-container">
           <div class="node">
             <app-travel-point
-              [travelPoint]=point
-              [nodeNumber]=i+1
+              [travelPoint]="point"
+              [nodeNumber]="i + 1"
               [showLineAfter]="!last"
               [showLineBefore]="i !== 0"
-              (openReceiptsModalEvent)="openReceiptsModal($event)"
+              [isActive]="!this.travel.isFinished"
             ></app-travel-point>
           </div>
         </div>
@@ -44,14 +56,12 @@
     </ng-container>
 
     <ng-template #noPoints>
-      <div class="no-points-message">
-        Given travel does not contain points.
-      </div>
+      <div class="no-points-message">Given travel does not contain points.</div>
     </ng-template>
-  </span>
-
-  <app-receipts-modal
-    [isModalOpen]="isReceiptsModalOpen"
-    (closeReceiptModal)="closeReceiptModal()">
-  </app-receipts-modal>
+  </div>
 </div>
+
+<app-change-active-travel-modal
+  [isModalOpen]="isChangeActiveTravelModalOpen"
+  (closeModalEvent)="closeChangeActiveModal()">
+</app-change-active-travel-modal>

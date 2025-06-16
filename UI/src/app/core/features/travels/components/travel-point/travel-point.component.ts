@@ -8,6 +8,7 @@ import {
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {TravelPointDto} from "../../models/travel.models";
+import {TravelsService} from "../../services/plans/travels.service";
 
 @Component({
   selector: 'app-travel-point',
@@ -16,19 +17,20 @@ import {TravelPointDto} from "../../models/travel.models";
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class TravelPointComponent implements OnInit,AfterViewInit, OnDestroy {
+export class TravelPointComponent implements AfterViewInit, OnDestroy {
+
+  constructor(private travelsService: TravelsService) {
+  }
 
   @ViewChild('circle') circleElement!: ElementRef;
 
-  @Input() travelPoint: TravelPointDto = { id: '', placeName: '', totalCost: 0, travelOrderNumber: 0 }
+  @Input() travelPoint: TravelPointDto = {} as TravelPointDto;
   @Input() nodeNumber: number = 0;
   @Input() showLineBefore: boolean = false;
   @Input() showLineAfter: boolean = false;
+  @Input() isActive: boolean = false;
 
-  @Output() openReceiptsModalEvent = new EventEmitter<string>();
-
-  ngOnInit() {
-  }
+  @Output() openReceiptsModalEvent = new EventEmitter<{ id: string, title: string }>();
 
   ngAfterViewInit() {
     this.setCircleDimensions();
@@ -39,13 +41,22 @@ export class TravelPointComponent implements OnInit,AfterViewInit, OnDestroy {
     window.removeEventListener('resize', this.setCircleDimensions.bind(this));
   }
 
-  protected openReceiptsModal($event: Event) {
-    this.openReceiptsModalEvent.emit(this.travelPoint.id);
-  }
 
   private setCircleDimensions() {
     const circle = this.circleElement.nativeElement;
     const width = circle.offsetWidth;
     circle.style.height = `${width}px`;
+  }
+
+  protected markPointAsVisited()
+  {
+    this.travelsService.markPointAsVisited(this.travelPoint.id).subscribe();
+    this.travelPoint.isVisited = true;
+  }
+
+  protected markPointAsUnvisited()
+  {
+    this.travelsService.markPointAsUnvisited(this.travelPoint.id).subscribe();
+    this.travelPoint.isVisited = false;
   }
 }

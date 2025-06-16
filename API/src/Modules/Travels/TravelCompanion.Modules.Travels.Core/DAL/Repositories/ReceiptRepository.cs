@@ -20,4 +20,11 @@ internal class ReceiptRepository : IReceiptRepository
         await _receipts.AddAsync(receipt);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<Receipt>> BrowseForPointAsync(Guid pointId)
+    {
+        return await _receipts
+            .Where(x => x.TravelPointId == pointId)
+            .ToListAsync();
+    }
 }

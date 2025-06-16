@@ -58,10 +58,6 @@ export class TravelsSignalRService {
   }
 
   private setupListeners(): void {
-    // this.hubConnection.on("ReceivePlanInvitation", (newInvitation: PlanInvitationResponse) => {
-    //   const currentInvitations = this.invitationsSubject.value;
-    //   this.invitationsSubject.next([...currentInvitations, newInvitation]);
-    // });
 
     this.hubConnection.on("ReceiveActiveTravelChanged", (activeTravelId: string) => {
       if (this.currentUser) {
@@ -94,7 +90,6 @@ export class TravelsSignalRService {
   initialFetchTravel(): void {
     this.travelsService.getActiveTravel()
       .subscribe((activeTravel) => {
-        console.log("RECEIVED TRAVEL: ", activeTravel);
         this.travelSubject.next(activeTravel);
       });
   }

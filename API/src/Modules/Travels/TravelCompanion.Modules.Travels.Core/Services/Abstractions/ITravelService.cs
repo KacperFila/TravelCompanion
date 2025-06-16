@@ -11,7 +11,9 @@ internal interface ITravelService
     Task ChangeActiveTravelAsync(Guid travelId);
     Task RateAsync(Guid travelId, int rating);
     Task VisitTravelPointAsync(Guid pointId);
+    Task UnvisitTravelPointAsync(Guid pointId);
     Task RemoveRatingAsync(Guid travelId);
     Task DeleteAsync(Guid travelId);
     Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description);
+    Task CompleteTravel(Guid travelId);
 }

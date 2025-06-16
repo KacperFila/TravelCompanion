@@ -11,12 +11,29 @@
     <div class="point-background">
       <div class="upper-part">
         <span class="point-title">{{ travelPoint.placeName }}</span>
-        <span class="point-total-cost">Total cost: {{ travelPoint.totalCost }}</span>
-        <div class="lower-part">
-            <span class="edit-requests-button">
-              <button (click)="openReceiptsModal($event)">Receipts</button>
-            </span>
-        </div>
+      </div>
+      <div class="lower-part">
+        <ng-container *ngIf="travelPoint.isVisited; else notVisited">
+          <span class="edit-requests-button">
+            <button
+              (click)="markPointAsUnvisited()"
+              class="visited"
+              [disabled]="!isActive"
+            >
+              Set not visited
+            </button>
+          </span>
+        </ng-container>
+        <ng-template #notVisited>
+          <span class="edit-requests-button">
+            <button
+              (click)="markPointAsVisited()"
+              [disabled]="!isActive"
+            >
+              Set visited
+            </button>
+          </span>
+        </ng-template>
       </div>
     </div>
   </div>
