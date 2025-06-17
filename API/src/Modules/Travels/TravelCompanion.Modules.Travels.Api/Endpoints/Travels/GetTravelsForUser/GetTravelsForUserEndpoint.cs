@@ -6,30 +6,30 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
-namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetAllTravels;
+namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetTravelsForUser;
 
 [Route(TravelsEndpoint.BasePath)]
-internal sealed class GetAllTravelsEndpoint : EndpointBaseAsync
-    .WithRequest<GetAllTravelsRequest>
+internal sealed class GetTravelsForUserEndpoint : EndpointBaseAsync
+    .WithoutRequest
     .WithActionResult<List<TravelDetailsDto>>
 {
     private readonly ITravelService _travelService;
 
-    public GetAllTravelsEndpoint(ITravelService travelService)
+    public GetTravelsForUserEndpoint(ITravelService travelService)
     {
         _travelService = travelService;
     }
 
     [Authorize]
-    [HttpGet("Travel")]
+    [HttpGet("Travel/Browse")]
     [SwaggerOperation(
-        Summary = "Get All Travels",
+        Summary = "Get All Travels For User",
         Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public override async Task<ActionResult<List<TravelDetailsDto>>> HandleAsync(GetAllTravelsRequest request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<List<TravelDetailsDto>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var travels = await _travelService.GetAllAsync(request.SearchTerm, request.OrderBy, request.SortOrder);
+        var travels = await _travelService.GetUserTravelsAsync();
         return Ok(travels);
     }
 }

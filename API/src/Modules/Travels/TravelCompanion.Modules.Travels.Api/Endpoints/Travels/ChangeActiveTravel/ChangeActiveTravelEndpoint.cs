@@ -18,7 +18,7 @@ internal sealed class ChangeActiveTravelEndpoint : EndpointBaseAsync
         _travelService = travelService;
     }
 
-    [HttpPost("Travel/Active")]
+    [HttpPut("Travel/{travelId:guid}/Active")]
     [SwaggerOperation(
         Summary = "Change Active  Travel",
         Tags = new[] { TravelsEndpoint.TravelsTag })]

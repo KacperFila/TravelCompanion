@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Receipt, TravelDetailsDto} from "../../models/travel.models";
+import { TravelDetailsDto} from "../../models/travel.models";
 
 @Injectable({ providedIn: 'root' })
 export class TravelsService {
@@ -16,7 +16,7 @@ export class TravelsService {
 
   getTravelsForUser(): Observable<TravelDetailsDto[]> {
     return this.http.get<any>(
-      `${environment.apiBaseUrl}/travels-module/Travel/ForUser`
+      `${environment.apiBaseUrl}/travels-module/Travel/Browse`
     );
   }
 

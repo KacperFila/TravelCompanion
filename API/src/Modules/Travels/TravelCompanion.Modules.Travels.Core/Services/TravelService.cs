@@ -78,6 +78,17 @@ internal class TravelService : ITravelService
         return travelsDtos;
     }
 
+    public async Task<IReadOnlyList<TravelDetailsDto?>> GetUserTravelsAsync()
+    {
+        var travels = await _travelRepository.GetForUserAsync(_userId);
+
+        var travelsDtos = travels
+            .Select(AsTravelDetailsDto)
+            .ToList();
+
+        return travelsDtos;
+    }
+
     public async Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description)
     {
         var travelPoint = await _travelPointRepository.GetAsync(travelPointId);

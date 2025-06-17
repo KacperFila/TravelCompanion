@@ -1,11 +1,11 @@
 <app-modal
   [isModalOpen]="isModalOpen"
   (close)="closeChangeActiveModal()"
-  title="Set Active Plan">
+  title="Set Active Travel">
 
   <form (submit)="setActivePlan($event)">
     <div class="form-group">
-      <label class="input-group-label" for="selectedPlan">Choose a plan:</label>
+      <label class="input-group-label" for="selectedPlan">Choose a travel:</label>
       <select
         id="selectedPlan"
         [(ngModel)]="this.selectedTravel"

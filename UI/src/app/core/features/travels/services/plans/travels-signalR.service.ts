@@ -58,7 +58,6 @@ export class TravelsSignalRService {
   }
 
   private setupListeners(): void {
-
     this.hubConnection.on("ReceiveActiveTravelChanged", (activeTravelId: string) => {
       if (this.currentUser) {
         const updatedUser = new User(
@@ -85,7 +84,6 @@ export class TravelsSignalRService {
       }
     });
   }
-
 
   initialFetchTravel(): void {
     this.travelsService.getActiveTravel()

@@ -46,6 +46,14 @@ internal class TravelRepository : ITravelRepository
         return await baseQuery.ToListAsync();
     }
 
+    public async Task<List<Travel>> GetForUserAsync(Guid userId)
+    {
+        return await _travels
+            .Where(x => x.ParticipantIds!
+            .Contains(userId))
+            .ToListAsync();
+    }
+
     public async Task AddAsync(Travel travel)
     {
         await _travels.AddAsync(travel);
