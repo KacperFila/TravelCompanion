@@ -100,6 +100,12 @@ namespace TravelCompanion.Shared.Infrastructure.Auth
                             {
                                 context.Token = accessToken;
                             }
+                            
+                            else if (!string.IsNullOrEmpty(accessToken) &&
+                                     path.StartsWithSegments("/travelHub"))
+                            {
+                                context.Token = accessToken;
+                            }
                             return Task.CompletedTask;
                         }
                     };

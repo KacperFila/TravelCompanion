@@ -69,7 +69,6 @@ export class TravelRatingComponent implements OnInit, OnChanges {
 
   setHover(index: number) {
     this.hoverIndex = index;
-    console.log("Hovering: ", this.hoverIndex);
   }
 
   clearHover() {

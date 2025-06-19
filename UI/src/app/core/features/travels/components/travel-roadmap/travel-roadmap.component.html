@@ -20,7 +20,7 @@
       <div class="travel-actions">
         <button
           class="action-button"
-          [disabled]="travel?.isFinished"
+          [disabled]="travel?.isFinished || this.currentUser?.id !== travel?.ownerId"
           (click)="completeTravel()"
         >
           Complete travel
@@ -28,6 +28,7 @@
 
         <button
           class="action-button"
+
           (click)="changeActiveTravel()"
         >
           Change active travel

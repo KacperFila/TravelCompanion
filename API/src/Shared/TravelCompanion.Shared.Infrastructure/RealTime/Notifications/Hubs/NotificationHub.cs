@@ -18,7 +18,7 @@ internal class NotificationHub : Hub<INotificationHub>
     public override async Task OnConnectedAsync()
     {
         var userId = Context.User.Identity.Name;
-        if (!string.IsNullOrEmpty(userId.ToString()))
+        if (!string.IsNullOrEmpty(userId))
         {
             _connectionManager.AddConnection(userId, Context.ConnectionId);
         }

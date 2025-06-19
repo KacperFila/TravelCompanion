@@ -10,7 +10,6 @@ using TravelCompanion.Modules.Users.Shared;
 using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
-using TravelCompanion.Shared.Abstractions.Notifications;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
@@ -336,6 +335,7 @@ internal class TravelService : ITravelService
             AdditionalCostsValue = travel.AdditionalCostsValue.Amount,
             TotalCostsValue = travel.TotalCostsValue.Amount,
             TravelPoints = travel.TravelPoints.Select(AsTravelPointDto).ToList(),
+            OwnerId = travel.OwnerId
         };
     }
 

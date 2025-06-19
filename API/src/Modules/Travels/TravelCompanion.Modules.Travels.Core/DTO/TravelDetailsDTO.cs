@@ -12,4 +12,5 @@ internal class TravelDetailsDto
     public decimal? AdditionalCostsValue { get; set; }
     public decimal? TotalCostsValue { get; set; }
     public List<TravelPointDto>? TravelPoints { get; set; }
+    public Guid? OwnerId { get; set; }
 }

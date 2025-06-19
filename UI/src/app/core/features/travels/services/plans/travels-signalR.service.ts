@@ -39,7 +39,7 @@ export class TravelsSignalRService {
     }
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`http://localhost:5000/travelPlanHub`, {
+      .withUrl(`http://localhost:5000/travelHub`, {
         withCredentials: true,
         accessTokenFactory: () => this.currentUser?.token ?? ''
       })
@@ -50,7 +50,7 @@ export class TravelsSignalRService {
     this.hubConnection
       .start()
       .then(() => {
-        console.log('✅ SignalR Connected: ' + this.hubConnection.connectionId);
+        console.log('✅ SignalR Connected (travels): ' + this.hubConnection.connectionId);
       })
       .catch(err => {
         console.error('❌ SignalR Connection Error: ', err);

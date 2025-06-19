@@ -13,6 +13,8 @@ import {
   ChangeActivePlanModal
 } from "../../../plans/components/change-active-plan-modal/change-active-plan-modal.component";
 import {ChangeActiveTravelModal} from "../change-active-travel-modal/change-active-travel-modal.component";
+import {AuthService} from "../../../../auth/auth.service";
+import {User} from "../../../../auth/user.model";
 
 @Component({
   selector: 'app-travel-roadmap',
@@ -24,14 +26,16 @@ import {ChangeActiveTravelModal} from "../change-active-travel-modal/change-acti
     FormsModule,
     TravelPointComponent,
     TravelRatingComponent,
-    ChangeActivePlanModal,
     ChangeActiveTravelModal,
   ],
 })
 export class TravelRoadmapComponent implements OnInit, OnDestroy {
-  constructor(private travelsSignalRService: TravelsSignalRService, private travelsService: TravelsService) {}
+  constructor(private travelsSignalRService: TravelsSignalRService,
+              private travelsService: TravelsService,
+              private authService: AuthService) {}
 
   travel: TravelDetailsDto = {} as TravelDetailsDto;
+  currentUser: User | null = null;
   private travelSubscription!: Subscription;
   protected isChangeActiveTravelModalOpen: boolean = false;
 
@@ -42,6 +46,11 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
           this.onTravel(travel)
       }
     );
+
+    this.authService.user.subscribe((user) =>
+    {
+      this.currentUser = user;
+    })
   }
 
   ngOnDestroy(): void {

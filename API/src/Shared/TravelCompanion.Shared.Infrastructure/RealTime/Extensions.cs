@@ -8,6 +8,7 @@ using TravelCompanion.Shared.Infrastructure.RealTime.Notifications.Hubs;
 using TravelCompanion.Shared.Infrastructure.RealTime.TravelPlans;
 using TravelCompanion.Shared.Infrastructure.RealTime.TravelPlans.Hubs;
 using TravelCompanion.Shared.Infrastructure.RealTime.Travels;
+using TravelCompanion.Shared.Infrastructure.RealTime.Travels.Hubs;
 
 namespace TravelCompanion.Shared.Infrastructure.RealTime;
 
@@ -29,6 +30,7 @@ internal static class Extensions
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapHub<TravelPlanHub>("travelPlanHub");
+            endpoints.MapHub<TravelHub>("travelHub");
             endpoints.MapHub<NotificationHub>("notifications");
         });
 

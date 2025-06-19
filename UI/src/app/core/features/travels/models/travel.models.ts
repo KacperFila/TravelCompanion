@@ -9,6 +9,7 @@ export interface TravelDetailsDto {
   additionalCostsValue: number | null;
   totalCostValue: number | null;
   travelPoints: TravelPointDto[];
+  ownerId: string;
 }
 
 export interface TravelPointDto {

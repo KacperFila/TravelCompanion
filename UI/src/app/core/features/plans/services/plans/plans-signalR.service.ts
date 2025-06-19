@@ -56,7 +56,7 @@ export class PlansSignalRService {
     this.hubConnection
       .start()
       .then(() => {
-        console.log('✅ SignalR Connected: ' + this.hubConnection.connectionId);
+        console.log('✅ SignalR Connected (plans): ' + this.hubConnection.connectionId);
       })
       .catch(err => {
         console.error('❌ SignalR Connection Error: ', err);
