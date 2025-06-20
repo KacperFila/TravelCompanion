@@ -11,6 +11,7 @@ using TravelCompanion.Shared.Abstractions.Contexts;
 using TravelCompanion.Shared.Abstractions.Kernel.ValueObjects.Money;
 using TravelCompanion.Shared.Abstractions.Messaging;
 using TravelCompanion.Shared.Abstractions.RealTime.Notifications;
+using TravelCompanion.Shared.Abstractions.RealTime.Travels;
 using TravelPointNotFoundException = TravelCompanion.Modules.Travels.Core.Exceptions.TravelPointNotFoundException;
 
 namespace TravelCompanion.Modules.Travels.Core.Services;
@@ -20,6 +21,7 @@ internal class TravelService : ITravelService
     private readonly ITravelRepository _travelRepository;
     private readonly ITravelPointRepository _travelPointRepository;
     private readonly INotificationRealTimeService  _notificationRealTimeService;
+    private readonly ITravelsRealTimeService _travelsRealTimeService;
     private readonly IReceiptRepository _receiptRepository;
     private readonly ITravelPolicy _travelPolicy;
     private readonly IContext _context;
@@ -27,7 +29,7 @@ internal class TravelService : ITravelService
     private readonly IMessageBroker _messageBroker;
     private readonly IUsersModuleApi _usersModuleApi;
 
-    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi, IReceiptRepository receiptRepository, INotificationRealTimeService notificationRealTimeService)
+    public TravelService(ITravelRepository travelRepository, ITravelPolicy travelDeletionPolicy, IContext context, ITravelPointRepository travelPointRepository, IMessageBroker messageBroker, IUsersModuleApi usersModuleApi, IReceiptRepository receiptRepository, INotificationRealTimeService notificationRealTimeService, ITravelsRealTimeService travelsRealTimeService)
     {
         _travelRepository = travelRepository;
         _travelPolicy = travelDeletionPolicy;
@@ -37,6 +39,7 @@ internal class TravelService : ITravelService
         _usersModuleApi = usersModuleApi;
         _receiptRepository = receiptRepository;
         _notificationRealTimeService = notificationRealTimeService;
+        _travelsRealTimeService = travelsRealTimeService;
         _userId = _context.Identity.Id;
     }
 
@@ -135,6 +138,7 @@ internal class TravelService : ITravelService
         await _messageBroker.PublishAsync(new TravelIsFinished(travel.Id));
         await _notificationRealTimeService.SendToAsync(_userId,
             NotificationMessage.Create("Complete Travel", "Travel has been completed!", NotificationSeverity.Information));
+        await _travelsRealTimeService.SendTravelUpdate(travel.ParticipantIds, travel);
     }
 
     public async Task ChangeActiveTravelAsync(Guid travelId)

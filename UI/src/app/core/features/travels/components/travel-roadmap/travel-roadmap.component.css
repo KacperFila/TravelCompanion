@@ -6,6 +6,7 @@
 
 .roadmap-header {
   display: flex;
+  width: 70vw;
   flex-wrap: wrap;
   gap: 1rem;
   align-items: flex-start;

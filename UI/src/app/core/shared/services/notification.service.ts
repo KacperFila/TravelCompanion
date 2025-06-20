@@ -64,7 +64,6 @@ export class NotificationService {
     const key = notification.id;
 
     if (this.recentNotificationIds.has(key)) {
-      console.warn('🔁 Duplicate notification ignored:', key);
       return;
     }
 

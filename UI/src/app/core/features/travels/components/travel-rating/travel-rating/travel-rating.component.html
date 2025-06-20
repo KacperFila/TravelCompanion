@@ -16,6 +16,11 @@
     </span>
   </div>
   <div class="rating-value-container">
-    <span>{{this.rating}} / {{this.max}}</span>
+    @if(this.rating > 0)
+    {
+      <span>{{this.rating}} / {{this.max}}</span>
+    } @else {
+      <span>Add first review!</span>
+    }
   </div>
 </div>

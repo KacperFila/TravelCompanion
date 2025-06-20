@@ -3,7 +3,7 @@
     landscape
   </div>
   <div class="content">
-    <h1 routerLink="/home" class="title">TravelCompanion</h1>
+    <h1 routerLink="/travels" class="title">TravelCompanion</h1>
     <div class="user-section" *ngIf="user$ | async as user">
       <p class="user-name">{{ user.email }}</p>
       <button class="logout-btn" (click)="logout()">Log out</button>

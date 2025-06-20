@@ -42,7 +42,7 @@ export class AuthComponent {
       this.authService.login(email, password).subscribe({
         next: () => {
           this.plansSignalRService.startConnection();
-          this.router.navigate(['/home']);
+          this.router.navigate(['/travels']);
         },
         error: (error) => {
           this.handleError(error);
