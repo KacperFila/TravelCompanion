@@ -23,27 +23,25 @@
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        name="password"
-        [(ngModel)]="credentials.password"
-        required
-      />
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="credentials.password"
+          required
+        />
     </div>
 
     <div class="button-container">
       <button type="submit">
         {{ isLoginMode ? 'Log In' : 'Sign up' }}
       </button>
-      <button
-        type="button"
-        class="switch-button"
-        (click)="toggleAuthMode()"
-      >
-        {{ isLoginMode ? 'Create account!' : 'Switch to Log in!' }}
-      </button>
+      <p class="switch-text" (click)="toggleAuthMode()">
+        {{ isLoginMode
+          ? 'Dont have an account?'
+          : 'Log in!' }}
+      </p>
     </div>
   </form>
 

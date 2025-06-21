@@ -12,28 +12,25 @@
       <div class="upper-part">
         <span class="point-title">{{ travelPoint.placeName }}</span>
       </div>
+
       <div class="lower-part">
-        <ng-container *ngIf="travelPoint.isVisited; else notVisited">
-          <span class="edit-requests-button">
-            <button
-              (click)="markPointAsUnvisited()"
-              class="visited"
-              [disabled]="!isActive"
-            >
-              Set not visited
-            </button>
-          </span>
-        </ng-container>
-        <ng-template #notVisited>
-          <span class="edit-requests-button">
+        <div class="button-wrapper">
+          <button
+            *ngIf="travelPoint.isVisited; else notVisited"
+            (click)="markPointAsUnvisited()"
+            class="visited"
+            [disabled]="!isActive">
+            Set not visited
+          </button>
+
+          <ng-template #notVisited>
             <button
               (click)="markPointAsVisited()"
-              [disabled]="!isActive"
-            >
+              [disabled]="!isActive">
               Set visited
             </button>
-          </span>
-        </ng-template>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>

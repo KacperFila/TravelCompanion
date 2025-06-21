@@ -1,23 +1,18 @@
-<app-header></app-header>
+<app-header *ngIf="user$ | async as user"></app-header>
 <app-notification></app-notification>
 
-<ng-container *ngIf="user$ | async as user; else contentOnly">
+<ng-container *ngIf="user$ | async as user; else loggedOut">
   <div class="content">
-    <div class="side-panel" [class.side-panel-expanded]="isSidebarExpanded">
-      <app-side-panel (toggle)="toggleSidebar($event)"></app-side-panel>
-    </div>
-    <div class="main-content"
-         [class.main-content-expanded]="isSidebarExpanded"
-         [class.main-content-dimmed]="isSidebarExpanded">
+    <div class="main-content">
       <router-outlet></router-outlet>
     </div>
   </div>
 </ng-container>
 
-<ng-template #contentOnly>
-  <div class="content">
-    <div class="main-menu-photo">
-      <img src="assets/landing-photo.jpg" alt="Landing" class="full-size-image"/>
+<ng-template #loggedOut>
+  <div class="content logged-out">
+    <div class="image-fade-wrapper">
+      <img src="assets/landing-photo.jpg" alt="Landing" class="full-size-image" />
     </div>
     <div class="main-content-logged-out">
       <router-outlet></router-outlet>

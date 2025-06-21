@@ -12,8 +12,8 @@
 }
 
 .logo-icon {
-  font-size: 3rem;
-  margin-right: 1rem;
+  font-size: 4rem;
+  color: var(--primary-hover-color);
 }
 
 .logo-text {
@@ -22,21 +22,32 @@
 }
 
 .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   margin-bottom: 1rem;
   width: 100%;
 }
 
 .form-control {
-  width: 100%;
-  padding: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
   font-size: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.25);
+  outline: none;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  width: 100%;
+  flex-direction: column;
 }
 
 button {
@@ -50,16 +61,18 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.switch-button {
-  background-color: transparent;
-  border: solid var(--primary-color) 2px;
+.switch-text {
+  margin-top: 1rem;
   color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+  transition: color 0.2s ease;
 }
 
-.switch-button:hover {
-  background-color: var(--primary-hover-color);
-  border: solid var(--primary-hover-color) 2px;
-  color: var(--secondary-color);
+.switch-text:hover {
+  color: var(--primary-hover-color);
+  text-decoration: underline;
 }
 
 button:hover {
@@ -96,3 +109,4 @@ button:hover {
     transform: translateY(0);
   }
 }
+

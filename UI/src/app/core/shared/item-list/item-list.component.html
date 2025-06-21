@@ -1,10 +1,14 @@
-<div class="item-list">
-    <ul>
-      <li *ngFor="let item of items" (click)="onItemClick(item)">
-        {{ displayProperty ? item[displayProperty] : item }}
-        <ng-container *ngIf="buttonTemplate">
-          <ng-container [ngTemplateOutlet]="buttonTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
-        </ng-container>
-      </li>
-    </ul>
-  </div>
+<ul>
+  <li *ngFor="let item of items" (click)="onItemClick(item)">
+    <span class="item-text">
+      {{ displayProperty ? item[displayProperty] : item }}
+    </span>
+
+    <ng-container *ngIf="buttonTemplate">
+      <ng-container
+        [ngTemplateOutlet]="buttonTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-container>
+    </ng-container>
+  </li>
+</ul>

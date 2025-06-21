@@ -1,17 +1,30 @@
-.item-list ul {
+:host {
+  width: 100%;
+  display: block;
+}
+
+.item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  flex: 1;
+}
+
+ul {
     list-style: none;
     padding: 0;
   }
 
-  .item-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-  }
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
 
-  .item-list li:hover {
-    background-color: #f0f0f0;
-  }
+li:hover {
+  background-color: #f0f0f0;
+}

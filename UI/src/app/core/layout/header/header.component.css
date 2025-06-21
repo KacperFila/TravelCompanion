@@ -1,44 +1,61 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100vw;
   height: 70px;
-  background-color: var(--header-background-color);
-  color: var(--secondary-color);
+  background-color: var(--background-color);
+  border-bottom: #ddd 1px solid;
+  color: var(--primary-hover-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 0 2rem;
 }
 
-.logo {
-  width: 50px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.content {
-  width: calc(100vw - 50px);
+.header-left {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  gap: 2rem;
 }
 
-.title {
-  cursor: pointer;
-  margin: 0;
+.app-title {
   font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
   text-decoration: none;
+  cursor: pointer;
 }
 
-.user-section {
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  transition: text-decoration 0.2s ease-in-out;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--primary-hover-color);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.user-name {
+.user-email {
   margin: 0;
   font-size: 1rem;
+  color: var(--primary-hover-color);
 }
 
 .logout-btn {

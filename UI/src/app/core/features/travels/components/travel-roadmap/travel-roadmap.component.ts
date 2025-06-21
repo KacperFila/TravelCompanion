@@ -9,9 +9,6 @@ import { TravelsSignalRService } from "../../services/plans/travels-signalR.serv
 import { TravelPointComponent } from "../travel-point/travel-point.component";
 import { TravelRatingComponent } from "../travel-rating/travel-rating/travel-rating.component";
 import { TravelsService } from "../../services/plans/travels.service";
-import {
-  ChangeActivePlanModal
-} from "../../../plans/components/change-active-plan-modal/change-active-plan-modal.component";
 import {ChangeActiveTravelModal} from "../change-active-travel-modal/change-active-travel-modal.component";
 import {AuthService} from "../../../../auth/auth.service";
 import {User} from "../../../../auth/user.model";
@@ -26,7 +23,7 @@ import {User} from "../../../../auth/user.model";
     FormsModule,
     TravelPointComponent,
     TravelRatingComponent,
-    ChangeActiveTravelModal,
+    ChangeActiveTravelModal
   ],
 })
 export class TravelRoadmapComponent implements OnInit, OnDestroy {
@@ -35,6 +32,7 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
               private authService: AuthService) {}
 
   travel: TravelDetailsDto = {} as TravelDetailsDto;
+  loading = true;
   currentUser: User | null = null;
   private travelSubscription!: Subscription;
   protected isChangeActiveTravelModalOpen: boolean = false;
@@ -60,6 +58,7 @@ export class TravelRoadmapComponent implements OnInit, OnDestroy {
   private onTravel(travel: TravelDetailsDto | null): void {
     if (travel) {
       this.travel = travel;
+      this.loading = false
     }
   }
 

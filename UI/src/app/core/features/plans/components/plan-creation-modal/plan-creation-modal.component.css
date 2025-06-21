@@ -1,6 +1,75 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-error {
+  background-color: var(--error-background-color);
+  border-radius: 4px;
+  color: var(--error-color);
+  font-weight: bold;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.auth-errors {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  color: var(--secondary-color);
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color);
+  color: var(--secondary-color);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
+}
+
+.form-input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.25);
+  outline: none;
 }
 
 .input-group {
@@ -13,68 +82,6 @@
   padding-bottom: 0.5rem;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-button {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: var(--primary-hover-color);
-  color: var(--secondary-color);
-}
-
-.error-messages {
-  color: var(--error-color);
-  background-color: var(--error-background-color);
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
 .required {
   color: var(--error-color);
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.auth-errors {
-  margin-top: 1rem;
-  width: 100%;
-}
-
-.auth-error {
-  color: var(--error-color);
-  background-color: var(--error-background-color);
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-top: 0.5rem;
-  font-weight: bold;
-  text-align: center;
 }

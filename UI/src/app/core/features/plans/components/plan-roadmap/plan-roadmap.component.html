@@ -1,19 +1,22 @@
 <div class="component-container">
 
   <div class="roadmap-header">
-    <div class="active-plan-description">
-      <p class="active-plan-title">{{ this.travelPlan.title }}</p>
-      <p class="active-plan-date">From: {{ this.travelPlan.from }}</p>
-      <p class="active-plan-date">To: {{ this.travelPlan.to }}</p>
+    <div class="upper-container">
+      <div class="active-plan-description">
+        <p class="description-item">{{ this.travelPlan.title }}</p>
+        <p class="description-item">From: {{ this.travelPlan.from }}</p>
+        <p class="description-item">To: {{ this.travelPlan.to }}</p>
+      </div>
     </div>
-
-    <div class="buttons-container">
-      <button (click)="isManageParticipantsModalOpen = true" >Manage participants</button>
-      <button (click)="isCreatePlanModalOpen = true" >Create plan</button>
-      <button (click)="isChangeActiveModalOpen = true" >Change active plan</button>
-      <button (click)="isUserPlansModalOpen = true" >User plans</button>
-      <button (click)="isUserInvitationsModalOpen = true" >My invitations</button>
-      <button class="accept-button" (click)="isAcceptPlanModalOpen = true">Accept Plan</button>
+    <div class="lower-container">
+      <div class="buttons-container">
+        <button (click)="isManageParticipantsModalOpen = true">Manage participants</button>
+        <button (click)="isCreatePlanModalOpen = true">Create plan</button>
+        <button (click)="isChangeActiveModalOpen = true">Change active plan</button>
+        <button (click)="isUserPlansModalOpen = true">User plans</button>
+        <button (click)="isUserInvitationsModalOpen = true">My invitations</button>
+        <button class="accept-button" (click)="isAcceptPlanModalOpen = true">Accept Plan</button>
+      </div>
     </div>
   </div>
 

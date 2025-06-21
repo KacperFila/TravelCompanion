@@ -1,4 +1,4 @@
-<div class="component-container">
+<div class="roadmap-wrapper">
   <div class="roadmap-header">
     <div class="left-container">
       <p class="description-item">Title: {{ travel?.title || '-' }}</p>
@@ -6,7 +6,6 @@
       <p class="description-item">From: {{ travel?.from || '-' }}</p>
       <p class="description-item">To: {{ travel?.to || '-' }}</p>
     </div>
-
     <div class="right-container">
       <div class="travel-rating">
         <app-travel-rating
@@ -14,7 +13,6 @@
           (rated)="onRated($event)"
         ></app-travel-rating>
       </div>
-
       <div class="travel-actions">
         <button
           class="action-button"
@@ -23,10 +21,8 @@
         >
           Complete travel
         </button>
-
         <button
           class="action-button"
-
           (click)="changeActiveTravel()"
         >
           Change active travel
@@ -57,9 +53,9 @@
       <div class="no-points-message">Given travel does not contain points.</div>
     </ng-template>
   </div>
-</div>
 
-<app-change-active-travel-modal
-  [isModalOpen]="isChangeActiveTravelModalOpen"
-  (closeModalEvent)="closeChangeActiveModal()">
-</app-change-active-travel-modal>
+  <app-change-active-travel-modal
+    [isModalOpen]="isChangeActiveTravelModalOpen"
+    (closeModalEvent)="closeChangeActiveModal()">
+  </app-change-active-travel-modal>
+</div>

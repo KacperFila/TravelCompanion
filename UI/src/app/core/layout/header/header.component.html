@@ -1,12 +1,15 @@
 <header class="header">
-  <div class="material-icons logo">
-    landscape
+  <div class="header-left">
+    <a class="app-title" routerLink="/travels">TravelCompanion</a>
+    <nav class="nav-links">
+      <a routerLink="/travels" routerLinkActive="active">Travels</a>
+      <a routerLink="/plans" routerLinkActive="active">Plans</a>
+      <a routerLink="/costs" routerLinkActive="active">Costs</a>
+    </nav>
   </div>
-  <div class="content">
-    <h1 routerLink="/travels" class="title">TravelCompanion</h1>
-    <div class="user-section" *ngIf="user$ | async as user">
-      <p class="user-name">{{ user.email }}</p>
-      <button class="logout-btn" (click)="logout()">Log out</button>
-    </div>
+
+  <div class="header-right" *ngIf="user$ | async as user">
+    <span class="user-email">{{ user.email }}</span>
+    <button class="logout-btn" (click)="logout()">Log out</button>
   </div>
 </header>

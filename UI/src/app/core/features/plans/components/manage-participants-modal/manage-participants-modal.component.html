@@ -1,8 +1,9 @@
-  <app-modal
-    [isModalOpen]="isModalOpen"
-    (close)="closeModal()"
-    title="Manage Participants">
+<app-modal
+  [isModalOpen]="isModalOpen"
+  (close)="closeModal()"
+  title="Manage Participants">
 
+  <div class="modal-content-wrapper">
     <input
       type="text"
       [(ngModel)]="searchQuery"
@@ -22,11 +23,15 @@
         </app-item-list>
       </ng-container>
       <ng-template #noResults>
-        <span class="no-results">No users found.</span>
+        <div class="no-results-wrapper">
+          <span class="no-results">No users found.</span>
+        </div>
       </ng-template>
     </div>
 
-    <ng-template #addButton let-item>
-      <button (click)="addParticipant(item)">Add</button>
-    </ng-template>
-  </app-modal>
+  </div>
+
+  <ng-template #addButton let-item>
+    <button (click)="addParticipant(item)">Add</button>
+  </ng-template>
+</app-modal>

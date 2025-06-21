@@ -12,16 +12,24 @@
       <div class="upper-part">
         <span class="point-title">{{ travelPoint.placeName }}</span>
       </div>
-      <div class="lower-part">
-        <button (click)="triggerEditPointModal()">Edit</button>
-        <span class="edit-requests-button">
-          <button (click)="triggerEditRequestsModal()">Requests</button>
-          <div *ngIf="updateRequests!.length > 0" class="circle-indicator">
-            {{ updateRequests.length }}
+
+        <div class="lower-part">
+          <div class="button-wrapper">
+            <button (click)="triggerEditPointModal()">Edit</button>
           </div>
-        </span>
-        <button class="delete-button" (click)="deletePoint(travelPoint)">Delete</button>
+
+          <div class="button-wrapper edit-requests-button">
+            <button (click)="triggerEditRequestsModal()">Requests</button>
+            <div *ngIf="updateRequests!.length > 0" class="circle-indicator">
+              {{ updateRequests.length }}
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <button class="delete-button" (click)="deletePoint(travelPoint)">Delete</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-</div>

@@ -4,21 +4,22 @@
   title="Set Active Travel">
 
   <form (submit)="setActivePlan($event)">
-    <div class="form-group">
+    <div class="modal-content-wrapper">
       <label class="input-group-label" for="selectedPlan">Choose a travel:</label>
       <select
         id="selectedPlan"
         [(ngModel)]="this.selectedTravel"
-        name="selectedPlan">
+        name="selectedPlan"
+        class="styled-select">
         <option *ngFor="let travel of travels" [ngValue]="travel">
           {{ travel.title }}
         </option>
       </select>
-    </div>
 
-    <div class="button-group">
-      <button type="submit">Set Active</button>
-      <button type="button" (click)="closeChangeActiveModal()">Cancel</button>
+      <div class="button-group">
+        <button type="submit">Set Active</button>
+        <button type="button" (click)="closeChangeActiveModal()">Cancel</button>
+      </div>
     </div>
   </form>
 
