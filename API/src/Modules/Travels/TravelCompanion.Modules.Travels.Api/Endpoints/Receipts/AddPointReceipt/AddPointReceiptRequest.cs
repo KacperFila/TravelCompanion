@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TravelCompanion.Modules.Travels.Api.Endpoints.AddPointReceipt;
+namespace TravelCompanion.Modules.Travels.Api.Endpoints.Receipts.AddPointReceipt;
 
 internal class AddPointReceiptRequest
 {

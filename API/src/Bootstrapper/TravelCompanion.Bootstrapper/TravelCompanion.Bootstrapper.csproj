@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Emails\TravelCompanion.Modules.Emails.Api\TravelCompanion.Modules.Emails.Api.csproj" />
-    <ProjectReference Include="..\..\Modules\Payments\TravelCompanion.Modules.Payments.Api\TravelCompanion.Modules.Payments.Api.csproj" />
     <ProjectReference Include="..\..\Modules\TravelPlans\TravelCompanion.Modules.TravelPlans.Api\TravelCompanion.Modules.TravelPlans.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Travels\TravelCompanion.Modules.Travels.Api\TravelCompanion.Modules.Travels.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Users\TravelCompanion.Modules.Users.Api\TravelCompanion.Modules.Users.Api.csproj" />
