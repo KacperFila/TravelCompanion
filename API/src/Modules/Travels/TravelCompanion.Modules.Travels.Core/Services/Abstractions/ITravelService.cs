@@ -7,9 +7,10 @@ internal interface ITravelService
 {
     Task<TravelDetailsDto?> GetAsync(Guid travelId);
     Task<TravelDetailsDto?> GetActiveAsync();
+    Task<List<TravelDetailsDto>> GetUserUpcomingTravelsAsync();
     Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
     Task<IReadOnlyList<TravelDetailsDto?>> GetUserTravelsAsync();
-
+    Task<int> GetUserTravelsCountAsync();
     Task ChangeActiveTravelAsync(Guid travelId);
     Task RateAsync(Guid travelId, int rating);
     Task VisitTravelPointAsync(Guid pointId);

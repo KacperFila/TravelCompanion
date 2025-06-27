@@ -7,7 +7,7 @@ namespace TravelCompanion.Modules.Travels.Core.DAL.Repositories;
 internal class TravelRepository : ITravelRepository
 {
     private readonly TravelsDbContext _dbContext;
-    private readonly DbSet<Travel> _travels;
+    private readonly DbSet<Travel?> _travels;
     public TravelRepository(TravelsDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -22,6 +22,33 @@ internal class TravelRepository : ITravelRepository
             .Include(x => x.AdditionalCosts)
             .SingleOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<int> GetTravelsCountAsync(Guid userId)
+    {
+        return await _travels.CountAsync(x => x.OwnerId == userId 
+                                        || x.ParticipantIds!.Contains(userId));
+    }
+
+    public async Task<List<Travel>> GetUpcomingTravelsAsync(Guid userId)
+    {
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+        var futureTravels = _travels
+            .Where(x => x.ParticipantIds!.Contains(userId) && x.From >= today);
+
+        var nextDate = await futureTravels
+            .OrderBy(x => x.From)
+            .Select(x => x.From)
+            .FirstOrDefaultAsync();
+
+        if (nextDate == default)
+            return new List<Travel>();
+
+        return await futureTravels
+            .Where(x => x.From == nextDate)
+            .ToListAsync();
+    }
+
 
     public async Task<bool> ExistAsync(Guid id)
     {
@@ -46,7 +73,7 @@ internal class TravelRepository : ITravelRepository
         return await baseQuery.ToListAsync();
     }
 
-    public async Task<List<Travel>> GetForUserAsync(Guid userId)
+    public async Task<List<Travel?>> GetForUserAsync(Guid userId)
     {
         return await _travels
             .Where(x => x.ParticipantIds!
@@ -54,13 +81,13 @@ internal class TravelRepository : ITravelRepository
             .ToListAsync();
     }
 
-    public async Task AddAsync(Travel travel)
+    public async Task AddAsync(Travel? travel)
     {
         await _travels.AddAsync(travel);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Travel travel)
+    public async Task UpdateAsync(Travel? travel)
     {
         _travels.Update(travel);
         await _dbContext.SaveChangesAsync();

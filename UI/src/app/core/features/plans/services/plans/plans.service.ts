@@ -13,17 +13,10 @@ export class PlansService {
     title: string,
     description: string | null,
     from: string | null,
-    to: string | null) : Observable<void> {
+    to: string | null) : Observable<any> {
     const requestBody = { title, description, from, to };
-
     return this.http
-      .post(`${environment.apiBaseUrl}/travelplans-module/Plan`, requestBody)
-      .pipe(
-        switchMap(() => this.getUserLastPlan()),
-        tap((response) => {
-        }),
-        map(() => void 0)
-      );
+      .post(`${environment.apiBaseUrl}/travelplans-module/Plan`, requestBody);
   }
 
   setActivePlan(planId: string) : Observable<any> {
@@ -33,12 +26,6 @@ export class PlansService {
   }
 
   getPlansForUser(): Observable<TravelPlan[]> {
-    return this.http.get<TravelPlan[]>(
-      `${environment.apiBaseUrl}/travelplans-module/Plan`
-    );
-  }
-
-  getUserLastPlan(): Observable<TravelPlan[]> {
     return this.http.get<TravelPlan[]>(
       `${environment.apiBaseUrl}/travelplans-module/Plan`
     );

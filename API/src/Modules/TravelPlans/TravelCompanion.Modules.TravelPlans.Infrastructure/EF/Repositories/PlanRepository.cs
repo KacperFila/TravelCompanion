@@ -32,6 +32,13 @@ public class PlanRepository : IPlanRepository
         return plan;
     }
 
+    public async Task<int> GetPlanCountAsync(Guid userId)
+    {
+        return await _dbContext.Plans.CountAsync(
+            x => x.OwnerId == userId
+            || x.Participants.Any(y => y.ParticipantId == userId));
+    }
+
     public async Task<Plan> GetByPointIdAsync(Guid pointId)
     {
         return await _travelPlans

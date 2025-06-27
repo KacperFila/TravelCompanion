@@ -69,6 +69,15 @@ internal class TravelService : ITravelService
             : null;
     }
 
+    public async Task<List<TravelDetailsDto>> GetUserUpcomingTravelsAsync()
+    {
+        var travels= await _travelRepository.GetUpcomingTravelsAsync(_userId);
+        
+        return travels
+            .Select(AsTravelDetailsDto)
+            .ToList();
+    }
+
     public async Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder)
     {
         var travels = await _travelRepository.GetAllAsync(searchTerm, sortColumn, sortOrder);
@@ -89,6 +98,11 @@ internal class TravelService : ITravelService
             .ToList();
 
         return travelsDtos;
+    }
+
+    public async Task<int> GetUserTravelsCountAsync()
+    {
+        return await _travelRepository.GetTravelsCountAsync(_userId);
     }
 
     public async Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description)

@@ -5,6 +5,7 @@ namespace TravelCompanion.Modules.TravelPlans.Domain.Plans.Repositories;
 public interface IPlanRepository
 {
     Task<Plan> GetAsync(Guid id);
+    Task<int> GetPlanCountAsync(Guid userId);
     Task<Plan> GetByPointIdAsync(Guid pointId);
     Task<List<Plan>> BrowseById(List<Guid> pointIds);
     Task<List<Plan>> BrowseForUserAsync(Guid userId);
