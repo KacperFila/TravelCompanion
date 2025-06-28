@@ -1,0 +1,31 @@
+.number-widget {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.number-widget:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.number-widget .title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--header-background-color);
+  margin-bottom: 0.3rem;
+}
+
+.number-widget .number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-hover-color);
+}

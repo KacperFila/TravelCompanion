@@ -28,6 +28,13 @@ internal class TravelRepository : ITravelRepository
         return await _travels.CountAsync(x => x.OwnerId == userId 
                                         || x.ParticipantIds!.Contains(userId));
     }
+    
+    public async Task<int> GetFinishedTravelsCountAsync(Guid userId)
+    {
+        return await _travels.CountAsync(x => x.OwnerId == userId 
+                                              || x.ParticipantIds!.Contains(userId)
+                                              && x.IsFinished);
+    }
 
     public async Task<List<Travel>> GetUpcomingTravelsAsync(Guid userId)
     {
@@ -48,8 +55,7 @@ internal class TravelRepository : ITravelRepository
             .Where(x => x.From == nextDate)
             .ToListAsync();
     }
-
-
+    
     public async Task<bool> ExistAsync(Guid id)
     {
         return await _travels.AnyAsync(x => x.Id == id);

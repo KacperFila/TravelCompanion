@@ -1,20 +1,24 @@
 .header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  width: 100vw;
-  height: 70px;
+  height: auto;
   background-color: var(--background-color);
   border-bottom: #ddd 1px solid;
   color: var(--primary-hover-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  padding: 0 2rem;
+  padding: 1rem 2rem;
+  row-gap: 1rem;
 }
 
-.header-left {
+
+.header-left,
+.header-right {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .app-title {
@@ -44,12 +48,6 @@
   color: var(--primary-hover-color);
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .user-email {

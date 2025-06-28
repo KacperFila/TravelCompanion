@@ -1,0 +1,15 @@
+<div *ngIf="travels.length > 0; else noTravels">
+  <h1>Upcoming Travels</h1>
+  <ul>
+    <li *ngFor="let travel of travels">
+      <h2>{{ travel.title }}</h2>
+      <p *ngIf="travel.description">{{ travel.description }}</p>
+      <p>From: {{ travel.from || 'N/A' }}</p>
+      <p>To: {{ travel.to || 'N/A' }}</p>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noTravels>
+  <p>No travels to display.</p>
+</ng-template>

@@ -16,6 +16,7 @@ button:hover {
 
 .central-container {
   width: 10vh;
+  margin: 0 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,11 +43,6 @@ button:hover {
   justify-content: center;
 }
 
-.content-reversed {
-  padding-right: 100px;
-  padding-left: 0;
-}
-
 .delete-button {
   background-color: var(--error-color);
 }
@@ -71,7 +67,7 @@ button:hover {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 100%;
 }
 
 .point-container {

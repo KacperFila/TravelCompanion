@@ -54,4 +54,23 @@ export class TravelsService {
       null
     )
   }
+
+  getTravelsCount(): Observable<number> {
+    return this.http.get<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/Count`
+    );
+  }
+
+  getFinishedTravelsCount(): Observable<number> {
+    return this.http.get<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/Count/Finished`
+    );
+  }
+
+  getUpcomingTravels(): Observable<TravelDetailsDto[]>
+  {
+    return this.http.get<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/Upcoming`
+    );
+  }
 }

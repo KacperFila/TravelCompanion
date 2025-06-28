@@ -17,6 +17,7 @@
 
 .central-container {
   width: 10vh;
+  margin: 0 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,18 +50,13 @@
   justify-content: center;
 }
 
-.content-reversed {
-  padding-right: 100px;
-  padding-left: 0;
-}
-
 .point-background {
   background-color: rgba(0, 0, 0, 0.1);
   padding: 1rem;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 100%;
 }
 
 .upper-part {

@@ -19,12 +19,3 @@ export interface TravelPointDto {
   travelOrderNumber: number;
   isVisited: boolean;
 }
-
-export interface Receipt {
-  id: string;
-  description: string;
-  amount: {
-    amount: number;
-    currency: string;
-  }
-}

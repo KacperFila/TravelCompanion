@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  margin-bottom: 1rem;
+  color: var(--header-background-color)
+}
+
+li {
+  margin-bottom: 1.5rem;
+  list-style: none;
+}
+
+h2 {
+  color: var(--primary-color);
+}
+
+p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #555555;
+}

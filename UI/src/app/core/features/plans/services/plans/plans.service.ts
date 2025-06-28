@@ -118,4 +118,11 @@ export class PlansService {
     return this.http
       .post(`${environment.apiBaseUrl}/travelplans-module/Plan/${planId}/Confirmation`, {});
   }
+
+  getPlansCount(): Observable<number>
+  {
+    return this.http.get<number>(
+      `${environment.apiBaseUrl}/travelplans-module/Plan/Count`
+    )
+  }
 }

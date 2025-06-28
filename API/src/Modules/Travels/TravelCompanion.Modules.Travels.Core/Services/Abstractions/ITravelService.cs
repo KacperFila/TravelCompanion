@@ -11,6 +11,7 @@ internal interface ITravelService
     Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);
     Task<IReadOnlyList<TravelDetailsDto?>> GetUserTravelsAsync();
     Task<int> GetUserTravelsCountAsync();
+    Task<int> GetUserFinishedTravelsCountAsync();
     Task ChangeActiveTravelAsync(Guid travelId);
     Task RateAsync(Guid travelId, int rating);
     Task VisitTravelPointAsync(Guid pointId);

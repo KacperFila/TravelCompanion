@@ -104,6 +104,11 @@ internal class TravelService : ITravelService
     {
         return await _travelRepository.GetTravelsCountAsync(_userId);
     }
+    
+    public async Task<int> GetUserFinishedTravelsCountAsync()
+    {
+        return await _travelRepository.GetFinishedTravelsCountAsync(_userId);
+    }
 
     public async Task AddReceipt(Guid travelPointId, List<Guid> participantsIds, Money amount, string? description)
     {

@@ -1,15 +1,26 @@
-<div class="dashboard">
-  <div class="card">
-    <div class="title">Number of plans:</div>
-    <div class="number-box">10</div>
+<div class="wrapper">
+  <div class="upper-part">
+    <div class="left-part">
+      <app-upcoming-travel-widget
+        [travels]="upcomingTravels">
+      </app-upcoming-travel-widget>
+    </div>
+    <div class="right-part">
+      <app-number-widget
+        [title]="'Total amount of travels'"
+        [number]="this.travelsCount">
+      </app-number-widget>
+      <app-number-widget
+        [title]="'Total amount of plans'"
+        [number]="this.plansCount">
+      </app-number-widget>
+      <app-number-widget
+        [title]="'Finished travels'"
+        [number]="this.finishedTravelsCount">
+      </app-number-widget>
+    </div>
   </div>
-  <div class="card">
-    <div class="title">Number of travels:</div>
-    <div class="number-box">2</div>
-  </div>
-  <div class="card wide-card">
-    <div class="title">Upcoming travel:</div>
-    <div>Travel name</div>
+  <div class="lower-part">
   </div>
   <div class="card chart-card">
     <div class="title">Most frequent companions</div>
@@ -19,4 +30,8 @@
     <div class="title">Travels by status</div>
     <div class="chart-placeholder">Donut Chart</div>
   </div>
-</div>
+  </div>
+
+
+
+
