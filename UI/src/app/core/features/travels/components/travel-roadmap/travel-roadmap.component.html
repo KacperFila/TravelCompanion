@@ -1,4 +1,4 @@
-<div class="roadmap-wrapper">
+<div class="component-container">
   <div class="roadmap-header">
     <div class="left-container">
       <p class="description-item">Title: {{ travel.title || '-' }}</p>
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div class="roadmap">
+  <span class="roadmap">
     <ng-container *ngIf="travel.travelPoints && travel.travelPoints.length > 0; else noPoints">
       <ng-container *ngFor="let point of travel.travelPoints; let i = index; let last = last">
         <div class="node-container">
@@ -52,7 +52,7 @@
     <ng-template #noPoints>
       <div class="no-points-message">Given travel does not contain points.</div>
     </ng-template>
-  </div>
+  </span>
 
   <app-change-active-travel-modal
     [isModalOpen]="isChangeActiveTravelModalOpen"
