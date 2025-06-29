@@ -1,22 +1,22 @@
 <div class="roadmap-wrapper">
   <div class="roadmap-header">
     <div class="left-container">
-      <p class="description-item">Title: {{ travel?.title || '-' }}</p>
-      <p class="description-item">Description: {{ travel?.description || '-' }}</p>
-      <p class="description-item">From: {{ travel?.from || '-' }}</p>
-      <p class="description-item">To: {{ travel?.to || '-' }}</p>
+      <p class="description-item">Title: {{ travel.title || '-' }}</p>
+      <p class="description-item">Description: {{ travel.description || '-' }}</p>
+      <p class="description-item">From: {{ travel.from || '-' }}</p>
+      <p class="description-item">To: {{ travel.to || '-' }}</p>
     </div>
     <div class="right-container">
       <div class="travel-rating">
         <app-travel-rating
-          [rating]="travel?.rating ?? 0"
+          [rating]="travel.rating ?? 0"
           (rated)="onRated($event)"
         ></app-travel-rating>
       </div>
       <div class="travel-actions">
         <button
           class="action-button"
-          [disabled]="travel?.isFinished || this.currentUser?.id !== travel?.ownerId"
+          [disabled]="travel.isFinished || this.currentUser?.id !== travel.ownerId"
           (click)="completeTravel()"
         >
           Complete travel
@@ -32,7 +32,7 @@
   </div>
 
   <div class="roadmap">
-    <ng-container *ngIf="travel?.travelPoints && travel.travelPoints.length > 0; else noPoints">
+    <ng-container *ngIf="travel.travelPoints && travel.travelPoints.length > 0; else noPoints">
       <ng-container *ngFor="let point of travel.travelPoints; let i = index; let last = last">
         <div class="node-container">
           <div class="node">

@@ -72,7 +72,10 @@ export class NotificationService {
 
     if (this.recentNotificationIds.size > 50) {
       const first = this.recentNotificationIds.values().next().value;
-      this.recentNotificationIds.delete(first);
+      if (first != null)
+      {
+        this.recentNotificationIds.delete(first);
+      }
     }
   }
 
