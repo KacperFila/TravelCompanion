@@ -6,7 +6,11 @@
       </app-upcoming-travel-widget>
     </div>
     <div class="central-part">
-      <app-top-three-items [items]="getTopCompanions()"></app-top-three-items>
+      <app-top-three-items
+        [componentLabel]="'Most common companions'"
+        [itemUnit]="'travel'"
+        [itemUnitPlural]="'travels'"
+        [items]="getTopCompanions()"></app-top-three-items>
     </div>
     <div class="right-part">
       <app-number-widget

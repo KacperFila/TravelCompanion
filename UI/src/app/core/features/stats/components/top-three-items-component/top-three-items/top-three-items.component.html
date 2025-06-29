@@ -1,14 +1,21 @@
 <div class="top-companions">
-  <h2>Top 3 Companions</h2>
+  <h2>{{ this.componentLabel }}</h2>
 
-  <div *ngIf="this.items.length === 0">No companions to show.</div>
+  <div *ngIf="this.items.length === 0">Nothing to show.</div>
 
   <ul>
     <li *ngFor="let item of this.items; let i = index">
       <div class="companion">
         <span class="rank">{{ getRankIcon(i) }}</span>
         <span class="label">{{ item.label }}</span>
-        <span class="count">{{ item.itemCount }} travels</span>
+        <span class="count">{{ item.itemCount }}
+          @if (item.itemCount == 1) {
+            {{this.itemUnit}}
+          }
+          @else {
+            {{this.itemUnitPlural}}
+          }
+        </span>
       </div>
     </li>
   </ul>

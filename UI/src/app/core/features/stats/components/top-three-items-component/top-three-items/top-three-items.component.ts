@@ -13,6 +13,9 @@ import { NgForOf, NgIf } from "@angular/common";
 })
 export class TopThreeItemsComponent {
   @Input() items: { label: string, itemCount: number }[] = [];
+  @Input() componentLabel: string = '';
+  @Input() itemUnit: string = '';
+  @Input() itemUnitPlural: string = '';
 
   getRankIcon(index: number): string {
     return ['🥇', '🥈', '🥉'][index] || `${index + 1}.`;
