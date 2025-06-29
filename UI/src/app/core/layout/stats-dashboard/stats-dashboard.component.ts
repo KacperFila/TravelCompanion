@@ -9,7 +9,7 @@ import {
 import { CommonTravelCompanion } from "../../features/stats/models/stats.models";
 import {
   TopThreeItemsComponent
-} from "../../features/stats/components/top-three-items-component/top-three-items/top-three-items.component";
+} from "../../features/stats/components/top-three-items/top-three-items/top-three-items.component";
 
 @Component({
   selector: 'app-stats-dashboard',
