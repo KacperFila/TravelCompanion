@@ -1,0 +1,50 @@
+.top-companions {
+  border-radius: 12px;
+  padding: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.top-companions h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.companion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.companion:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  width: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.label {
+  flex: 1;
+  font-weight: 500;
+  margin-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.count {
+  color: #555;
+  font-size: 0.9rem;
+}

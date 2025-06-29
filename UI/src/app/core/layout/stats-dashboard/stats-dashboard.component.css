@@ -2,23 +2,44 @@
   margin-top: 5vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100vw;
+  width: 70vw;
   background-color: var(--background-color);
 }
-.upper-part {
+.upper-container, lower-container {
   display: flex;
-  gap: 10px;
+  width: 100%;
 }
 
-.upper-part .left-part {
-  display: flex;
+.lower-container {
+  flex-direction: column;
+  width: 100%;
 }
 
-.upper-part .right-part {
+.upper-container {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.upper-container > div {
+  flex: 1;
+  padding: 10px;
+}
+
+.upper-container > .left-part,
+.upper-container > .central-part,
+.upper-container > .right-part {
+  flex: 1 1 0;
+  padding: 10px;
+}
+
+.upper-container .right-part {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   gap: 10px;
+}
+
+.lower-container .upper-part .lower-part{
+  display: flex;
 }

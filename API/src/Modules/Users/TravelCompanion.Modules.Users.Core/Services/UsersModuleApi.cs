@@ -55,7 +55,7 @@ internal class UsersModuleApi : IUsersModuleApi
         };
     }
 
-    public async Task<List<UserInfoDto>> BrowseUsersInfo(List<Guid> usersIds)
+    public async Task<List<UserInfoDto>> BrowseUsersInfoAsync(List<Guid> usersIds)
     {
         var users = await _userRepository.BrowseAsync(usersIds);
         var userInfoDto = users.Select(x => new UserInfoDto()

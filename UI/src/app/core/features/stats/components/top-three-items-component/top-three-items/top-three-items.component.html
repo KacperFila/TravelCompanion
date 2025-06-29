@@ -1,0 +1,15 @@
+<div class="top-companions">
+  <h2>Top 3 Companions</h2>
+
+  <div *ngIf="this.items.length === 0">No companions to show.</div>
+
+  <ul>
+    <li *ngFor="let item of this.items; let i = index">
+      <div class="companion">
+        <span class="rank">{{ getRankIcon(i) }}</span>
+        <span class="label">{{ item.label }}</span>
+        <span class="count">{{ item.itemCount }} travels</span>
+      </div>
+    </li>
+  </ul>
+</div>

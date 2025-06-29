@@ -6,30 +6,30 @@ using Swashbuckle.AspNetCore.Annotations;
 using TravelCompanion.Modules.Travels.Core.DTO;
 using TravelCompanion.Modules.Travels.Core.Services.Abstractions;
 
-namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetUpcomingTravel;
+namespace TravelCompanion.Modules.Travels.Api.Endpoints.Travels.GetMostFrequentCompanionsEndpoint;
 
 [Route(TravelsEndpoint.BasePath)]
-internal sealed class GetUserUpcomingTravelEndpoint : EndpointBaseAsync
+internal sealed class GetMostFrequentCompanionsEndpoint : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<List<TravelDetailsDto>>
+    .WithActionResult<List<CommonTravelCompanionDTO>>
 {
     private readonly ITravelService _travelService;
 
-    public GetUserUpcomingTravelEndpoint(ITravelService travelService)
+    public GetMostFrequentCompanionsEndpoint(ITravelService travelService)
     {
         _travelService = travelService;
     }
 
     [Authorize]
-    [HttpGet("Travel/Upcoming")]
+    [HttpGet("Travel/Companions")]
     [SwaggerOperation(
-        Summary = "Get Upcoming Travel for User",
+        Summary = "Get Most Frequent Companions for Finished Travels",
         Tags = new[] { TravelsEndpoint.TravelsTag })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public override async Task<ActionResult<List<TravelDetailsDto>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<List<CommonTravelCompanionDTO>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var upcomingTravel = await _travelService.GetUserUpcomingTravelsAsync();
-        return Ok(upcomingTravel);
+        var companions = await _travelService.GetTopFrequentCompanionsAsync();
+        return Ok(companions);
     }
 }

@@ -3,6 +3,7 @@ import { environment } from '../../../../../../environments/environment';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TravelDetailsDto} from "../../models/travel.models";
+import {CommonTravelCompanion} from "../../../stats/models/stats.models";
 
 @Injectable({ providedIn: 'root' })
 export class TravelsService {
@@ -71,6 +72,13 @@ export class TravelsService {
   {
     return this.http.get<any>(
       `${environment.apiBaseUrl}/travels-module/Travel/Upcoming`
+    );
+  }
+
+  getTopCompanions(): Observable<CommonTravelCompanion[]>
+  {
+    return this.http.get<any>(
+      `${environment.apiBaseUrl}/travels-module/Travel/Companions`
     );
   }
 }

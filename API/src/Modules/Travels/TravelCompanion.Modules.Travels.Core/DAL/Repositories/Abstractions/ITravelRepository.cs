@@ -7,6 +7,9 @@ public interface ITravelRepository
     Task<Travel?> GetAsync(Guid id);
     Task<int> GetTravelsCountAsync(Guid userId);
     Task<int> GetFinishedTravelsCountAsync(Guid userId);
+    Task<Dictionary<Guid, int>> GetCommonTravelsCountsAsync(Guid userId, IEnumerable<Guid> companionIds);
+    Task<int> GetCommonTravelsCount(Guid userId, Guid companionId);
+    Task<List<Guid>> GetTopFrequentCompanionsAsync(Guid userId, int count);
     Task<List<Travel>> GetUpcomingTravelsAsync(Guid userId);
     Task<bool> ExistAsync(Guid id);
     Task<List<Travel>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder);

@@ -1,9 +1,12 @@
 <div class="wrapper">
-  <div class="upper-part">
+  <div class="upper-container">
     <div class="left-part">
       <app-upcoming-travel-widget
         [travels]="upcomingTravels">
       </app-upcoming-travel-widget>
+    </div>
+    <div class="central-part">
+      <app-top-three-items [items]="getTopCompanions()"></app-top-three-items>
     </div>
     <div class="right-part">
       <app-number-widget
@@ -20,18 +23,15 @@
       </app-number-widget>
     </div>
   </div>
-  <div class="lower-part">
-  </div>
-  <div class="card chart-card">
-    <div class="title">Most frequent companions</div>
-    <div class="chart-placeholder">Bar Chart</div>
-  </div>
-  <div class="card chart-card">
-    <div class="title">Travels by status</div>
-    <div class="chart-placeholder">Donut Chart</div>
-  </div>
-  </div>
+</div>
 
-
-
+<!--  <div class="lower-container">-->
+<!--    <div class="upper-part">-->
+<!--      upper-->
+<!--    </div>-->
+<!--    <div class="lower-part">-->
+<!--      lower-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 

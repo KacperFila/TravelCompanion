@@ -9,5 +9,5 @@ public interface IUsersModuleApi
     Task<string> GetUserEmail(Guid userId);
     Task<List<Guid>> GetUsersIdsAsync();
     Task<UserInfoDto> GetUserInfo(Guid userId);
-    Task<List<UserInfoDto>> BrowseUsersInfo(List<Guid> usersIds);
+    Task<List<UserInfoDto>> BrowseUsersInfoAsync(List<Guid> usersIds);
 }

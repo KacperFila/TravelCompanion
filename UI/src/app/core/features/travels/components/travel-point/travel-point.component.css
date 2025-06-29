@@ -59,14 +59,14 @@
   width: 100%;
 }
 
-.upper-part {
+.upper-container {
   padding-bottom: 1rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.lower-part {
+.lower-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

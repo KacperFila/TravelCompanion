@@ -36,6 +36,47 @@ internal class TravelRepository : ITravelRepository
                                               && x.IsFinished);
     }
 
+    public async Task<Dictionary<Guid, int>> GetCommonTravelsCountsAsync(Guid userId, IEnumerable<Guid> companionIds)
+    {
+        var commonTravels = await _travels
+            .Where(x => x.ParticipantIds!.Contains(userId))
+            .ToListAsync();
+
+        var usersCompanions = commonTravels
+            .SelectMany(x => x.ParticipantIds!)
+            .Where(p => p != userId && companionIds.Contains(p))
+            .GroupBy(pid => pid)
+            .Select(g => new { CompanionId = g.Key, Count = g.Count() });
+
+        return usersCompanions.ToDictionary(x => x.CompanionId, x => x.Count);
+    }
+
+    public async Task<int> GetCommonTravelsCount(Guid userId, Guid companionId)
+    {
+        return await _travels
+            .Where(x => x.ParticipantIds.Contains(userId)
+                        && x.ParticipantIds.Contains(companionId))
+            .CountAsync();
+    }
+
+    public async Task<List<Guid>> GetTopFrequentCompanionsAsync(Guid userId, int count)
+    {
+        var travels = await _dbContext.Travels
+            .Where(x => x.ParticipantIds.Contains(userId))
+            .ToListAsync();
+
+        var companionCounts = travels
+            .SelectMany(t => t.ParticipantIds.Where(pid => pid != userId))
+            .GroupBy(pid => pid)
+            .OrderByDescending(g => g.Count())
+            .Take(count)
+            .Select(g => g.Key)
+            .ToList();
+
+        return companionCounts;
+    }
+
+
     public async Task<List<Travel>> GetUpcomingTravelsAsync(Guid userId)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);

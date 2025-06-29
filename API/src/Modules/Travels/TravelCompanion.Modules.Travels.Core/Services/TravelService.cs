@@ -78,6 +78,20 @@ internal class TravelService : ITravelService
             .ToList();
     }
 
+    public async Task<List<CommonTravelCompanionDTO>> GetTopFrequentCompanionsAsync()
+    {
+        var companionIds = await _travelRepository.GetTopFrequentCompanionsAsync(_userId, 3);
+        var companions = await _usersModuleApi.BrowseUsersInfoAsync(companionIds);
+        var counts = await _travelRepository.GetCommonTravelsCountsAsync(_userId, companionIds);
+
+        return companions.Select(c => new CommonTravelCompanionDTO
+        {
+            Email = c.Email,
+            TravelsCount = counts.TryGetValue(c.UserId, out var count) ? count : 0
+        })
+        .ToList();
+    }
+
     public async Task<IReadOnlyList<TravelDetailsDto?>> GetAllAsync(string? searchTerm, string? sortColumn, string? sortOrder)
     {
         var travels = await _travelRepository.GetAllAsync(searchTerm, sortColumn, sortOrder);
