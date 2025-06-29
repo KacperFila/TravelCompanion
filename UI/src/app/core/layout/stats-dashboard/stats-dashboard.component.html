@@ -5,7 +5,9 @@
         [travels]="upcomingTravels">
       </app-upcoming-travel-widget>
     </div>
+
     <div class="central-part">
+
       <app-top-three-items
         [componentLabel]="'Most common companions'"
         [itemUnit]="'travel'"
@@ -15,6 +17,7 @@
     <div class="right-part">
       <app-number-widget
         [title]="'Total amount of travels'"
+
         [number]="this.travelsCount">
       </app-number-widget>
       <app-number-widget
@@ -27,15 +30,11 @@
       </app-number-widget>
     </div>
   </div>
+
+  <div class="lower-container">
+      <app-donut-chart-widget
+        [data]="travelStatusData"
+        [title]="'Finished travels percentage'">
+      ></app-donut-chart-widget>
+  </div>
 </div>
-
-<!--  <div class="lower-container">-->
-<!--    <div class="upper-part">-->
-<!--      upper-->
-<!--    </div>-->
-<!--    <div class="lower-part">-->
-<!--      lower-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-

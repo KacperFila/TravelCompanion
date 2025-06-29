@@ -15,8 +15,8 @@ button:hover {
 }
 
 .central-container {
-  width: 10vh;
-  margin: 0 10vh;
+  width: 10vw;
+  margin: 0 10vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,8 @@ button:hover {
 }
 
 .circle {
-  width: 100%;
+  width: 50%;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   border: 2px solid var(--primary-color);
   display: flex;
@@ -36,7 +37,7 @@ button:hover {
 }
 
 .content-container {
-  width: 30vw;
+  width: 20vw;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -58,7 +59,7 @@ button:hover {
 }
 
 .placeholder-container {
-  width: 30vw;
+  width: 20vw;
 }
 
 .point-background {
@@ -124,4 +125,18 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    width: 30vw;
+  }
+
+  .placeholder-container {
+    width: 30vw;
+  }
+
+  .circle {
+    width: 100%;
+  }
 }

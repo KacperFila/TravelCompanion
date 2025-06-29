@@ -26,6 +26,7 @@
 
 .circle {
   width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   border: 2px solid var(--primary-color);
   display: flex;
@@ -112,4 +113,11 @@
 
 .point-title {
   font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .central-container {
+    width: 10vw;
+    margin: 0 10vw;
+  }
 }

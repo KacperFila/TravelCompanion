@@ -26,7 +26,8 @@ public class TravelPolicy : ITravelPolicy
 
     public bool DoesUserParticipate(Travel travel, Guid userId)
     {
-        if (!travel.ParticipantIds.Contains(userId))
+        if (travel.ParticipantIds is not null
+            && !travel.ParticipantIds.Contains(userId))
         {
             return false;
         }

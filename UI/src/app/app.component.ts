@@ -16,7 +16,6 @@ import { HeaderComponent } from "./core/layout/header/header.component";
 })
 export class AppComponent implements OnInit {
   title = 'UI';
-  isSidebarExpanded = false;
   user$: Observable<User | null>;
 
   constructor(private authService: AuthService) {

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .roadmap-header {
@@ -176,7 +177,9 @@
 }
 
 .roadmap-wrapper {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .skeleton-overlay {
@@ -201,5 +204,19 @@
   }
   100% {
     background-position: -100% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .roadmap-wrapper {
+    width: 95vw;
+  }
+
+  .roadmap-header {
+    width: 100vw;
+  }
+
+  .central-container {
+    margin: 0
   }
 }

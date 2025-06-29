@@ -59,6 +59,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .description-item {
@@ -135,4 +136,18 @@ button:hover {
 .lower-container {
   display: flex;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .component-container {
+    width: 100vw;
+  }
+
+  .roadmap-header {
+    width: 100vw;
+  }
+
+  .roadmap-wrapper {
+    width: 100vw;
+  }
 }
