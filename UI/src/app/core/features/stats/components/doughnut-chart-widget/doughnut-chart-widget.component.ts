@@ -10,10 +10,10 @@ import {
   ChartOptions
 } from 'chart.js';
 import {BaseChartDirective} from "ng2-charts";
-import {DoughnutChartDataModel} from "../../../models/stats.models";
+import { DoughnutChartDataModel } from "../../models/stats.models";
 
 @Component({
-  selector: 'app-donut-chart-widget',
+  selector: 'app-doughnut-chart-widget',
   templateUrl: './doughnut-chart-widget.component.html',
   styleUrls: ['./doughnut-chart-widget.component.css'],
   imports: [

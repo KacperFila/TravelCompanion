@@ -10,7 +10,7 @@ import { CommonTravelCompanion } from "../../features/stats/models/stats.models"
 import {
   TopThreeItemsComponent
 } from "../../features/stats/components/top-three-items/top-three-items/top-three-items.component";
-import {DoughnutChartWidgetComponent} from "../../features/stats/components/bar-chart/doughnut-chart-widget/doughnut-chart-widget.component";
+import { DoughnutChartWidgetComponent } from "../../features/stats/components/doughnut-chart-widget/doughnut-chart-widget.component";
 
 @Component({
   selector: 'app-stats-dashboard',

@@ -1,21 +1,27 @@
-<app-header *ngIf="user$ | async as user"></app-header>
-<app-notification></app-notification>
+<div class="app-container">
+  <app-header *ngIf="user$ | async as user"></app-header>
+  <app-notification></app-notification>
 
-<ng-container *ngIf="user$ | async as user; else loggedOut">
-  <div class="content">
-    <div class="main-content">
-      <router-outlet></router-outlet>
+  <ng-container *ngIf="user$ | async as user; else loggedOut">
+    <div class="content">
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
 
 <ng-template #loggedOut>
-  <div class="content logged-out">
-    <div class="image-fade-wrapper">
-      <img src="assets/landing-photo.jpg" alt="Landing" class="full-size-image" />
+  <div class="login-container">
+    <div class="login-left">
+        <div class="image-fade-wrapper">
+          <img src="assets/landing-photo.jpg" alt="Landing" class="full-size-image" />
+        </div>
     </div>
-    <div class="main-content-logged-out">
-      <router-outlet></router-outlet>
+    <div class="login-right">
+      <div class="main-content-logged-out">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </ng-template>
