@@ -1,7 +1,7 @@
 :host {
   display: block;
   padding: 1rem;
-  background-color: #ffffff;
+  background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   height: 100%;
@@ -9,7 +9,7 @@
 
 h1 {
   margin-bottom: 1rem;
-  color: var(--header-background-color)
+  color: var(--black)
 }
 
 li {
@@ -18,11 +18,11 @@ li {
 }
 
 h2 {
-  color: var(--primary-color);
+  color: var(--blue);
 }
 
 p {
   margin: 0.2rem 0;
   font-size: 0.9rem;
-  color: #555555;
+  color: var(--grey-dark);
 }

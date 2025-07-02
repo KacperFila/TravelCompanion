@@ -17,15 +17,13 @@
         <button
           class="action-button"
           [disabled]="travel.isFinished || this.currentUser?.id !== travel.ownerId"
-          (click)="completeTravel()"
-        >
-          Complete travel
+          (click)="completeTravel()">
+            Complete travel
         </button>
         <button
           class="action-button"
-          (click)="changeActiveTravel()"
-        >
-          Change active travel
+          (click)="changeActiveTravel()">
+            Change active travel
         </button>
       </div>
     </div>

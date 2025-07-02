@@ -21,10 +21,10 @@ li {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--white-dimmed);
   cursor: pointer;
 }
 
 li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--white-dimmed);
 }

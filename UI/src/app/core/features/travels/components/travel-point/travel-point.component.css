@@ -28,19 +28,19 @@
   width: 50%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-family), serif;
   font-size: 3vh;
-  color: var(--header-background-color);
+  color: var(--black);
 }
 
 .line {
   width: 1px;
   flex-grow: 1;
-  background-color: black;
+  background-color: var(--black);
 }
 
 .content-container {
@@ -86,29 +86,29 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--blue);
+  color: var(--white);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button-wrapper button:hover {
-  background-color: var(--primary-hover-color);
+  background-color: var(--blue-dark);
 }
 
 .button-wrapper button:disabled {
-  background-color: grey !important;
-  color: #ccc !important;
+  background-color: var(--grey-dark) !important;
+  color: var(--white-dimmed) !important;
   cursor: not-allowed !important;
   opacity: 0.6;
   pointer-events: none;
 }
 
 .visited {
-  background-color: var(--error-color) !important;
+  background-color: var(--orange) !important;
 }
 
 .visited:hover {
-  background-color: var(--error-hover-color) !important;
+  background-color: var(--red) !important;
 }
 
 .point-title {

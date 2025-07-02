@@ -10,9 +10,9 @@
 }
 
 .auth-error {
-  background-color: var(--error-background-color);
+  background-color: var(--pink-light);
   border-radius: 4px;
-  color: var(--error-color);
+  color: var(--orange);
   font-weight: bold;
   margin-top: 0.5rem;
   padding: 0.75rem;
@@ -31,10 +31,10 @@
 }
 
 button {
-  background-color: var(--primary-color);
+  background-color: var(--blue);
   border: none;
   border-radius: 5px;
-  color: var(--secondary-color);
+  color: var(--white);
   cursor: pointer;
   font-size: 16px;
   margin: 5px;
@@ -43,8 +43,8 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-hover-color);
-  color: var(--secondary-color);
+  background-color: var(--blue-dark);
+  color: var(--white);
 }
 
 .fade-in {
@@ -57,8 +57,8 @@ button:hover {
 }
 
 .form-input {
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  border: 1px solid var(--grey);
   border-radius: 0.5rem;
   font-size: 1rem;
   padding: 0.75rem 1rem;
@@ -67,7 +67,7 @@ button:hover {
 }
 
 .form-input:focus {
-  border-color: var(--primary-color);
+  border-color: var(--blue);
   box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.25);
   outline: none;
 }
@@ -83,5 +83,5 @@ button:hover {
 }
 
 .required {
-  color: var(--error-color);
+  color: var(--orange);
 }

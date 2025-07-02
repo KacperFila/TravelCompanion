@@ -9,7 +9,7 @@
 }
 
 .main-content {
-  background: var(--background-color);
+  background: var(--white-dimmed);
   display: flex;
   justify-content: center;
   width: 100%;
@@ -17,7 +17,7 @@
 }
 
 .main-content-logged-out {
-  background: var(--background-color);
+  background: var(--white-dimmed);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +26,7 @@
 }
 
 .image-fade-wrapper {
-  background-color: var(--background-color);
+  background-color: var(--white-dimmed);
   display: flex;
   align-items: center;
   justify-content: center;

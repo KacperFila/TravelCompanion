@@ -8,8 +8,8 @@
 }
 
 button {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--blue);
+  color: var(--white);
   border: none;
   padding: 10px 15px;
   margin: 5px;
@@ -20,14 +20,14 @@ button {
 }
 
 .reject-button {
-  background-color: var(--error-color);
+  background-color: var(--orange);
 }
 
 .reject-button:hover {
-  background-color: var(--error-hover-color);
+  background-color: var(--red);
 }
 
 button:hover {
-  background-color: var(--primary-hover-color);
-  color: var(--secondary-color);
+  background-color: var(--blue-dark);
+  color: var(--white);
 }

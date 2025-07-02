@@ -1,7 +1,7 @@
 .top-companions {
   border-radius: 12px;
   padding: 16px;
-  background-color: #ffffff;
+  background-color: var(--white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   height: 100%;
 }
@@ -22,7 +22,7 @@ ul {
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--white-dimmed);
 }
 
 .companion:last-child {
@@ -45,6 +45,6 @@ ul {
 }
 
 .count {
-  color: #555;
+  color: var(--grey-dark);
   font-size: 0.9rem;
 }

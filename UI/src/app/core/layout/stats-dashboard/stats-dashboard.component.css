@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
   width: 70vw;
-  background-color: var(--background-color);
 }
+
 .upper-container, lower-container {
   display: flex;
   width: 100%;
@@ -13,6 +13,7 @@
 .lower-container {
   flex-direction: column;
   width: 100%;
+  padding: 10px;
 }
 
 .upper-container {

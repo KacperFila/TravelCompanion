@@ -1,15 +1,20 @@
 :root {
-  --primary-color: #126DFE;
-  --primary-hover-color: #0F5CDA;
-  --secondary-color: #FFF;
-  --background-color: #F6F6F6;
-  --header-background-color: #000;
+  --blue: #126DFE;
+  --blue-dark: #0F5CDA;
+  --white: #FFF;
+  --white-dimmed: #F6F6F6;
+  --black: #000;
+  --pink-light: #F2DEDE;
+  --orange: #FF5733;
+  --red: #CC0000;
+  --green: #32CD32;
+  --green-dark: #228B22;
+  --grey: #F9F9F9;
+  --grey-dark: #333;
+  --navy: #2C3E50;
+  --grey-mid: #DDD;
+
   --font-family: 'Inter', sans-serif;
-  --error-background-color: #F2DEDE;
-  --error-color: #FF5733;
-  --error-hover-color: #CC0000;
-  --accept-color: #32CD32;
-  --accept-color-hover: #228B22;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */

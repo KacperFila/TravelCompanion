@@ -31,10 +31,10 @@
 }
 
 .notification {
-  background-color: var(--background-color);
+  background-color: var(--white-dimmed);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: var(--header-background-color);
+  color: var(--black);
   display: flex;
   flex-direction: column;
   font-family: var(--font-family), sans-serif;
@@ -62,15 +62,15 @@
 }
 
 .notification.error .notification-icon {
-  color: var(--error-color);
+  color: var(--orange);
 }
 
 .notification.alert .notification-icon {
-  color: var(--primary-color);
+  color: var(--blue);
 }
 
 .notification.information .notification-icon {
-  color: var(--primary-hover-color);
+  color: var(--blue-dark);
 }
 
 .notification-body {
