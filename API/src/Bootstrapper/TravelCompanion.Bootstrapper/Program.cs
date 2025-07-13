@@ -15,7 +15,7 @@ namespace TravelCompanion.Bootstrapper
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .CreateBootstrapLogger(); // Minimal logger for early startup errors
+                .CreateBootstrapLogger(); // Minimal logger for startup errors
 
             try
             {
@@ -49,42 +49,45 @@ namespace TravelCompanion.Bootstrapper
                 .UseSerilog((context, services, configuration) =>
                 {
                     var env = context.HostingEnvironment.EnvironmentName;
+                    var elasticUriRaw = context.Configuration["ElasticConfiguration:Uri"];
 
                     configuration
                         .Enrich.FromLogContext()
                         .Enrich.WithProperty("Environment", env)
-                        .WriteTo.Console()
-                        .WriteTo.Elasticsearch(
-                            new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
-                            {
-                                IndexFormat = "travelcompanion-logs-{0:yyyy.MM.dd}",
-                                AutoRegisterTemplate = true,
-                                NumberOfShards = 2,
-                                NumberOfReplicas = 1
-                            })
-                        .ReadFrom.Configuration(context.Configuration);
+                        .WriteTo.Console();
+
+                    if (env == "Development" &&
+                        !string.IsNullOrWhiteSpace(elasticUriRaw) &&
+                        Uri.TryCreate(elasticUriRaw, UriKind.Absolute, out var elasticUri))
+                    {
+                        configuration.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(elasticUri)
+                        {
+                            IndexFormat = "travelcompanion-logs-{0:yyyy.MM.dd}",
+                            AutoRegisterTemplate = true,
+                            NumberOfShards = 2,
+                            NumberOfReplicas = 1
+                        });
+
+                        Log.Information("Elasticsearch logging enabled for Development environment.");
+                        Log.Information("Elastic URI: {ElasticUri}", elasticUri);
+                    }
+                    else
+                    {
+                        Log.Information("Elasticsearch logging not configured. Environment: {Environment}, URI: {Uri}", env, elasticUriRaw ?? "<null>");
+                    }
+
+                    configuration.ReadFrom.Configuration(context.Configuration);
 
                     Log.Information("Using environment: {Environment}", env);
-                    Log.Information("Elastic URI: {ElasticUri}", context.Configuration["ElasticConfiguration:Uri"]);
-
-                    // Log full configuration
-                    Log.Information("Loaded configuration values:");
-                    foreach (var kvp in context.Configuration.AsEnumerable())
-                    {
-                        if (!string.IsNullOrWhiteSpace(kvp.Value)) // Avoid nulls and empty
-                        {
-                            Log.Information("{Key} = {Value}", kvp.Key, kvp.Value);
-                        }
-                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureKestrel(options =>
-                        {
-                            options.Listen(IPAddress.Any, 5000);
-                            Log.Information("Kestrel configured to listen on port 5000.");
-                        })
-                        .UseStartup<Startup>();
+                    {
+                        options.Listen(IPAddress.Any, 5000);
+                        Log.Information("Kestrel configured to listen on port 5000.");
+                    })
+                    .UseStartup<Startup>();
                 })
                 .ConfigureModules();
     }
