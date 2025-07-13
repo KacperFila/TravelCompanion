@@ -87,7 +87,5 @@ namespace TravelCompanion.Bootstrapper
                         .UseStartup<Startup>();
                 })
                 .ConfigureModules();
-
     }
-
 }
