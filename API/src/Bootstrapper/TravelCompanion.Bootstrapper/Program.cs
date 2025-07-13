@@ -41,6 +41,11 @@ namespace TravelCompanion.Bootstrapper
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config.AddEnvironmentVariables();
+                    Log.Information("Environment variables added to configuration.");
+                })
                 .UseSerilog((context, services, configuration) =>
                 {
                     var env = context.HostingEnvironment.EnvironmentName;
@@ -49,32 +54,40 @@ namespace TravelCompanion.Bootstrapper
                         .Enrich.FromLogContext()
                         .Enrich.WithProperty("Environment", env)
                         .WriteTo.Console()
-                        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
-                        {
-                            IndexFormat = "travelcompanion-logs-{0:yyyy.MM.dd}",
-                            AutoRegisterTemplate = true,
-                            NumberOfShards = 2,
-                            NumberOfReplicas = 1
-                        })
+                        .WriteTo.Elasticsearch(
+                            new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
+                            {
+                                IndexFormat = "travelcompanion-logs-{0:yyyy.MM.dd}",
+                                AutoRegisterTemplate = true,
+                                NumberOfShards = 2,
+                                NumberOfReplicas = 1
+                            })
                         .ReadFrom.Configuration(context.Configuration);
 
                     Log.Information("Using environment: {Environment}", env);
                     Log.Information("Elastic URI: {ElasticUri}", context.Configuration["ElasticConfiguration:Uri"]);
-                })
-                .ConfigureAppConfiguration((context, config) =>
-                {
-                    config.AddEnvironmentVariables();
-                    Log.Information("Environment variables added to configuration.");
+
+                    // Log full configuration
+                    Log.Information("Loaded configuration values:");
+                    foreach (var kvp in context.Configuration.AsEnumerable())
+                    {
+                        if (!string.IsNullOrWhiteSpace(kvp.Value)) // Avoid nulls and empty
+                        {
+                            Log.Information("{Key} = {Value}", kvp.Key, kvp.Value);
+                        }
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureKestrel(options =>
-                    {
-                        options.Listen(IPAddress.Any, 5000);
-                        Log.Information("Kestrel configured to listen on port 5000.");
-                    })
-                    .UseStartup<Startup>();
+                        {
+                            options.Listen(IPAddress.Any, 5000);
+                            Log.Information("Kestrel configured to listen on port 5000.");
+                        })
+                        .UseStartup<Startup>();
                 })
                 .ConfigureModules();
+
     }
+
 }
