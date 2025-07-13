@@ -114,7 +114,7 @@ internal static class Extensions
         services.AddAuth(modules);
         services.AddEmails();
         services.AddErrorHandling();
-        services.AddBackgroundJobs();
+        // services.AddBackgroundJobs();
         services.AddCommands(assemblies);
         services.AddQueries(assemblies);
         services.AddEvents(assemblies);
@@ -150,7 +150,7 @@ internal static class Extensions
     {
         app.UseCors(CorsPolicy);
         app.UseErrorHandling();
-        app.UseBackgroundJobs();
+        // app.UseBackgroundJobs();
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
