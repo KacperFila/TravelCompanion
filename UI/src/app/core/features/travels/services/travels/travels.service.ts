@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../../../environments/environment';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TravelDetailsDto} from "../../models/travel.models";
 import {CommonTravelCompanion} from "../../../stats/models/stats.models";
+import {environment} from "../../../../../../environments/environment.prod";
 
 @Injectable({ providedIn: 'root' })
 export class TravelsService {

@@ -5,6 +5,7 @@ import { AuthService } from "../../../../auth/auth.service";
 import { User } from "../../../../auth/user.model";
 import {TravelDetailsDto} from "../../models/travel.models";
 import {TravelsService} from "./travels.service";
+import {environment} from "../../../../../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class TravelsSignalRService {
     }
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`http://localhost:5000/travelHub`, {
+      .withUrl(`${environment.apiBaseUrl}/travelHub`, {
         withCredentials: true,
         accessTokenFactory: () => this.currentUser?.token ?? ''
       })
