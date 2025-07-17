@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { User } from './user.model';
+import {environment} from "../../../environments/environment.prod";
 
 interface AccountDTO {
   email: string;

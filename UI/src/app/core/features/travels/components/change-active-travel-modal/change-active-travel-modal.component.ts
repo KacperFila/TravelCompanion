@@ -3,8 +3,8 @@ import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {Subscription, switchMap, tap} from "rxjs";
-import {TravelsSignalRService} from "../../services/plans/travels-signalR.service";
-import {TravelsService} from "../../services/plans/travels.service";
+import {TravelsSignalRService} from "../../services/travels/travels-signalR.service";
+import {TravelsService} from "../../services/travels/travels.service";
 import {TravelDetailsDto} from "../../models/travel.models";
 
 @Component({

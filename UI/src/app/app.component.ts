@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { User } from './core/auth/user.model';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { HeaderComponent } from "./core/layout/header/header.component";
+import {environment} from "../environments/environment.prod";
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   user$: Observable<User | null>;
 
   constructor(private authService: AuthService) {
+    console.log("Using apiUrl: ", environment.apiBaseUrl);
     this.user$ = this.authService.user;
   }
 

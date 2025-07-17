@@ -8,7 +8,7 @@ import {
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {TravelPointDto} from "../../models/travel.models";
-import {TravelsService} from "../../services/plans/travels.service";
+import {TravelsService} from "../../services/travels/travels.service";
 
 @Component({
   selector: 'app-travel-point',

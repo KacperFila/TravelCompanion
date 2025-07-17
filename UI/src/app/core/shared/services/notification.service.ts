@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs";
 import { User } from "../../auth/user.model";
 import { AuthService } from "../../auth/auth.service";
 import * as signalR from '@microsoft/signalr';
+import {environment} from "../../../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class NotificationService {
     }
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`http://localhost:5000/notifications`, {
+      .withUrl(`${environment.apiBaseUrl}/notifications`, {
         withCredentials: true,
         accessTokenFactory: () => this.currentUser?.token ?? ''
       })

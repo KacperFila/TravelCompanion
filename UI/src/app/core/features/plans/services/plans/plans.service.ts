@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable, switchMap, tap} from 'rxjs';
 import {TravelPlan, TravelPoint, TravelPointUpdateRequest} from '../../models/plan.models';
 import {PlanInvitationResponse} from "./plans-signalR-responses.models";
+import {environment} from "../../../../../../environments/environment.prod";
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {

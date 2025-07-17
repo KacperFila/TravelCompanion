@@ -18,6 +18,7 @@ export interface UpdatedPlan {
   totalCostValue: {
     amount: number;
     currency: string;
+
   };
   travelPlanPoints: Array<{
     id: {

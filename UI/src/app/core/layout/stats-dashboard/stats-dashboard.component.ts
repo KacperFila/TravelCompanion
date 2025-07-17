@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NumberWidgetComponent } from "../../features/stats/components/number-widget/number-widget.component";
-import { TravelsService } from "../../features/travels/services/plans/travels.service";
+import { TravelsService } from "../../features/travels/services/travels/travels.service";
 import { PlansService } from "../../features/plans/services/plans/plans.service";
 import { TravelDetailsDto } from "../../features/travels/models/travel.models";
 import {
