@@ -12,7 +12,7 @@ try {
   const fileContent = `
         export const environment = {
         production: true,
-        API_URL: '${apiUrl}'
+        apiBaseUrl: '${apiUrl}'
         };
         `;
 
