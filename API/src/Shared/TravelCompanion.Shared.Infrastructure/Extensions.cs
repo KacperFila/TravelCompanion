@@ -36,15 +36,12 @@ namespace TravelCompanion.Shared.Infrastructure;
 
 internal static class Extensions
 {
-    private const string CorsPolicy = "AllowAngularClient";
+    private const string AngularCorsPolicy = "AngularClientCORSPolicy";
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
-        IList<Assembly> assemblies, IList<IModule> modules)
+        IList<Assembly> assemblies, IList<IModule> modules, IConfiguration configuration)
     {
         var disabledModules = new List<string>();
-        using (var serviceProvider = services.BuildServiceProvider())
-        {
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             foreach (var (key, value) in configuration.AsEnumerable())
             {
                 if (!key.Contains(":module:enabled"))
@@ -57,12 +54,15 @@ internal static class Extensions
                     disabledModules.Add(key.Split(":")[0]);
                 }
             }
-        }
         services.AddCors(cors =>
         {
-            cors.AddPolicy("AllowAngularClient", policy =>
+            var allowedOrigins = configuration
+                .GetSection("AllowedOrigins")
+                .GetSection(AngularCorsPolicy).Get<string[]>();
+            
+            cors.AddPolicy(AngularCorsPolicy, policy =>
             {
-                policy.WithOrigins("http://localhost:4200")
+                policy.WithOrigins(allowedOrigins)
                       .AllowAnyHeader()
                       .AllowAnyMethod()
                       .AllowCredentials();
@@ -148,7 +148,7 @@ internal static class Extensions
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
     {
-        app.UseCors(CorsPolicy);
+        app.UseCors(AngularCorsPolicy);
         app.UseErrorHandling();
         // app.UseBackgroundJobs();
         app.UseSwagger();
