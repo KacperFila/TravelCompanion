@@ -39,9 +39,14 @@ internal static class Extensions
     private const string AngularCorsPolicy = "AngularClientCORSPolicy";
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
-        IList<Assembly> assemblies, IList<IModule> modules, IConfiguration configuration)
+        IList<Assembly> assemblies, IList<IModule> modules)
     {
         var disabledModules = new List<string>();
+
+        using (var serviceProvider = services.BuildServiceProvider())
+        {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
             foreach (var (key, value) in configuration.AsEnumerable())
             {
                 if (!key.Contains(":module:enabled"))
@@ -54,20 +59,24 @@ internal static class Extensions
                     disabledModules.Add(key.Split(":")[0]);
                 }
             }
-        services.AddCors(cors =>
-        {
-            var allowedOrigins = configuration
-                .GetSection("AllowedOrigins")
-                .GetSection(AngularCorsPolicy).Get<string[]>();
-            
-            cors.AddPolicy(AngularCorsPolicy, policy =>
+
+
+            services.AddCors(cors =>
             {
-                policy.WithOrigins(allowedOrigins)
-                      .AllowAnyHeader()
-                      .AllowAnyMethod()
-                      .AllowCredentials();
+                var allowedOrigins = configuration
+                    .GetSection("AllowedOrigins")
+                    .GetSection(AngularCorsPolicy).Get<string[]>();
+
+                cors.AddPolicy(AngularCorsPolicy, policy =>
+                {
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
             });
-        });
+        }
+
         services.AddSwaggerGen(swagger =>
         {
             swagger.EnableAnnotations();

@@ -25,9 +25,9 @@ public class Startup
         _modules = ModuleLoader.LoadModules(_assemblies);
     }
 
-    public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+    public void ConfigureServices(IServiceCollection services)
     {
-        services.AddInfrastructure(_assemblies, _modules, configuration);
+        services.AddInfrastructure(_assemblies, _modules);
 
         foreach (var module in _modules)
         {
