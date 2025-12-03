@@ -64,8 +64,8 @@ internal static class Extensions
             services.AddCors(cors =>
             {
                 var allowedOrigins = configuration
-                    .GetSection("AllowedOrigins")
-                    .GetSection(AngularCorsPolicy).Get<string[]>();
+                    .GetSection("AllowedCorsPolicy")
+                    .Get<string[]>();
 
                 cors.AddPolicy(AngularCorsPolicy, policy =>
                 {
