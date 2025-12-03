@@ -1,0 +1,50 @@
+# docker-compose file for deploying postgres and pgadmin for local dev purposes
+
+services:
+  travelcompanion-postgres:
+    image: postgres:15
+    container_name: travelcompanion-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: travelCompanion
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./API/scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 1s
+      retries: 10
+    networks:
+      - travelcompanion-network
+
+  travelcompanion-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: travelcompanion-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      PGADMIN_LOG_LEVEL: ERROR
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    entrypoint: /entrypoint.sh
+    ports:
+      - "5050:80"
+    depends_on:
+      - travelcompanion-postgres
+    networks:
+      - travelcompanion-network
+
+volumes:
+  postgres_data:
+
+
+networks:
+  travelcompanion-network:
+    driver: bridge

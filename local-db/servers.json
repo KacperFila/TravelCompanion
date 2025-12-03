@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "TravelCompanionDB",
+      "Group": "Servers",
+      "Host": "travelcompanion-postgres",
+      "Port": 5432,
+      "MaintenanceDB": "travelCompanion",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "Comment": "Local development PostgreSQL"
+    }
+  }
+}
